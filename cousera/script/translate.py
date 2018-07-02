@@ -17,7 +17,7 @@ if str(args.in_file).endswith('vtt') == False:
 # *** Update or verify the following values. ***
 # **********************************************
 # Replace the subscriptionKey string value with your valid subscription key.
-subscriptionKey = '280b9db0cd994258a92e1882ee5cfc37'
+subscriptionKey = ''
 host = 'api.cognitive.microsofttranslator.com'
 path = '/translate?api-version=3.0'
 # Translate to Japanese
@@ -66,7 +66,7 @@ with open(args.in_file,'r') as f:
             #print(str(comment_no) + ":" + eng_text +"\n")
             requestBody = [{
                 'Text' : eng_text,
-            }] 
+            }]
             content = json.dumps(requestBody, ensure_ascii=False).encode('utf-8')
             result = translate (content)
             result_dict = json.load(result)[0]
@@ -80,7 +80,7 @@ with open(args.in_file,'r') as f:
             comment_no = comment_no + 1
             out_f.write('\n')
 
-out_f.close()               
+out_f.close()
 print("end srt file")
 
 print("start style file")
