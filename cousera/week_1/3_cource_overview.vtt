@@ -1,0 +1,473 @@
+WEBVTT
+
+1
+00:00:02.180 --> 00:00:05.609
+Hello and welcome to our course.
+
+2
+00:00:05.609 --> 00:00:08.610
+In this video, I want to give you a sense for what this course is
+
+3
+00:00:08.610 --> 00:00:12.805
+about and I think the best way to do that is to talk about our course goals,
+
+4
+00:00:12.805 --> 00:00:15.965
+our course assignments and our course schedule.
+
+5
+00:00:15.965 --> 00:00:17.505
+So, at the broadest level,
+
+6
+00:00:17.505 --> 00:00:21.540
+this course is about getting the required knowledge and expertise to
+
+7
+00:00:21.540 --> 00:00:25.890
+successfully participate in data science competitions. That's the goal.
+
+8
+00:00:25.890 --> 00:00:29.490
+Now, we're going to prepare this in a systematic way.
+
+9
+00:00:29.490 --> 00:00:32.975
+We start in week one with a discussion of competitions,
+
+10
+00:00:32.975 --> 00:00:34.735
+what are they, how they work,
+
+11
+00:00:34.735 --> 00:00:38.445
+how they are different from real-life industrial data analysis.
+
+12
+00:00:38.445 --> 00:00:42.915
+Then, we're moving to recap of main machine learning models.
+
+13
+00:00:42.915 --> 00:00:46.065
+Besides this, we're going to review software and
+
+14
+00:00:46.065 --> 00:00:50.955
+hardware requirements and common Python libraries for data analysis.
+
+15
+00:00:50.955 --> 00:00:52.362
+After this is done,
+
+16
+00:00:52.362 --> 00:00:54.705
+we'll go through various feature types,
+
+17
+00:00:54.705 --> 00:00:58.380
+how we preprocess these features and generate new ones.
+
+18
+00:00:58.380 --> 00:01:02.695
+Now, because we sometimes need to extract features from text and images,
+
+19
+00:01:02.695 --> 00:01:06.565
+we will elaborate on most popular methods to do it.
+
+20
+00:01:06.565 --> 00:01:10.850
+Finally, we will start working on the final project, the competition.
+
+21
+00:01:10.850 --> 00:01:14.070
+But then we move on to week two.
+
+22
+00:01:14.070 --> 00:01:18.075
+So, having figured out methods to work with data frames and models,
+
+23
+00:01:18.075 --> 00:01:22.295
+we're starting to cover things you first do in a competition.
+
+24
+00:01:22.295 --> 00:01:23.615
+And this is, by the way,
+
+25
+00:01:23.615 --> 00:01:29.035
+a great opportunity to start working on the final project as we proceed through material.
+
+26
+00:01:29.035 --> 00:01:30.825
+So, first in this week,
+
+27
+00:01:30.825 --> 00:01:36.350
+we'll analyze data set in the exploratory data analysis topic or EDA for short.
+
+28
+00:01:36.350 --> 00:01:39.920
+We'll discuss ways to build intuition about the data,
+
+29
+00:01:39.920 --> 00:01:43.780
+explore anonymized features and clean the data set.
+
+30
+00:01:43.780 --> 00:01:48.050
+Our main instrument here will be logic and visualizations.
+
+31
+00:01:48.050 --> 00:01:50.160
+Okay, now, after making EDA,
+
+32
+00:01:50.160 --> 00:01:51.665
+we switch to validation.
+
+33
+00:01:51.665 --> 00:01:55.357
+And here, we'll spend some time talking about different validation strategies,
+
+34
+00:01:55.357 --> 00:01:59.597
+identifying how data is split into train and test and
+
+35
+00:01:59.597 --> 00:02:01.900
+about what problems we may encounter during
+
+36
+00:02:01.900 --> 00:02:05.120
+validation and ways to address those problems.
+
+37
+00:02:05.120 --> 00:02:10.155
+We finish this week with discussion of data leakage and leaderboard problem.
+
+38
+00:02:10.155 --> 00:02:14.175
+We will define data leakage and understand what are leaks,
+
+39
+00:02:14.175 --> 00:02:17.900
+how to discover various leaks and how to utilize them.
+
+40
+00:02:17.900 --> 00:02:19.535
+So basically, this week,
+
+41
+00:02:19.535 --> 00:02:23.040
+we set up the main pipeline for our final project.
+
+42
+00:02:23.040 --> 00:02:26.360
+And at this point, you should have intuition about the data,
+
+43
+00:02:26.360 --> 00:02:29.485
+reliable validation and data leaks explored.
+
+44
+00:02:29.485 --> 00:02:32.120
+After this pipeline is ready,
+
+45
+00:02:32.120 --> 00:02:37.470
+we'll focus on the improvement of our solution and that's already the week three.
+
+46
+00:02:37.470 --> 00:02:42.170
+In that week, we'll analyze various metrics for regression and
+
+47
+00:02:42.170 --> 00:02:44.630
+classification and figure out ways to
+
+48
+00:02:44.630 --> 00:02:48.470
+optimize them both while training the model and afterwards.
+
+49
+00:02:48.470 --> 00:02:53.275
+After we will check that we are correct in measure and improvements of our models,
+
+50
+00:02:53.275 --> 00:02:57.765
+we'll define mean-encodings and work on the encoded features.
+
+51
+00:02:57.765 --> 00:03:00.463
+So here, we start with categorical features,
+
+52
+00:03:00.463 --> 00:03:03.110
+how mean-encoded features lead to overfitting
+
+53
+00:03:03.110 --> 00:03:06.785
+and how we balance overfitting with regularization.
+
+54
+00:03:06.785 --> 00:03:10.425
+Then, we'll discuss several extensions to this approach
+
+55
+00:03:10.425 --> 00:03:15.101
+including applying mean-encodings to numeric features and time series,
+
+56
+00:03:15.101 --> 00:03:20.840
+and this is the point where we move on to other advanced features in the week four.
+
+57
+00:03:20.840 --> 00:03:25.340
+Basically, this include statistics and distance-based features,
+
+58
+00:03:25.340 --> 00:03:29.855
+metrics factorizations, feature interactions and t-SNE.
+
+59
+00:03:29.855 --> 00:03:35.055
+These features often are the key to superior performance in competition,
+
+60
+00:03:35.055 --> 00:03:39.880
+so you should implement and optimize them here for the final project.
+
+61
+00:03:39.880 --> 00:03:43.520
+After this, we'll get to hyperparameters optimization.
+
+62
+00:03:43.520 --> 00:03:47.110
+Here, we will revise your knowledge about model tuning in
+
+63
+00:03:47.110 --> 00:03:51.470
+a systematic way and let you apply to the competition.
+
+64
+00:03:51.470 --> 00:03:53.930
+Then, we move onto the practical guide
+
+65
+00:03:53.930 --> 00:03:57.275
+where all of us have summarized most important moments
+
+66
+00:03:57.275 --> 00:04:03.645
+about competitions which became absolutely clear after few years of participation.
+
+67
+00:04:03.645 --> 00:04:06.770
+These include both some general advice on how to choose
+
+68
+00:04:06.770 --> 00:04:10.250
+and participate in the competition and some technical advice,
+
+69
+00:04:10.250 --> 00:04:11.995
+how to set up your pipeline,
+
+70
+00:04:11.995 --> 00:04:14.390
+what to do first and so on.
+
+71
+00:04:14.390 --> 00:04:18.920
+Finally, we'll conclude this week by working on ensembles with KazAnova,
+
+72
+00:04:18.920 --> 00:04:20.270
+the Kaggle top one.
+
+73
+00:04:20.270 --> 00:04:23.060
+We'll start with simple linear ensemble,
+
+74
+00:04:23.060 --> 00:04:25.346
+then we continue with bagging and boosting,
+
+75
+00:04:25.346 --> 00:04:29.070
+and finally we'll cover stacking and stacked net approach.
+
+76
+00:04:29.070 --> 00:04:31.370
+And here by the end of this week,
+
+77
+00:04:31.370 --> 00:04:36.160
+you should already have all required knowledge to succeed in a competition.
+
+78
+00:04:36.160 --> 00:04:38.710
+And then finally, we've got the last week.
+
+79
+00:04:38.710 --> 00:04:43.205
+Here we will work to analyze some of our winning solutions in competitions.
+
+80
+00:04:43.205 --> 00:04:47.110
+But all we are really doing in the last week is wrapping up the course,
+
+81
+00:04:47.110 --> 00:04:50.840
+working on and submitting the final project.
+
+82
+00:04:50.840 --> 00:04:54.295
+So, this basic structure of this course.
+
+83
+00:04:54.295 --> 00:04:58.870
+Now, we move through those sections so that you can practice your skills in
+
+84
+00:04:58.870 --> 00:05:00.760
+the course assignments and there are
+
+85
+00:05:00.760 --> 00:05:04.490
+three basic types of assignments in this class: quizzes,
+
+86
+00:05:04.490 --> 00:05:07.310
+programming assignments and the final project.
+
+87
+00:05:07.310 --> 00:05:10.840
+You don't have to do all of these in order to pass the class,
+
+88
+00:05:10.840 --> 00:05:14.170
+you only need to complete the required assignments and you can
+
+89
+00:05:14.170 --> 00:05:18.110
+see which ones those are by looking on the course website.
+
+90
+00:05:18.110 --> 00:05:21.450
+But let's go ahead and talk about the assignments.
+
+91
+00:05:21.450 --> 00:05:24.075
+We begin with the competition.
+
+92
+00:05:24.075 --> 00:05:27.105
+This is going to be the main assignment for you.
+
+93
+00:05:27.105 --> 00:05:30.390
+In fact, we start working on it on the week two.
+
+94
+00:05:30.390 --> 00:05:32.890
+There we do EDA, exploratory data analysis,
+
+95
+00:05:32.890 --> 00:05:35.635
+set up main pipeline that you'll use for
+
+96
+00:05:35.635 --> 00:05:39.485
+the rest of the course and check the competition for leakages.
+
+97
+00:05:39.485 --> 00:05:42.770
+Then in week three we update our solution by
+
+98
+00:05:42.770 --> 00:05:46.900
+optimizing given metric and adding mean-encoded features.
+
+99
+00:05:46.900 --> 00:05:48.705
+After that, in the week four,
+
+100
+00:05:48.705 --> 00:05:52.653
+we further improve our solution by working on advanced features,
+
+101
+00:05:52.653 --> 00:05:56.570
+tune your hyperparameters and uniting models in ensemble.
+
+102
+00:05:56.570 --> 00:05:59.120
+And in last week, we all are wrapping it up and
+
+103
+00:05:59.120 --> 00:06:02.680
+producing solution by Kaggle winning model standards.
+
+104
+00:06:02.680 --> 00:06:04.910
+We ask you to work on the project at
+
+105
+00:06:04.910 --> 00:06:09.395
+your local machine or your server because Coursera computational resources are limited,
+
+106
+00:06:09.395 --> 00:06:12.560
+and using them for the final project can slow
+
+107
+00:06:12.560 --> 00:06:16.445
+down completing programming assignments for the fellow students.
+
+108
+00:06:16.445 --> 00:06:21.980
+And, in fact, this class is mostly about this program and this competition assignment,
+
+109
+00:06:21.980 --> 00:06:25.400
+but we also have quizzes and programming assignments for you.
+
+110
+00:06:25.400 --> 00:06:29.150
+We include these to give you an opportunity to refine your knowledge about
+
+111
+00:06:29.150 --> 00:06:33.320
+specific parts of this course: how to check data for leakages,
+
+112
+00:06:33.320 --> 00:06:35.270
+how to implement mean encodings,
+
+113
+00:06:35.270 --> 00:06:38.330
+how to produce an ensemble and so on.
+
+114
+00:06:38.330 --> 00:06:42.110
+You can do them at Coursera site directly but you also can download
+
+115
+00:06:42.110 --> 00:06:47.885
+these notebooks and complete them at your local computer or your server.
+
+116
+00:06:47.885 --> 00:06:51.803
+And this basically is an overview of the course goals,
+
+117
+00:06:51.803 --> 00:06:54.080
+course schedule and course assignments.
+
+118
+00:06:54.080 --> 00:06:58.350
+So, let's go ahead and get started.

@@ -24,9 +24,6 @@ path = '/translate?api-version=3.0'
 params = "&to=ja";
 
 
-
-text = 'Hello, world!'
-
 def translate (content):
 
     headers = {
@@ -40,10 +37,6 @@ def translate (content):
     response = conn.getresponse ()
     return response
 
-requestBody = [{
-    'Text' : text,
-}]
-
 out_file = str(args.in_file).replace('vtt','srt')
 out_f = open(out_file, 'w')
 comment_no = 1
@@ -56,12 +49,13 @@ with open(args.in_file,'r') as f:
             out_f.write(next(f))
 
             eng_text = next(f).strip()
-            work = next(f).strip()
-            while work != '':
-                eng_text += " " + str(work.strip())
-                if(work.endswith('\n') == False):
-                    break
-                work = next(f)
+            try:
+                work = next(f).strip()
+                while work != '':
+                    eng_text += " " + str(work)
+                    work = next(f).strip()
+            except StopIteration:
+                pass
 
             #print(str(comment_no) + ":" + eng_text +"\n")
             requestBody = [{
