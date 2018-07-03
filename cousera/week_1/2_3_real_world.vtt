@@ -1,0 +1,413 @@
+WEBVTT
+
+1
+00:00:02.980 --> 00:00:06.680
+In this video, I want to talk about complexity of
+
+2
+00:00:06.680 --> 00:00:11.660
+real world machine learning pipelines and how they differ from data science competitions.
+
+3
+00:00:11.660 --> 00:00:14.720
+Also, we will discuss the philosophy of the competitions.
+
+4
+00:00:14.720 --> 00:00:17.710
+Real world machine learning problems are very complicated.
+
+5
+00:00:17.710 --> 00:00:19.145
+They include several stages,
+
+6
+00:00:19.145 --> 00:00:22.275
+each of them is very important and require attention.
+
+7
+00:00:22.275 --> 00:00:25.130
+Let's imagine that we need to build an an anti-spam system and
+
+8
+00:00:25.130 --> 00:00:28.530
+consider the basic steps that arise when building such a system.
+
+9
+00:00:28.530 --> 00:00:31.573
+First of all, before doing any machine learning stuff,
+
+10
+00:00:31.573 --> 00:00:34.780
+you need to understand the problem from a business point of view.
+
+11
+00:00:34.780 --> 00:00:37.315
+What do you want to do? For what?
+
+12
+00:00:37.315 --> 00:00:39.430
+How can it help your users?
+
+13
+00:00:39.430 --> 00:00:41.475
+Next, you need to formalize the task.
+
+14
+00:00:41.475 --> 00:00:43.130
+What is the definition of spam?
+
+15
+00:00:43.130 --> 00:00:45.420
+What exactly is to be predicted?
+
+16
+00:00:45.420 --> 00:00:47.650
+The next step is to collect data.
+
+17
+00:00:47.650 --> 00:00:48.905
+You should ask yourself,
+
+18
+00:00:48.905 --> 00:00:50.620
+what data can we use?
+
+19
+00:00:50.620 --> 00:00:53.705
+How to mine examples of spam and non-spam?
+
+20
+00:00:53.705 --> 00:00:58.045
+Next, you need to take care of how to clean your data and pre-process it.
+
+21
+00:00:58.045 --> 00:01:01.205
+After that, you need to move on to building models.
+
+22
+00:01:01.205 --> 00:01:03.763
+To do this, you need to answer the questions,
+
+23
+00:01:03.763 --> 00:01:07.135
+which class of model is appropriate for this particular task?
+
+24
+00:01:07.135 --> 00:01:08.585
+How to measure performance?
+
+25
+00:01:08.585 --> 00:01:10.930
+How to select the best model?
+
+26
+00:01:10.930 --> 00:01:14.660
+The next steps are to check the effectiveness on the model in real scenario,
+
+27
+00:01:14.660 --> 00:01:17.135
+to make sure that it works as expected and
+
+28
+00:01:17.135 --> 00:01:20.000
+there was no bias introduced by learning process.
+
+29
+00:01:20.000 --> 00:01:21.775
+Does the model actually block spam?
+
+30
+00:01:21.775 --> 00:01:24.380
+How often does it block non-spam emails?
+
+31
+00:01:24.380 --> 00:01:25.945
+If everything is fine,
+
+32
+00:01:25.945 --> 00:01:28.295
+then the next step is to deploy the model.
+
+33
+00:01:28.295 --> 00:01:29.717
+Or in other words,
+
+34
+00:01:29.717 --> 00:01:31.490
+make it available to users.
+
+35
+00:01:31.490 --> 00:01:33.850
+However, the process doesn't end here.
+
+36
+00:01:33.850 --> 00:01:38.085
+Your need to monitor the model performance and re-train it on new data.
+
+37
+00:01:38.085 --> 00:01:40.760
+In addition, you need to periodically revise your understanding of
+
+38
+00:01:40.760 --> 00:01:44.330
+the problem and go for the cycle again and again.
+
+39
+00:01:44.330 --> 00:01:47.945
+In contrast, in competitions we have a much simpler situation.
+
+40
+00:01:47.945 --> 00:01:51.708
+All things about formalization and evaluation are already done.
+
+41
+00:01:51.708 --> 00:01:54.805
+All data collected and target metrics fixed.
+
+42
+00:01:54.805 --> 00:01:57.440
+Therefore your mainly focus on pre-processing the data,
+
+43
+00:01:57.440 --> 00:02:00.475
+picking models and selecting the best ones.
+
+44
+00:02:00.475 --> 00:02:02.510
+But, sometimes you need to understand
+
+45
+00:02:02.510 --> 00:02:07.220
+the business problem in order to get insights or generate a new feature.
+
+46
+00:02:07.220 --> 00:02:11.075
+Also sometimes organizers allow the usage of external data.
+
+47
+00:02:11.075 --> 00:02:15.725
+In such cases, data collection become a crucial part of the solution.
+
+48
+00:02:15.725 --> 00:02:17.390
+I want to show you the difference between
+
+49
+00:02:17.390 --> 00:02:20.750
+real life applications and competitions more thoroughly.
+
+50
+00:02:20.750 --> 00:02:22.970
+This table shows that competitions are much
+
+51
+00:02:22.970 --> 00:02:26.190
+simpler than real world machine learning problems.
+
+52
+00:02:26.190 --> 00:02:31.005
+The hardest part, problem formalization and choice of target metric, is already done.
+
+53
+00:02:31.005 --> 00:02:33.920
+Also questions related to deploying out of scope,
+
+54
+00:02:33.920 --> 00:02:37.010
+so participants can focus just on modeling part.
+
+55
+00:02:37.010 --> 00:02:40.175
+One may notice that in this table data collection and
+
+56
+00:02:40.175 --> 00:02:43.970
+model complexity roles have no and yes in competition column.
+
+57
+00:02:43.970 --> 00:02:48.345
+The reason for that, that in some competitions you need to take care of these things.
+
+58
+00:02:48.345 --> 00:02:50.925
+But usually it's not the case.
+
+59
+00:02:50.925 --> 00:02:53.296
+I want to emphasize that as competitors,
+
+60
+00:02:53.296 --> 00:02:57.125
+the only thing we should take care about is target metrics value.
+
+61
+00:02:57.125 --> 00:02:59.647
+Speed, complexity and memory consumption,
+
+62
+00:02:59.647 --> 00:03:01.820
+all this doesn't matter as long as you're able to
+
+63
+00:03:01.820 --> 00:03:04.780
+calculate it and re-produce your own results.
+
+64
+00:03:04.780 --> 00:03:07.320
+Let's highlight key points.
+
+65
+00:03:07.320 --> 00:03:11.725
+Real world machine learning pipelines are very complicated and consist of many stages.
+
+66
+00:03:11.725 --> 00:03:15.930
+Competitions, add weight to a lot of things about modeling and data analysis,
+
+67
+00:03:15.930 --> 00:03:21.270
+but in general they don't address the questions of formalization, deployment and testing.
+
+68
+00:03:21.270 --> 00:03:24.825
+Now, I want to say a few words about philosophy on competitions,
+
+69
+00:03:24.825 --> 00:03:27.465
+in order to form a right impression.
+
+70
+00:03:27.465 --> 00:03:32.585
+We'll cover these ideas in more details later in the course along with examples.
+
+71
+00:03:32.585 --> 00:03:34.450
+The first thing I want to show you is that,
+
+72
+00:03:34.450 --> 00:03:38.203
+machine learning competitions are not only about algorithms.
+
+73
+00:03:38.203 --> 00:03:39.800
+An algorithm is just a tool.
+
+74
+00:03:39.800 --> 00:03:41.825
+Anybody can easily use it.
+
+75
+00:03:41.825 --> 00:03:43.460
+You need something more to win.
+
+76
+00:03:43.460 --> 00:03:48.080
+Insights about data are usually much more useful than a returned ensemble.
+
+77
+00:03:48.080 --> 00:03:50.445
+Some competitions could be solved analytically,
+
+78
+00:03:50.445 --> 00:03:53.595
+without any sophisticated machine learning techniques.
+
+79
+00:03:53.595 --> 00:03:57.238
+In this course, we will show you the importance of understanding your data,
+
+80
+00:03:57.238 --> 00:04:02.015
+tools to use and features you tried to exploit in order to produce the best solution.
+
+81
+00:04:02.015 --> 00:04:05.810
+The next thing I want to say, don't limit yourself.
+
+82
+00:04:05.810 --> 00:04:09.945
+Keep in mind that the only thing you should care about is target metric.
+
+83
+00:04:09.945 --> 00:04:11.690
+It's totally fine to use heuristics or
+
+84
+00:04:11.690 --> 00:04:16.475
+manual data analysis in order to construct golden feature and improve your model.
+
+85
+00:04:16.475 --> 00:04:20.105
+Besides, don't be afraid of using complex solutions,
+
+86
+00:04:20.105 --> 00:04:24.560
+advance feature engineering or doing the huge gritty calculation overnights.
+
+87
+00:04:24.560 --> 00:04:28.200
+Use all the ways you can find in order to improve your model.
+
+88
+00:04:28.200 --> 00:04:29.410
+After passing this course,
+
+89
+00:04:29.410 --> 00:04:32.585
+you will able to get the maximum gain from your data.
+
+90
+00:04:32.585 --> 00:04:34.703
+And now the important aspect is creativity.
+
+91
+00:04:34.703 --> 00:04:39.150
+You need to know traditional approaches of solid machine learning problems but,
+
+92
+00:04:39.150 --> 00:04:40.780
+you shouldn't be bounded by them.
+
+93
+00:04:40.780 --> 00:04:45.060
+It's okay to modify or hack existing algorithm for your particular task.
+
+94
+00:04:45.060 --> 00:04:47.500
+Don't be afraid to read source codes and change them,
+
+95
+00:04:47.500 --> 00:04:49.240
+especially for deploying stuff.
+
+96
+00:04:49.240 --> 00:04:52.290
+In our course, we'll show you examples of how a little bit of
+
+97
+00:04:52.290 --> 00:04:54.210
+creativity can lead to constructing
+
+98
+00:04:54.210 --> 00:04:57.850
+golden features or entire approaches for solving problems.
+
+99
+00:04:57.850 --> 00:05:00.935
+In the end, I want to say enjoy competitions.
+
+100
+00:05:00.935 --> 00:05:02.690
+Don't be obsessed with getting money.
+
+101
+00:05:02.690 --> 00:05:06.435
+Experience and fun you get are much more valuables than the price.
+
+102
+00:05:06.435 --> 00:05:11.060
+Also, networking is another great advantage of participating in data science competition.
+
+103
+00:05:11.060 --> 00:05:14.190
+I hope you find this course interesting.

@@ -1,0 +1,513 @@
+WEBVTT
+
+1
+00:00:03.080 --> 00:00:07.860
+Hi everyone. We are starting course about machine learning competitions.
+
+2
+00:00:07.860 --> 00:00:10.140
+In this course, you will learn a lot of tricks
+
+3
+00:00:10.140 --> 00:00:13.180
+and best practices about data science competitions.
+
+4
+00:00:13.180 --> 00:00:15.495
+Before we start to learn advanced techniques,
+
+5
+00:00:15.495 --> 00:00:17.070
+we need to understand the basics.
+
+6
+00:00:17.070 --> 00:00:19.710
+In this video, I will explain the main concept of
+
+7
+00:00:19.710 --> 00:00:23.155
+competitions and you will become familiar with competition mechanics.
+
+8
+00:00:23.155 --> 00:00:26.085
+A variety of machinery competition is very high.
+
+9
+00:00:26.085 --> 00:00:28.805
+In some, participants are asked to process texts.
+
+10
+00:00:28.805 --> 00:00:32.110
+In others, to classify picture or select the best advertising.
+
+11
+00:00:32.110 --> 00:00:37.005
+Despite the variety, all of these competitions are very similar in structure.
+
+12
+00:00:37.005 --> 00:00:39.420
+Usually, they consist of the same elements or
+
+13
+00:00:39.420 --> 00:00:42.195
+concepts which we will discuss in this video.
+
+14
+00:00:42.195 --> 00:00:44.150
+Let's start with a data.
+
+15
+00:00:44.150 --> 00:00:47.230
+Data is what the organizers give us as training material.
+
+16
+00:00:47.230 --> 00:00:50.065
+We will use it in order to produce our solution.
+
+17
+00:00:50.065 --> 00:00:53.408
+Data can be represented in a variety of formats.
+
+18
+00:00:53.408 --> 00:00:56.305
+SSV file with several columns , a text file,
+
+19
+00:00:56.305 --> 00:00:57.645
+an archive with pictures,
+
+20
+00:00:57.645 --> 00:01:01.815
+a database dump, a disabled code or even all together.
+
+21
+00:01:01.815 --> 00:01:04.750
+With the data, usually there is a description.
+
+22
+00:01:04.750 --> 00:01:07.320
+It's useful to read it in order to understand
+
+23
+00:01:07.320 --> 00:01:10.930
+what we'll work with and which feature can be extracted.
+
+24
+00:01:10.930 --> 00:01:12.480
+Here is an example from Kaggle.
+
+25
+00:01:12.480 --> 00:01:15.410
+From the top, we see several files with data,
+
+26
+00:01:15.410 --> 00:01:17.670
+and below, is their description.
+
+27
+00:01:17.670 --> 00:01:20.835
+Sometimes in addition to data issued by organizers,
+
+28
+00:01:20.835 --> 00:01:22.455
+we can use other data.
+
+29
+00:01:22.455 --> 00:01:25.973
+For example, in order to improve image classification model,
+
+30
+00:01:25.973 --> 00:01:28.965
+one may use a publicly available data set of images.
+
+31
+00:01:28.965 --> 00:01:33.660
+But this depends on a particular competition and you need to check the rules.
+
+32
+00:01:33.660 --> 00:01:35.835
+The next concept is a model.
+
+33
+00:01:35.835 --> 00:01:39.020
+This is exactly what we will build during the competition.
+
+34
+00:01:39.020 --> 00:01:42.645
+It's better to think about model not as one specific algorithm,
+
+35
+00:01:42.645 --> 00:01:46.075
+but something that transforms data into answers.
+
+36
+00:01:46.075 --> 00:01:48.300
+The model should have two main properties.
+
+37
+00:01:48.300 --> 00:01:52.150
+It should produce best possible prediction and be reproducible.
+
+38
+00:01:52.150 --> 00:01:56.240
+In fact, it can be very complicated and contain a lot of algorithms,
+
+39
+00:01:56.240 --> 00:01:59.070
+handcrafted features, use a variety of libraries as
+
+40
+00:01:59.070 --> 00:02:02.620
+this model of the winners of the Homesite competition shown on this slide.
+
+41
+00:02:02.620 --> 00:02:04.830
+It's large and includes many components.
+
+42
+00:02:04.830 --> 00:02:07.845
+But in the course, we will learn how to build such models.
+
+43
+00:02:07.845 --> 00:02:11.260
+To compare our model with the model of other participants,
+
+44
+00:02:11.260 --> 00:02:16.330
+we will send our predictions to the server or in other words, make the submission.
+
+45
+00:02:16.330 --> 00:02:18.970
+Usually, you're asked about predictions only.
+
+46
+00:02:18.970 --> 00:02:20.680
+Sources or models are not required.
+
+47
+00:02:20.680 --> 00:02:23.115
+And also there are some exceptions,
+
+48
+00:02:23.115 --> 00:02:26.045
+cool competitions, where participants submit their code.
+
+49
+00:02:26.045 --> 00:02:27.570
+In this course, we'll focus on
+
+50
+00:02:27.570 --> 00:02:31.815
+traditional challenges where a competitor submit only prediction outputs.
+
+51
+00:02:31.815 --> 00:02:35.290
+Often, I can not just provide a so-called sample submission.
+
+52
+00:02:35.290 --> 00:02:38.303
+An example of how the submission file should look like,
+
+53
+00:02:38.303 --> 00:02:41.414
+look at the sample submission from the Zillow competition.
+
+54
+00:02:41.414 --> 00:02:42.735
+In it is the first column.
+
+55
+00:02:42.735 --> 00:02:48.090
+We must specify the ID of the object and then specify our prediction for it.
+
+56
+00:02:48.090 --> 00:02:51.345
+This is typical format that is used in many competitions.
+
+57
+00:02:51.345 --> 00:02:54.745
+Now, we move to the next concept, evaluation function.
+
+58
+00:02:54.745 --> 00:02:56.115
+When you submit predictions,
+
+59
+00:02:56.115 --> 00:02:58.865
+you need to know how good is your model.
+
+60
+00:02:58.865 --> 00:03:02.065
+The quality of the model is defined by evaluation function.
+
+61
+00:03:02.065 --> 00:03:04.005
+In essence and simply the function,
+
+62
+00:03:04.005 --> 00:03:06.720
+the text prediction and correct answers and
+
+63
+00:03:06.720 --> 00:03:10.305
+returns a score characterizes the performance of the solution.
+
+64
+00:03:10.305 --> 00:03:13.455
+The simplest example of such a function is the accurate score.
+
+65
+00:03:13.455 --> 00:03:15.955
+This is just a rate of correct answers.
+
+66
+00:03:15.955 --> 00:03:18.735
+In general, there are a lot of such functions.
+
+67
+00:03:18.735 --> 00:03:22.230
+In our course, we will carefully consider some of them.
+
+68
+00:03:22.230 --> 00:03:26.820
+The description of the competition always indicates which evaluation function is used.
+
+69
+00:03:26.820 --> 00:03:28.620
+I strongly suggest you to pay attention to
+
+70
+00:03:28.620 --> 00:03:31.485
+this function because it is what we will try to optimize.
+
+71
+00:03:31.485 --> 00:03:34.590
+But often, we are not interested in the score itself.
+
+72
+00:03:34.590 --> 00:03:39.180
+We should only care about our relative performance in comparison to other competitors.
+
+73
+00:03:39.180 --> 00:03:42.435
+So we move to the last point we are considering, the leaderboard.
+
+74
+00:03:42.435 --> 00:03:44.880
+The leaderboard is the rate which provides you with
+
+75
+00:03:44.880 --> 00:03:48.140
+information about performance of all participating teams.
+
+76
+00:03:48.140 --> 00:03:51.375
+Most machine learning competition platforms keep your submission history,
+
+77
+00:03:51.375 --> 00:03:55.405
+but the leaderboard usually shows only your best score and position.
+
+78
+00:03:55.405 --> 00:03:57.000
+They cannot as that submission score,
+
+79
+00:03:57.000 --> 00:03:59.425
+reveal some information about data set.
+
+80
+00:03:59.425 --> 00:04:01.015
+And, in extreme cases,
+
+81
+00:04:01.015 --> 00:04:04.740
+one can obtain ground truth targets after sending a lot of submissions.
+
+82
+00:04:04.740 --> 00:04:06.341
+In order to handle this,
+
+83
+00:04:06.341 --> 00:04:09.750
+the set is divided into two parts, public and private.
+
+84
+00:04:09.750 --> 00:04:12.955
+This split is hidden from users and during the competition,
+
+85
+00:04:12.955 --> 00:04:16.500
+we see the score calculated only on public subset of the data.
+
+86
+00:04:16.500 --> 00:04:18.540
+The second part of data set is used for
+
+87
+00:04:18.540 --> 00:04:22.465
+private leaderboard which is revealed after the end of the competition.
+
+88
+00:04:22.465 --> 00:04:25.455
+Only this second part is used for final rating.
+
+89
+00:04:25.455 --> 00:04:28.905
+Therefore, a standard competition routine looks like that.
+
+90
+00:04:28.905 --> 00:04:31.840
+You as the competition, you analyze the data, improve model,
+
+91
+00:04:31.840 --> 00:04:36.085
+prepare submission, send it, see leaderboard score.
+
+92
+00:04:36.085 --> 00:04:37.980
+You repeat this action several times.
+
+93
+00:04:37.980 --> 00:04:41.430
+All this time, only public leaderboard is available.
+
+94
+00:04:41.430 --> 00:04:43.338
+By the end of the competition,
+
+95
+00:04:43.338 --> 00:04:46.505
+you should select submissions which will be used for final scoring.
+
+96
+00:04:46.505 --> 00:04:49.770
+Usually, you are allowed to select two final submissions.
+
+97
+00:04:49.770 --> 00:04:53.705
+Choose wisely. Sometimes public leaderboard scores might be misleading.
+
+98
+00:04:53.705 --> 00:04:55.490
+After the competition deadline,
+
+99
+00:04:55.490 --> 00:04:57.282
+public leaderboard is revealed,
+
+100
+00:04:57.282 --> 00:04:59.350
+and its used for the final rating and defining the winners.
+
+101
+00:04:59.350 --> 00:05:03.350
+That was a brief overview of competition mechanics.
+
+102
+00:05:03.350 --> 00:05:07.810
+Keep in mind that many concepts can be slightly different in a particular competition.
+
+103
+00:05:07.810 --> 00:05:10.115
+All details, for example,
+
+104
+00:05:10.115 --> 00:05:12.933
+where they can join into teams or use external data,
+
+105
+00:05:12.933 --> 00:05:14.895
+you will find in the rules.
+
+106
+00:05:14.895 --> 00:05:18.990
+Strongly suggest you to read the rules carefully before joining the competition.
+
+107
+00:05:18.990 --> 00:05:22.395
+Now, I want to say a few words about competition platforms.
+
+108
+00:05:22.395 --> 00:05:25.220
+Although Kaggle is the biggest and most famous one,
+
+109
+00:05:25.220 --> 00:05:27.425
+there is a number of smaller platforms or
+
+110
+00:05:27.425 --> 00:05:31.260
+even single-competition sites like KDD and VizDooM.
+
+111
+00:05:31.260 --> 00:05:33.440
+Although this list will change over time,
+
+112
+00:05:33.440 --> 00:05:37.835
+I believe you will find the competition which is most relevant and interesting for you.
+
+113
+00:05:37.835 --> 00:05:42.950
+Finally, I want to tell you about the reasons to participate in data science competition.
+
+114
+00:05:42.950 --> 00:05:46.750
+The main reason is that competition is a great opportunity for learning.
+
+115
+00:05:46.750 --> 00:05:48.650
+You communicate with other participants,
+
+116
+00:05:48.650 --> 00:05:52.000
+try new approaches and get a lot of experience.
+
+117
+00:05:52.000 --> 00:05:54.855
+Second reason is that competition often offer you
+
+118
+00:05:54.855 --> 00:05:58.340
+non-trivial problems and state-of-the-art approaches.
+
+119
+00:05:58.340 --> 00:06:00.960
+It allows you to broaden the horizons and
+
+120
+00:06:00.960 --> 00:06:04.120
+look at some everyday task from a different point of view.
+
+121
+00:06:04.120 --> 00:06:06.645
+It's also a great way to become recognizable,
+
+122
+00:06:06.645 --> 00:06:11.695
+get some kind of frame inside data science community and receive a nice job offer.
+
+123
+00:06:11.695 --> 00:06:15.690
+The last reason to participate is that you have a chance for winning some money.
+
+124
+00:06:15.690 --> 00:06:16.924
+It shouldn't be the main goal,
+
+125
+00:06:16.924 --> 00:06:18.300
+just a pleasant bonus.
+
+126
+00:06:18.300 --> 00:06:22.080
+In this video, we analyzed the basic concept of the competition,
+
+127
+00:06:22.080 --> 00:06:25.270
+talked about platforms and reasons for participation.
+
+128
+00:06:25.270 --> 00:06:30.500
+In the next video, we will talk about the difference between real life and competitions.

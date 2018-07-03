@@ -1,0 +1,504 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.694
+[MUSIC]
+
+2
+00:00:03.694 --> 00:00:04.694
+Hi, everyone.
+
+3
+00:00:04.694 --> 00:00:07.151
+In this video we'll learn
+how to use Kaggle for
+
+4
+00:00:07.151 --> 00:00:10.160
+participation in data
+science competitions.
+
+5
+00:00:10.160 --> 00:00:11.361
+Let's open kaggle.com.
+
+6
+00:00:11.361 --> 00:00:16.800
+On the Competitions page, we can see
+a list of currently running competitions.
+
+7
+00:00:16.800 --> 00:00:21.446
+Every competition has a page which
+consists of title, short description,
+
+8
+00:00:21.446 --> 00:00:25.958
+price budget, number of participating
+teams, and time before the end.
+
+9
+00:00:25.958 --> 00:00:29.869
+Information involves all
+previously running competitions,
+
+10
+00:00:29.869 --> 00:00:31.719
+we can find if we click to All.
+
+11
+00:00:31.719 --> 00:00:36.137
+Let's select some challenge and
+see how it organized.
+
+12
+00:00:39.777 --> 00:00:45.240
+Here, we see several tabs which we'll
+explore, and let's start with Overview.
+
+13
+00:00:46.990 --> 00:00:51.790
+In the Description section we see
+an introduction provided by organizers.
+
+14
+00:00:51.790 --> 00:00:55.006
+In the Description, there is a short
+story about company and tasks,
+
+15
+00:00:55.006 --> 00:00:56.515
+sometimes with illustration.
+
+16
+00:00:56.515 --> 00:01:02.160
+At the Evaluation page, we see
+the description of the target metric.
+
+17
+00:01:02.160 --> 00:01:05.786
+In this challenge, target metric
+is the Mean Absolute Error between
+
+18
+00:01:05.786 --> 00:01:10.080
+the logarithmic transform predictions and
+ground truth values.
+
+19
+00:01:10.080 --> 00:01:14.708
+This page also contains example of sample
+submission file, which is typical for
+
+20
+00:01:14.708 --> 00:01:16.350
+such kind of competitions.
+
+21
+00:01:17.730 --> 00:01:19.230
+Now let's move to the Prize page.
+
+22
+00:01:20.750 --> 00:01:24.070
+In the Prize,
+page we can find information about prizes.
+
+23
+00:01:24.070 --> 00:01:29.832
+Take notice that in the title we have
+information about the whole money budget,
+
+24
+00:01:29.832 --> 00:01:33.970
+and this page,
+we see how it will be split among winners.
+
+25
+00:01:35.110 --> 00:01:38.420
+I want to highlight that
+in order to get money,
+
+26
+00:01:38.420 --> 00:01:43.600
+you need not only be in top three teams,
+but also beat a Zillow benchmark model.
+
+27
+00:01:45.300 --> 00:01:52.140
+Now let's see, Timeline page, which
+contains all the information about dates.
+
+28
+00:01:52.140 --> 00:01:55.113
+For example,
+when competition starts, ends,
+
+29
+00:01:55.113 --> 00:01:58.530
+when will the Team Merger deadline and
+then what month.
+
+30
+00:02:00.020 --> 00:02:03.870
+All the details about competition,
+we can find in the Rules.
+
+31
+00:02:03.870 --> 00:02:06.621
+So we need to check really the rules.
+
+32
+00:02:06.621 --> 00:02:11.147
+Here we can find that team
+limit is three individual,
+
+33
+00:02:11.147 --> 00:02:16.276
+that we have maximum of five
+submissions per day, that you,
+
+34
+00:02:16.276 --> 00:02:21.726
+for example, should be at least
+18 years old to participate.
+
+35
+00:02:21.726 --> 00:02:24.695
+And that, find it,
+
+36
+00:02:24.695 --> 00:02:30.123
+that external data are not allowed.
+
+37
+00:02:30.123 --> 00:02:35.540
+I strongly suggest you to read the rules
+carefully before joining the competition.
+
+38
+00:02:35.540 --> 00:02:38.560
+And after reading, you should accept it,
+but I already accepted it.
+
+39
+00:02:41.440 --> 00:02:43.320
+Now, let's check this, Data.
+
+40
+00:02:45.700 --> 00:02:49.940
+Here we have data provided by
+the organizers, several files which we can
+
+41
+00:02:49.940 --> 00:02:55.680
+download, and sample submission among
+them, and the description of the data.
+
+42
+00:02:55.680 --> 00:03:01.070
+Here we have description of files,
+description of data fields, and
+
+43
+00:03:01.070 --> 00:03:04.250
+more importantly a description
+of train and test split.
+
+44
+00:03:04.250 --> 00:03:09.190
+This is quite useful information in
+order to set up right validation scheme.
+
+45
+00:03:10.760 --> 00:03:15.340
+If you have any question about data or
+other questions to ask, or insights to
+
+46
+00:03:15.340 --> 00:03:18.770
+share, you can go to the forum,
+which we can find under Discussion tab.
+
+47
+00:03:20.760 --> 00:03:25.446
+Usually it contain a lot of topics or
+threads, like Welcome, questions about
+
+48
+00:03:25.446 --> 00:03:29.790
+validations, questions about train and
+test data, and so on and so on.
+
+49
+00:03:31.200 --> 00:03:36.730
+Every topic have title,
+number of comments, and number of reports.
+
+50
+00:03:36.730 --> 00:03:38.618
+Let's see some of them.
+
+51
+00:03:38.618 --> 00:03:41.670
+Here we have main message,
+a lot of comments,
+
+52
+00:03:41.670 --> 00:03:45.170
+in this particular we
+have only one comments.
+
+53
+00:03:45.170 --> 00:03:54.230
+Each we can up vote or down vote and
+reply to by click the reply button.
+
+54
+00:03:55.910 --> 00:03:59.900
+That was a brief overview on forum and
+now we switch to the Kernels.
+
+55
+00:03:59.900 --> 00:04:04.160
+Usually, I run my code locally,
+but sometimes it would be handy
+
+56
+00:04:04.160 --> 00:04:09.200
+to check an idea quickly or share code
+with other participants or teammates.
+
+57
+00:04:09.200 --> 00:04:11.270
+This is what Kernels are for.
+
+58
+00:04:11.270 --> 00:04:16.080
+You can think of Kernel as a small virtual
+machine in which you write your code,
+
+59
+00:04:16.080 --> 00:04:18.320
+execute it, and share it.
+
+60
+00:04:18.320 --> 00:04:21.374
+Let's take a look at some Kernel,
+for example for this one.
+
+61
+00:04:25.140 --> 00:04:30.130
+This show explanatory data analysis
+on the Zillow competition.
+
+62
+00:04:30.130 --> 00:04:35.960
+It took quite long, contain a lot of
+pictures, and I believe it very useful.
+
+63
+00:04:37.290 --> 00:04:40.425
+Here we can see comments for
+this, different versions.
+
+64
+00:04:40.425 --> 00:04:44.881
+And in order,
+if you want to make a copy and edit it,
+
+65
+00:04:44.881 --> 00:04:47.586
+we need to Fork this Notebook.
+
+66
+00:04:47.586 --> 00:04:52.231
+It doesn't matter how your
+predictions were produced, locally or
+
+67
+00:04:52.231 --> 00:04:57.210
+by Kernel, you should submit
+them through a specialized form.
+
+68
+00:04:57.210 --> 00:04:58.611
+So go back to the competition.
+
+69
+00:05:00.634 --> 00:05:01.900
+Go to submissions.
+
+70
+00:05:01.900 --> 00:05:07.050
+I already submit sample submission,
+you can do the same.
+
+71
+00:05:07.050 --> 00:05:11.290
+Click submit predictions,
+and drag and drop file here.
+
+72
+00:05:11.290 --> 00:05:12.048
+Let's look at my submission.
+
+73
+00:05:17.680 --> 00:05:19.905
+After submission,
+you will see it on the leaderboard.
+
+74
+00:05:20.950 --> 00:05:23.260
+This is my sample submission.
+
+75
+00:05:23.260 --> 00:05:27.470
+Leaderboard contains information
+about all the teams.
+
+76
+00:05:27.470 --> 00:05:34.270
+So here we have team name or just name
+in case of single competition team.
+
+77
+00:05:34.270 --> 00:05:38.462
+Score which we produced,
+number of submissions,
+
+78
+00:05:38.462 --> 00:05:45.070
+time since the last submissions, and
+position data over seven last days.
+
+79
+00:05:45.070 --> 00:05:51.940
+For example, this means that this guy
+drops 19 positions during the last week.
+
+80
+00:05:53.430 --> 00:05:56.220
+That was a brief overview
+of Kaggle interface.
+
+81
+00:05:56.220 --> 00:05:59.160
+Further, I will tell some extra
+information about the platform.
+
+82
+00:06:00.270 --> 00:06:04.770
+So let's move to Overview
+page at the bottom.
+
+83
+00:06:04.770 --> 00:06:09.410
+And here,
+we see information about points and tiers.
+
+84
+00:06:09.410 --> 00:06:14.790
+As mentioned here, the competition will be
+counting towards ranking points an tiers.
+
+85
+00:06:14.790 --> 00:06:17.820
+If you participate,
+it will be beneficial for your rating.
+
+86
+00:06:18.910 --> 00:06:22.780
+Sometimes, especially in educational
+competitions, it's not like that.
+
+87
+00:06:24.950 --> 00:06:29.930
+Information about Kaggle Progression
+System we can find if we click this link,
+
+88
+00:06:32.050 --> 00:06:36.780
+where we can read information about
+tiers like novice, contributor, master,
+
+89
+00:06:36.780 --> 00:06:37.522
+grandmaster.
+
+90
+00:06:37.522 --> 00:06:40.066
+About medals and ranking points.
+
+91
+00:06:41.721 --> 00:06:45.827
+This ranking points, I use for
+global User Ranking.
+
+92
+00:06:45.827 --> 00:06:47.680
+Let's check it.
+
+93
+00:06:51.540 --> 00:06:54.920
+So, we have user ranking page, and
+
+94
+00:06:54.920 --> 00:06:59.370
+we see all the users ranked, and
+with links to their profile.
+
+95
+00:06:59.370 --> 00:07:01.471
+Let's check some profile,
+for example mine.
+
+96
+00:07:01.471 --> 00:07:06.911
+And here we have photo,
+name, some information,
+
+97
+00:07:06.911 --> 00:07:15.400
+geo information, information about
+past competitions, medals, and so on.
+
+98
+00:07:15.400 --> 00:07:20.080
+In addition, I want to say a few words
+about ability to host competition.
+
+99
+00:07:21.080 --> 00:07:21.889
+Kaggle has this ability.
+
+100
+00:07:21.889 --> 00:07:28.020
+Click Host competition, and
+there is special Kaggle in class.
+
+101
+00:07:29.645 --> 00:07:33.470
+At in class, everyone can host
+their own competition for free and
+
+102
+00:07:33.470 --> 00:07:35.530
+invite people to participate.
+
+103
+00:07:35.530 --> 00:07:38.990
+This option is quite often used in
+various educational competitions.
+
+104
+00:07:40.160 --> 00:07:42.394
+So this was a brief overview
+of Kaggle platform.
+
+105
+00:07:42.394 --> 00:07:43.814
+Thank for your attention.
+
+106
+00:07:43.814 --> 00:07:53.814
+[MUSIC]
