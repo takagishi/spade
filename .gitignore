@@ -103,3 +103,4 @@ venv.bak/
 # mypy
 .mypy_cache/
 cousera/*/*.mp4
+cousera/howtowin_kaggle/*/*mp4
