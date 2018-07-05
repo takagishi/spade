@@ -1,0 +1,433 @@
+WEBVTT
+
+1
+00:00:04.460 --> 00:00:05.670
+Hi, everyone.
+
+2
+00:00:05.670 --> 00:00:10.490
+In this video, I want to do an overview
+of hardware and software requirements.
+
+3
+00:00:10.490 --> 00:00:14.520
+You will know what is typical stuff for
+data science competitions.
+
+4
+00:00:14.520 --> 00:00:17.900
+I want to start from
+hardware related things.
+
+5
+00:00:17.900 --> 00:00:19.399
+Participating in competitions,
+
+6
+00:00:19.399 --> 00:00:22.890
+you generally don't need a lot
+of computation resources.
+
+7
+00:00:22.890 --> 00:00:23.890
+A lot of competitions,
+
+8
+00:00:23.890 --> 00:00:28.650
+except imaged based,
+have under several gigabytes of data.
+
+9
+00:00:28.650 --> 00:00:33.350
+It's not very huge and can be processed on
+a high level laptop with 16 gigabyte ram
+
+10
+00:00:33.350 --> 00:00:34.500
+and four physical cores.
+
+11
+00:00:35.600 --> 00:00:39.480
+Quite a good setup is a tower
+PC with 32 gigabyte of ram and
+
+12
+00:00:39.480 --> 00:00:42.570
+six physical cores,
+this is what I personally use.
+
+13
+00:00:43.630 --> 00:00:45.660
+You have a choice of hardware to use.
+
+14
+00:00:45.660 --> 00:00:48.910
+I suggest you to pay attention
+to the following things.
+
+15
+00:00:48.910 --> 00:00:52.190
+First is RAM, for this more is better.
+
+16
+00:00:52.190 --> 00:00:56.150
+If you can keep your data in memory,
+your life will be much, much easier.
+
+17
+00:00:56.150 --> 00:00:59.600
+Personally, I found 64
+gigabytes is quite enough, but
+
+18
+00:00:59.600 --> 00:01:03.569
+some programmers prefer to have
+128 gigabytes or even more.
+
+19
+00:01:04.618 --> 00:01:10.020
+Next are cores, the more core you have
+the more or faster experiments you can do.
+
+20
+00:01:10.020 --> 00:01:12.910
+I find it comfortable to
+work with fixed cores, but
+
+21
+00:01:12.910 --> 00:01:14.990
+sometimes even 32 are not enough.
+
+22
+00:01:16.270 --> 00:01:19.910
+Next thing to pay attention for
+is storage.
+
+23
+00:01:19.910 --> 00:01:23.570
+If you work with large datasets
+that don't fit into the memory,
+
+24
+00:01:23.570 --> 00:01:27.530
+it's crucial to have fast disk to read and
+write chunks of data.
+
+25
+00:01:27.530 --> 00:01:32.070
+SSD is especially important if you train
+narrowness or large number of images.
+
+26
+00:01:33.270 --> 00:01:35.660
+In case you really need
+computational resources.
+
+27
+00:01:35.660 --> 00:01:38.640
+For example, if you are part of team or
+
+28
+00:01:38.640 --> 00:01:43.260
+have a computational heavy approach,
+you can rent it on cloud platforms.
+
+29
+00:01:43.260 --> 00:01:47.530
+They offer machines with a lot of RAMs,
+cores, and GPUs.
+
+30
+00:01:47.530 --> 00:01:49.150
+There are several cloud providers,
+
+31
+00:01:49.150 --> 00:01:54.520
+most famous are Amazon AWS,
+Microsoft's Azure, and Google Cloud.
+
+32
+00:01:54.520 --> 00:01:56.335
+Each one has its own pricing, so
+
+33
+00:01:56.335 --> 00:01:59.840
+we can choose which one best
+fits your needs and budget.
+
+34
+00:01:59.840 --> 00:02:04.150
+I especially want to draw your
+attention to AWS spot option.
+
+35
+00:02:04.150 --> 00:02:07.800
+Spot instances enable you
+to be able to use instance,
+
+36
+00:02:07.800 --> 00:02:09.400
+which can lower your cost significantly.
+
+37
+00:02:09.400 --> 00:02:13.590
+The higher your price for
+spot instance is set by Amazon and
+
+38
+00:02:13.590 --> 00:02:18.090
+fluctuates depending on supply and
+demand for spot instances.
+
+39
+00:02:18.090 --> 00:02:22.630
+Your spot instance run whenever you
+bid exceeds the current market price.
+
+40
+00:02:22.630 --> 00:02:25.450
+Generally, it's much
+cheaper than other options.
+
+41
+00:02:25.450 --> 00:02:29.640
+But you always have risk that your bid
+will get under current market price, and
+
+42
+00:02:29.640 --> 00:02:30.820
+your source will be terminated.
+
+43
+00:02:31.840 --> 00:02:33.450
+Tutorials about how to setup and
+
+44
+00:02:33.450 --> 00:02:36.500
+configure cloud resources you may
+find in additional materials.
+
+45
+00:02:37.500 --> 00:02:39.948
+Another important thing I
+want to discuss is software.
+
+46
+00:02:39.948 --> 00:02:44.260
+Usually, rules in competitions
+prohibit to use commercial software,
+
+47
+00:02:44.260 --> 00:02:47.910
+since it requires to buy
+a license to reproduce results.
+
+48
+00:02:47.910 --> 00:02:50.770
+Some competitors prefer
+R as basic language.
+
+49
+00:02:50.770 --> 00:02:53.960
+But we will describe Python's tech
+as more common and more general.
+
+50
+00:02:55.290 --> 00:02:58.310
+Python is quite a good language for
+fast prototyping.
+
+51
+00:02:58.310 --> 00:03:02.090
+It has a huge amount of high quality and
+open source libraries.
+
+52
+00:03:02.090 --> 00:03:03.850
+And I want to reuse several of them.
+
+53
+00:03:05.060 --> 00:03:07.430
+Let's start with NumPy.
+
+54
+00:03:07.430 --> 00:03:11.210
+It's a linear algebra library
+to work with dimensional arrays,
+
+55
+00:03:11.210 --> 00:03:15.380
+which contains useful linear algebra
+routines and random number capabilities.
+
+56
+00:03:16.550 --> 00:03:20.660
+Pandas is a library providing fast,
+flexible, and expressive way to work with
+
+57
+00:03:20.660 --> 00:03:24.520
+a relational or table of data,
+both easily and intuitive.
+
+58
+00:03:24.520 --> 00:03:27.585
+It allows you to process your
+data in a way similar to SQL.
+
+59
+00:03:27.585 --> 00:03:32.190
+Scikit-learn is a library of classic
+machine learning algorithms.
+
+60
+00:03:32.190 --> 00:03:36.320
+It features various classification,
+regression, and clustering algorithms,
+
+61
+00:03:36.320 --> 00:03:40.750
+including support virtual machines,
+random force, and a lot more.
+
+62
+00:03:41.950 --> 00:03:44.030
+Matplotlib is a plotting library.
+
+63
+00:03:44.030 --> 00:03:47.070
+It allows you to do
+a variety of visualization,
+
+64
+00:03:47.070 --> 00:03:50.980
+like line plots, histograms,
+scatter plots and a lot more.
+
+65
+00:03:52.050 --> 00:03:56.460
+As IDE, I suggest you to use
+IPython with Jupyter node box,
+
+66
+00:03:56.460 --> 00:04:00.190
+since they allow you to work
+interactively and remotely.
+
+67
+00:04:00.190 --> 00:04:03.390
+The last property is especially
+useful if you use cloud resources.
+
+68
+00:04:04.490 --> 00:04:08.380
+Additional packages contain
+implementation of more specific tools.
+
+69
+00:04:08.380 --> 00:04:11.685
+Usually, single packages
+implement single algorithm.
+
+70
+00:04:11.685 --> 00:04:15.900
+XGBoost and LightGBM packages implement
+gradient-boosted decision trees
+
+71
+00:04:15.900 --> 00:04:18.320
+in a very efficient and optimized way.
+
+72
+00:04:18.320 --> 00:04:20.230
+You definitely should
+know about such tools.
+
+73
+00:04:21.370 --> 00:04:25.100
+Keras is a user-friendly framework for
+neural nets.
+
+74
+00:04:25.100 --> 00:04:28.000
+This new package is an efficient
+implementation of this new ]projection
+
+75
+00:04:28.000 --> 00:04:29.990
+method which we will
+discuss in our course.
+
+76
+00:04:31.050 --> 00:04:34.890
+Also, I want to say a few words about
+external tools which usually don't have
+
+77
+00:04:34.890 --> 00:04:38.670
+any connection despite, but
+still very used for computations.
+
+78
+00:04:38.670 --> 00:04:41.120
+One such tool is Vowpal Wabbit.
+
+79
+00:04:41.120 --> 00:04:44.020
+It is a tool designed to
+provide blazing speed and
+
+80
+00:04:44.020 --> 00:04:48.060
+handle really large data sets,
+which don't fit into memory.
+
+81
+00:04:48.060 --> 00:04:52.860
+Libfm and libffm implement different
+types of optimization machines, and
+
+82
+00:04:52.860 --> 00:04:57.810
+often used for sparse data like
+click-through rate prediction.
+
+83
+00:04:57.810 --> 00:05:02.910
+Rgf is an alternative base method,
+which I suggest you to use in ensembles.
+
+84
+00:05:02.910 --> 00:05:05.220
+You can install these packages one by one.
+
+85
+00:05:05.220 --> 00:05:07.250
+But as alternative, you can use byte and
+
+86
+00:05:07.250 --> 00:05:11.230
+distribution like Anaconda, which already
+contains a lot of mentioned packages.
+
+87
+00:05:12.260 --> 00:05:13.927
+And then, through this video,
+
+88
+00:05:13.927 --> 00:05:17.953
+I want to emphasize the proposed setup
+is the most common but not the only one.
+
+89
+00:05:17.953 --> 00:05:22.799
+Don't overestimate the role of hardware
+and software, since they are just tools.
+
+90
+00:05:22.799 --> 00:05:24.964
+Thank you for your attention.
+
+91
+00:05:24.964 --> 00:05:34.964
+[MUSIC]
