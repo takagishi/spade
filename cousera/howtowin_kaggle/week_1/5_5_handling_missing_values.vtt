@@ -1,0 +1,688 @@
+WEBVTT
+
+1
+00:00:03.813 --> 00:00:08.290
+Often we have to deal with
+missing values in our data.
+
+2
+00:00:08.290 --> 00:00:14.982
+They could look like not numbers,
+empty strings, or outliers like minus 999.
+
+3
+00:00:14.982 --> 00:00:18.583
+Sometimes they can contain useful
+information by themselves,
+
+4
+00:00:18.583 --> 00:00:22.840
+like what was the reason of
+missing value occurring here?
+
+5
+00:00:22.840 --> 00:00:24.320
+How to use them effectively?
+
+6
+00:00:24.320 --> 00:00:26.640
+How to engineer new features from them?
+
+7
+00:00:26.640 --> 00:00:28.430
+We'll do the topic for this video.
+
+8
+00:00:29.520 --> 00:00:33.080
+So what kind of information
+missing values might contain?
+
+9
+00:00:33.080 --> 00:00:34.840
+How can they look like?
+
+10
+00:00:34.840 --> 00:00:38.050
+Let's take a look at missing values
+in the Springfield competition.
+
+11
+00:00:39.870 --> 00:00:42.382
+This is metrics of samples and features.
+
+12
+00:00:42.382 --> 00:00:47.858
+People mainly reviewed each feature, and
+found missing values for each column.
+
+13
+00:00:47.858 --> 00:00:55.290
+This latest could be not a number,
+empty string, minus 1, 99, and so on.
+
+14
+00:00:55.290 --> 00:01:01.345
+For example, how can we found out
+that -1 can be the missing value?
+
+15
+00:01:01.345 --> 00:01:03.849
+We could draw a histogram and
+
+16
+00:01:03.849 --> 00:01:09.980
+see this variable has uniform
+distribution between 0 and 1.
+
+17
+00:01:09.980 --> 00:01:13.870
+And that it has small peak of -1 values.
+
+18
+00:01:13.870 --> 00:01:20.433
+So if there are no not numbers there, we
+can assume that they were replaced by -1.
+
+19
+00:01:20.433 --> 00:01:25.020
+Or the feature distribution plot
+can look like the second figure.
+
+20
+00:01:26.220 --> 00:01:29.050
+Note that x axis has lock scale.
+
+21
+00:01:29.050 --> 00:01:33.641
+In this case, not a numbers probably
+were few by features mean value.
+
+22
+00:01:33.641 --> 00:01:37.829
+You can easily generalize this
+logic to apply to other cases.
+
+23
+00:01:39.190 --> 00:01:44.950
+Okay on this example we just learned this,
+missing values can be hidden from us.
+
+24
+00:01:44.950 --> 00:01:49.290
+And by hidden I mean replaced by some
+other value beside not a number.
+
+25
+00:01:50.520 --> 00:01:53.940
+Great, let's talk about
+missing value importation.
+
+26
+00:01:53.940 --> 00:01:56.370
+The most often examples are first,
+
+27
+00:01:56.370 --> 00:02:00.912
+replacing not a number with some
+value outside fixed value range.
+
+28
+00:02:00.912 --> 00:02:04.740
+Second, replacing not
+a number with mean or median.
+
+29
+00:02:04.740 --> 00:02:07.720
+And third,
+trying to reconstruct value somehow.
+
+30
+00:02:08.980 --> 00:02:11.680
+First method is useful
+in a way that it gives
+
+31
+00:02:11.680 --> 00:02:15.910
+three possibility to take missing
+value into separate category.
+
+32
+00:02:15.910 --> 00:02:21.540
+The downside of this is that performance
+of linear networks can suffer.
+
+33
+00:02:22.632 --> 00:02:26.740
+Second method usually beneficial for
+simple linear models and neural networks.
+
+34
+00:02:26.740 --> 00:02:31.520
+But again for trees it can be harder to
+select object which had missing values
+
+35
+00:02:31.520 --> 00:02:32.480
+in the first place.
+
+36
+00:02:33.740 --> 00:02:37.070
+Let's keep the feature value
+reconstruction for now, and
+
+37
+00:02:37.070 --> 00:02:39.120
+turn to feature generation for a moment.
+
+38
+00:02:40.410 --> 00:02:44.660
+The concern we just have discussed can
+be addressed by adding new feature
+
+39
+00:02:44.660 --> 00:02:49.350
+isnull indicating which rows have
+missing values for this feature.
+
+40
+00:02:50.490 --> 00:02:52.840
+This can solve problems with trees and
+
+41
+00:02:52.840 --> 00:02:56.300
+neural networks while computing mean or
+median.
+
+42
+00:02:56.300 --> 00:03:00.840
+But the downside of this is that we will
+double number of columns in the data set.
+
+43
+00:03:02.140 --> 00:03:05.160
+Now back to missing values
+importation methods.
+
+44
+00:03:05.160 --> 00:03:06.510
+The third one, and
+
+45
+00:03:06.510 --> 00:03:11.680
+the last one we will discuss here,
+is to reconstruct each value if possible.
+
+46
+00:03:11.680 --> 00:03:16.900
+One example of such possibility is
+having missing values in time series.
+
+47
+00:03:16.900 --> 00:03:19.970
+For example,
+we could have everyday temperature for
+
+48
+00:03:19.970 --> 00:03:24.950
+a month but several values in
+the middle of months are missing.
+
+49
+00:03:24.950 --> 00:03:29.270
+Well of course, we can approximate
+them using nearby observations.
+
+50
+00:03:29.270 --> 00:03:33.880
+But obviously, this kind of
+opportunity is rarely the case.
+
+51
+00:03:33.880 --> 00:03:38.450
+In most typical scenario rows
+of our data set are independent.
+
+52
+00:03:38.450 --> 00:03:42.430
+And we usually will not find any
+proper logic to reconstruct them.
+
+53
+00:03:44.030 --> 00:03:49.075
+Great, to this moment we already learned
+that we can construct new feature,
+
+54
+00:03:49.075 --> 00:03:53.600
+isnull indicating which
+rows contains not numbers.
+
+55
+00:03:55.110 --> 00:03:58.529
+What are other important moments about
+feature generation we should know?
+
+56
+00:03:59.550 --> 00:04:02.800
+Well there's one general concern about
+
+57
+00:04:02.800 --> 00:04:06.840
+generating new features from
+one with missing values.
+
+58
+00:04:06.840 --> 00:04:10.780
+That is, if we do this,
+we should be very careful with
+
+59
+00:04:10.780 --> 00:04:13.480
+replacing missing values
+before our feature generation.
+
+60
+00:04:13.480 --> 00:04:19.900
+To illustrate this, let's imagine we have
+a year long data set with two features.
+
+61
+00:04:19.900 --> 00:04:24.090
+Daytime feature and
+temperature which had missing values.
+
+62
+00:04:24.090 --> 00:04:26.320
+We can see all of this on the figure.
+
+63
+00:04:28.040 --> 00:04:32.960
+Now we fill missing values with some
+value, for example with median.
+
+64
+00:04:32.960 --> 00:04:39.030
+If you have data over the whole year
+median probably will be near zero so
+
+65
+00:04:39.030 --> 00:04:40.680
+it should look like that.
+
+66
+00:04:40.680 --> 00:04:44.980
+Now we want to add feature like
+difference between temperature today and
+
+67
+00:04:44.980 --> 00:04:46.770
+yesterday, let's do this.
+
+68
+00:04:48.210 --> 00:04:49.290
+As we can see,
+
+69
+00:04:49.290 --> 00:04:53.980
+near the missing values this difference
+usually will be abnormally huge.
+
+70
+00:04:53.980 --> 00:04:56.890
+And this can be misleading our model.
+
+71
+00:04:56.890 --> 00:05:01.816
+But hey, we already know that we can
+approximate missing values sometimes here
+
+72
+00:05:01.816 --> 00:05:04.780
+by interpolation the error by points,
+great.
+
+73
+00:05:04.780 --> 00:05:09.250
+But unfortunately, we usually don't
+have enough time to be so careful here.
+
+74
+00:05:09.250 --> 00:05:10.726
+And more importantly,
+
+75
+00:05:10.726 --> 00:05:16.050
+these problems can occur in cases when we
+can't come up with such specific solution.
+
+76
+00:05:17.210 --> 00:05:20.270
+Let's review another example
+of missing value importation.
+
+77
+00:05:20.270 --> 00:05:22.830
+Which will be substantially
+discussed later
+
+78
+00:05:22.830 --> 00:05:25.050
+in advanced feature [INAUDIBLE] topic.
+
+79
+00:05:26.080 --> 00:05:29.650
+Here we have a data set
+with independent rows.
+
+80
+00:05:29.650 --> 00:05:33.978
+And we want to encode the categorical
+feature with the numeric feature.
+
+81
+00:05:33.978 --> 00:05:39.020
+To achieve that we calculate mean
+value of numeric feature for
+
+82
+00:05:39.020 --> 00:05:42.930
+every category, and
+replace categories with these mean values.
+
+83
+00:05:44.000 --> 00:05:48.200
+What happens if we fill not
+the numbers in the numeric feature,
+
+84
+00:05:48.200 --> 00:05:52.790
+with some value outside of
+feature range like -999.
+
+85
+00:05:54.200 --> 00:05:58.726
+As we can see, all values we will
+be doing them closer to -999.
+
+86
+00:05:58.726 --> 00:06:03.531
+And the more the row's corresponding to
+particular category will have missing
+
+87
+00:06:03.531 --> 00:06:04.310
+values.
+
+88
+00:06:04.310 --> 00:06:08.925
+The closer mean value will be to -999.
+
+89
+00:06:08.925 --> 00:06:14.860
+The same is true if we fill missing values
+with mean or median of the feature.
+
+90
+00:06:14.860 --> 00:06:18.617
+This kind of missing value importation
+definitely can screw up the feature we
+
+91
+00:06:18.617 --> 00:06:20.420
+are constructing.
+
+92
+00:06:20.420 --> 00:06:23.750
+The way to handle this
+particular case is to simply
+
+93
+00:06:23.750 --> 00:06:27.510
+ignore missing values while
+calculating means for each category.
+
+94
+00:06:28.630 --> 00:06:32.480
+Again let me repeat the idea
+of these two examples.
+
+95
+00:06:33.560 --> 00:06:38.190
+You should be very careful with early none
+importation if you want to generate new
+
+96
+00:06:38.190 --> 00:06:39.790
+features.
+
+97
+00:06:39.790 --> 00:06:42.570
+There's one more interesting
+thing about missing values.
+
+98
+00:06:43.823 --> 00:06:46.476
+[INAUDIBLE] boost can
+handle a lot of numbers and
+
+99
+00:06:46.476 --> 00:06:50.090
+sometimes using this approach
+can change score drastically.
+
+100
+00:06:51.220 --> 00:06:53.320
+Besides common approaches
+we have discussed,
+
+101
+00:06:53.320 --> 00:06:56.400
+sometimes we can treat
+outliers as missing values.
+
+102
+00:06:56.400 --> 00:07:01.293
+For example, if we have some easy
+classification task with songs which
+
+103
+00:07:01.293 --> 00:07:06.932
+are thought to be composed even before
+ancient Rome, or maybe the year 2025.
+
+104
+00:07:06.932 --> 00:07:10.249
+We can try to treat these
+outliers as missing values.
+
+105
+00:07:11.280 --> 00:07:12.980
+If you have categorical features,
+
+106
+00:07:12.980 --> 00:07:16.640
+sometimes it can be beneficial
+to change the missing values or
+
+107
+00:07:16.640 --> 00:07:21.970
+categories which present in the test data
+but do not present in the train data.
+
+108
+00:07:21.970 --> 00:07:26.010
+The intention for doing so appeals to
+the fact that the model which didn't have
+
+109
+00:07:26.010 --> 00:07:30.148
+that category in the train data
+will eventually treat it randomly.
+
+110
+00:07:30.148 --> 00:07:35.180
+Here and
+of categorical features can be of help.
+
+111
+00:07:35.180 --> 00:07:40.460
+As we already discussed in our course, we
+can change categories to its frequencies
+
+112
+00:07:40.460 --> 00:07:44.560
+and thus to it categories was in
+before based on their frequency.
+
+113
+00:07:45.740 --> 00:07:49.010
+Let's walk through
+the example on the slide.
+
+114
+00:07:49.010 --> 00:07:53.316
+There you see from the categorical
+feature, they not appear in the train.
+
+115
+00:07:53.316 --> 00:07:56.310
+Let's generate new feature indicating
+
+116
+00:07:56.310 --> 00:07:58.640
+number of where the occurrence
+is in the data.
+
+117
+00:07:59.940 --> 00:08:03.040
+We will name this feature
+categorical_encoded.
+
+118
+00:08:03.040 --> 00:08:07.608
+Value A has six occurrences
+in both train and test, and
+
+119
+00:08:07.608 --> 00:08:12.684
+that's value of new feature
+related to A will be equal to 6.
+
+120
+00:08:12.684 --> 00:08:16.480
+The same works for values B, D, or C.
+
+121
+00:08:16.480 --> 00:08:22.000
+But now new features various related
+to D and C are equal to each other.
+
+122
+00:08:22.000 --> 00:08:25.960
+And if there is some dependence in between
+target and number of occurrences for
+
+123
+00:08:25.960 --> 00:08:30.090
+each category, our model will be
+able to successfully visualize that.
+
+124
+00:08:31.260 --> 00:08:35.060
+To conclude this video, let´s overview
+main points we have discussed.
+
+125
+00:08:36.510 --> 00:08:41.260
+The choice of method to fill not
+a numbers depends on the situation.
+
+126
+00:08:41.260 --> 00:08:43.760
+Sometimes, you can
+reconstruct missing values.
+
+127
+00:08:43.760 --> 00:08:49.020
+But usually, it is easier to
+replace them with value outside of
+
+128
+00:08:49.020 --> 00:08:53.520
+feature range, like -999 or
+to replace them with mean or median.
+
+129
+00:08:54.890 --> 00:08:59.930
+Also missing values already can be
+replaced with something by organizers.
+
+130
+00:09:01.520 --> 00:09:05.940
+In this case if you want know exact
+rows which have missing values
+
+131
+00:09:05.940 --> 00:09:09.890
+you can investigate this
+by browsing histograms.
+
+132
+00:09:09.890 --> 00:09:14.497
+More, the model can improve its results
+using binary feature isnull which
+
+133
+00:09:14.497 --> 00:09:17.210
+indicates what roles have missing values.
+
+134
+00:09:18.350 --> 00:09:22.680
+In general, avoid replacing missing
+values before feature generation,
+
+135
+00:09:22.680 --> 00:09:26.530
+because it can decrease
+usefulness of the features.
+
+136
+00:09:26.530 --> 00:09:30.400
+And in the end,
+Xgboost can handle not a numbers directly,
+
+137
+00:09:30.400 --> 00:09:33.330
+which sometimes can change the score for
+the better.
+
+138
+00:09:34.620 --> 00:09:37.569
+Using knowledge you have
+derived from our discussion,
+
+139
+00:09:37.569 --> 00:09:40.275
+now you should be able to
+identify missing values.
+
+140
+00:09:40.275 --> 00:09:42.910
+Describe main methods to handle them, and
+
+141
+00:09:42.910 --> 00:09:46.798
+apply this knowledge to gain
+an edge in your next computation.
+
+142
+00:09:46.798 --> 00:09:50.864
+Try these methods in
+
+143
+00:09:50.864 --> 00:09:55.887
+different scenarios and
+
+144
+00:09:55.887 --> 00:10:01.874
+for sure, you will succeed.

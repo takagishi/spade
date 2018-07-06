@@ -1,0 +1,629 @@
+WEBVTT
+
+1
+00:00:03.250 --> 00:00:06.025
+Hi. In this video,
+
+2
+00:00:06.025 --> 00:00:09.608
+we will cover categorical and ordinal features.
+
+3
+00:00:09.608 --> 00:00:12.395
+We will overview methods to work with them.
+
+4
+00:00:12.395 --> 00:00:17.354
+In particular, what kind of pre-processing will be used for each model type of them?
+
+5
+00:00:17.354 --> 00:00:19.035
+What is the difference between
+
+6
+00:00:19.035 --> 00:00:25.845
+categorical and and ordinal features and how we can generate new features from them?
+
+7
+00:00:25.845 --> 00:00:28.380
+First, let's look at several rows from
+
+8
+00:00:28.380 --> 00:00:32.545
+the Titanic dataset and find categorical features here.
+
+9
+00:00:32.545 --> 00:00:35.980
+Their names are: Sex, Cabin and Embarked.
+
+10
+00:00:35.980 --> 00:00:42.955
+These are usual categorical features but there is one more special, the Pclass feature.
+
+11
+00:00:42.955 --> 00:00:45.490
+Pclass stands for ticket class,
+
+12
+00:00:45.490 --> 00:00:50.150
+and has three unique values: one, two, and three.
+
+13
+00:00:50.150 --> 00:00:52.135
+It is ordinal or,
+
+14
+00:00:52.135 --> 00:00:55.455
+in other words, order categorical feature.
+
+15
+00:00:55.455 --> 00:01:00.105
+This basically means that it is ordered in some meaningful way.
+
+16
+00:01:00.105 --> 00:01:04.045
+For example, if the first class was more expensive than the second,
+
+17
+00:01:04.045 --> 00:01:08.763
+or the more the first should be more expensive than the third.
+
+18
+00:01:08.763 --> 00:01:11.085
+We should make an important note here
+
+19
+00:01:11.085 --> 00:01:14.900
+about differences between ordinal and numeric features.
+
+20
+00:01:14.900 --> 00:01:18.018
+If Pclass would have been a numeric feature,
+
+21
+00:01:18.018 --> 00:01:20.160
+we could say that the difference between first,
+
+22
+00:01:20.160 --> 00:01:25.345
+and the second class is equal to the difference between second and the third class,
+
+23
+00:01:25.345 --> 00:01:27.575
+but because Pclass is ordinal,
+
+24
+00:01:27.575 --> 00:01:29.880
+we don't know which difference is bigger.
+
+25
+00:01:29.880 --> 00:01:31.635
+As these numeric features,
+
+26
+00:01:31.635 --> 00:01:35.580
+we can't sort and integrate an ordinal feature the other way,
+
+27
+00:01:35.580 --> 00:01:38.580
+and expect to get similar performance.
+
+28
+00:01:38.580 --> 00:01:41.987
+Another example for ordinal feature is a driver's license type.
+
+29
+00:01:41.987 --> 00:01:44.640
+It's either A, B, C,
+
+30
+00:01:44.640 --> 00:01:47.660
+or D. Or another example,
+
+31
+00:01:47.660 --> 00:01:51.175
+level of education, kindergarten, school,
+
+32
+00:01:51.175 --> 00:01:54.830
+undergraduate, bachelor, master, and doctoral.
+
+33
+00:01:54.830 --> 00:01:59.105
+These categories are sorted in increasingly complex order,
+
+34
+00:01:59.105 --> 00:02:01.660
+which can prove to be useful.
+
+35
+00:02:01.660 --> 00:02:04.095
+The simplest way to encode
+
+36
+00:02:04.095 --> 00:02:08.995
+a categorical feature is to map it's unique values to different numbers.
+
+37
+00:02:08.995 --> 00:02:14.100
+Usually, people referred to this procedure as label encoding.
+
+38
+00:02:14.100 --> 00:02:19.310
+This method works fine with two ways because tree-methods can split feature,
+
+39
+00:02:19.310 --> 00:02:24.370
+and extract most of the useful values in categories on its own.
+
+40
+00:02:24.370 --> 00:02:27.114
+Non-tree-based-models, on the other side,
+
+41
+00:02:27.114 --> 00:02:30.035
+usually can't use this feature effectively.
+
+42
+00:02:30.035 --> 00:02:34.940
+And if you want to train linear model kNN on neural network,
+
+43
+00:02:34.940 --> 00:02:38.780
+you need to treat a categorical feature differently.
+
+44
+00:02:38.780 --> 00:02:44.320
+To illustrate this, let's remember example we had in the beginning of this topic.
+
+45
+00:02:44.320 --> 00:02:48.310
+What if Pclass of one usually leads to the target of one,
+
+46
+00:02:48.310 --> 00:02:50.785
+Pclass of two leads to zero,
+
+47
+00:02:50.785 --> 00:02:53.965
+and Pclass of three leads to one.
+
+48
+00:02:53.965 --> 00:02:55.845
+This dependence is not linear,
+
+49
+00:02:55.845 --> 00:02:58.530
+and linear model will be confused.
+
+50
+00:02:58.530 --> 00:03:04.454
+And indeed, here, we can put linear models predictions,
+
+51
+00:03:04.454 --> 00:03:09.385
+and see they all are around 0.5.
+
+52
+00:03:09.385 --> 00:03:14.015
+This looks kind of set but three on the other side,
+
+53
+00:03:14.015 --> 00:03:19.545
+we'll just make two splits select in each unique value and reaching it independently.
+
+54
+00:03:19.545 --> 00:03:25.751
+Thus, this entries could achieve much better score here using these feature.
+
+55
+00:03:25.751 --> 00:03:30.069
+Let's take now the categorical feature and again, apply label encoding.
+
+56
+00:03:30.069 --> 00:03:33.155
+Let this be the feature Embarked.
+
+57
+00:03:33.155 --> 00:03:35.284
+Although, we didn't have to encode
+
+58
+00:03:35.284 --> 00:03:39.000
+the previous feature Pclass before using it in the model.
+
+59
+00:03:39.000 --> 00:03:42.595
+Here, we definitely need to do this with embarked.
+
+60
+00:03:42.595 --> 00:03:45.470
+It can be achieved in several ways.
+
+61
+00:03:45.470 --> 00:03:50.670
+First, we can apply encoding in the alphabetical or sorted order.
+
+62
+00:03:50.670 --> 00:03:54.795
+Unique way to solve of this feature namely S, C, Q.
+
+63
+00:03:54.795 --> 00:03:59.180
+Thus, can be encoded as two,one, three.
+
+64
+00:03:59.180 --> 00:04:03.340
+This is called label encoder from sklearn works by default.
+
+65
+00:04:03.340 --> 00:04:07.940
+The second way is also labeling coding but slightly different.
+
+66
+00:04:07.940 --> 00:04:12.255
+Here, we encode a categorical feature by order of appearance.
+
+67
+00:04:12.255 --> 00:04:17.005
+For example, s will change to one because it was meant first in the data.
+
+68
+00:04:17.005 --> 00:04:20.730
+Second then c, and we will change c to two.
+
+69
+00:04:20.730 --> 00:04:24.510
+And the last is q, which will be changed to three.
+
+70
+00:04:24.510 --> 00:04:29.115
+This can make sense if all were sorted in some meaningful way.
+
+71
+00:04:29.115 --> 00:04:33.165
+This is the default behavior of pandas.factorize function.
+
+72
+00:04:33.165 --> 00:04:37.732
+The third method that I will tell you about is called frequency encoding.
+
+73
+00:04:37.732 --> 00:04:43.130
+We can encode this feature via mapping values to their frequencies.
+
+74
+00:04:43.130 --> 00:04:52.440
+Even 30 percent for us embarked is equal to c and 50 to s and the rest 20 is equal to q.
+
+75
+00:04:52.440 --> 00:04:57.671
+We can change this values accordingly: c to 0.3, s to 0.
+
+76
+00:04:57.671 --> 00:05:01.690
+5, and q to 0.2.
+
+77
+00:05:01.690 --> 00:05:05.910
+This will preserve some information about values distribution,
+
+78
+00:05:05.910 --> 00:05:09.590
+and can help both linear and three models.
+
+79
+00:05:09.590 --> 00:05:12.305
+first ones, can find this feature useful
+
+80
+00:05:12.305 --> 00:05:15.323
+if value frequency is correlated to it's target value.
+
+81
+00:05:15.323 --> 00:05:21.825
+While the second ones can help with less number of split because of the same reason.
+
+82
+00:05:21.825 --> 00:05:26.284
+There is another important moment about frequency encoding.
+
+83
+00:05:26.284 --> 00:05:29.880
+If you have multiple categories with the same frequency,
+
+84
+00:05:29.880 --> 00:05:33.985
+they won't be distinguishable in this new feature.
+
+85
+00:05:33.985 --> 00:05:39.550
+We might a apply or run categorization here in order to deal with such ties.
+
+86
+00:05:39.550 --> 00:05:42.780
+It is possible to do like this.
+
+87
+00:05:42.780 --> 00:05:45.370
+There are other ways to do label encoding,
+
+88
+00:05:45.370 --> 00:05:49.810
+and I definitely encourage you to be creative in constructing them.
+
+89
+00:05:49.810 --> 00:05:52.607
+Okay. We just discussed label encoding,
+
+90
+00:05:52.607 --> 00:05:57.640
+frequency encoding, and why this works fine for tree-based-methods.
+
+91
+00:05:57.640 --> 00:06:04.023
+But we also have seen that linear models can struggle with label encoded feature.
+
+92
+00:06:04.023 --> 00:06:05.890
+The way to identify categorical features to
+
+93
+00:06:05.890 --> 00:06:09.465
+non-tree-based-models is also quite straightforward.
+
+94
+00:06:09.465 --> 00:06:13.240
+We need to make new code for each unique value in the future,
+
+95
+00:06:13.240 --> 00:06:16.185
+and put one in the appropriate place.
+
+96
+00:06:16.185 --> 00:06:18.420
+Everything else will be zeroes.
+
+97
+00:06:18.420 --> 00:06:21.837
+This method is called, one-hot encoding.
+
+98
+00:06:21.837 --> 00:06:26.375
+Let's see how it works on this quick example.
+
+99
+00:06:26.375 --> 00:06:29.555
+So here, for each unique value of Pclass feature,
+
+100
+00:06:29.555 --> 00:06:30.989
+we just created a new column.
+
+101
+00:06:30.989 --> 00:06:34.416
+As I said, this works well for linear methods,
+
+102
+00:06:34.416 --> 00:06:37.610
+kNN, or neural networks.
+
+103
+00:06:37.610 --> 00:06:40.850
+Furthermore, one -hot encoding feature is already
+
+104
+00:06:40.850 --> 00:06:44.240
+scaled because minimum this feature is zero,
+
+105
+00:06:44.240 --> 00:06:45.950
+and maximum is one.
+
+106
+00:06:45.950 --> 00:06:50.085
+Note that if you care for a fewer important numeric features,
+
+107
+00:06:50.085 --> 00:06:53.415
+and hundreds of binary features are used by one-hot encoding,
+
+108
+00:06:53.415 --> 00:06:59.690
+it could become difficult for tree-methods they use first ones efficiently.
+
+109
+00:06:59.690 --> 00:07:03.200
+More precisely, tree-methods will slow down,
+
+110
+00:07:03.200 --> 00:07:05.725
+not always improving their results.
+
+111
+00:07:05.725 --> 00:07:11.315
+Also, it's easy to imply that if categorical feature has too many unique values,
+
+112
+00:07:11.315 --> 00:07:16.378
+we will add too many new columns with a few non-zero values.
+
+113
+00:07:16.378 --> 00:07:19.150
+To store these new array efficiently,
+
+114
+00:07:19.150 --> 00:07:21.885
+we must know about sparse matrices.
+
+115
+00:07:21.885 --> 00:07:27.280
+In a nutshell, instead of allocating space in RAM for every element of an array,
+
+116
+00:07:27.280 --> 00:07:30.260
+we can store only non-zero elements and thus,
+
+117
+00:07:30.260 --> 00:07:31.830
+save a lot of memory.
+
+118
+00:07:31.830 --> 00:07:35.990
+Going with sparse matrices makes sense if number of
+
+119
+00:07:35.990 --> 00:07:41.125
+non-zero values is far less than half of all the values.
+
+120
+00:07:41.125 --> 00:07:48.480
+Sparse matrices are often useful when they work with categorical features or text data.
+
+121
+00:07:48.480 --> 00:07:54.045
+Most of the popular libraries can work with these sparse matrices directly namely,
+
+122
+00:07:54.045 --> 00:07:58.270
+XGBoost, LightGBM, sklearn, and others.
+
+123
+00:07:58.270 --> 00:08:00.050
+After figuring out how to
+
+124
+00:08:00.050 --> 00:08:05.030
+pre-processed categorical features for tree based and non-tree based models,
+
+125
+00:08:05.030 --> 00:08:08.345
+we can take a quick look at feature generation.
+
+126
+00:08:08.345 --> 00:08:12.481
+One of most useful examples of feature generation
+
+127
+00:08:12.481 --> 00:08:16.750
+is feature interaction between several categorical features.
+
+128
+00:08:16.750 --> 00:08:22.750
+This is usually useful for non tree based models namely, linear model, kNN.
+
+129
+00:08:22.750 --> 00:08:26.018
+For example, let's hypothesize that target depends
+
+130
+00:08:26.018 --> 00:08:29.961
+on both Pclass feature, and sex feature.
+
+131
+00:08:29.961 --> 00:08:33.170
+If this is true, linear model could adjust
+
+132
+00:08:33.170 --> 00:08:37.040
+its predictions for every possible combination of these two features,
+
+133
+00:08:37.040 --> 00:08:39.195
+and get a better result.
+
+134
+00:08:39.195 --> 00:08:40.883
+How can we make this happen?
+
+135
+00:08:40.883 --> 00:08:44.180
+Let's add this interaction by simply concatenating
+
+136
+00:08:44.180 --> 00:08:48.460
+strings from both columns and one-hot encoding get.
+
+137
+00:08:48.460 --> 00:08:54.117
+Now linear model can find optimal coefficient for every interaction and improve.
+
+138
+00:08:54.117 --> 00:08:57.005
+Simple and effective.
+
+139
+00:08:57.005 --> 00:09:01.517
+More on features interactions will come in the following weeks especially,
+
+140
+00:09:01.517 --> 00:09:04.075
+in advanced features topic.
+
+141
+00:09:04.075 --> 00:09:06.745
+Now, let's summarize this features.
+
+142
+00:09:06.745 --> 00:09:10.000
+First, ordinal is a special case of
+
+143
+00:09:10.000 --> 00:09:14.885
+categorical feature but with values sorted in some meaningful order.
+
+144
+00:09:14.885 --> 00:09:18.460
+Second, label encoding, basically replace
+
+145
+00:09:18.460 --> 00:09:24.040
+this unique values of categorical features with numbers.
+
+146
+00:09:24.040 --> 00:09:27.320
+Third, frequency encoding in this term,
+
+147
+00:09:27.320 --> 00:09:30.540
+maps unique values to their frequencies.
+
+148
+00:09:30.540 --> 00:09:38.740
+Fourth, label encoding and frequency encoding are often used for tree-based methods.
+
+149
+00:09:38.740 --> 00:09:43.210
+Fifth, One-hot encoding is often used for non-tree-based-methods.
+
+150
+00:09:43.210 --> 00:09:45.890
+And finally, applying One-hot encoding combination one heart
+
+151
+00:09:45.890 --> 00:09:48.640
+and chords into combinations of categorical features
+
+152
+00:09:48.640 --> 00:09:52.030
+allows non-tree- based-models to take into
+
+153
+00:09:52.030 --> 00:09:56.030
+consideration interactions between features, and improve.
+
+154
+00:09:56.030 --> 00:10:01.545
+Fine. We just sorted out it feature pre-process for categorical features,
+
+155
+00:10:01.545 --> 00:10:05.895
+and took a quick look on feature generation.
+
+156
+00:10:05.895 --> 00:10:08.830
+Now, you will be able to apply these concepts
+
+157
+00:10:08.830 --> 00:10:13.540
+in your next competition and get better results.

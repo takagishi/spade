@@ -1,0 +1,497 @@
+WEBVTT
+
+1
+00:00:00.025 --> 00:00:04.750
+[NOISE]
+Hi.
+
+2
+00:00:04.750 --> 00:00:08.641
+In every competition,
+we need to pre-process given data set and
+
+3
+00:00:08.641 --> 00:00:11.990
+generate new features from existing ones.
+
+4
+00:00:11.990 --> 00:00:16.082
+This is often required to stay on
+the same track with other competitors and
+
+5
+00:00:16.082 --> 00:00:18.656
+sometimes careful feature
+preprocessing and
+
+6
+00:00:18.656 --> 00:00:23.520
+efficient engineering can give you
+the edge you strive into achieve.
+
+7
+00:00:23.520 --> 00:00:28.490
+Thus, in the next videos, we will cover
+a very useful topic of basic feature
+
+8
+00:00:28.490 --> 00:00:33.480
+preprocessing and basic feature generation
+for different types of features.
+
+9
+00:00:33.480 --> 00:00:37.550
+Namely, we will go through numeric
+features, categorical features,
+
+10
+00:00:37.550 --> 00:00:39.804
+datetime features and coordinate features.
+
+11
+00:00:39.804 --> 00:00:45.337
+And in the last video,
+we will discus mission values.
+
+12
+00:00:45.337 --> 00:00:48.590
+Beside that, we also will discus
+dependence of preprocessing and
+
+13
+00:00:48.590 --> 00:00:50.690
+generation on a model we're going to use.
+
+14
+00:00:50.690 --> 00:00:55.468
+So the broad goal of the next
+videos is to help you acquire
+
+15
+00:00:55.468 --> 00:00:58.220
+these highly required skills.
+
+16
+00:00:58.220 --> 00:01:03.016
+To get an idea of following topics, let's
+start with an example of data similar
+
+17
+00:01:03.016 --> 00:01:05.950
+to what we may encounter in competition.
+
+18
+00:01:05.950 --> 00:01:08.930
+And take a look at well
+known Titanic dataset.
+
+19
+00:01:09.970 --> 00:01:14.600
+It stores the data about people who were
+on the Titanic liner during its last trip.
+
+20
+00:01:15.780 --> 00:01:20.730
+Here we have a typical dataframe
+to work with in competitions.
+
+21
+00:01:20.730 --> 00:01:24.110
+Each row represents a person and
+each column is a feature.
+
+22
+00:01:25.270 --> 00:01:27.440
+We have different kinds of features here.
+
+23
+00:01:27.440 --> 00:01:31.820
+For example, the values in
+Survived column are either 0 or 1.
+
+24
+00:01:31.820 --> 00:01:33.290
+The feature is binary.
+
+25
+00:01:33.290 --> 00:01:36.670
+And by the way, it is what we
+need to predict in this task.
+
+26
+00:01:36.670 --> 00:01:38.330
+It is our target.
+
+27
+00:01:38.330 --> 00:01:41.420
+So, age and fare are numeric features.
+
+28
+00:01:41.420 --> 00:01:46.550
+Sibims p and parch accounts statement and
+embarked a categorical features.
+
+29
+00:01:46.550 --> 00:01:49.390
+Ticket is just an ID and name is text.
+
+30
+00:01:50.480 --> 00:01:54.100
+So indeed,
+we have different feature types here, but
+
+31
+00:01:54.100 --> 00:01:58.790
+do we understand why we should care about
+different features having different types?
+
+32
+00:01:58.790 --> 00:02:00.300
+Well, there are two main reasons for
+
+33
+00:02:00.300 --> 00:02:05.110
+it, namely, strong connection between
+preprocessing at our model and
+
+34
+00:02:05.110 --> 00:02:07.850
+common feature generation methods for
+each feature type.
+
+35
+00:02:09.130 --> 00:02:11.835
+First, let's discuss
+feature preprocessing.
+
+36
+00:02:13.110 --> 00:02:17.520
+Most of times, we can just take our
+features, fit our favorite model and
+
+37
+00:02:17.520 --> 00:02:19.470
+expect it to get great results.
+
+38
+00:02:20.470 --> 00:02:25.120
+Each type of feature has its own ways
+to be preprocessed in order to improve
+
+39
+00:02:25.120 --> 00:02:27.290
+quality of the model.
+
+40
+00:02:27.290 --> 00:02:30.394
+In other words,
+joys of preprocessing matter,
+
+41
+00:02:30.394 --> 00:02:33.360
+depends on the model we're going to use.
+
+42
+00:02:33.360 --> 00:02:34.185
+For example,
+
+43
+00:02:34.185 --> 00:02:39.320
+let's suppose that target has nonlinear
+dependency on the pclass feature.
+
+44
+00:02:39.320 --> 00:02:44.280
+Pclass linear of 1 usually leads
+to target of 1, 2 leads to 0, and
+
+45
+00:02:44.280 --> 00:02:46.620
+3 leads to 1 again.
+
+46
+00:02:46.620 --> 00:02:50.700
+Clearly, because this is not
+a linear dependency linear model,
+
+47
+00:02:50.700 --> 00:02:52.760
+one get a good result here.
+
+48
+00:02:52.760 --> 00:02:56.280
+So in order to improve
+a linear model's quality,
+
+49
+00:02:56.280 --> 00:02:59.650
+we would want to preprocess
+pclass feature in some way.
+
+50
+00:02:59.650 --> 00:03:05.930
+For example, with the so-called which
+will replace our feature with three,
+
+51
+00:03:05.930 --> 00:03:08.830
+one for each of pclass values.
+
+52
+00:03:08.830 --> 00:03:13.020
+The linear model will fit much better
+now than in the previous case.
+
+53
+00:03:14.070 --> 00:03:19.120
+However, random forest does not require
+this feature to be transformed at all.
+
+54
+00:03:19.120 --> 00:03:24.050
+Random forest can easily put
+each pclass in separately and
+
+55
+00:03:24.050 --> 00:03:26.590
+predict fine probabilities.
+
+56
+00:03:26.590 --> 00:03:29.460
+So, that was an example of preprocessing.
+
+57
+00:03:29.460 --> 00:03:34.035
+The second reason why we should be
+aware of different feature text is
+
+58
+00:03:34.035 --> 00:03:36.542
+to ease generation of new features.
+
+59
+00:03:36.542 --> 00:03:38.732
+Feature types different in this and
+
+60
+00:03:38.732 --> 00:03:42.390
+comprehends in common
+feature generation methods.
+
+61
+00:03:42.390 --> 00:03:46.470
+While gaining an ability to
+improve your model through them.
+
+62
+00:03:46.470 --> 00:03:51.490
+Also understanding of basics of feature
+generation will aid you greatly
+
+63
+00:03:51.490 --> 00:03:55.050
+in upcoming advanced feature
+topics from our course.
+
+64
+00:03:56.300 --> 00:03:57.960
+As in the first point,
+
+65
+00:03:57.960 --> 00:04:02.000
+understanding of a model here can
+help us to create useful features.
+
+66
+00:04:02.000 --> 00:04:04.230
+Let me show you an example.
+
+67
+00:04:04.230 --> 00:04:09.250
+Say, we have to predict the number of
+apples a shop will sell each day next week
+
+68
+00:04:09.250 --> 00:04:12.933
+and we already have a couple of months
+sales history as train in data.
+
+69
+00:04:14.310 --> 00:04:19.640
+Let's consider that we have an obvious
+linear trend through out the data and
+
+70
+00:04:19.640 --> 00:04:23.310
+we want to inform the model about it.
+
+71
+00:04:23.310 --> 00:04:24.950
+To provide you a visual example,
+
+72
+00:04:24.950 --> 00:04:30.190
+we prepare the second table with last
+days from train and first days from test.
+
+73
+00:04:31.510 --> 00:04:34.280
+One way to help module
+neutralize linear train
+
+74
+00:04:34.280 --> 00:04:38.180
+is to add feature indicating
+the week number past.
+
+75
+00:04:38.180 --> 00:04:39.160
+With this feature,
+
+76
+00:04:39.160 --> 00:04:42.579
+linear model can successfully find
+an existing lineer and dependency.
+
+77
+00:04:43.880 --> 00:04:46.660
+On the other hand,
+a gradient boosted decision tree will use
+
+78
+00:04:46.660 --> 00:04:51.540
+this feature to calculate something
+like mean target value for each week.
+
+79
+00:04:51.540 --> 00:04:56.690
+Here, I calculated mean values manually
+and printed them in the dataframe.
+
+80
+00:04:56.690 --> 00:04:59.810
+We're going to predict number
+of apples for the sixth week.
+
+81
+00:05:00.850 --> 00:05:04.400
+node that we indeed have here.
+
+82
+00:05:04.400 --> 00:05:07.330
+So let's plot how a gradient
+within the decision tree
+
+83
+00:05:07.330 --> 00:05:09.130
+will complete the weak feature.
+
+84
+00:05:10.240 --> 00:05:13.960
+As we do not train Gradient goosting
+decision tree on the sixth week,
+
+85
+00:05:13.960 --> 00:05:16.410
+it will not put splits
+between the fifth and
+
+86
+00:05:16.410 --> 00:05:21.120
+the sixth weeks, then,
+when we will bring the numbers for
+
+87
+00:05:21.120 --> 00:05:25.500
+the 6th week, the model will end up
+using the wave from the 5th week.
+
+88
+00:05:25.500 --> 00:05:28.868
+As we can see unfortunately,
+no users shall land their train here.
+
+89
+00:05:28.868 --> 00:05:32.011
+And vise versa,
+we can come up with an example
+
+90
+00:05:32.011 --> 00:05:36.743
+of generated feature that will be
+beneficial for decisions three.
+
+91
+00:05:36.743 --> 00:05:39.450
+And useful spoliniar model.
+
+92
+00:05:39.450 --> 00:05:43.015
+So this example shows us,
+that our approach to feature
+
+93
+00:05:43.015 --> 00:05:47.053
+generation should rely on
+understanding of employed model.
+
+94
+00:05:47.053 --> 00:05:51.585
+To summarize this feature,
+first feature preprocessing is necessary
+
+95
+00:05:51.585 --> 00:05:55.812
+instrument you have to use to
+adapt data to your model.` Second,
+
+96
+00:05:55.812 --> 00:05:59.963
+feature generation is a very
+powerful technique which can aid you
+
+97
+00:05:59.963 --> 00:06:05.810
+significantly in competitions and
+sometimes provide you the required edge.
+
+98
+00:06:05.810 --> 00:06:08.785
+And at last,
+both feature preprocessing and
+
+99
+00:06:08.785 --> 00:06:13.680
+feature generation depend on
+the model you are going to use.
+
+100
+00:06:13.680 --> 00:06:17.050
+So these three topics,
+in connection to feature types,
+
+101
+00:06:17.050 --> 00:06:20.410
+will be general theme of the next videos.
+
+102
+00:06:20.410 --> 00:06:22.970
+We will thoroughly examine
+most frequent methods
+
+103
+00:06:22.970 --> 00:06:25.788
+which you can be able to
+incorporate in your solutions.
+
+104
+00:06:25.788 --> 00:06:29.364
+Good luck.
+
+105
+00:06:29.364 --> 00:06:32.889
+[SOUND]
+
+106
+00:06:32.889 --> 00:06:40.219
+[MUSIC]
