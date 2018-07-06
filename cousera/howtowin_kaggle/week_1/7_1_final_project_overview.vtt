@@ -1,0 +1,257 @@
+WEBVTT
+
+1
+00:00:02.420 --> 00:00:05.126
+Hello, everyone. In this video,
+
+2
+00:00:05.126 --> 00:00:08.550
+we will talk a little bit about the main assignment of this course,
+
+3
+00:00:08.550 --> 00:00:11.880
+the competition, which plays the role of the final project.
+
+4
+00:00:11.880 --> 00:00:14.800
+Now, let's briefly discuss the data.
+
+5
+00:00:14.800 --> 00:00:18.860
+For more details, see the competition web page on Kaggle.
+
+6
+00:00:18.860 --> 00:00:21.880
+The data in this competition is quite challenging.
+
+7
+00:00:21.880 --> 00:00:26.400
+You can work with a time series data set consisting of daily sales data,
+
+8
+00:00:26.400 --> 00:00:30.153
+kindly provided by one of the largest Russian software company.
+
+9
+00:00:30.153 --> 00:00:31.975
+It's called 1C.
+
+10
+00:00:31.975 --> 00:00:35.860
+The training data consists of records with information that
+
+11
+00:00:35.860 --> 00:00:39.550
+a particular item had been sold in a particular shop,
+
+12
+00:00:39.550 --> 00:00:42.560
+in a particular day, in the training period.
+
+13
+00:00:42.560 --> 00:00:48.630
+The task is to forecast the sales for every item in every shop in the testing period.
+
+14
+00:00:48.630 --> 00:00:51.952
+There are about 6 million such records in the training set,
+
+15
+00:00:51.952 --> 00:00:57.430
+collected over 30 shops selling 20,000 unique items.
+
+16
+00:00:57.430 --> 00:00:59.770
+But don't be afraid of these numbers.
+
+17
+00:00:59.770 --> 00:01:03.580
+This is the moderate-sized competition data set nowadays.
+
+18
+00:01:03.580 --> 00:01:07.150
+The training period is about one and a half year,
+
+19
+00:01:07.150 --> 00:01:11.515
+and the testing period is the month that falls on training period.
+
+20
+00:01:11.515 --> 00:01:14.500
+Note that you provide these daily sales in training period.
+
+21
+00:01:14.500 --> 00:01:19.370
+Well, you need to predict aggregated sales for testing period.
+
+22
+00:01:19.370 --> 00:01:24.055
+That is, you need to predict monthly sales for every possible shop item pair.
+
+23
+00:01:24.055 --> 00:01:27.382
+In fact, correct aggregation of
+
+24
+00:01:27.382 --> 00:01:32.880
+overall daily sales and generation of appropriate features is a part of this challenge.
+
+25
+00:01:32.880 --> 00:01:35.632
+As in the majority of competitions,
+
+26
+00:01:35.632 --> 00:01:38.945
+that this data is split into public and private parts.
+
+27
+00:01:38.945 --> 00:01:42.975
+You can submit your test predictions up to five times every day on
+
+28
+00:01:42.975 --> 00:01:45.790
+Kaggle platform and up to five times every
+
+29
+00:01:45.790 --> 00:01:49.105
+week to Coursera's programming assignment grader.
+
+30
+00:01:49.105 --> 00:01:54.885
+Kaggle will evaluate the quality of your predictions on the public part of test set,
+
+31
+00:01:54.885 --> 00:01:57.825
+while Coursera's grader will report quality,
+
+32
+00:01:57.825 --> 00:02:00.730
+both in public and private parts.
+
+33
+00:02:00.730 --> 00:02:04.390
+That is, you can rarely peek at your private score.
+
+34
+00:02:04.390 --> 00:02:08.295
+Remember, the earlier you start working on the competition,
+
+35
+00:02:08.295 --> 00:02:11.500
+the more private score feedback you can get.
+
+36
+00:02:11.500 --> 00:02:13.915
+We encourage you to get familiar with the data
+
+37
+00:02:13.915 --> 00:02:17.105
+right away and not to wait until the very end.
+
+38
+00:02:17.105 --> 00:02:22.160
+Start simple and then improve your solution every week.
+
+39
+00:02:22.160 --> 00:02:26.830
+Remember, your final grades will depend on how would you have performed on
+
+40
+00:02:26.830 --> 00:02:32.135
+the private part of the leaderboard and on the quality of your solution report,
+
+41
+00:02:32.135 --> 00:02:34.550
+which will be graded by your peers.
+
+42
+00:02:34.550 --> 00:02:40.050
+You can read more about this in the reading material in the end of this week.
+
+43
+00:02:40.050 --> 00:02:45.290
+And, finally, the goal of the competition is to learn as much as possible,
+
+44
+00:02:45.290 --> 00:02:48.370
+so we strongly encourage you to participate in teams.
+
+45
+00:02:48.370 --> 00:02:50.740
+It is always fun and engaging.
+
+46
+00:02:50.740 --> 00:02:54.005
+In teams, you can discuss ideas and get feedback.
+
+47
+00:02:54.005 --> 00:02:56.842
+You can share a code and learn new tricks,
+
+48
+00:02:56.842 --> 00:02:59.380
+and you can get help if you're stuck.
+
+49
+00:02:59.380 --> 00:03:01.523
+If you don't have any teammates yet,
+
+50
+00:03:01.523 --> 00:03:04.845
+you can find them and meet them on forums.
+
+51
+00:03:04.845 --> 00:03:09.030
+Please never, never share your code on forums,
+
+52
+00:03:09.030 --> 00:03:11.240
+neither on Coursera forums,
+
+53
+00:03:11.240 --> 00:03:13.195
+nor on Kaggle's forums.
+
+54
+00:03:13.195 --> 00:03:16.810
+Sharing codes outside of the teams is strictly forbidden.
+
+55
+00:03:16.810 --> 00:03:19.925
+You are encouraged to share and discuss interesting ideas,
+
+56
+00:03:19.925 --> 00:03:23.750
+thoughts, even small quote snippets held by the learners,
+
+57
+00:03:23.750 --> 00:03:27.950
+but do not even share the complete code for your solution
+
+58
+00:03:27.950 --> 00:03:30.560
+because many people will blindly copy
+
+59
+00:03:30.560 --> 00:03:33.930
+paste your code without even trying to understand it.
+
+60
+00:03:33.930 --> 00:03:38.960
+It will reduce quality of skills acquired by fellow students,
+
+61
+00:03:38.960 --> 00:03:41.255
+it will ruin the fun of the fair competition.
+
+62
+00:03:41.255 --> 00:03:44.175
+On the other hand, every time you're stuck,
+
+63
+00:03:44.175 --> 00:03:48.335
+go in forums, and you will definitely find some inspiration there.
+
+64
+00:03:48.335 --> 00:03:53.560
+Good luck with the project and have fun.

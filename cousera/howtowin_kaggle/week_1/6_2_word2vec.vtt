@@ -1,0 +1,785 @@
+WEBVTT
+
+1
+00:00:03.240 --> 00:00:06.335
+Hi and welcome back.
+
+2
+00:00:06.335 --> 00:00:09.580
+In this video, we'll talk about Word2vec approach for
+
+3
+00:00:09.580 --> 00:00:14.355
+texts and then we'll discuss feature extraction or images.
+
+4
+00:00:14.355 --> 00:00:16.615
+After we've summarized pipeline for
+
+5
+00:00:16.615 --> 00:00:20.235
+feature extraction with Bag of Words approach in the previous video,
+
+6
+00:00:20.235 --> 00:00:23.250
+let's overview another approach,
+
+7
+00:00:23.250 --> 00:00:24.843
+which is widely known as Word2vec.
+
+8
+00:00:24.843 --> 00:00:28.460
+Just as the Bag of Words approach,
+
+9
+00:00:28.460 --> 00:00:32.600
+we want to get vector representations of words and texts,
+
+10
+00:00:32.600 --> 00:00:34.980
+but now more concise than before.
+
+11
+00:00:34.980 --> 00:00:37.925
+Word2vec is doing exactly that.
+
+12
+00:00:37.925 --> 00:00:42.585
+It converts each word to some vector in some sophisticated space,
+
+13
+00:00:42.585 --> 00:00:45.665
+which usually have several hundred dimensions.
+
+14
+00:00:45.665 --> 00:00:47.679
+To learn the word embedding,
+
+15
+00:00:47.679 --> 00:00:50.985
+Word2vec uses nearby words.
+
+16
+00:00:50.985 --> 00:00:55.950
+Basically, different words, which often are used in the same context,
+
+17
+00:00:55.950 --> 00:00:58.915
+will be very close in these vectoring representation,
+
+18
+00:00:58.915 --> 00:01:02.020
+which, of course, will benefit our models.
+
+19
+00:01:02.020 --> 00:01:05.070
+Furthermore, there are some prominent examples
+
+20
+00:01:05.070 --> 00:01:07.860
+showing that we can apply basic operations like
+
+21
+00:01:07.860 --> 00:01:10.515
+addition and subtraction on these vectors
+
+22
+00:01:10.515 --> 00:01:13.610
+and expect results of such operations to be interpretable.
+
+23
+00:01:13.610 --> 00:01:18.330
+You should already have seen this example by now somewhere.
+
+24
+00:01:18.330 --> 00:01:24.330
+Basically, if we calculate differences between the vectors of words queen and king,
+
+25
+00:01:24.330 --> 00:01:28.765
+and differences between the vectors of words woman and man,
+
+26
+00:01:28.765 --> 00:01:33.525
+we will find that these differences are very similar to each other.
+
+27
+00:01:33.525 --> 00:01:36.930
+And, if we try to see this from another perspective,
+
+28
+00:01:36.930 --> 00:01:42.450
+and subtract the vector of woman from the vector of king and then and the vector of man,
+
+29
+00:01:42.450 --> 00:01:46.140
+will pretty much again the vector of the word queen.
+
+30
+00:01:46.140 --> 00:01:48.135
+Think about it for a moment.
+
+31
+00:01:48.135 --> 00:01:51.715
+This is fascinating fact and indeed creation of
+
+32
+00:01:51.715 --> 00:01:57.470
+Word2vec approach led to many extensive and far reaching results in the field.
+
+33
+00:01:57.470 --> 00:01:59.370
+There are several implementations of
+
+34
+00:01:59.370 --> 00:02:03.060
+this embedding approach besides Word2vec namely Glove,
+
+35
+00:02:03.060 --> 00:02:06.225
+which stands for Global Vector for word representation.
+
+36
+00:02:06.225 --> 00:02:09.100
+FastText and few others.
+
+37
+00:02:09.100 --> 00:02:16.270
+Complications may occur, if we need to derive vectors not for words but for sentences.
+
+38
+00:02:16.270 --> 00:02:18.800
+Here, we may take different approaches.
+
+39
+00:02:18.800 --> 00:02:22.610
+For example, we can calculate mean or sum of
+
+40
+00:02:22.610 --> 00:02:28.318
+words vectors or we can choose another way and go with special models like Doc2vec.
+
+41
+00:02:28.318 --> 00:02:33.320
+Choice all the way to proceed here depends on and particular situation.
+
+42
+00:02:33.320 --> 00:02:37.490
+Usually, it is better to check both approaches and select the best.
+
+43
+00:02:37.490 --> 00:02:42.265
+Training of Word2vec can take quite a long time,
+
+44
+00:02:42.265 --> 00:02:45.670
+and if you work with text or some common origin,
+
+45
+00:02:45.670 --> 00:02:49.155
+you may find useful pre-trained models on the internet.
+
+46
+00:02:49.155 --> 00:02:52.620
+For example, ones which are trained on the Wikipedia.
+
+47
+00:02:52.620 --> 00:02:55.570
+Otherwise, remember,
+
+48
+00:02:55.570 --> 00:02:59.737
+the training of Word2vec doesn't require target values from your text.
+
+49
+00:02:59.737 --> 00:03:05.045
+It only requires text to extract context for each word.
+
+50
+00:03:05.045 --> 00:03:08.675
+Note, that all pre-processing we had discussed earlier,
+
+51
+00:03:08.675 --> 00:03:12.145
+namely lowercase stemming, lemmatization,
+
+52
+00:03:12.145 --> 00:03:18.980
+and the usage of stopwords can be applied to text before training Word2vec models.
+
+53
+00:03:18.980 --> 00:03:22.310
+Now, we're ready to summarize difference between Bag of
+
+54
+00:03:22.310 --> 00:03:26.710
+Words and the Word2vec approaches in the context of competition.
+
+55
+00:03:26.710 --> 00:03:31.950
+With Bag of Words, vectors are quite large but is a nice benefit.
+
+56
+00:03:31.950 --> 00:03:34.805
+Meaning of each value in the vector is known.
+
+57
+00:03:34.805 --> 00:03:38.756
+With Word2vec, vectors have relatively small length
+
+58
+00:03:38.756 --> 00:03:43.220
+but values in a vector can be interpreted only in some cases,
+
+59
+00:03:43.220 --> 00:03:46.890
+which sometimes can be seen as a downside.
+
+60
+00:03:46.890 --> 00:03:51.560
+The other advantage of Word2vec is crucial in competitions,
+
+61
+00:03:51.560 --> 00:03:57.395
+is that words with similar meaning will have similar vector representations.
+
+62
+00:03:57.395 --> 00:04:00.750
+Usually, both Bag of Words and
+
+63
+00:04:00.750 --> 00:04:03.915
+Word2vec approaches give quite different results
+
+64
+00:04:03.915 --> 00:04:06.740
+and can be used together in your solution.
+
+65
+00:04:06.740 --> 00:04:09.905
+Let's proceed to images now.
+
+66
+00:04:09.905 --> 00:04:12.680
+Similar to Word2vec for words,
+
+67
+00:04:12.680 --> 00:04:17.495
+convolutional neural networks can give us compressed representation for an image.
+
+68
+00:04:17.495 --> 00:04:19.755
+Let me provide you a quick explanation.
+
+69
+00:04:19.755 --> 00:04:22.440
+When we calculate network output for the image,
+
+70
+00:04:22.440 --> 00:04:25.305
+beside getting output on the last layer,
+
+71
+00:04:25.305 --> 00:04:28.275
+we also have outputs from inner layers.
+
+72
+00:04:28.275 --> 00:04:30.690
+Here, we will call these outputs descriptors.
+
+73
+00:04:30.690 --> 00:04:34.560
+Descriptors from later layers
+
+74
+00:04:34.560 --> 00:04:38.745
+are better way to solve texts similar to one network was trained on.
+
+75
+00:04:38.745 --> 00:04:45.015
+In contrary, descriptors from early layers have more text independent information.
+
+76
+00:04:45.015 --> 00:04:49.235
+For example, if your network was trained on images and data set,
+
+77
+00:04:49.235 --> 00:04:50.570
+you may successfully use
+
+78
+00:04:50.570 --> 00:04:55.483
+its last layer representation in some Kar model classification text.
+
+79
+00:04:55.483 --> 00:04:59.270
+But if you want to use your network in some medical specific text,
+
+80
+00:04:59.270 --> 00:05:03.260
+you probably will do better if you will use an
+
+81
+00:05:03.260 --> 00:05:07.500
+earlier for connected layer or even retrain network from scratch.
+
+82
+00:05:07.500 --> 00:05:10.910
+Here, you may look for a pre-trained model which was
+
+83
+00:05:10.910 --> 00:05:15.785
+trained on data similar to what you have in the exact competition.
+
+84
+00:05:15.785 --> 00:05:19.930
+Sometimes, we can slightly tune network to receive
+
+85
+00:05:19.930 --> 00:05:25.895
+more suitable representations using targets values associated with our images.
+
+86
+00:05:25.895 --> 00:05:31.960
+In general, process of pre-trained model tuning is called fine-tuning.
+
+87
+00:05:31.960 --> 00:05:33.935
+As in the previous example,
+
+88
+00:05:33.935 --> 00:05:36.395
+when we are solving some medical specific task,
+
+89
+00:05:36.395 --> 00:05:39.755
+we can find tune VGG RestNet or
+
+90
+00:05:39.755 --> 00:05:45.130
+any other pre-trained network and specify it to solve these particular texts.
+
+91
+00:05:45.130 --> 00:05:48.830
+Fine-tuning, especially for small data sets,
+
+92
+00:05:48.830 --> 00:05:50.870
+is usually better than training
+
+93
+00:05:50.870 --> 00:05:55.110
+standalone model on descriptors or a training network from scratch.
+
+94
+00:05:55.110 --> 00:05:59.185
+The intuition here is pretty straightforward.
+
+95
+00:05:59.185 --> 00:06:02.310
+On the one hand, fine-tuning is better than training
+
+96
+00:06:02.310 --> 00:06:05.250
+standalone model on descriptors because it
+
+97
+00:06:05.250 --> 00:06:08.310
+allows to tune all networks parameters and
+
+98
+00:06:08.310 --> 00:06:12.430
+thus extract more effective image representations.
+
+99
+00:06:12.430 --> 00:06:15.520
+On the other hand, fine-tuning is better than training
+
+100
+00:06:15.520 --> 00:06:18.690
+network from scratch if we have too little data,
+
+101
+00:06:18.690 --> 00:06:24.270
+or if the text we are solving is similar to the text model was trained on.
+
+102
+00:06:24.270 --> 00:06:29.970
+In this case, model can you use the my knowledge already encoded in networks parameters,
+
+103
+00:06:29.970 --> 00:06:33.950
+which can lead to better results and the faster retraining procedure.
+
+104
+00:06:33.950 --> 00:06:38.665
+Lets discuss the most often scenario of using the
+
+105
+00:06:38.665 --> 00:06:43.852
+fine-tuning on the online stage or the Data Science Game 2016.
+
+106
+00:06:43.852 --> 00:06:50.665
+The task was to classify these laid photos of roofs into one of four categories.
+
+107
+00:06:50.665 --> 00:06:54.345
+As usual, logo was first chosen to the other metric.
+
+108
+00:06:54.345 --> 00:06:58.480
+Competitors had 8,000 different images.
+
+109
+00:06:58.480 --> 00:07:02.145
+In this setting, it was a good choice to modify
+
+110
+00:07:02.145 --> 00:07:04.090
+some pre-trained network to predict
+
+111
+00:07:04.090 --> 00:07:06.305
+probabilities for these four classes and fine tune it.
+
+112
+00:07:06.305 --> 00:07:09.710
+Let's take a look at
+
+113
+00:07:09.710 --> 00:07:16.416
+VGG-16 architecture because it was trained on the 1000 classes from VGG RestNet,
+
+114
+00:07:16.416 --> 00:07:19.565
+it has output of size 1000.
+
+115
+00:07:19.565 --> 00:07:21.995
+We have only four classes in our text,
+
+116
+00:07:21.995 --> 00:07:25.490
+so we can remove the last layer with size of 1000
+
+117
+00:07:25.490 --> 00:07:30.410
+and put in its place a new one with size of four.
+
+118
+00:07:30.410 --> 00:07:34.880
+Then, we just retrain our model with very smaller rate
+
+119
+00:07:34.880 --> 00:07:40.585
+is usually about 1000 times lesser than our initial low rate.
+
+120
+00:07:40.585 --> 00:07:43.901
+That is fine-tuning is done,
+
+121
+00:07:43.901 --> 00:07:47.495
+but as we already discussed earlier in this video,
+
+122
+00:07:47.495 --> 00:07:52.240
+we can benefit from using model pre-trained on the similar data set.
+
+123
+00:07:52.240 --> 00:07:56.720
+Image in by itself consist of very different classes from
+
+124
+00:07:56.720 --> 00:08:01.286
+animals to cars from furniture to food could define most suitable pre-trained model.
+
+125
+00:08:01.286 --> 00:08:04.936
+We just could take model trained
+
+126
+00:08:04.936 --> 00:08:09.683
+on places data set with pictures of buildings and houses,
+
+127
+00:08:09.683 --> 00:08:14.025
+fine-tuning this model and further improve their result.
+
+128
+00:08:14.025 --> 00:08:17.025
+If you are interested in details of fine-tuning,
+
+129
+00:08:17.025 --> 00:08:23.265
+you can find information about it in almost every neural networks library namely Keras,
+
+130
+00:08:23.265 --> 00:08:27.030
+PyTorch, Caffe or other.
+
+131
+00:08:27.030 --> 00:08:33.410
+Sometimes, you also want to increase number of training images to train a better network.
+
+132
+00:08:33.410 --> 00:08:37.720
+In that case, image augmentation may be of help.
+
+133
+00:08:37.720 --> 00:08:40.940
+Let's illustrate this concept of image augmentation.
+
+134
+00:08:40.940 --> 00:08:42.260
+On the previous example,
+
+135
+00:08:42.260 --> 00:08:45.085
+we discussed classification of roof images.
+
+136
+00:08:45.085 --> 00:08:51.710
+For simplicity, let's imagine that we now have only four images one for each class.
+
+137
+00:08:51.710 --> 00:08:54.430
+To increase the number of training samples.
+
+138
+00:08:54.430 --> 00:08:59.325
+let's start with rotating images by 180 degrees.
+
+139
+00:08:59.325 --> 00:09:02.035
+Note, that after such rotation,
+
+140
+00:09:02.035 --> 00:09:06.178
+image of class one again belongs to this class because the roof
+
+141
+00:09:06.178 --> 00:09:11.210
+on the new image also has North-South orientation.
+
+142
+00:09:11.210 --> 00:09:15.215
+Easy to see that the same is true for other classes.
+
+143
+00:09:15.215 --> 00:09:18.905
+Great. After doing just one rotation,
+
+144
+00:09:18.905 --> 00:09:23.480
+we already increase the amount of our trained data twice.
+
+145
+00:09:23.480 --> 00:09:28.655
+Now, what will happen if we rotate image from the first class by 90 degrees?
+
+146
+00:09:28.655 --> 00:09:31.130
+What class will it belong to?
+
+147
+00:09:31.130 --> 00:09:35.045
+Yeah, it will belong to the second class and eventually,
+
+148
+00:09:35.045 --> 00:09:40.114
+if you rotate images from the third and the fourth classes by 90 degrees,
+
+149
+00:09:40.114 --> 00:09:42.570
+they will stay in the same class.
+
+150
+00:09:42.570 --> 00:09:48.710
+Look, we just increase the size of our trained set four times although
+
+151
+00:09:48.710 --> 00:09:51.380
+adding such augmentations isn't so
+
+152
+00:09:51.380 --> 00:09:55.320
+effective as adding brand new images to the trained set.
+
+153
+00:09:55.320 --> 00:10:00.410
+This is still very useful and can boost your score significantly.
+
+154
+00:10:00.410 --> 00:10:04.085
+In general case, augmentation of images can include groups,
+
+155
+00:10:04.085 --> 00:10:07.240
+rotations, and the noise and so on.
+
+156
+00:10:07.240 --> 00:10:10.670
+Overall, this reduces over fitting and
+
+157
+00:10:10.670 --> 00:10:14.760
+allows you to train more robust models with better results.
+
+158
+00:10:14.760 --> 00:10:21.370
+One last note about the extracting vectors from images and this note is important one.
+
+159
+00:10:21.370 --> 00:10:26.155
+If you want to fine-tuning convolutiontional neural network or train it from scratch,
+
+160
+00:10:26.155 --> 00:10:30.355
+you usually will need to use labels from images in the trained set.
+
+161
+00:10:30.355 --> 00:10:34.299
+So be careful with validation here and do not over fit.
+
+162
+00:10:34.299 --> 00:10:39.550
+Well then, let's recall main points we have discussed here.
+
+163
+00:10:39.550 --> 00:10:44.950
+Sometimes, you have a competition with texts or images as additional data.
+
+164
+00:10:44.950 --> 00:10:47.450
+In this case, usually you want to extract
+
+165
+00:10:47.450 --> 00:10:51.055
+the useful features from them to improve your model.
+
+166
+00:10:51.055 --> 00:10:52.720
+When you work with text,
+
+167
+00:10:52.720 --> 00:10:55.490
+pre-processing can prove to be useful.
+
+168
+00:10:55.490 --> 00:10:58.940
+These pre-processing can include all lowercase, stemming, lemmatization,
+
+169
+00:10:58.940 --> 00:11:02.775
+and removing the stopwords.
+
+170
+00:11:02.775 --> 00:11:05.705
+After that pre-processing is done,
+
+171
+00:11:05.705 --> 00:11:10.505
+you can go either Bag of Words or with the Word2vec approach.
+
+172
+00:11:10.505 --> 00:11:14.855
+Bag of Words guarantees you clear interpretation.
+
+173
+00:11:14.855 --> 00:11:17.130
+Each feature are tuned by means of having
+
+174
+00:11:17.130 --> 00:11:21.175
+a huge amount of features one for each unique word.
+
+175
+00:11:21.175 --> 00:11:24.095
+On other side, Word2vec produces
+
+176
+00:11:24.095 --> 00:11:28.665
+relatively small vectors by meaning of each feature value can be hazy.
+
+177
+00:11:28.665 --> 00:11:34.370
+The other advantage of Word2vec that is crucial in competitions is that
+
+178
+00:11:34.370 --> 00:11:41.060
+words with similar meaning will have similar vector representation.
+
+179
+00:11:41.060 --> 00:11:46.400
+Also, Ngrams can be applied to include words interactions for text and
+
+180
+00:11:46.400 --> 00:11:52.880
+TFiDF can be applied to post-process metrics produced by Bag of Words.
+
+181
+00:11:52.880 --> 00:11:55.830
+Now images. For images,
+
+182
+00:11:55.830 --> 00:12:00.825
+we can use pre-trained convolutional neural networks to extract the features.
+
+183
+00:12:00.825 --> 00:12:03.360
+Depending on the similarity between
+
+184
+00:12:03.360 --> 00:12:07.980
+the competition data and the data neural network was trained on,
+
+185
+00:12:07.980 --> 00:12:11.765
+we may want to calculate descriptors from different layers.
+
+186
+00:12:11.765 --> 00:12:18.065
+Often, fine-tuning of neural network can help improve quality of the descriptors.
+
+187
+00:12:18.065 --> 00:12:21.120
+For the purpose of effective fine-tuning,
+
+188
+00:12:21.120 --> 00:12:25.095
+we may want to augment our data.
+
+189
+00:12:25.095 --> 00:12:29.490
+Also, fine-tuning and data augmentation are often used in
+
+190
+00:12:29.490 --> 00:12:35.230
+competitions where we have no other date except images.
+
+191
+00:12:35.230 --> 00:12:38.750
+Besides, there are a number of pre-trained models for
+
+192
+00:12:38.750 --> 00:12:43.385
+convolutional neural networks and Word2vec on the internet.
+
+193
+00:12:43.385 --> 00:12:46.640
+Great. Now, you know how to handle
+
+194
+00:12:46.640 --> 00:12:51.245
+competitions with additional data like text and images.
+
+195
+00:12:51.245 --> 00:12:54.800
+By applying and adapting ideas we have discussed,
+
+196
+00:12:54.800 --> 00:12:59.890
+you will be able to gain an edge in this kind of setting.
