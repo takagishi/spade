@@ -1,0 +1,449 @@
+WEBVTT
+
+1
+00:00:03.100 --> 00:00:10.589
+In this video, we'll go through and break down several important steps namely, the first,
+
+2
+00:00:10.589 --> 00:00:13.310
+getting domain knowledge step, second,
+
+3
+00:00:13.310 --> 00:00:15.530
+checking if data is intuitive,
+
+4
+00:00:15.530 --> 00:00:20.350
+and finally, understanding how the data was generated.
+
+5
+00:00:20.350 --> 00:00:21.805
+So let's start with the first step,
+
+6
+00:00:21.805 --> 00:00:23.740
+getting the domain knowledge.
+
+7
+00:00:23.740 --> 00:00:27.135
+If we take a look at the computations hosted in the Kaggle,
+
+8
+00:00:27.135 --> 00:00:29.420
+well, you'll notice, they are rather diverse.
+
+9
+00:00:29.420 --> 00:00:32.832
+Sometimes, we need to detect threats on three dimensional body scans,
+
+10
+00:00:32.832 --> 00:00:36.240
+or predict real estate price,
+
+11
+00:00:36.240 --> 00:00:38.980
+or classify satellite images.
+
+12
+00:00:38.980 --> 00:00:43.740
+Computation can be on a very specific topic which we know almost nothing about,
+
+13
+00:00:43.740 --> 00:00:46.655
+that is, we don't have a domain knowledge.
+
+14
+00:00:46.655 --> 00:00:49.165
+Usually, we don't need to go too deep inside the field
+
+15
+00:00:49.165 --> 00:00:52.365
+but it's preferable to understand what our aim is,
+
+16
+00:00:52.365 --> 00:00:53.625
+what data we have,
+
+17
+00:00:53.625 --> 00:00:58.190
+and how people usually tackle this kind of problems to build a baseline.
+
+18
+00:00:58.190 --> 00:01:01.980
+So, our first step should probably be searching for the topic,
+
+19
+00:01:01.980 --> 00:01:07.360
+Googling within Wikipedia, and making sure we understand the data.
+
+20
+00:01:07.360 --> 00:01:09.770
+For example, let's say we start
+
+21
+00:01:09.770 --> 00:01:14.065
+a new computation in which we need to predict advertisers cost.
+
+22
+00:01:14.065 --> 00:01:19.635
+Our first step is to realize that the computation is about web advertisement.
+
+23
+00:01:19.635 --> 00:01:22.275
+By looking and searching for the column names,
+
+24
+00:01:22.275 --> 00:01:23.490
+using any search engine,
+
+25
+00:01:23.490 --> 00:01:28.235
+we understand that the data was exported from Google AdWords system.
+
+26
+00:01:28.235 --> 00:01:31.365
+And after reading several articles about Google AdWords,
+
+27
+00:01:31.365 --> 00:01:33.375
+we get the meaning of the columns.
+
+28
+00:01:33.375 --> 00:01:36.390
+We now know that impressions column contained a number
+
+29
+00:01:36.390 --> 00:01:40.050
+of times a particular ad appeared before users,
+
+30
+00:01:40.050 --> 00:01:45.575
+and clicks column is how many times the ad was clicked by the users,
+
+31
+00:01:45.575 --> 00:01:49.070
+and of course, the number of clicks should be less
+
+32
+00:01:49.070 --> 00:01:52.328
+or equal than the number of impression.
+
+33
+00:01:52.328 --> 00:01:57.355
+In this video, we'll not go much further into the details about this data set,
+
+34
+00:01:57.355 --> 00:02:02.540
+but you can open the supplementary reading material for a more detailed exploration.
+
+35
+00:02:02.540 --> 00:02:05.390
+After we've learned some domain knowledge,
+
+36
+00:02:05.390 --> 00:02:08.720
+it is necessary to check if the values in the data set are intuitive,
+
+37
+00:02:08.720 --> 00:02:11.910
+and agree with our domain knowledge.
+
+38
+00:02:11.910 --> 00:02:15.270
+For example, if there is a column with age data,
+
+39
+00:02:15.270 --> 00:02:18.945
+we should expect the values rarely to be larger than 100.
+
+40
+00:02:18.945 --> 00:02:22.430
+And for sure, no one ever lived more than 200 years.
+
+41
+00:02:22.430 --> 00:02:26.150
+So, the values should be smaller than 200.
+
+42
+00:02:26.150 --> 00:02:31.280
+But for some reason, we find this super huge value 336.
+
+43
+00:02:31.280 --> 00:02:36.810
+Most probably, is just a typo but it should be 36 or 33,
+
+44
+00:02:36.810 --> 00:02:39.860
+and the best we can do is manually correct it.
+
+45
+00:02:39.860 --> 00:02:44.205
+But the other possibility is that its not a human age,
+
+46
+00:02:44.205 --> 00:02:50.700
+but some alien's age for which it's totally normal to live more than 300 years.
+
+47
+00:02:50.700 --> 00:02:55.485
+To check that, we should probably read the data description one more time, ask on forums.
+
+48
+00:02:55.485 --> 00:02:57.570
+Maybe the data is totally correct,
+
+49
+00:02:57.570 --> 00:02:59.970
+and then we just misinterpret it.
+
+50
+00:02:59.970 --> 00:03:03.890
+Now, take a look at our Google AdWords data set.
+
+51
+00:03:03.890 --> 00:03:08.190
+We understood that the values in the clicks variable should be
+
+52
+00:03:08.190 --> 00:03:12.003
+less or equal than the values in impressions column.
+
+53
+00:03:12.003 --> 00:03:14.050
+And in our case, in the first row,
+
+54
+00:03:14.050 --> 00:03:16.835
+we see zero impressions and three clicker.
+
+55
+00:03:16.835 --> 00:03:18.990
+That sounds like a bug, right?
+
+56
+00:03:18.990 --> 00:03:20.745
+In fact, it probably is,
+
+57
+00:03:20.745 --> 00:03:24.665
+but differently to the example of person's age,
+
+58
+00:03:24.665 --> 00:03:27.135
+it could be rather a regular error made by
+
+59
+00:03:27.135 --> 00:03:30.510
+either data exporting script or another kind of algorithm.
+
+60
+00:03:30.510 --> 00:03:33.900
+That is, the errors were made not at random,
+
+61
+00:03:33.900 --> 00:03:39.630
+but there is some kind of logic why there is an error in that particular place.
+
+62
+00:03:39.630 --> 00:03:44.850
+It means that these mistakes can be used to get a better score.
+
+63
+00:03:44.850 --> 00:03:46.860
+For example, in our case,
+
+64
+00:03:46.860 --> 00:03:48.390
+we could create a new feature,
+
+65
+00:03:48.390 --> 00:03:52.450
+is_incorrect, and mark all the rows that have errors.
+
+66
+00:03:52.450 --> 00:03:56.490
+Probably, our models will find this feature helpful.
+
+67
+00:03:56.490 --> 00:04:00.683
+It is also very important to understand how the data was generated.
+
+68
+00:04:00.683 --> 00:04:04.670
+What was the algorithm for sampling objects from the database?
+
+69
+00:04:04.670 --> 00:04:07.780
+Maybe, the host sample get objects at random,
+
+70
+00:04:07.780 --> 00:04:10.840
+or they over-sample the particular class, that is,
+
+71
+00:04:10.840 --> 00:04:14.075
+they generated more examples of that class.
+
+72
+00:04:14.075 --> 00:04:17.555
+For example, to make the data set more class balanced.
+
+73
+00:04:17.555 --> 00:04:20.905
+In fact, only if you know how the data was generated,
+
+74
+00:04:20.905 --> 00:04:25.009
+you can set up a proper validation scheme for models.
+
+75
+00:04:25.009 --> 00:04:28.020
+Coming down for the correct validation pipeline is crucial,
+
+76
+00:04:28.020 --> 00:04:31.050
+and we will discuss it later in this course.
+
+77
+00:04:31.050 --> 00:04:35.318
+So, what can we possibly find out about generation processes?
+
+78
+00:04:35.318 --> 00:04:37.025
+For example, we could find out
+
+79
+00:04:37.025 --> 00:04:41.380
+the train and test set were generated with different algorithms.
+
+80
+00:04:41.380 --> 00:04:44.350
+And if the test set is different to the train set,
+
+81
+00:04:44.350 --> 00:04:47.710
+we cannot use part of the train set as a validation set,
+
+82
+00:04:47.710 --> 00:04:51.920
+because this part will not be representative of test set.
+
+83
+00:04:51.920 --> 00:04:55.735
+And so, we cannot evaluate our models using it.
+
+84
+00:04:55.735 --> 00:04:59.180
+So once again, to set up a correct validation,
+
+85
+00:04:59.180 --> 00:05:02.775
+we need to know underlying data generation processes.
+
+86
+00:05:02.775 --> 00:05:06.075
+In the ad computation, we've discussed before,
+
+87
+00:05:06.075 --> 00:05:08.934
+that all the symptoms of different train test sampling.
+
+88
+00:05:08.934 --> 00:05:10.920
+Improving the model on validation set
+
+89
+00:05:10.920 --> 00:05:14.135
+didn't result into improved public leader-board score.
+
+90
+00:05:14.135 --> 00:05:20.105
+And more, the leader-board score was unexpectedly higher than the validation score.
+
+91
+00:05:20.105 --> 00:05:24.930
+I was also visualizing various things while trying to understand what's happening,
+
+92
+00:05:24.930 --> 00:05:30.195
+and every time, the plots for the train set were much different to the test set plots.
+
+93
+00:05:30.195 --> 00:05:35.645
+This also could not happen if the train and test set were similar.
+
+94
+00:05:35.645 --> 00:05:39.105
+And finally, it was suspicious that although
+
+95
+00:05:39.105 --> 00:05:43.256
+the train period was more than ten times larger than the test period,
+
+96
+00:05:43.256 --> 00:05:46.414
+the train set had much fewer rows.
+
+97
+00:05:46.414 --> 00:05:47.790
+it was not straight forward,
+
+98
+00:05:47.790 --> 00:05:51.205
+but this triangle on the left figure was the clue for me,
+
+99
+00:05:51.205 --> 00:05:53.385
+and the puzzle was solved.
+
+100
+00:05:53.385 --> 00:05:56.005
+I've adjusted the train set to match test set.
+
+101
+00:05:56.005 --> 00:05:58.255
+The validation score became reliable,
+
+102
+00:05:58.255 --> 00:06:00.465
+and the modeling could be commenced.
+
+103
+00:06:00.465 --> 00:06:06.365
+You can find the entire task description and investigation in the written materials.
+
+104
+00:06:06.365 --> 00:06:07.695
+So, in this video,
+
+105
+00:06:07.695 --> 00:06:11.675
+we've discussed several important exploratory steps.
+
+106
+00:06:11.675 --> 00:06:15.260
+First, we need to get domain knowledge about the task as
+
+107
+00:06:15.260 --> 00:06:18.943
+it helps to better understand the problem and the data.
+
+108
+00:06:18.943 --> 00:06:21.685
+Next, we need to check if the data is intuitive,
+
+109
+00:06:21.685 --> 00:06:24.755
+and agrees with our domain knowledge.
+
+110
+00:06:24.755 --> 00:06:27.850
+And finally, it is necessary to understand how
+
+111
+00:06:27.850 --> 00:06:31.105
+the data was generated by organizers because otherwise,
+
+112
+00:06:31.105 --> 00:06:35.570
+we cannot establish a proper validation for our models.

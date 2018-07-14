@@ -1,0 +1,529 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.866
+[MUSIC]
+
+2
+00:00:03.866 --> 00:00:06.743
+Hi, in this lesson we
+will talk about the very
+
+3
+00:00:06.743 --> 00:00:11.910
+first steps a good data scientist
+takes when he is given a new data set.
+
+4
+00:00:11.910 --> 00:00:15.767
+Mainly, exploratory data analysis or
+EDA in short.
+
+5
+00:00:15.767 --> 00:00:20.280
+By the end of this lesson, you will know,
+what are the most important things from
+
+6
+00:00:20.280 --> 00:00:24.850
+data understanding and exploration
+prospective we need to pay attention to.
+
+7
+00:00:24.850 --> 00:00:27.580
+This knowledge is required
+to build good models and
+
+8
+00:00:27.580 --> 00:00:29.808
+achieve high places on the leader board.
+
+9
+00:00:29.808 --> 00:00:35.400
+We will first discuss what exploratory
+data analysis is and why we need it.
+
+10
+00:00:35.400 --> 00:00:39.150
+We will then go through important
+parts of EDA process and
+
+11
+00:00:39.150 --> 00:00:42.190
+see examples of what we
+can discover during EDA.
+
+12
+00:00:43.590 --> 00:00:47.682
+Next we will take a look at the tools
+we have to perform exploration.
+
+13
+00:00:47.682 --> 00:00:50.506
+What plots to draw and
+what functions from pandas and
+
+14
+00:00:50.506 --> 00:00:53.820
+matplotlib libraries can be useful for us.
+
+15
+00:00:53.820 --> 00:00:57.840
+We will also briefly discuss a very
+basic data set cleaning process
+
+16
+00:00:57.840 --> 00:01:01.570
+that is convenient to perform
+while exploring the data.
+
+17
+00:01:01.570 --> 00:01:04.460
+And finally we'll go through
+exploration process for
+
+18
+00:01:04.460 --> 00:01:07.300
+the Springleaf competition
+hosted on Kaggle some time ago.
+
+19
+00:01:08.460 --> 00:01:12.000
+In this video we'll start talking
+about Exploratory Data Analysis.
+
+20
+00:01:13.430 --> 00:01:15.890
+What is Exploratory Data Analysis?
+
+21
+00:01:15.890 --> 00:01:19.550
+It's basically a process of looking
+into the data, understanding it and
+
+22
+00:01:19.550 --> 00:01:20.600
+getting comfortable with it.
+
+23
+00:01:21.780 --> 00:01:25.874
+Getting comfortable with a task,
+probably always the first thing you do.
+
+24
+00:01:25.874 --> 00:01:28.828
+To solve a problem,
+you need to understand a problem,
+
+25
+00:01:28.828 --> 00:01:31.820
+and to know what you
+are given to solve it.
+
+26
+00:01:31.820 --> 00:01:35.600
+In data science, complete data
+understanding is required to generate
+
+27
+00:01:35.600 --> 00:01:39.160
+powerful features and
+to build accurate models.
+
+28
+00:01:39.160 --> 00:01:43.535
+In fact while you explore the data,
+you build an intuition about it.
+
+29
+00:01:43.535 --> 00:01:45.624
+And when the data is intuitive for you,
+
+30
+00:01:45.624 --> 00:01:48.856
+you can generate hypothesis
+about possible new features and
+
+31
+00:01:48.856 --> 00:01:53.250
+eventually find some insights in the data
+which in turn can lead to a better score.
+
+32
+00:01:53.250 --> 00:01:58.080
+We will see the example of what EDA
+can give us later in this lesson.
+
+33
+00:01:59.302 --> 00:02:02.900
+Well, one may argue that
+there is another way to go.
+
+34
+00:02:02.900 --> 00:02:05.140
+Read the data from the hard drive,
+never look at it and
+
+35
+00:02:05.140 --> 00:02:09.270
+feed the classifier immediately.They use
+some pretty advanced modeling techniques,
+
+36
+00:02:09.270 --> 00:02:14.980
+like mixing, stacking, and eventually get
+a pretty good score on the leaderboard.
+
+37
+00:02:14.980 --> 00:02:17.190
+Although this approach sometimes works,
+
+38
+00:02:17.190 --> 00:02:21.070
+it cannot take you to the very
+top positions and let you win.
+
+39
+00:02:21.070 --> 00:02:24.320
+Top solutions always use advanced and
+aggressive modeling.
+
+40
+00:02:24.320 --> 00:02:27.170
+But usually they have
+something more than that.
+
+41
+00:02:27.170 --> 00:02:30.040
+They incorporated insights from the data,
+and
+
+42
+00:02:30.040 --> 00:02:32.850
+to find those insights,
+they did a careful EDA.
+
+43
+00:02:34.130 --> 00:02:38.150
+While we need to admit the raw
+computations where all you can do is
+
+44
+00:02:38.150 --> 00:02:41.400
+modeling and EDA will not help
+you to build a better model.
+
+45
+00:02:41.400 --> 00:02:44.280
+It is usually the case when
+the data is anonymized,
+
+46
+00:02:44.280 --> 00:02:48.006
+encrypted, pre-processed, and obfuscated.
+
+47
+00:02:48.006 --> 00:02:53.390
+But look it will any way need to perform
+EDA to realize that this is the case and
+
+48
+00:02:53.390 --> 00:02:57.000
+you better spend more time on modeling and
+make a server busy for a month.
+
+49
+00:02:58.080 --> 00:03:02.080
+One of the main EDA
+tools is Visualization.
+
+50
+00:03:02.080 --> 00:03:05.160
+When we visualize the data,
+we immediately see the patterns.
+
+51
+00:03:05.160 --> 00:03:09.110
+And with this, ask ourselves,
+what are those patterns?
+
+52
+00:03:09.110 --> 00:03:10.080
+Why do we see them?
+
+53
+00:03:10.080 --> 00:03:13.395
+And finally, how do we use those
+patters to build a better model?
+
+54
+00:03:13.395 --> 00:03:17.130
+It also can be another way around.
+
+55
+00:03:17.130 --> 00:03:20.830
+Maybe we come up with a particular
+hypothesis about the data.
+
+56
+00:03:20.830 --> 00:03:21.390
+What do we do?
+
+57
+00:03:21.390 --> 00:03:23.900
+We test it by making a visualization.
+
+58
+00:03:24.920 --> 00:03:26.690
+In one of the next videos,
+
+59
+00:03:26.690 --> 00:03:30.380
+we'll talk about the main visualization
+tools we can use for exploration.
+
+60
+00:03:31.550 --> 00:03:35.559
+Just as a motivation example,
+I want to tell you about the competition,
+
+61
+00:03:35.559 --> 00:03:40.420
+alexander D'yakonov, a former top one
+at Kagel took part some time ago.
+
+62
+00:03:40.420 --> 00:03:44.780
+The interesting thing about this
+competition is that you do not need
+
+63
+00:03:44.780 --> 00:03:49.990
+to do any modeling,
+if you understood your data well.
+
+64
+00:03:49.990 --> 00:03:52.820
+In that competition,
+the objective was to predict
+
+65
+00:03:52.820 --> 00:03:56.670
+whether a person will use the promo
+that a company offers him.
+
+66
+00:03:56.670 --> 00:04:02.200
+So each role correspond to a particular
+promo received by a person.
+
+67
+00:04:02.200 --> 00:04:04.430
+There are features that
+describe the person, for
+
+68
+00:04:04.430 --> 00:04:09.400
+example his age, sex,
+is he married or not and so on.
+
+69
+00:04:09.400 --> 00:04:14.420
+And there are features that describe
+the promo, the target is 0 or
+
+70
+00:04:14.420 --> 00:04:16.760
+1, will he use the promo or not.
+
+71
+00:04:17.800 --> 00:04:21.390
+But, among all the features there
+were two especially interesting.
+
+72
+00:04:21.390 --> 00:04:26.540
+The first one is, the number of
+promos sent by the person before.
+
+73
+00:04:26.540 --> 00:04:29.800
+And the second is the number of
+promos the person had to use before.
+
+74
+00:04:30.900 --> 00:04:34.850
+So let's take a particular user,
+say with index 13,
+
+75
+00:04:34.850 --> 00:04:38.790
+and sort the rows by number
+of promos sent column.
+
+76
+00:04:39.850 --> 00:04:43.210
+And now let's take a look
+at the difference at column
+
+77
+00:04:43.210 --> 00:04:46.850
+the number of used promos
+between two consecutive rows.
+
+78
+00:04:46.850 --> 00:04:48.650
+It is written here in diff column.
+
+79
+00:04:49.670 --> 00:04:54.090
+And look, the values in diff column in
+most cases equal the target values.
+
+80
+00:04:55.330 --> 00:04:56.900
+And in fact, there is no magic.
+
+81
+00:04:56.900 --> 00:04:59.550
+Just think about
+the meaning of the columns.
+
+82
+00:04:59.550 --> 00:05:04.560
+For example, for the second row we see
+that the person used one promo already but
+
+83
+00:05:04.560 --> 00:05:06.900
+he was sent only one before that time.
+
+84
+00:05:06.900 --> 00:05:11.010
+And that is why we know that he used the
+first promo and thus we have an answer for
+
+85
+00:05:11.010 --> 00:05:11.710
+the first row.
+
+86
+00:05:12.780 --> 00:05:17.568
+In general, if before the current
+promo the person used n promos and
+
+87
+00:05:17.568 --> 00:05:20.088
+before the next promo he used that,
+
+88
+00:05:20.088 --> 00:05:25.722
+we know that he used n + 1 promos then we
+realize that he used the current promo.
+
+89
+00:05:25.722 --> 00:05:27.980
+And so the answer is 1.
+
+90
+00:05:27.980 --> 00:05:30.710
+If we know that he used n
+promos before the next promo,
+
+91
+00:05:30.710 --> 00:05:32.860
+exactly as before the current promo,
+
+92
+00:05:32.860 --> 00:05:37.680
+then obviously he did not use
+the current promo and the answer is 0.
+
+93
+00:05:37.680 --> 00:05:42.020
+Well, it's not clear what
+to do with the last row for
+
+94
+00:05:42.020 --> 00:05:46.360
+every user, or when we have missing rows,
+but you see the point.
+
+95
+00:05:46.360 --> 00:05:51.210
+We didn't even run the classifier,
+and we have 80% accuracy already.
+
+96
+00:05:51.210 --> 00:05:56.130
+This would not be possible if we didn't
+do an EDA and didn't look into the data.
+
+97
+00:05:57.720 --> 00:06:01.290
+Also as a remark, I should say
+that the presented method works
+
+98
+00:06:01.290 --> 00:06:06.620
+because of mistake made by
+the organizers during data preparation.
+
+99
+00:06:06.620 --> 00:06:08.750
+These mistakes are called leaks, and
+
+100
+00:06:08.750 --> 00:06:12.520
+in competitions we are usually
+allowed to exploit them.
+
+101
+00:06:12.520 --> 00:06:15.540
+We'll see more of these
+examples later in this course.
+
+102
+00:06:16.590 --> 00:06:21.770
+So in this video we discussed the main
+reasons for performing an EDA.
+
+103
+00:06:21.770 --> 00:06:26.520
+That is to get comfortable with the data
+and to find insights in magic features.
+
+104
+00:06:28.010 --> 00:06:30.140
+We also saw an example where EDA and
+
+105
+00:06:30.140 --> 00:06:32.970
+the data understanding was
+important to get a better score.
+
+106
+00:06:34.110 --> 00:06:36.156
+And finally, the point to take away.
+
+107
+00:06:36.156 --> 00:06:40.324
+When you start a competition,
+you better start with EDA, and
+
+108
+00:06:40.324 --> 00:06:42.420
+not with hardcore modelling.
+
+109
+00:06:43.665 --> 00:06:46.005
+We've had a lot of things to
+talk about in this lesson.
+
+110
+00:06:46.005 --> 00:06:48.463
+So let´s move to the next video.
+
+111
+00:06:48.463 --> 00:06:58.463
+[MUSIC]
