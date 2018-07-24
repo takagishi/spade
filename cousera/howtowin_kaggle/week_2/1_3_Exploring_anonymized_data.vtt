@@ -1,0 +1,1000 @@
+WEBVTT
+
+1
+00:00:00.025 --> 00:00:05.992
+[SOUND] In the previous video,
+we were working with the data for
+
+2
+00:00:05.992 --> 00:00:09.222
+which we had a nice description.
+
+3
+00:00:09.222 --> 00:00:12.250
+That is,
+we knew what the features were, and
+
+4
+00:00:12.250 --> 00:00:17.190
+the data was given us as these
+without severe modifications.
+
+5
+00:00:17.190 --> 00:00:19.370
+But, it's not always the case.
+
+6
+00:00:19.370 --> 00:00:22.399
+The data can be anonymized,
+and obfuscated.
+
+7
+00:00:23.530 --> 00:00:27.270
+In this video, we'll first discuss
+what is anonymized data, and
+
+8
+00:00:27.270 --> 00:00:29.880
+why organizers decide to
+anonymize their data.
+
+9
+00:00:30.890 --> 00:00:35.540
+And next, we will see what we
+as competitors can do about it.
+
+10
+00:00:35.540 --> 00:00:37.890
+Sometimes we can decode the data, or
+
+11
+00:00:37.890 --> 00:00:42.620
+if we can not we can try to guess,
+what is the type of feature.
+
+12
+00:00:42.620 --> 00:00:44.070
+So, let's get to the discussion.
+
+13
+00:00:45.220 --> 00:00:49.130
+Sometimes the organizers really want
+some information to be reviewed.
+
+14
+00:00:49.130 --> 00:00:52.020
+So, they make an effort to
+export competition data,
+
+15
+00:00:52.020 --> 00:00:55.680
+in a way one couldn't get
+while you're out of it.
+
+16
+00:00:55.680 --> 00:00:57.460
+Yet all the features are preserved, and
+
+17
+00:00:57.460 --> 00:01:00.886
+machinery model will be
+able to do it's job.
+
+18
+00:01:00.886 --> 00:01:05.910
+For example, if a company wants
+someone to classify its document, but
+
+19
+00:01:05.910 --> 00:01:08.820
+doesn't want to reveal
+the document's content.
+
+20
+00:01:08.820 --> 00:01:12.980
+It can replace all the word occurrences
+with hash values of those words,
+
+21
+00:01:12.980 --> 00:01:14.330
+like in the example you see here.
+
+22
+00:01:15.360 --> 00:01:18.970
+In fact, it will not change a thing for
+a model based on bags of words.
+
+23
+00:01:20.290 --> 00:01:23.940
+I will refer to Anonymized
+data as to any data
+
+24
+00:01:23.940 --> 00:01:26.630
+which organizers intentionally changed.
+
+25
+00:01:26.630 --> 00:01:29.990
+Although it is not completely correct,
+I will use this wording for
+
+26
+00:01:29.990 --> 00:01:31.020
+any type of changes.
+
+27
+00:01:32.110 --> 00:01:34.310
+In computations with tabular data,
+
+28
+00:01:34.310 --> 00:01:37.790
+companies can try to hide
+information each column stores.
+
+29
+00:01:37.790 --> 00:01:39.490
+Take a look at this data set.
+
+30
+00:01:39.490 --> 00:01:43.520
+First, we don't have any
+meaningful names for the features.
+
+31
+00:01:43.520 --> 00:01:46.976
+The names are replaced with some dummies,
+and
+
+32
+00:01:46.976 --> 00:01:50.797
+we see some hash like values
+in columns x1 and x6.
+
+33
+00:01:50.797 --> 00:01:54.748
+Most likely, organizers decided
+to hash some sensitive data.
+
+34
+00:01:54.748 --> 00:01:58.770
+There are several things we can do
+while exploring the data in this case.
+
+35
+00:01:59.860 --> 00:02:02.358
+First, we can try to decode or
+
+36
+00:02:02.358 --> 00:02:05.680
+de-anonymize the data,
+in a legal way of course.
+
+37
+00:02:05.680 --> 00:02:10.040
+That is, we can try to guess
+true meaning of the features.
+
+38
+00:02:10.040 --> 00:02:13.350
+Sometimes de-anonymization
+is not possible, but
+
+39
+00:02:13.350 --> 00:02:17.780
+what we almost surely can do,
+is to guess the type of the features,
+
+40
+00:02:17.780 --> 00:02:21.440
+separating them into numeric,
+categorical, and so on.
+
+41
+00:02:22.640 --> 00:02:27.040
+Then, we can try to find how
+features relate to each other.
+
+42
+00:02:27.040 --> 00:02:30.850
+That can be a specific relation
+between a pair of features, or
+
+43
+00:02:30.850 --> 00:02:35.140
+we can try to figure out if
+the features are grouped in some way.
+
+44
+00:02:36.990 --> 00:02:40.560
+In this video we will concentrate
+on the first problem.
+
+45
+00:02:40.560 --> 00:02:43.810
+In the next video we will discuss
+visualization tools, that
+
+46
+00:02:43.810 --> 00:02:48.260
+we can use both for exploring individual
+features, and feature relations.
+
+47
+00:02:49.375 --> 00:02:54.339
+Let's now get to an example
+how it was possible to decode
+
+48
+00:02:54.339 --> 00:03:00.050
+the meaning of the feature in one
+local competition I took part.
+
+49
+00:03:00.050 --> 00:03:04.310
+I want to tell you about
+a competition I took part.
+
+50
+00:03:04.310 --> 00:03:08.823
+It was a local competition, and
+organizers literally didn't give
+
+51
+00:03:08.823 --> 00:03:12.000
+competitors any information
+about a dataset.
+
+52
+00:03:12.000 --> 00:03:18.340
+They just put the link to download data on
+the competition page, and nothing else.
+
+53
+00:03:18.340 --> 00:03:21.209
+Let's read the data first, and
+
+54
+00:03:21.209 --> 00:03:26.422
+basically what we see here is
+that the data is anonymized.
+
+55
+00:03:26.422 --> 00:03:30.711
+The column names are like x something, and
+
+56
+00:03:30.711 --> 00:03:36.920
+the values are hashes, and
+then the rest are numeric in here.
+
+57
+00:03:36.920 --> 00:03:40.832
+But, well we don't know
+what they mean at all,
+
+58
+00:03:40.832 --> 00:03:44.120
+and basically we don't
+what we are to predict.
+
+59
+00:03:44.120 --> 00:03:48.080
+We only know that it is
+a multi-class classification task,
+
+60
+00:03:48.080 --> 00:03:50.160
+and we have four labels.
+
+61
+00:03:51.510 --> 00:03:54.930
+So, as long as we don't
+know what the data is,
+
+62
+00:03:54.930 --> 00:03:58.490
+we can probably build a quick baseline.
+
+63
+00:03:58.490 --> 00:04:00.790
+Let's import Random Forest Classifier.
+
+64
+00:04:02.760 --> 00:04:07.080
+Yeah, of course we need to drop
+target label from our data frame,
+
+65
+00:04:07.080 --> 00:04:09.320
+as it is included in there.
+
+66
+00:04:09.320 --> 00:04:13.040
+We'll fill null values with minus 999, and
+
+67
+00:04:13.040 --> 00:04:18.160
+let's encode all the categorical features,
+
+68
+00:04:18.160 --> 00:04:21.250
+that we can find by looking at the types.
+
+69
+00:04:21.250 --> 00:04:22.720
+Property of our data frame.
+
+70
+00:04:22.720 --> 00:04:26.466
+We will encode them with Label Encoder,
+and
+
+71
+00:04:26.466 --> 00:04:31.234
+it is easier to do with
+function factorize from Pandas.
+
+72
+00:04:31.234 --> 00:04:33.890
+Let's feed to
+Random Forest Classifier on our data.
+
+73
+00:04:35.150 --> 00:04:39.415
+And let's plot the feature importance's,
+and
+
+74
+00:04:39.415 --> 00:04:45.250
+what we see here is that feature
+X8 looks like an interesting one.
+
+75
+00:04:45.250 --> 00:04:49.950
+We should probably investigate
+it a little bit deeper.
+
+76
+00:04:49.950 --> 00:04:53.779
+If we take the feature X8, and
+
+77
+00:04:53.779 --> 00:04:59.250
+print it's mean, and estimate the value.
+
+78
+00:04:59.250 --> 00:05:04.360
+They turn out to be quite close to 0,
+and 1 respectively, and
+
+79
+00:05:05.870 --> 00:05:10.470
+it looks like this feature was
+tendered skilled by the organizers.
+
+80
+00:05:10.470 --> 00:05:14.890
+And we don't see here exactly 0,
+and exactly 1,
+
+81
+00:05:14.890 --> 00:05:18.810
+because probably training test was
+concatenated when on the latest scale.
+
+82
+00:05:18.810 --> 00:05:22.542
+If we concatenate training test,
+then the mean will be exactly 0,
+
+83
+00:05:22.542 --> 00:05:24.247
+and the std will be exactly 1.
+
+84
+00:05:29.343 --> 00:05:33.080
+Okay, so let's also see are there any
+other repeated values in these features?
+
+85
+00:05:33.080 --> 00:05:35.750
+We can do it with a value counts function.
+
+86
+00:05:35.750 --> 00:05:39.128
+Let's print first 15
+rows of value counts out.
+
+87
+00:05:40.260 --> 00:05:43.740
+And we can see that there
+are a lot of repeated values,
+
+88
+00:05:45.740 --> 00:05:47.430
+they repeated a thousand times.
+
+89
+00:05:49.150 --> 00:05:53.820
+All right, so we now know that
+this feature was standard scaled.
+
+90
+00:05:53.820 --> 00:05:59.798
+Probably, we can try to scale it back.
+
+91
+00:05:59.798 --> 00:06:04.644
+The original feature was multiplied by
+a number, and was shifted by a number.
+
+92
+00:06:07.180 --> 00:06:11.130
+All we need to do is to find the shooting
+parameter, and the scaling parameter.
+
+93
+00:06:11.130 --> 00:06:15.982
+But how do we do that,
+and it is really possible?
+
+94
+00:06:15.982 --> 00:06:20.380
+Let's take unique values of the feature,
+and sort them.
+
+95
+00:06:21.610 --> 00:06:26.660
+And let's print the difference
+between two consecutive numbers,
+
+96
+00:06:26.660 --> 00:06:29.836
+in this sorted array.
+
+97
+00:06:29.836 --> 00:06:33.990
+And look, it looks like the values
+are the same all the time.
+
+98
+00:06:33.990 --> 00:06:38.366
+The distance between two consecutive
+unique values in this feature,
+
+99
+00:06:38.366 --> 00:06:40.700
+was the same in the original data to.
+
+100
+00:06:40.700 --> 00:06:45.379
+It was probably not 0.043 something,
+
+101
+00:06:45.379 --> 00:06:50.943
+it was who knows,
+it could be 9 or 11 or 11.7,
+
+102
+00:06:50.943 --> 00:06:55.620
+but it was the same between all the pairs,
+so
+
+103
+00:06:55.620 --> 00:07:03.100
+assume that it was 1 because, well,
+1 looks like a natural choice.
+
+104
+00:07:03.100 --> 00:07:08.626
+Let's divide our feature by
+this number 0.043 something,
+
+105
+00:07:08.626 --> 00:07:15.056
+and if we do it, yes, we see that
+the differences become rather close to 1,
+
+106
+00:07:15.056 --> 00:07:19.690
+they are not 1,
+only because of some numeric errors.
+
+107
+00:07:21.050 --> 00:07:28.228
+So yes, if we divide our feature by
+this value, this is what you get.
+
+108
+00:07:28.228 --> 00:07:33.210
+All right, so what else do we see here.
+
+109
+00:07:33.210 --> 00:07:39.430
+We see that each number,
+it ends with the same values.
+
+110
+00:07:40.770 --> 00:07:44.956
+Each positive number ends
+with this kind of value, and
+
+111
+00:07:44.956 --> 00:07:47.510
+each negative with this, look.
+
+112
+00:07:47.510 --> 00:07:52.216
+It looks like this fractional
+part was a part of
+
+113
+00:07:52.216 --> 00:07:57.540
+the shifting parameter,
+let's just subtract it.
+
+114
+00:07:57.540 --> 00:08:02.620
+And in fact if we subtract it,
+the data looks like an integers, actually.
+
+115
+00:08:02.620 --> 00:08:06.440
+Like it was integer data, but
+again because of numeric errors,
+
+116
+00:08:06.440 --> 00:08:08.930
+we see some weird numbers in here.
+
+117
+00:08:11.730 --> 00:08:17.070
+Let's round the numbers,
+and that is what we get.
+
+118
+00:08:17.070 --> 00:08:22.036
+This is actually on the first ten rows,
+not the whole feature.
+
+119
+00:08:22.036 --> 00:08:27.550
+Okay, so what's next?
+
+120
+00:08:27.550 --> 00:08:28.940
+What did we do so far?
+
+121
+00:08:28.940 --> 00:08:31.800
+We found the scaling parameter,
+probably we were right,
+
+122
+00:08:31.800 --> 00:08:35.630
+because the numbers became integers,
+and it's a good sign.
+
+123
+00:08:37.306 --> 00:08:43.590
+We could be not right, because who knows,
+the scaling parameter could be 10 or
+
+124
+00:08:43.590 --> 00:08:48.340
+2 or again 11 and
+still the numbers will be integers.
+
+125
+00:08:48.340 --> 00:08:51.910
+But, 1 looks like a good match.
+
+126
+00:08:53.080 --> 00:08:55.770
+It couldn't be as random, I guess.
+
+127
+00:08:57.490 --> 00:09:00.570
+But, how can we find
+the shifting parameter?
+
+128
+00:09:00.570 --> 00:09:06.675
+We found only fractional part,
+can we find the other,
+
+129
+00:09:06.675 --> 00:09:11.330
+and can we find the integer part, I mean?
+
+130
+00:09:13.900 --> 00:09:18.810
+It's actually a hard question, because
+while you have a bunch of numbers in here,
+
+131
+00:09:18.810 --> 00:09:21.910
+and you can probably build a hypothesis.
+
+132
+00:09:21.910 --> 00:09:27.168
+It could be something, and the regular
+values for this something is like that,
+
+133
+00:09:27.168 --> 00:09:30.944
+and we could probably scale it,
+shift it by this number.
+
+134
+00:09:30.944 --> 00:09:35.016
+But it could be only an approximation,
+and not a hypothesis, and
+
+135
+00:09:35.016 --> 00:09:38.640
+so our journey could
+really end up in here.
+
+136
+00:09:38.640 --> 00:09:41.791
+But I was really lucky, and
+
+137
+00:09:41.791 --> 00:09:47.007
+I will show it to you,
+so if you take your x8.
+
+138
+00:09:47.007 --> 00:09:52.716
+I mean our feature, and
+print value counts, what we will see,
+
+139
+00:09:52.716 --> 00:09:57.580
+we will this number 11, 17, 18, something.
+
+140
+00:09:59.800 --> 00:10:05.327
+And then if we scroll down
+we will see this, -1968,
+
+141
+00:10:05.327 --> 00:10:10.519
+and it definitely looks like
+year a of birth, right?
+
+142
+00:10:10.519 --> 00:10:13.145
+Immediately I have a hypothesis,
+
+143
+00:10:13.145 --> 00:10:18.770
+that this could be a text box where
+a person should enter his year of birth.
+
+144
+00:10:20.090 --> 00:10:24.190
+And while most of the people really
+enter their year of birth, but
+
+145
+00:10:24.190 --> 00:10:26.020
+one person entered zero.
+
+146
+00:10:27.160 --> 00:10:31.020
+Or system automatically entered 0,
+when something wrong happened.
+
+147
+00:10:32.100 --> 00:10:35.021
+And wow, that isn't the key.
+
+148
+00:10:35.021 --> 00:10:38.277
+If we assume the value was originally 0,
+
+149
+00:10:38.277 --> 00:10:43.494
+then the shifting parameter is
+exactly 9068, let's try it.
+
+150
+00:10:44.900 --> 00:10:49.280
+Let's add 9068 to our data,
+and see the values.
+
+151
+00:10:49.280 --> 00:10:54.696
+Again we will use value counts function,
+and we will sort sorted values.
+
+152
+00:10:54.696 --> 00:11:00.156
+This is the minimum of the values,
+and in fact you see the minimum is 0,
+
+153
+00:11:00.156 --> 00:11:05.450
+and all the values are not negative,
+and it looks really plausible.
+
+154
+00:11:06.560 --> 00:11:11.794
+Take a look, 999,
+it's probably what people love to enter
+
+155
+00:11:11.794 --> 00:11:17.046
+when they're asked to enter something,
+or this, 1899.
+
+156
+00:11:17.046 --> 00:11:21.660
+It could be a default value for
+this textbook, it occurred so many times.
+
+157
+00:11:23.060 --> 00:11:25.700
+And then we see some weird values in here.
+
+158
+00:11:25.700 --> 00:11:27.820
+People just put them at random.
+
+159
+00:11:30.120 --> 00:11:33.649
+And then, we see some kind of
+distribution over the dates.
+
+160
+00:11:34.910 --> 00:11:39.225
+That are plausible for
+people who live now, like 1980.
+
+161
+00:11:41.062 --> 00:11:45.070
+Well maybe 1938, I'm not sure about this,
+
+162
+00:11:45.070 --> 00:11:49.760
+and yes of course we see some
+days from the future, but for
+
+163
+00:11:49.760 --> 00:11:53.310
+sure it looks like a year of birth, right?
+
+164
+00:11:58.240 --> 00:12:02.150
+Well the question, how can we use
+this information for the competition?
+
+165
+00:12:03.750 --> 00:12:05.847
+Well again for linear models,
+
+166
+00:12:05.847 --> 00:12:11.680
+you probably could make a new feature
+like age group, or something like that.
+
+167
+00:12:11.680 --> 00:12:14.190
+But In this particular competition,
+
+168
+00:12:17.070 --> 00:12:20.550
+it was no way to use this for,
+to use this knowledge.
+
+169
+00:12:20.550 --> 00:12:22.264
+But, it was really fun to investigate.
+
+170
+00:12:22.264 --> 00:12:27.415
+I hope you liked the example,
+but usually is really hard to
+
+171
+00:12:27.415 --> 00:12:32.880
+recognize anything sensible like
+a year of birth anonymous features.
+
+172
+00:12:32.880 --> 00:12:36.190
+The best we can do is to
+recognize the type of the feature.
+
+173
+00:12:36.190 --> 00:12:40.000
+Is it categorical, numeric,
+text, or something else?
+
+174
+00:12:41.020 --> 00:12:45.120
+Last week we saw that each data
+type should be treated differently,
+
+175
+00:12:45.120 --> 00:12:48.669
+and more treatment depends
+on the model we want to use.
+
+176
+00:12:49.750 --> 00:12:54.857
+That is why to make a stronger model, we
+should know what data we are working with.
+
+177
+00:12:54.857 --> 00:12:59.415
+Even though we cannot understand
+what the features are about,
+
+178
+00:12:59.415 --> 00:13:03.830
+we should at least detect the types
+of variables in the data.
+
+179
+00:13:03.830 --> 00:13:07.450
+Take a look at this example, we don't
+have any meaningful companies, but
+
+180
+00:13:07.450 --> 00:13:10.970
+still we can deduce what
+the feature types are.
+
+181
+00:13:10.970 --> 00:13:17.350
+So, x1 looks like text or
+physical recorded, x2 and x3 are binary,
+
+182
+00:13:18.450 --> 00:13:23.510
+x4 is numeric,
+x5 is either categorical or numeric.
+
+183
+00:13:23.510 --> 00:13:28.430
+And more, if it's numeric it could
+be something like event calendars,
+
+184
+00:13:28.430 --> 00:13:30.220
+because the values are integers.
+
+185
+00:13:31.380 --> 00:13:34.920
+When the number of columns in data
+set is small, like in our example,
+
+186
+00:13:34.920 --> 00:13:39.160
+we can just bring the table, and
+manually sort the types out.
+
+187
+00:13:39.160 --> 00:13:42.870
+But, what if there are thousand
+of features in the data set?
+
+188
+00:13:44.050 --> 00:13:48.020
+Very useful functions to
+facilitate our exploration,
+
+189
+00:13:48.020 --> 00:13:53.310
+function d types from pandas guesses the
+types for each column in the data frame.
+
+190
+00:13:53.310 --> 00:13:58.164
+Usually it groups all the columns
+into three categories,
+
+191
+00:13:58.164 --> 00:14:02.160
+flawed, integer, and
+so called object type.
+
+192
+00:14:02.160 --> 00:14:06.130
+If dtype function assigned
+flawed type to a feature,
+
+193
+00:14:06.130 --> 00:14:08.090
+this feature is most likely to be numeric.
+
+194
+00:14:09.450 --> 00:14:14.110
+Integer typed features can be either
+binary encoded with a zero or one.
+
+195
+00:14:14.110 --> 00:14:18.160
+Event counters, or even categorical,
+encoded with the label encoder.
+
+196
+00:14:19.500 --> 00:14:22.960
+Sometimes this function
+returns a type named object.
+
+197
+00:14:22.960 --> 00:14:27.160
+And it's the most problematic,
+it can be anything,
+
+198
+00:14:27.160 --> 00:14:31.150
+even an irregular numeric feature with
+missing values filled with some text.
+
+199
+00:14:32.890 --> 00:14:37.580
+Try it on your data, and also check out a
+very similar in full function from Pandas.
+
+200
+00:14:38.748 --> 00:14:44.660
+To deal with object types, it is useful to
+print the data and literally look at it.
+
+201
+00:14:44.660 --> 00:14:48.468
+It is useful to check unique
+values with value counts function,
+
+202
+00:14:48.468 --> 00:14:51.510
+and nulls location with
+isnull function at times.
+
+203
+00:14:52.860 --> 00:14:57.630
+In this lesson, we were discussing two
+things we can do with anonymized features.
+
+204
+00:14:57.630 --> 00:14:58.580
+We saw that sometimes,
+
+205
+00:14:58.580 --> 00:15:03.820
+it's possible to decode features,
+find out what this feature really means.
+
+206
+00:15:04.960 --> 00:15:08.891
+It doesn't matter if we understand
+the meaning of the features or
+
+207
+00:15:08.891 --> 00:15:13.464
+not, we should guess the feature types,
+in order to pre-process features
+
+208
+00:15:13.464 --> 00:15:17.125
+accordingly to the type we have,
+and selected model class.
+
+209
+00:15:17.125 --> 00:15:20.555
+In the next video,
+we'll see a lot of colorful plots, and
+
+210
+00:15:20.555 --> 00:15:25.135
+talk about visualization, and
+other tools for exploratory data analysis.
+
+211
+00:15:25.135 --> 00:15:35.135
+[SOUND]

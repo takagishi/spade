@@ -1,0 +1,765 @@
+WEBVTT
+
+1
+00:00:03.150 --> 00:00:09.585
+In the previous video, we've tried to decode anonymized features and guess their types.
+
+2
+00:00:09.585 --> 00:00:11.365
+In fact, we want to do more.
+
+3
+00:00:11.365 --> 00:00:15.860
+We want to generate new features and to find insights in a data.
+
+4
+00:00:15.860 --> 00:00:17.440
+And in this lesson,
+
+5
+00:00:17.440 --> 00:00:21.445
+we will talk about various visualizations that can help us with it.
+
+6
+00:00:21.445 --> 00:00:26.518
+We will first to see what plots we can draw to explore individual features,
+
+7
+00:00:26.518 --> 00:00:30.230
+and then we will get to exploration of feature relations.
+
+8
+00:00:30.230 --> 00:00:36.065
+We'll explore pairs first and then we'll try to find feature groups in a dataset.
+
+9
+00:00:36.065 --> 00:00:40.730
+First, there is no recipe how you find interesting things in the data.
+
+10
+00:00:40.730 --> 00:00:44.475
+You should just spend some time looking closely at the data table,
+
+11
+00:00:44.475 --> 00:00:46.255
+printing it, and examining.
+
+12
+00:00:46.255 --> 00:00:48.295
+If we found something interesting,
+
+13
+00:00:48.295 --> 00:00:50.600
+we then can take a closer look.
+
+14
+00:00:50.600 --> 00:00:53.285
+So, EDA is kind of an art,
+
+15
+00:00:53.285 --> 00:00:58.980
+but we have a bunch of tools for it which we'll discuss right now.
+
+16
+00:00:58.980 --> 00:01:01.850
+The first, we can build histograms.
+
+17
+00:01:01.850 --> 00:01:08.685
+Histograms split feature edge into bins and show how many points fall into each bin.
+
+18
+00:01:08.685 --> 00:01:12.343
+Note that histograms may be misleading in some cases,
+
+19
+00:01:12.343 --> 00:01:14.895
+so try to overwrite its number of bins when using it.
+
+20
+00:01:14.895 --> 00:01:18.363
+Also, know that it aggregates in the data,
+
+21
+00:01:18.363 --> 00:01:19.520
+so we cannot see,
+
+22
+00:01:19.520 --> 00:01:25.325
+for example, if all the values are unique or there are a lot of repeated values.
+
+23
+00:01:25.325 --> 00:01:27.050
+Let's see in other example.
+
+24
+00:01:27.050 --> 00:01:32.375
+The first thing that I want to illustrate here is that histograms can confuse.
+
+25
+00:01:32.375 --> 00:01:33.865
+Looking at this histogram,
+
+26
+00:01:33.865 --> 00:01:38.190
+we could probably think that there are a lot of zero values in this feature.
+
+27
+00:01:38.190 --> 00:01:42.695
+But in fact, if we take logarithm of the values and build histogram again,
+
+28
+00:01:42.695 --> 00:01:45.085
+we'll clearly see that distribution is
+
+29
+00:01:45.085 --> 00:01:49.655
+non-degenerate and there are many more distinct values than one.
+
+30
+00:01:49.655 --> 00:01:54.690
+So my point is never make a conclusion based on a single plot.
+
+31
+00:01:54.690 --> 00:01:56.390
+If you have a hypothesis,
+
+32
+00:01:56.390 --> 00:01:59.765
+try to make several different plots to prove it.
+
+33
+00:01:59.765 --> 00:02:02.995
+The second interesting thing here is that peak.
+
+34
+00:02:02.995 --> 00:02:04.920
+What is it?
+
+35
+00:02:04.920 --> 00:02:10.070
+It turns out that the peak is located exactly at the mean value of this feature.
+
+36
+00:02:10.070 --> 00:02:14.830
+Seems like organizers filled the missing values with the mean values for us.
+
+37
+00:02:14.830 --> 00:02:19.440
+So, now we understand that values were originally missing.
+
+38
+00:02:19.440 --> 00:02:20.985
+How can we use this information?
+
+39
+00:02:20.985 --> 00:02:26.400
+We can replace the missing values we found with not numbers, nulls again.
+
+40
+00:02:26.400 --> 00:02:31.000
+For example, [inaudible] has a special algorithm that can fill missing values on its own and so,
+
+41
+00:02:31.000 --> 00:02:35.890
+maybe [inaudible] will benefit from explicit missing values.
+
+42
+00:02:35.890 --> 00:02:40.780
+Or we can fill the missing values with something other than feature mean,
+
+43
+00:02:40.780 --> 00:02:44.670
+for example, with -999.
+
+44
+00:02:44.670 --> 00:02:50.380
+Or we can generate a new feature which will indicate that the value was missing.
+
+45
+00:02:50.380 --> 00:02:54.630
+This can be particularly useful for linear models.
+
+46
+00:02:54.630 --> 00:02:57.583
+We can also build the plot where on X axis,
+
+47
+00:02:57.583 --> 00:02:58.980
+we have a row index,
+
+48
+00:02:58.980 --> 00:03:02.940
+and on the Y axis, we have feature values.
+
+49
+00:03:02.940 --> 00:03:05.430
+It is convenient not to connect points with
+
+50
+00:03:05.430 --> 00:03:08.960
+line segments but only draw them with circles.
+
+51
+00:03:08.960 --> 00:03:12.435
+Now, if we observe horizontal lines on this kind of plot,
+
+52
+00:03:12.435 --> 00:03:17.100
+we understand there are a lot of repeated values in this feature.
+
+53
+00:03:17.100 --> 00:03:21.618
+Also, note the randomness over the indices.
+
+54
+00:03:21.618 --> 00:03:24.880
+That is, we see some horizontal patterns but no vertical ones.
+
+55
+00:03:24.880 --> 00:03:27.690
+It means that the data is properly shuffled.
+
+56
+00:03:27.690 --> 00:03:32.225
+We can also color code the points according to their labels.
+
+57
+00:03:32.225 --> 00:03:35.240
+Here, we see that the feature is quite
+
+58
+00:03:35.240 --> 00:03:38.510
+good as it presumably gives a nice class separation.
+
+59
+00:03:38.510 --> 00:03:42.665
+And also, we clearly see that the data is not shuffled here.
+
+60
+00:03:42.665 --> 00:03:45.925
+It is, in fact, sorted by class label.
+
+61
+00:03:45.925 --> 00:03:50.675
+It is useful to examine statistics with Pandas' describe function.
+
+62
+00:03:50.675 --> 00:03:54.030
+You can see examples of its output on the screenshot.
+
+63
+00:03:54.030 --> 00:03:56.145
+It gives you information about mean,
+
+64
+00:03:56.145 --> 00:04:00.210
+standard deviation, and several percentiles of the feature distribution.
+
+65
+00:04:00.210 --> 00:04:03.480
+Of course, you can manually compute those statistics.
+
+66
+00:04:03.480 --> 00:04:05.235
+In Pandas' nan type,
+
+67
+00:04:05.235 --> 00:04:08.330
+you can find functions named by statistics they compute.
+
+68
+00:04:08.330 --> 00:04:11.460
+Mean for mean value, var for variance,
+
+69
+00:04:11.460 --> 00:04:15.790
+and so on, but it's really convenient to have them all in once.
+
+70
+00:04:15.790 --> 00:04:20.505
+And finally, as we already discussed in the previous video,
+
+71
+00:04:20.505 --> 00:04:23.225
+there is value_counts function to examine
+
+72
+00:04:23.225 --> 00:04:27.010
+the number of occurrences of distinct feature values,
+
+73
+00:04:27.010 --> 00:04:29.780
+and a function is null,
+
+74
+00:04:29.780 --> 00:04:32.795
+which helps to find the missing values in the data.
+
+75
+00:04:32.795 --> 00:04:38.125
+For example, you can visualize nulls patterns in the data as on the picture you see.
+
+76
+00:04:38.125 --> 00:04:42.120
+So, here's the full list of functions we've discussed.
+
+77
+00:04:42.120 --> 00:04:44.350
+Make sure you remember each of them.
+
+78
+00:04:44.350 --> 00:04:48.745
+To this end, we've discussed visualizations for individual features.
+
+79
+00:04:48.745 --> 00:04:52.640
+And now, let's get to the next topic of our discussion,
+
+80
+00:04:52.640 --> 00:04:55.500
+exploration of feature relations.
+
+81
+00:04:55.500 --> 00:04:57.760
+It turns out that sometimes,
+
+82
+00:04:57.760 --> 00:05:01.055
+it's hard to make conclusions looking at one feature at a time.
+
+83
+00:05:01.055 --> 00:05:03.630
+So let's look at the pairs.
+
+84
+00:05:03.630 --> 00:05:06.560
+The best two here is a scatter plot.
+
+85
+00:05:06.560 --> 00:05:11.700
+With it, we can draw one sequence of values versus another one.
+
+86
+00:05:11.700 --> 00:05:15.785
+And usually, we plot one feature versus another feature.
+
+87
+00:05:15.785 --> 00:05:18.600
+So each point on the figure correspond to an object
+
+88
+00:05:18.600 --> 00:05:22.355
+with the feature values shown by points position.
+
+89
+00:05:22.355 --> 00:05:24.110
+If it's a classification task,
+
+90
+00:05:24.110 --> 00:05:28.655
+it's convenient to color code the points with their labels like on this picture.
+
+91
+00:05:28.655 --> 00:05:31.725
+The color indicates the class of the object.
+
+92
+00:05:31.725 --> 00:05:35.870
+For regression, the heat map light coloring can be used, too.
+
+93
+00:05:35.870 --> 00:05:40.870
+Or alternatively, the target value can be visualized by point size.
+
+94
+00:05:40.870 --> 00:05:44.215
+We can effectively use scatter plots to check if
+
+95
+00:05:44.215 --> 00:05:48.840
+the data distribution in the train and test sets are the same.
+
+96
+00:05:48.840 --> 00:05:52.575
+In this example, the red points correspond to class zero,
+
+97
+00:05:52.575 --> 00:05:55.605
+and the blue points to class one.
+
+98
+00:05:55.605 --> 00:05:58.020
+And on top of red and blue points,
+
+99
+00:05:58.020 --> 00:05:59.655
+we see gray points.
+
+100
+00:05:59.655 --> 00:06:01.990
+They correspond to test set.
+
+101
+00:06:01.990 --> 00:06:04.615
+We don't have labels for the test set,
+
+102
+00:06:04.615 --> 00:06:06.455
+that is why they are gray.
+
+103
+00:06:06.455 --> 00:06:13.475
+And we clearly see that the red points are mixed with part of the gray ones,
+
+104
+00:06:13.475 --> 00:06:15.240
+and that that is good actually.
+
+105
+00:06:15.240 --> 00:06:18.530
+But other gray points are located in the region
+
+106
+00:06:18.530 --> 00:06:22.600
+where we don't have any training data, and that is bad.
+
+107
+00:06:22.600 --> 00:06:27.295
+If you see some kind of discrepancy between colored and gray points distribution,
+
+108
+00:06:27.295 --> 00:06:31.165
+you should probably stop and think if you're doing it right.
+
+109
+00:06:31.165 --> 00:06:33.025
+It can be just a bug in the code,
+
+110
+00:06:33.025 --> 00:06:35.965
+or it can be completely overfitted feature,
+
+111
+00:06:35.965 --> 00:06:40.005
+or something else that is for sure not healthy.
+
+112
+00:06:40.005 --> 00:06:42.125
+Now, take a look at this scatter plot.
+
+113
+00:06:42.125 --> 00:06:46.555
+Say, we plot feature X1 versus feature X2.
+
+114
+00:06:46.555 --> 00:06:50.440
+What can we say about their relation?
+
+115
+00:06:50.440 --> 00:06:56.040
+The right answer is X2 is less or equal than one_minus_X1.
+
+116
+00:06:56.040 --> 00:07:01.895
+Just realize that the equation for the diagonal line is X1 + X2 = 1,
+
+117
+00:07:01.895 --> 00:07:04.895
+and for all the points below the line,
+
+118
+00:07:04.895 --> 00:07:09.310
+X2 is less or equal than one_minus_X1.
+
+119
+00:07:09.310 --> 00:07:13.550
+So, suppose we found this relation between two features,
+
+120
+00:07:13.550 --> 00:07:15.235
+how do we use this fact?
+
+121
+00:07:15.235 --> 00:07:17.315
+Of course, it depends,
+
+122
+00:07:17.315 --> 00:07:20.370
+but at least there are some obvious features to generate.
+
+123
+00:07:20.370 --> 00:07:24.065
+For tree-based models, we can create a new features like
+
+124
+00:07:24.065 --> 00:07:28.220
+the difference or ratio between X1 and X2.
+
+125
+00:07:28.220 --> 00:07:30.530
+Now, take a look at this scatter plot.
+
+126
+00:07:30.530 --> 00:07:35.690
+It's hard to say what is the true relation between the features, but after all,
+
+127
+00:07:35.690 --> 00:07:38.555
+our goal is not to decode the data here but to
+
+128
+00:07:38.555 --> 00:07:42.890
+generate new features and get a better score.
+
+129
+00:07:42.890 --> 00:07:48.100
+And this plot gives us an idea how to generate the features out of these two features.
+
+130
+00:07:48.100 --> 00:07:50.270
+We see several triangles on the picture,
+
+131
+00:07:50.270 --> 00:07:55.530
+so we could probably make a feature to each triangle a given point belongs,
+
+132
+00:07:55.530 --> 00:07:58.695
+and hope that this feature will help.
+
+133
+00:07:58.695 --> 00:08:00.940
+When you have a small number of features,
+
+134
+00:08:00.940 --> 00:08:03.940
+you can plot all the pairwise scatter plots at once
+
+135
+00:08:03.940 --> 00:08:09.080
+using scatter metrics function from Pandas. It's pretty handy.
+
+136
+00:08:09.080 --> 00:08:13.130
+It's also nice to have histogram and scatter plot before the eyes at
+
+137
+00:08:13.130 --> 00:08:17.925
+the same time as scatter plot gives you very vague information about densities,
+
+138
+00:08:17.925 --> 00:08:22.220
+while histograms do not show feature interactions.
+
+139
+00:08:22.220 --> 00:08:26.465
+We can also compute some kind of distance between the columns of
+
+140
+00:08:26.465 --> 00:08:28.820
+our feature table and store them into
+
+141
+00:08:28.820 --> 00:08:32.495
+a matrix of size number of features by a number of features.
+
+142
+00:08:32.495 --> 00:08:35.965
+For example, we can compute correlation between the counts.
+
+143
+00:08:35.965 --> 00:08:40.970
+It's the most common type of matrices people build, correlation metric.
+
+144
+00:08:40.970 --> 00:08:44.300
+But we can compute other things than correlation.
+
+145
+00:08:44.300 --> 00:08:49.605
+For example, how many times one feature is larger than the other?
+
+146
+00:08:49.605 --> 00:08:53.150
+I mean, how many rows are there such that the value of
+
+147
+00:08:53.150 --> 00:08:57.850
+the first feature is larger than the value of the second one?
+
+148
+00:08:57.850 --> 00:09:00.955
+Or another example, we can compute
+
+149
+00:09:00.955 --> 00:09:05.195
+how many distinct combinations the features have in the dataset.
+
+150
+00:09:05.195 --> 00:09:08.545
+With such custom functions,
+
+151
+00:09:08.545 --> 00:09:10.450
+we should build the metrics manually,
+
+152
+00:09:10.450 --> 00:09:12.490
+and we can use matshow function from
+
+153
+00:09:12.490 --> 00:09:16.440
+Matplotlib to visualize it like on the slide you see.
+
+154
+00:09:16.440 --> 00:09:20.630
+If the metrics looks like a total mess like in here,
+
+155
+00:09:20.630 --> 00:09:24.020
+we can run some kind of clustering like K-means clustering on
+
+156
+00:09:24.020 --> 00:09:28.480
+the rows and columns of this matrix and reorder the features.
+
+157
+00:09:28.480 --> 00:09:29.985
+This one looks better, isn't it?
+
+158
+00:09:29.985 --> 00:09:38.030
+We actually came to the last topic of our discussion, feature groups.
+
+159
+00:09:38.030 --> 00:09:40.000
+And it's what we see here.
+
+160
+00:09:40.000 --> 00:09:43.250
+There are groups of very similar features, and usually,
+
+161
+00:09:43.250 --> 00:09:47.435
+it's a good idea to generate new features based on the groups.
+
+162
+00:09:47.435 --> 00:09:50.660
+Again, it depends, but maybe some statistics
+
+163
+00:09:50.660 --> 00:09:54.485
+could collated over the group will work fine as features.
+
+164
+00:09:54.485 --> 00:09:58.800
+Another visualization that helps to find feature groups is the
+
+165
+00:09:58.800 --> 00:10:03.529
+following: We calculate the statistics of each feature,
+
+166
+00:10:03.529 --> 00:10:04.838
+for example, mean value,
+
+167
+00:10:04.838 --> 00:10:08.455
+and then plot it against column index.
+
+168
+00:10:08.455 --> 00:10:12.175
+This plot can look quite random if the columns are shuffled.
+
+169
+00:10:12.175 --> 00:10:16.690
+So, what if we sorted the columns based on this statistic?
+
+170
+00:10:16.690 --> 00:10:18.720
+Feature and mean, in this case.
+
+171
+00:10:18.720 --> 00:10:21.085
+It looks like it worked out.
+
+172
+00:10:21.085 --> 00:10:23.610
+We clearly see the groups here.
+
+173
+00:10:23.610 --> 00:10:26.760
+So, now we can take a closer look to each group and
+
+174
+00:10:26.760 --> 00:10:30.915
+use the imagination to generate new features.
+
+175
+00:10:30.915 --> 00:10:34.455
+And here is a list of all the functions we've just discussed.
+
+176
+00:10:34.455 --> 00:10:39.010
+Pause the video and check if you remember the examples we saw.
+
+177
+00:10:39.010 --> 00:10:41.410
+So, finally in this video,
+
+178
+00:10:41.410 --> 00:10:46.603
+we we're talking about the tools and functions that help us with data exploration.
+
+179
+00:10:46.603 --> 00:10:49.780
+For example, to explore features one by one,
+
+180
+00:10:49.780 --> 00:10:51.240
+we can use histograms,
+
+181
+00:10:51.240 --> 00:10:55.110
+plots, and we can also examine statistics.
+
+182
+00:10:55.110 --> 00:10:58.080
+To explore a relation between the features,
+
+183
+00:10:58.080 --> 00:11:00.125
+the best tool is a scatter plot.
+
+184
+00:11:00.125 --> 00:11:05.760
+Scatter metrics combines several scatter plots and histograms on one figure.
+
+185
+00:11:05.760 --> 00:11:10.565
+Correlation plot is useful to understand how similar the features are.
+
+186
+00:11:10.565 --> 00:11:13.980
+And if we reorder the columns and rows of the correlation metrics,
+
+187
+00:11:13.980 --> 00:11:16.425
+we'll probably find feature groups.
+
+188
+00:11:16.425 --> 00:11:20.450
+And feature groups was the last topic we discussed in this lesson.
+
+189
+00:11:20.450 --> 00:11:30.175
+We also saw a plot of sorted feature statistics and how it can reveal as feature groups.
+
+190
+00:11:30.175 --> 00:11:34.385
+Well, of course, we've discussed only a fraction of helpful plots there are.
+
+191
+00:11:34.385 --> 00:11:40.120
+With practice, you will develop and find your own tools further exploration.

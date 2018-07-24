@@ -1,0 +1,530 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.780
+[MUSIC]
+
+2
+00:00:03.780 --> 00:00:09.093
+Hi, in this video we will discuss
+a little bit of dataset cleaning and
+
+3
+00:00:09.093 --> 00:00:12.220
+see how to check if dataset is shuffled.
+
+4
+00:00:12.220 --> 00:00:16.790
+It is important to understand that
+the competition data can be only apart of
+
+5
+00:00:16.790 --> 00:00:18.468
+the data organizers have.
+
+6
+00:00:18.468 --> 00:00:23.604
+The organizers could give us
+a fraction of objects they have or
+
+7
+00:00:23.604 --> 00:00:25.690
+a fraction of features.
+
+8
+00:00:25.690 --> 00:00:29.140
+And that is why we can have
+some issues with the data.
+
+9
+00:00:29.140 --> 00:00:33.816
+For example, we can encounter a feature
+which takes the same value for
+
+10
+00:00:33.816 --> 00:00:36.520
+every object in both train and test set.
+
+11
+00:00:36.520 --> 00:00:39.760
+This could be due to
+the sampling procedure.
+
+12
+00:00:39.760 --> 00:00:42.796
+For example, the future is a year, and
+
+13
+00:00:42.796 --> 00:00:46.660
+the organizers exported
+us only one year of data.
+
+14
+00:00:46.660 --> 00:00:49.713
+So in the original data
+that the organizers have,
+
+15
+00:00:49.713 --> 00:00:54.230
+this future is not constant, but
+in the competition data it is constant.
+
+16
+00:00:54.230 --> 00:00:59.460
+And obviously, it is not useful for
+the models and just occupy some memory.
+
+17
+00:00:59.460 --> 00:01:03.739
+So we are about to remove
+such constant features.
+
+18
+00:01:03.739 --> 00:01:07.560
+In this example data set
+feature of zero is constant.
+
+19
+00:01:07.560 --> 00:01:12.027
+It can be the case that the feature
+is constant on the train set but
+
+20
+00:01:12.027 --> 00:01:14.860
+how is different values on the test set.
+
+21
+00:01:14.860 --> 00:01:19.691
+Again, it is better to remove such
+features completely since it is constant
+
+22
+00:01:19.691 --> 00:01:20.907
+during training.
+
+23
+00:01:20.907 --> 00:01:23.861
+In our dataset feature is f1.
+
+24
+00:01:23.861 --> 00:01:25.580
+What is the problem, actually?
+
+25
+00:01:25.580 --> 00:01:29.669
+For example, my new model can assign
+some weight to this future, so
+
+26
+00:01:29.669 --> 00:01:34.189
+this future will be a part of the
+prediction formula, and this formula will
+
+27
+00:01:34.189 --> 00:01:38.950
+be completely unreliable for the objects
+with the new values of that feature.
+
+28
+00:01:38.950 --> 00:01:42.040
+For example, for
+the last row in our data set.
+
+29
+00:01:42.040 --> 00:01:47.237
+J row, even if categorical feature is not
+constant on the train path but there were
+
+30
+00:01:47.237 --> 00:01:52.760
+values that present only in the test data,
+we need to handle this situation properly.
+
+31
+00:01:52.760 --> 00:01:57.283
+We need to decide,
+do these new values matter much or not?
+
+32
+00:01:57.283 --> 00:02:01.559
+For example, we can simulate this
+situation with a validation set and
+
+33
+00:02:01.559 --> 00:02:05.546
+compare the quality of the predictions
+on the objects with the syn
+
+34
+00:02:05.546 --> 00:02:09.040
+feature values and
+objects with the new feature values.
+
+35
+00:02:09.040 --> 00:02:13.757
+Maybe we will decide to remove
+the feature or maybe we will decide to
+
+36
+00:02:13.757 --> 00:02:18.403
+create a separate model for
+the object with a new feature values.
+
+37
+00:02:18.403 --> 00:02:23.321
+Sometimes there are duplicated
+numerical features that these two
+
+38
+00:02:23.321 --> 00:02:26.050
+columns are completely identical.
+
+39
+00:02:26.050 --> 00:02:31.444
+In our example data set,
+these columns f2 and f3.
+
+40
+00:02:31.444 --> 00:02:36.301
+Obviously, we should leave only one of
+those two features since the other one
+
+41
+00:02:36.301 --> 00:02:41.320
+will not give any new information to the
+model and will only slow down training.
+
+42
+00:02:41.320 --> 00:02:45.230
+From a number of features, it's easy
+to check if two columns are the same.
+
+43
+00:02:45.230 --> 00:02:49.932
+We just can compare them element wise.
+
+44
+00:02:49.932 --> 00:02:53.105
+We can also have duplicated
+categorical features.
+
+45
+00:02:53.105 --> 00:02:56.188
+The problem is that the features
+can be identical but
+
+46
+00:02:56.188 --> 00:02:58.370
+their levels have different names.
+
+47
+00:02:58.370 --> 00:03:03.324
+That is it can be possible to rename
+levels of one of the features and
+
+48
+00:03:03.324 --> 00:03:06.070
+two columns will become identical.
+
+49
+00:03:06.070 --> 00:03:08.890
+For example features f4 and f5.
+
+50
+00:03:08.890 --> 00:03:13.618
+If we rename levels of the feature f5,
+
+51
+00:03:13.618 --> 00:03:16.638
+C to A, A to B, and B to C.
+
+52
+00:03:16.638 --> 00:03:20.761
+The result will look
+exactly as feature f4.
+
+53
+00:03:20.761 --> 00:03:24.490
+But how do we find such
+duplicated features?
+
+54
+00:03:24.490 --> 00:03:27.251
+Fortunately, it's quite easy,
+
+55
+00:03:27.251 --> 00:03:31.543
+it will take us only one more
+line of code to find them.
+
+56
+00:03:31.543 --> 00:03:36.496
+We need to label and code all
+the categorical features first, and
+
+57
+00:03:36.496 --> 00:03:39.750
+then compare them as if they were numbers.
+
+58
+00:03:39.750 --> 00:03:43.194
+The most important part
+here is label encoding.
+
+59
+00:03:43.194 --> 00:03:45.467
+We need to do it right.
+
+60
+00:03:45.467 --> 00:03:49.352
+We need to encode the features
+from top to bottom so
+
+61
+00:03:49.352 --> 00:03:55.380
+that the first unique value we see gets
+label 1, the second gets 2 and so on.
+
+62
+00:03:55.380 --> 00:03:58.557
+For example for feature f4,
+
+63
+00:03:58.557 --> 00:04:03.653
+we will encode A with 1,
+B with 2 and C with 3.
+
+64
+00:04:03.653 --> 00:04:11.854
+Now feature f5 will encode
+it differently C will be 1,
+
+65
+00:04:11.854 --> 00:04:15.877
+A will be 2 and B will be 3.
+
+66
+00:04:15.877 --> 00:04:19.134
+But after such encodings columns f4 and
+
+67
+00:04:19.134 --> 00:04:23.740
+f5 turn out to be identical and
+we can remove one of them.
+
+68
+00:04:23.740 --> 00:04:26.901
+Another important thing
+to check is if there
+
+69
+00:04:26.901 --> 00:04:30.240
+are any duplicated rows in the train and
+test.
+
+70
+00:04:30.240 --> 00:04:34.474
+Is to write a lot of duplicated rows
+that also have different target,
+
+71
+00:04:34.474 --> 00:04:38.197
+it can be a sign the competition
+will be more like a roulette,
+
+72
+00:04:38.197 --> 00:04:42.577
+and our validation will be different
+to public leader board score, and
+
+73
+00:04:42.577 --> 00:04:45.150
+private standing will be rather random.
+
+74
+00:04:45.150 --> 00:04:51.656
+Another possibility, duplicated rows
+can just be the result of a mistake.
+
+75
+00:04:51.656 --> 00:04:56.105
+There was a competition where
+one row was repeated 100,000
+
+76
+00:04:56.105 --> 00:04:58.260
+times in the training data set.
+
+77
+00:04:58.260 --> 00:05:03.351
+I'm not sure if it was intentional or
+not, but it was necessary
+
+78
+00:05:03.351 --> 00:05:08.840
+to remove those duplicated rows to
+have a high score on the test set.
+
+79
+00:05:08.840 --> 00:05:11.761
+Anyway, it's better to explain
+
+80
+00:05:11.761 --> 00:05:16.673
+it to ourselves why do we
+observe such duplicated rows?
+
+81
+00:05:16.673 --> 00:05:19.646
+This is a part of data
+understanding in fact.
+
+82
+00:05:19.646 --> 00:05:23.790
+We should also check if train and
+test have common rows.
+
+83
+00:05:23.790 --> 00:05:28.890
+Sometimes it can tell us something
+about data set generation process.
+
+84
+00:05:28.890 --> 00:05:35.820
+And again we should probably think what
+could be the reason for those duplicates?
+
+85
+00:05:35.820 --> 00:05:39.166
+Another thing we can do,
+we can set labels manually for
+
+86
+00:05:39.166 --> 00:05:42.090
+the test rows that
+are present in the train set.
+
+87
+00:05:42.090 --> 00:05:47.199
+Finally, it is very useful to check
+that the data set is shuffled,
+
+88
+00:05:47.199 --> 00:05:52.600
+because if it is not then, there is
+a high chance to find data leakage.
+
+89
+00:05:52.600 --> 00:05:57.348
+We'll have a special topic about
+date leakages later, but for
+
+90
+00:05:57.348 --> 00:06:01.210
+now we'll just discuss
+that the data is shuffled.
+
+91
+00:06:01.210 --> 00:06:06.990
+What we can do is we can plug a feature or
+target vector versus row index.
+
+92
+00:06:06.990 --> 00:06:12.080
+We can optionally smooth
+the values using running average.
+
+93
+00:06:12.080 --> 00:06:17.186
+On this slide rolling target
+value from pairs competition
+
+94
+00:06:17.186 --> 00:06:22.300
+is plotted while mean target value
+is shown with dashed blue line.
+
+95
+00:06:22.300 --> 00:06:26.965
+If the data was shuffled properly we
+would expect some kind of oscillation
+
+96
+00:06:26.965 --> 00:06:30.210
+of the target values around
+the mean target value.
+
+97
+00:06:30.210 --> 00:06:35.004
+But in this case, it looks like
+the end of the train set is much
+
+98
+00:06:35.004 --> 00:06:39.150
+different to the start,
+and we have some patterns.
+
+99
+00:06:39.150 --> 00:06:42.827
+Maybe the information from this particular
+plot will not advance our model.
+
+100
+00:06:42.827 --> 00:06:46.199
+But once again,
+we should find an explanation for
+
+101
+00:06:46.199 --> 00:06:48.860
+all extraordinary things we observe.
+
+102
+00:06:48.860 --> 00:06:54.250
+Maybe eventually, we will find something
+that will lead us to the first place.
+
+103
+00:06:54.250 --> 00:06:57.624
+Finally, I want to encourage
+you one more time to
+
+104
+00:06:57.624 --> 00:07:00.847
+visualize every possible
+thing in a dataset.
+
+105
+00:07:00.847 --> 00:07:04.670
+Visualizations will lead
+you to magic features.
+
+106
+00:07:04.670 --> 00:07:08.040
+So this is the last slide for this lesson.
+
+107
+00:07:08.040 --> 00:07:12.760
+Hope you've learned something new and
+excited about it.
+
+108
+00:07:12.760 --> 00:07:15.930
+Here's a whole list of
+topics we've discussed.
+
+109
+00:07:15.930 --> 00:07:17.825
+You can pause this video and
+
+110
+00:07:17.825 --> 00:07:21.546
+try to remember what we were
+talking about and where.
+
+111
+00:07:21.546 --> 00:07:23.113
+See you later.
+
+112
+00:07:23.113 --> 00:07:33.113
+[MUSIC]
