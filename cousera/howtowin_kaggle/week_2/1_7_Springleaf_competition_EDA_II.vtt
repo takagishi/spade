@@ -1,0 +1,981 @@
+WEBVTT
+
+1
+00:00:03.070 --> 00:00:07.730
+So, let's continue exploration.
+
+2
+00:00:07.730 --> 00:00:11.131
+We wanted to determine the types of variables,
+
+3
+00:00:11.131 --> 00:00:14.780
+and to do that we will first use this nunique function to
+
+4
+00:00:14.780 --> 00:00:18.574
+determine how many unique values again our feature have.
+
+5
+00:00:18.574 --> 00:00:25.155
+And we use this dropna=False to make sure this function computes and accounts for nons.
+
+6
+00:00:25.155 --> 00:00:28.300
+Otherwise, it will not count nun as unique value.
+
+7
+00:00:28.300 --> 00:00:33.665
+It will just unhit them. So, what we see here that ID has a lot of
+
+8
+00:00:33.665 --> 00:00:40.545
+unique values again and then we have not so huge values in this series, right?
+
+9
+00:00:40.545 --> 00:00:47.981
+So I have 150,000 elements but 6,000 unique elements.
+
+10
+00:00:47.981 --> 00:00:52.065
+25,000, it's not that a huge number, right?
+
+11
+00:00:52.065 --> 00:00:57.200
+So, let's aggregate this information and do the histogram of the values from above.
+
+12
+00:00:57.200 --> 00:01:01.950
+And it's not histogram of these exact values but but it's normalized values.
+
+13
+00:01:01.950 --> 00:01:06.725
+So, we divide each value by the number of rows in the tree.
+
+14
+00:01:06.725 --> 00:01:11.170
+It's the maximum value of unique values we could possibly have.
+
+15
+00:01:11.170 --> 00:01:15.380
+So what we see here that there are a lot of features that have
+
+16
+00:01:15.380 --> 00:01:24.965
+a few unique values and there are several that have a lot,
+
+17
+00:01:24.965 --> 00:01:26.330
+but not so much,
+
+18
+00:01:26.330 --> 00:01:28.280
+not as much as these.
+
+19
+00:01:28.280 --> 00:01:34.425
+So these features have almost in every row unique value.
+
+20
+00:01:34.425 --> 00:01:39.080
+So, let's actually explore these.
+
+21
+00:01:39.080 --> 00:01:44.945
+So, ID essentially is having a lot of unique values.
+
+22
+00:01:44.945 --> 00:01:47.775
+No problem with that. But what is this?
+
+23
+00:01:47.775 --> 00:01:52.160
+So what we actually see here, they are integers.
+
+24
+00:01:52.160 --> 00:01:54.705
+They are huge numbers but they're integers.
+
+25
+00:01:54.705 --> 00:01:59.480
+Well, I would expect a real,
+
+26
+00:01:59.480 --> 00:02:04.865
+nunique variable with real values to have a lot of unique values,
+
+27
+00:02:04.865 --> 00:02:08.320
+not integer type variable.
+
+28
+00:02:08.320 --> 00:02:14.090
+So, what could be our guess what these variables represent?
+
+29
+00:02:14.090 --> 00:02:16.109
+Basically, it can be a counter again.
+
+30
+00:02:16.109 --> 00:02:18.680
+But what else it could be?
+
+31
+00:02:18.680 --> 00:02:23.505
+It could be a time in let's say milliseconds or nanoseconds or something like that.
+
+32
+00:02:23.505 --> 00:02:29.514
+And we have a lot of unique values and no overlapping between the values
+
+33
+00:02:29.514 --> 00:02:33.020
+because it's really unlikely to have
+
+34
+00:02:33.020 --> 00:02:37.430
+two events or two rows in our data set having the same time,
+
+35
+00:02:37.430 --> 00:02:39.705
+let's say it's time of creation and so on,
+
+36
+00:02:39.705 --> 00:02:44.215
+because the time precision is quite good.
+
+37
+00:02:44.215 --> 00:02:47.920
+So yeah, that could be our guess.
+
+38
+00:02:47.920 --> 00:02:51.315
+So next, let's explore this group of features.
+
+39
+00:02:51.315 --> 00:02:53.320
+Again with some manipulations,
+
+40
+00:02:53.320 --> 00:02:57.035
+I found them and these are presented in this table.
+
+41
+00:02:57.035 --> 00:02:59.600
+So, what's interesting about this?
+
+42
+00:02:59.600 --> 00:03:01.740
+Actually, if you take a look at the names.
+
+43
+00:03:01.740 --> 00:03:05.380
+So the first one is 541. And the second one is 543.
+
+44
+00:03:05.380 --> 00:03:07.920
+Okay.
+
+45
+00:03:07.920 --> 00:03:11.096
+And then we have 1,081 and 1,082,
+
+46
+00:03:11.096 --> 00:03:16.445
+so you see they are standing really close to each other.
+
+47
+00:03:16.445 --> 00:03:19.897
+It's really unlikely that half of the row,
+
+48
+00:03:19.897 --> 00:03:23.488
+if the column order was random, if the columns were shuffled.
+
+49
+00:03:23.488 --> 00:03:28.095
+So, probably the columns are grouped together
+
+50
+00:03:28.095 --> 00:03:33.275
+according to something and we could explore this something.
+
+51
+00:03:33.275 --> 00:03:35.130
+And what's more interesting,
+
+52
+00:03:35.130 --> 00:03:38.820
+if we take a look at the values corresponding to one row,
+
+53
+00:03:38.820 --> 00:03:42.400
+then we'll find that'll say this value is equal to this value.
+
+54
+00:03:42.400 --> 00:03:44.030
+And this value is equal to this value and this value,
+
+55
+00:03:44.030 --> 00:03:47.760
+and this is basically the same value that we had in here.
+
+56
+00:03:47.760 --> 00:03:52.715
+So, we have five features out of four of this having the same value.
+
+57
+00:03:52.715 --> 00:03:56.025
+And if you examine other objects,
+
+58
+00:03:56.025 --> 00:04:00.370
+some of them will have the same thing happening and some will not.
+
+59
+00:04:00.370 --> 00:04:06.105
+So, you see it could be something that is really essential to
+
+60
+00:04:06.105 --> 00:04:12.270
+the objects and it could be a nice feature that separates the objects from each other.
+
+61
+00:04:12.270 --> 00:04:15.990
+And, it's something that we should
+
+62
+00:04:15.990 --> 00:04:20.520
+really investigate and where we should really do some feature engineering.
+
+63
+00:04:20.520 --> 00:04:23.010
+So, for say [inaudible] ,
+
+64
+00:04:23.010 --> 00:04:25.440
+it will be really hard to find those patterns.
+
+65
+00:04:25.440 --> 00:04:26.695
+I mean, it cannot find.
+
+66
+00:04:26.695 --> 00:04:33.375
+Well, it will struggle to find that two features are equal or five features are equal.
+
+67
+00:04:33.375 --> 00:04:40.315
+So, if we create or say feature that will calculate how many features out of these,
+
+68
+00:04:40.315 --> 00:04:45.150
+how many features we have have the same value say for
+
+69
+00:04:45.150 --> 00:04:47.450
+the object zero where we'll have the value five in
+
+70
+00:04:47.450 --> 00:04:50.724
+this feature and something for other rows,
+
+71
+00:04:50.724 --> 00:04:54.885
+then probably this feature could be discriminative.
+
+72
+00:04:54.885 --> 00:04:56.710
+And then we can create other features,
+
+73
+00:04:56.710 --> 00:05:02.005
+say we set it to one if the values in this column,
+
+74
+00:05:02.005 --> 00:05:06.780
+this and this and this and this are the same and zero to otherwise, and so on.
+
+75
+00:05:06.780 --> 00:05:09.060
+And basically, if you go through these rows,
+
+76
+00:05:09.060 --> 00:05:11.580
+you will find that the patterns are different and
+
+77
+00:05:11.580 --> 00:05:15.805
+sometimes the values are the same in different columns.
+
+78
+00:05:15.805 --> 00:05:17.655
+So for example, for this row,
+
+79
+00:05:17.655 --> 00:05:20.385
+we see that this value is equal to this value.
+
+80
+00:05:20.385 --> 00:05:26.100
+And this value is different to previous ones but its equal to this one.
+
+81
+00:05:26.100 --> 00:05:29.120
+And it's really fascinating, isn't it?
+
+82
+00:05:29.120 --> 00:05:32.130
+And if it actually will work and improve the model,
+
+83
+00:05:32.130 --> 00:05:34.540
+I will be happy.
+
+84
+00:05:34.540 --> 00:05:41.550
+And another thing we see here is some strange values and they look like nons.
+
+85
+00:05:41.550 --> 00:05:47.715
+I mean, it's something that a human typed in or a machine just autofilled.
+
+86
+00:05:47.715 --> 00:05:52.720
+So, let's go further. Oh, yeah.
+
+87
+00:05:52.720 --> 00:05:55.915
+And the last thing is just try to pick
+
+88
+00:05:55.915 --> 00:06:00.040
+one variable from this group and see what values does it have.
+
+89
+00:06:00.040 --> 00:06:04.773
+So, let's pick variable 15 and here's its values.
+
+90
+00:06:04.773 --> 00:06:10.975
+And minus 999 is probably how we've filled in the nons.
+
+91
+00:06:10.975 --> 00:06:15.200
+And yeah, we have 56 of them and all other values are non-negative,
+
+92
+00:06:15.200 --> 00:06:17.295
+so probably it's counters.
+
+93
+00:06:17.295 --> 00:06:21.115
+I mean, how many events happened in,
+
+94
+00:06:21.115 --> 00:06:23.230
+I don't know, in the month or something like that.
+
+95
+00:06:23.230 --> 00:06:25.835
+Okay.
+
+96
+00:06:25.835 --> 00:06:27.755
+And finally,
+
+97
+00:06:27.755 --> 00:06:34.305
+let's filter the columns and then separate columns into categorical and numeric.
+
+98
+00:06:34.305 --> 00:06:38.255
+And it's really easy to do using this function select_dtypes.
+
+99
+00:06:38.255 --> 00:06:44.525
+Basically, all the columns that will have objects type,
+
+100
+00:06:44.525 --> 00:06:48.510
+if you would use a function dtypes.
+
+101
+00:06:48.510 --> 00:06:51.070
+We think of them as categorical variables.
+
+102
+00:06:51.070 --> 00:06:55.340
+And otherwise, if they are assigned type integer or float or something like that,
+
+103
+00:06:55.340 --> 00:07:01.015
+or numeric type then we will think of these columns as numeric columns.
+
+104
+00:07:01.015 --> 00:07:08.615
+So, we can go through the features one-by-one as actually I did during the competition.
+
+105
+00:07:08.615 --> 00:07:12.730
+Well, we have 2,000 features in this data set and
+
+106
+00:07:12.730 --> 00:07:19.340
+it is unbearable to go through a feature one-by-one.
+
+107
+00:07:19.340 --> 00:07:23.190
+I've stopped at about 250 features.
+
+108
+00:07:23.190 --> 00:07:26.876
+And you can find in my notebook and reading materials if you're interested.
+
+109
+00:07:26.876 --> 00:07:31.280
+It's a little bit messy but you can see it. So,
+
+110
+00:07:31.280 --> 00:07:33.636
+What we will do here,
+
+111
+00:07:33.636 --> 00:07:39.500
+just several examples of what I was trying to investigate in data set,
+
+112
+00:07:39.500 --> 00:07:40.823
+let's do the following.
+
+113
+00:07:40.823 --> 00:07:43.983
+Let's take the number of columns,
+
+114
+00:07:43.983 --> 00:07:46.665
+we computed them previously.
+
+115
+00:07:46.665 --> 00:07:53.625
+So, we'll now work with only the first 42 columns and we'll create such metrics.
+
+116
+00:07:53.625 --> 00:07:58.240
+And it looks like correlation matrices and all of that type of
+
+117
+00:07:58.240 --> 00:08:03.130
+matrices like when we have the features along the y axis,
+
+118
+00:08:03.130 --> 00:08:05.080
+features along the x axis.
+
+119
+00:08:05.080 --> 00:08:06.975
+Basically, well, it's really huge.
+
+120
+00:08:06.975 --> 00:08:09.260
+Yeah. And in this case,
+
+121
+00:08:09.260 --> 00:08:14.185
+what we'll have as the values is the number or the fraction
+
+122
+00:08:14.185 --> 00:08:19.430
+of elements of one feature that are greater than elements of the second feature.
+
+123
+00:08:19.430 --> 00:08:25.825
+So, for example, this cell shows that all variables or all values
+
+124
+00:08:25.825 --> 00:08:34.100
+in variable 50 are less than values and variable ID, which is expected.
+
+125
+00:08:34.100 --> 00:08:35.790
+So, yeah.
+
+126
+00:08:35.790 --> 00:08:36.940
+And it's opposite in here.
+
+127
+00:08:36.940 --> 00:08:41.995
+So, if we see one in here it means that variable 45,
+
+128
+00:08:41.995 --> 00:08:45.290
+for example, is always greater than variable 24.
+
+129
+00:08:45.290 --> 00:08:50.810
+And, while we expect this metrics to be somehow random,
+
+130
+00:08:50.810 --> 00:08:54.755
+if the count order was random.
+
+131
+00:08:54.755 --> 00:08:56.568
+But, in here we see,
+
+132
+00:08:56.568 --> 00:08:58.935
+for example, these kind of square.
+
+133
+00:08:58.935 --> 00:09:03.068
+It means that every second feature is greater,
+
+134
+00:09:03.068 --> 00:09:08.725
+not to the second but let's say i+1 feature is greater than the feature i.
+
+135
+00:09:08.725 --> 00:09:13.300
+And, well it could be that this information is about,
+
+136
+00:09:13.300 --> 00:09:17.825
+for example, counters in different periods of time.
+
+137
+00:09:17.825 --> 00:09:23.620
+So, for example, the first feature is how many events happened in the first month.
+
+138
+00:09:23.620 --> 00:09:25.795
+The second feature is how many events happened in
+
+139
+00:09:25.795 --> 00:09:30.910
+the first two month and so kind of cumulative values.
+
+140
+00:09:30.910 --> 00:09:34.925
+And, that is why one feature is always greater than the other.
+
+141
+00:09:34.925 --> 00:09:41.125
+And basically, what information we can extract
+
+142
+00:09:41.125 --> 00:09:44.365
+from this kind of metrics is that we have this group
+
+143
+00:09:44.365 --> 00:09:48.520
+and we can generate new features and these features could be,
+
+144
+00:09:48.520 --> 00:09:51.795
+for example, the difference between two consecutive features.
+
+145
+00:09:51.795 --> 00:09:54.760
+That is how we will extract, for example,
+
+146
+00:09:54.760 --> 00:09:58.695
+the number of events in each month.
+
+147
+00:09:58.695 --> 00:10:04.615
+So, we'll go from cumulative values back to normal values.
+
+148
+00:10:04.615 --> 00:10:08.380
+And, well linear models, say, neural networks,
+
+149
+00:10:08.380 --> 00:10:13.710
+they could do it themselves but tree-based algorithms they could not.
+
+150
+00:10:13.710 --> 00:10:16.445
+So, it could be really helpful.
+
+151
+00:10:16.445 --> 00:10:22.105
+So, in attached to
+
+152
+00:10:22.105 --> 00:10:27.380
+non-book in the reading materials you will see that a lot of these kind of patterns.
+
+153
+00:10:27.380 --> 00:10:29.990
+So, we have one in here, one in here.
+
+154
+00:10:29.990 --> 00:10:36.810
+The patterns, well, this is also a pattern, isn't it?
+
+155
+00:10:36.810 --> 00:10:44.415
+And now we will just go through several variables that are different.
+
+156
+00:10:44.415 --> 00:10:49.940
+So, for example, variable two and variable three are interesting.
+
+157
+00:10:49.940 --> 00:10:54.060
+If you build a histogram of them,
+
+158
+00:10:54.060 --> 00:10:56.820
+you will see something like that.
+
+159
+00:10:56.820 --> 00:11:00.390
+And, the most interesting part here are these spikes.
+
+160
+00:11:00.390 --> 00:11:04.715
+And you see, again, they're not random.
+
+161
+00:11:04.715 --> 00:11:06.865
+There's something in there.
+
+162
+00:11:06.865 --> 00:11:12.520
+So, if we take this variable two and build there, well,
+
+163
+00:11:12.520 --> 00:11:14.541
+use this value count's function,
+
+164
+00:11:14.541 --> 00:11:19.030
+we'll have value and how many times it occurs in this variable.
+
+165
+00:11:19.030 --> 00:11:21.960
+We will see that the values, the top values,
+
+166
+00:11:21.960 --> 00:11:25.482
+are 12, 24, 36,
+
+167
+00:11:25.482 --> 00:11:26.730
+60 and so on.
+
+168
+00:11:26.730 --> 00:11:31.975
+So, they can be divided by 12 and well probably,
+
+169
+00:11:31.975 --> 00:11:36.550
+this variable is somehow connected to time, isn't it?
+
+170
+00:11:36.550 --> 00:11:39.660
+To hours.
+
+171
+00:11:39.660 --> 00:11:42.105
+Well, and what can we do?
+
+172
+00:11:42.105 --> 00:11:45.990
+We want to generate features so we will generate feature like the value
+
+173
+00:11:45.990 --> 00:11:50.670
+of these variable modular 12 or,
+
+174
+00:11:50.670 --> 00:11:56.135
+for example, value of this variable integer division by 12.
+
+175
+00:11:56.135 --> 00:11:58.900
+So, this could really help.
+
+176
+00:11:58.900 --> 00:12:06.945
+In other competition, you could build a variable and see something like that again.
+
+177
+00:12:06.945 --> 00:12:08.495
+And what happened in there,
+
+178
+00:12:08.495 --> 00:12:11.260
+the organizers actually had quantized data.
+
+179
+00:12:11.260 --> 00:12:16.515
+So, they only had data that in our case could be divided by 12.
+
+180
+00:12:16.515 --> 00:12:18.930
+Say 12, 24 and so on.
+
+181
+00:12:18.930 --> 00:12:24.320
+But, they wanted to kind of obfuscate the data probably and they added some noise.
+
+182
+00:12:24.320 --> 00:12:29.345
+And, that is why if you plot an histogram,
+
+183
+00:12:29.345 --> 00:12:38.730
+you will still see the spikes but you will also see something in between the spikes.
+
+184
+00:12:38.730 --> 00:12:42.500
+And so, again, these features in that competition they work quite well and you
+
+185
+00:12:42.500 --> 00:12:49.010
+could dequantize the values and it could really help.
+
+186
+00:12:49.010 --> 00:12:53.665
+And the same is happening with variable 3 basically,
+
+187
+00:12:53.665 --> 00:12:55.540
+0, 12, 24 and so on.
+
+188
+00:12:55.540 --> 00:12:59.730
+And variable 4, I don't have
+
+189
+00:12:59.730 --> 00:13:05.705
+any plot for variable 4 itself in here but actually we do the same thing.
+
+190
+00:13:05.705 --> 00:13:07.080
+So, we take variable 4,
+
+191
+00:13:07.080 --> 00:13:12.620
+we create a new feature variable 4 modulus 50.
+
+192
+00:13:12.620 --> 00:13:17.570
+And now, we plot this kind of histogram.
+
+193
+00:13:17.570 --> 00:13:21.178
+What you see here is light green,
+
+194
+00:13:21.178 --> 00:13:23.835
+there are actually two histograms in there.
+
+195
+00:13:23.835 --> 00:13:25.990
+The first one for object from the class 0 and
+
+196
+00:13:25.990 --> 00:13:29.665
+the second one for the objects from class 1.
+
+197
+00:13:29.665 --> 00:13:35.950
+And one is depicted with light green and the second one is with dark green.
+
+198
+00:13:35.950 --> 00:13:38.890
+And, you see these other values.
+
+199
+00:13:38.890 --> 00:13:44.639
+And, you see only difference in these bar,
+
+200
+00:13:44.639 --> 00:13:45.980
+but, you see the difference.
+
+201
+00:13:45.980 --> 00:13:49.550
+So, it means that these new feature variable
+
+202
+00:13:49.550 --> 00:13:55.160
+4 modulus 50 can be really discriminative when it takes the value 0.
+
+203
+00:13:55.160 --> 00:14:01.240
+So, one could say that this is kind of,
+
+204
+00:14:01.240 --> 00:14:04.541
+well, I don't know how to say that.,
+
+205
+00:14:04.541 --> 00:14:07.310
+I mean, certain people would never do that.
+
+206
+00:14:07.310 --> 00:14:10.875
+Like, why do we want to take away modular 50?
+
+207
+00:14:10.875 --> 00:14:14.140
+But, you see sometimes this can really help.
+
+208
+00:14:14.140 --> 00:14:19.340
+Probably because organizers prepare the data that way.
+
+209
+00:14:19.340 --> 00:14:25.235
+So, let's get through categorical features.
+
+210
+00:14:25.235 --> 00:14:28.100
+We have actually not a lot of them.
+
+211
+00:14:28.100 --> 00:14:34.845
+We have some labels in here, some binary variables.
+
+212
+00:14:34.845 --> 00:14:36.617
+I don't know what is this,
+
+213
+00:14:36.617 --> 00:14:40.225
+this is probably is some problems with the encoding I have.
+
+214
+00:14:40.225 --> 00:14:42.710
+And then, we have some time variables.
+
+215
+00:14:42.710 --> 00:14:45.385
+This is actually not a time.
+
+216
+00:14:45.385 --> 00:14:47.450
+Time. Not a time.
+
+217
+00:14:47.450 --> 00:14:49.530
+Not a time. This is time.
+
+218
+00:14:49.530 --> 00:14:50.880
+Whoa, this is interesting.
+
+219
+00:14:50.880 --> 00:14:53.080
+This looks like cities, right?
+
+220
+00:14:53.080 --> 00:14:55.025
+Or towns, I mean, city names.
+
+221
+00:14:55.025 --> 00:14:58.570
+And, if you remember what features we can generate from geolocation,
+
+222
+00:14:58.570 --> 00:15:01.355
+it's the place to generate it.
+
+223
+00:15:01.355 --> 00:15:02.980
+And, then again, it was some time,
+
+224
+00:15:02.980 --> 00:15:07.980
+some labels and once again,
+
+225
+00:15:07.980 --> 00:15:10.185
+it's the states. Isn't it?
+
+226
+00:15:10.185 --> 00:15:15.855
+So, again, we can generate some geographic features.
+
+227
+00:15:15.855 --> 00:15:22.200
+But particularly interesting, the features are the date.
+
+228
+00:15:22.200 --> 00:15:24.420
+Dates that we had in here.
+
+229
+00:15:24.420 --> 00:15:31.095
+And basically, these are all the columns that I found having the data information.
+
+230
+00:15:31.095 --> 00:15:37.745
+So, it was one of the best features for this competition actually.
+
+231
+00:15:37.745 --> 00:15:39.255
+You could do the following,
+
+232
+00:15:39.255 --> 00:15:40.970
+you could do a scatter plot between
+
+233
+00:15:40.970 --> 00:15:48.350
+two date features to particular date features and found that they have some relation,
+
+234
+00:15:48.350 --> 00:15:51.500
+and, one is always greater than another.
+
+235
+00:15:51.500 --> 00:15:55.475
+It means that probably these are dates of some events and
+
+236
+00:15:55.475 --> 00:16:00.365
+one event is happening always after the first one.
+
+237
+00:16:00.365 --> 00:16:05.115
+So, we can extract different features like the difference between these two dates.
+
+238
+00:16:05.115 --> 00:16:06.360
+And in this competition,
+
+239
+00:16:06.360 --> 00:16:08.190
+it really helped a lot.
+
+240
+00:16:08.190 --> 00:16:10.485
+So, be sure to do
+
+241
+00:16:10.485 --> 00:16:15.510
+exploratory data analysis and extract all the powerful features like that.
+
+242
+00:16:15.510 --> 00:16:17.895
+Otherwise, if you don't want to look into the data,
+
+243
+00:16:17.895 --> 00:16:19.805
+you will not find something like that.
+
+244
+00:16:19.805 --> 00:16:22.350
+And, it's really interesting.
+
+245
+00:16:22.350 --> 00:16:24.970
+So, thank you for listening.

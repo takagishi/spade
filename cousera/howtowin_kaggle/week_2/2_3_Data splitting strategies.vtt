@@ -1,0 +1,877 @@
+WEBVTT
+
+1
+00:00:03.730 --> 00:00:06.406
+Since we already know the main strategies for validation,
+
+2
+00:00:06.406 --> 00:00:10.240
+we can move to more concrete examples.
+
+3
+00:00:10.240 --> 00:00:12.237
+Let's imagine, we're solving a competition with a time series prediction, namely,
+
+4
+00:00:12.237 --> 00:00:20.695
+we are to predict a number of customers for a shop for which they're due in next month.
+
+5
+00:00:20.695 --> 00:00:24.675
+How should we divide the data into train and validation here?
+
+6
+00:00:24.675 --> 00:00:27.275
+Basically, we have two possibilities.
+
+7
+00:00:27.275 --> 00:00:32.610
+Having data frame first, we can take random rows in validation and second,
+
+8
+00:00:32.610 --> 00:00:34.999
+we can make a time-based split,
+
+9
+00:00:34.999 --> 00:00:41.120
+take everything before some date as a train and everything out there as a validation.
+
+10
+00:00:41.120 --> 00:00:44.400
+Let's plan these two options next.
+
+11
+00:00:44.400 --> 00:00:49.725
+Now, when you think about features you need to generate and the model you need to train,
+
+12
+00:00:49.725 --> 00:00:52.575
+how complicated these two cases are?
+
+13
+00:00:52.575 --> 00:00:54.100
+In the first block,
+
+14
+00:00:54.100 --> 00:00:59.475
+we can just interpret between the previous and the next value to get our predictions.
+
+15
+00:00:59.475 --> 00:01:01.485
+Very easy, but wait.
+
+16
+00:01:01.485 --> 00:01:05.990
+Do we really have future information about the number of customers in the real world?
+
+17
+00:01:05.990 --> 00:01:11.455
+Well, probably not. But does this mean that this validation is useless?
+
+18
+00:01:11.455 --> 00:01:13.280
+Again, it doesn't.
+
+19
+00:01:13.280 --> 00:01:16.255
+What it does mean really that if we make
+
+20
+00:01:16.255 --> 00:01:19.815
+train validation split different from train/test split,
+
+21
+00:01:19.815 --> 00:01:23.270
+then we are going to create a useless model.
+
+22
+00:01:23.270 --> 00:01:27.085
+And here, we get to the main rule of making a reliable validation.
+
+23
+00:01:27.085 --> 00:01:29.475
+We should, if possible,
+
+24
+00:01:29.475 --> 00:01:31.985
+set up validation to mimic train/test split,
+
+25
+00:01:31.985 --> 00:01:35.150
+but that's a little later.
+
+26
+00:01:35.150 --> 00:01:36.960
+Let's go back to our example.
+
+27
+00:01:36.960 --> 00:01:38.350
+On the second picture,
+
+28
+00:01:38.350 --> 00:01:39.940
+for most of test point,
+
+29
+00:01:39.940 --> 00:01:43.680
+we have neither the next value nor the previous one.
+
+30
+00:01:43.680 --> 00:01:48.945
+Now, let's imagine we have a pool of different models trained on different features,
+
+31
+00:01:48.945 --> 00:01:53.515
+and we selected the best model for each type of validation.
+
+32
+00:01:53.515 --> 00:01:56.723
+Now, the question, will these models differ?
+
+33
+00:01:56.723 --> 00:01:59.510
+And if they will, how significantly?
+
+34
+00:01:59.510 --> 00:02:04.530
+Well, it is certain that if you want to predict what will happen a few points later,
+
+35
+00:02:04.530 --> 00:02:07.590
+then the model which favor features like previous
+
+36
+00:02:07.590 --> 00:02:11.095
+and next target values will perform poorly.
+
+37
+00:02:11.095 --> 00:02:12.975
+It happens because in this case,
+
+38
+00:02:12.975 --> 00:02:16.650
+we just don't have such observations for the test data.
+
+39
+00:02:16.650 --> 00:02:20.655
+But we have to give the model something in the feature value,
+
+40
+00:02:20.655 --> 00:02:24.485
+and it probably will be not numbers or missing values.
+
+41
+00:02:24.485 --> 00:02:28.125
+How much experience that model have with these type of situations?
+
+42
+00:02:28.125 --> 00:02:33.985
+Not much. The model just won't expect that and quality will suffer.
+
+43
+00:02:33.985 --> 00:02:37.090
+Now, let's remember the second case.
+
+44
+00:02:37.090 --> 00:02:41.495
+Actually, here we need to rely more on the time trend.
+
+45
+00:02:41.495 --> 00:02:43.385
+And so, the features,
+
+46
+00:02:43.385 --> 00:02:45.135
+which is the model really we need here,
+
+47
+00:02:45.135 --> 00:02:50.570
+are more like what was the trend in the last couple of months or weeks?
+
+48
+00:02:50.570 --> 00:02:54.990
+So, that shows that the model selected as the best model for
+
+49
+00:02:54.990 --> 00:03:00.030
+the first type of validation will perform poorly for the second type of validation.
+
+50
+00:03:00.030 --> 00:03:03.360
+On the opposite, the best model for the second type of
+
+51
+00:03:03.360 --> 00:03:07.077
+validation was trained to predict many points ahead,
+
+52
+00:03:07.077 --> 00:03:10.635
+and it will not use adjacent target values.
+
+53
+00:03:10.635 --> 00:03:13.365
+So, to conclude this comparison,
+
+54
+00:03:13.365 --> 00:03:16.570
+these models indeed differ significantly,
+
+55
+00:03:16.570 --> 00:03:22.900
+including the fact that most useful features for one model are useless for another.
+
+56
+00:03:22.900 --> 00:03:27.565
+But, the generated features are not the only problem here.
+
+57
+00:03:27.565 --> 00:03:31.656
+Consider that actual train/test split is time-based,
+
+58
+00:03:31.656 --> 00:03:33.450
+here is the question.
+
+59
+00:03:33.450 --> 00:03:39.150
+If we carefully generate features that are drawing attention to time-based patterns,
+
+60
+00:03:39.150 --> 00:03:43.680
+we'll get a reliable validation with a random-based split.
+
+61
+00:03:43.680 --> 00:03:46.665
+Let me say this again in another words.
+
+62
+00:03:46.665 --> 00:03:50.280
+If we'll create features which are useful for
+
+63
+00:03:50.280 --> 00:03:54.255
+a time-based split and are useless for a random split,
+
+64
+00:03:54.255 --> 00:03:59.070
+will be correct to use a random split to select the model?
+
+65
+00:03:59.070 --> 00:04:00.565
+It's a tough question.
+
+66
+00:04:00.565 --> 00:04:03.410
+Let's take a moment and think about it.
+
+67
+00:04:03.410 --> 00:04:05.790
+Okay, now let's answer this.
+
+68
+00:04:05.790 --> 00:04:08.710
+Consider the case when target falls a linear train.
+
+69
+00:04:08.710 --> 00:04:11.401
+In the first block,
+
+70
+00:04:11.401 --> 00:04:14.685
+we see the exact case of randomly chosen validation.
+
+71
+00:04:14.685 --> 00:04:20.320
+In the second, we see the same time-based split as we consider before.
+
+72
+00:04:20.320 --> 00:04:22.675
+first, let's notice that in general,
+
+73
+00:04:22.675 --> 00:04:28.370
+model predictions will be close to targets mean value calculated using train data.
+
+74
+00:04:28.370 --> 00:04:29.815
+So in the first block,
+
+75
+00:04:29.815 --> 00:04:36.375
+if the validation points will be closer to this mean value compared to test points,
+
+76
+00:04:36.375 --> 00:04:40.195
+we'll get a better score in validation than on test.
+
+77
+00:04:40.195 --> 00:04:41.790
+But in the second case,
+
+78
+00:04:41.790 --> 00:04:47.545
+the validation points are roughly as far as the test points from target mean value.
+
+79
+00:04:47.545 --> 00:04:49.485
+And so, in the second case,
+
+80
+00:04:49.485 --> 00:04:53.510
+validation score will be more similar to the test score.
+
+81
+00:04:53.510 --> 00:04:56.512
+Great, as we just found out,
+
+82
+00:04:56.512 --> 00:04:58.820
+in the case of incorrect validation,
+
+83
+00:04:58.820 --> 00:05:05.925
+not only features, but the value target can lead to unrealistic estimation of the score.
+
+84
+00:05:05.925 --> 00:05:09.110
+Now, that example was quite similar to what you may
+
+85
+00:05:09.110 --> 00:05:12.420
+encounter while solving real competitions.
+
+86
+00:05:12.420 --> 00:05:18.343
+Numerous competitions use time-based split namely: the Rossmann Store Sales competition,
+
+87
+00:05:18.343 --> 00:05:22.835
+the Grupo Bimbo Inventory Demand competition and others.
+
+88
+00:05:22.835 --> 00:05:27.925
+So, to quickly summarize this valuable example we just have discussed,
+
+89
+00:05:27.925 --> 00:05:31.560
+different splitting strategies can differ significantly,
+
+90
+00:05:31.560 --> 00:05:34.949
+namely: in generated features,
+
+91
+00:05:34.949 --> 00:05:37.964
+in the way the model will rely on that features,
+
+92
+00:05:37.964 --> 00:05:40.260
+and in some kind of target leak.
+
+93
+00:05:40.260 --> 00:05:43.945
+That means, to be able to find smart ideas for
+
+94
+00:05:43.945 --> 00:05:48.496
+feature generation and to consistently improve our model,
+
+95
+00:05:48.496 --> 00:05:53.060
+we absolutely want to identify train/test split made by organizers,
+
+96
+00:05:53.060 --> 00:05:57.010
+including the competition, and reproduce it.
+
+97
+00:05:57.010 --> 00:06:01.145
+Let's now categorize most of these splitting strategies and competitions,
+
+98
+00:06:01.145 --> 00:06:04.055
+and discuss examples for them.
+
+99
+00:06:04.055 --> 00:06:08.000
+Most splits can be united into three categories: a random split,
+
+100
+00:06:08.000 --> 00:06:12.910
+a time-based split and the id-based split.
+
+101
+00:06:12.910 --> 00:06:17.055
+Let's start with the most basic one, the random split.
+
+102
+00:06:17.055 --> 00:06:20.515
+Let's start, the most common way of making
+
+103
+00:06:20.515 --> 00:06:24.645
+a train/test split is to split data randomly by rows.
+
+104
+00:06:24.645 --> 00:06:28.910
+This usually means that the rows are independent of each other.
+
+105
+00:06:28.910 --> 00:06:34.075
+For example, we have a test of predicting if a client will pay off alone.
+
+106
+00:06:34.075 --> 00:06:36.420
+Each row represents a person,
+
+107
+00:06:36.420 --> 00:06:40.615
+and these rows are fairly independent of each other.
+
+108
+00:06:40.615 --> 00:06:44.790
+Now, let's consider that there is some dependency, for example,
+
+109
+00:06:44.790 --> 00:06:49.655
+within family members or people which work in the same company.
+
+110
+00:06:49.655 --> 00:06:52.050
+If a husband can pay a credit probably,
+
+111
+00:06:52.050 --> 00:06:54.130
+his wife can do it too.
+
+112
+00:06:54.130 --> 00:06:56.295
+That means if by some misfortune,
+
+113
+00:06:56.295 --> 00:07:00.750
+a husband will will present in the train data and his wife will present in the test data.
+
+114
+00:07:00.750 --> 00:07:05.770
+We probably can explore this and devise a special feature for that case.
+
+115
+00:07:05.770 --> 00:07:07.765
+For in such possibilities,
+
+116
+00:07:07.765 --> 00:07:11.550
+and realizing that kind of features is really interesting.
+
+117
+00:07:11.550 --> 00:07:14.910
+More in this case and others I will mention here,
+
+118
+00:07:14.910 --> 00:07:18.105
+comes in the next lesson of our course.
+
+119
+00:07:18.105 --> 00:07:21.720
+So again, that was a random split.
+
+120
+00:07:21.720 --> 00:07:24.100
+The second method is a time-based split.
+
+121
+00:07:24.100 --> 00:07:29.900
+We already discussed the unit example of the split in the beginning of this video.
+
+122
+00:07:29.900 --> 00:07:35.850
+In that case, we generally have everything before a particular date as a training data,
+
+123
+00:07:35.850 --> 00:07:38.720
+and the rating after date as a test data.
+
+124
+00:07:38.720 --> 00:07:42.410
+This can be a signal to use special approach to feature generation,
+
+125
+00:07:42.410 --> 00:07:46.470
+especially to make useful features based on the target.
+
+126
+00:07:46.470 --> 00:07:49.230
+For example, if we are to predict a number of
+
+127
+00:07:49.230 --> 00:07:52.290
+customers for the shop for each day in the next week,
+
+128
+00:07:52.290 --> 00:07:54.315
+we can came up with something like
+
+129
+00:07:54.315 --> 00:07:57.675
+the number of customers for the same day in the previous week,
+
+130
+00:07:57.675 --> 00:08:02.470
+or the average number of customers for the past month.
+
+131
+00:08:02.470 --> 00:08:04.135
+As I mentioned before,
+
+132
+00:08:04.135 --> 00:08:06.405
+this split is widespread enough.
+
+133
+00:08:06.405 --> 00:08:07.696
+It was used in
+
+134
+00:08:07.696 --> 00:08:13.140
+a Rossmann store sales competition and in the Grupo Bimbo inventory demand competition,
+
+135
+00:08:13.140 --> 00:08:15.480
+and in other's competitions.
+
+136
+00:08:15.480 --> 00:08:22.194
+A special case of validation for the time-based split is a moving window validation.
+
+137
+00:08:22.194 --> 00:08:23.780
+In the previous example,
+
+138
+00:08:23.780 --> 00:08:27.710
+we can move the date which divides train and validation.
+
+139
+00:08:27.710 --> 00:08:32.180
+Successively using week after week as a validation set,
+
+140
+00:08:32.180 --> 00:08:34.865
+just like on this picture.
+
+141
+00:08:34.865 --> 00:08:38.240
+Now, having dealt with the random and the time-based splits,
+
+142
+00:08:38.240 --> 00:08:41.663
+let's discuss the ID-based split.
+
+143
+00:08:41.663 --> 00:08:44.240
+ID can be a unique identifier of user,
+
+144
+00:08:44.240 --> 00:08:46.315
+shop, or any other entity.
+
+145
+00:08:46.315 --> 00:08:49.960
+For example, let's imagine we have to solve a task
+
+146
+00:08:49.960 --> 00:08:54.055
+of music recommendations for completely new users.
+
+147
+00:08:54.055 --> 00:08:59.045
+That means, we have different sets of users in train and test.
+
+148
+00:08:59.045 --> 00:09:04.280
+If so, we probably can make a conclusion that features based on user's history,
+
+149
+00:09:04.280 --> 00:09:08.265
+for example, how many songs user listened in the last week,
+
+150
+00:09:08.265 --> 00:09:11.360
+will not help for completely new users.
+
+151
+00:09:11.360 --> 00:09:13.885
+As an example of ID-based split,
+
+152
+00:09:13.885 --> 00:09:18.660
+I want to tell you a bit about the Caterpillar to pricing competition.
+
+153
+00:09:18.660 --> 00:09:26.135
+In that competition, train/test split was done on some category ID, namely, tube ID.
+
+154
+00:09:26.135 --> 00:09:30.646
+There is an interesting case when we should employ the ID-based split,
+
+155
+00:09:30.646 --> 00:09:32.865
+but IDs are hidden from us.
+
+156
+00:09:32.865 --> 00:09:38.630
+Here, I want to mention two examples of competitions with hidden ID-based split.
+
+157
+00:09:38.630 --> 00:09:44.765
+These include Intel and MumbaiODT Cervical Cancer Screening competition,
+
+158
+00:09:44.765 --> 00:09:49.385
+and The Nature Conservancy fisheries monitoring competition.
+
+159
+00:09:49.385 --> 00:09:51.025
+In the first competition,
+
+160
+00:09:51.025 --> 00:09:54.050
+we had to classify patients into three classes,
+
+161
+00:09:54.050 --> 00:09:55.400
+and for each patient,
+
+162
+00:09:55.400 --> 00:09:57.450
+we had several photos.
+
+163
+00:09:57.450 --> 00:10:02.240
+Indeed, photos of one patient belong to the same class.
+
+164
+00:10:02.240 --> 00:10:07.340
+Again, sets of patients from train and test did not overlap.
+
+165
+00:10:07.340 --> 00:10:11.480
+And we should also ensure these in the training regulations split.
+
+166
+00:10:11.480 --> 00:10:17.690
+As another example, in The Nature Conservancy fisheries monitoring competition,
+
+167
+00:10:17.690 --> 00:10:21.125
+there were photos of fish from several different fishing boats.
+
+168
+00:10:21.125 --> 00:10:25.590
+Again, fishing boats and train and test did not overlap.
+
+169
+00:10:25.590 --> 00:10:31.410
+So one could easily overfit if you would ignore risk and make a random-based split.
+
+170
+00:10:31.410 --> 00:10:34.130
+Because the IDs were not given,
+
+171
+00:10:34.130 --> 00:10:37.815
+competitors had to derive these IDs by themselves.
+
+172
+00:10:37.815 --> 00:10:39.875
+In both these competitions,
+
+173
+00:10:39.875 --> 00:10:43.145
+it could be done by clustering pictures.
+
+174
+00:10:43.145 --> 00:10:48.640
+The easiest case was when pictures were taken just one after another,
+
+175
+00:10:48.640 --> 00:10:51.320
+so the images were quite similar.
+
+176
+00:10:51.320 --> 00:10:56.715
+You can find more details of such clustering in the kernels of these competitions.
+
+177
+00:10:56.715 --> 00:11:00.260
+Now, having in these two main standalone methods,
+
+178
+00:11:00.260 --> 00:11:03.850
+we also need to know that they sometimes may be combined.
+
+179
+00:11:03.850 --> 00:11:07.685
+For example, if we have a task of predicting sales in a shop,
+
+180
+00:11:07.685 --> 00:11:11.615
+we can choose a split in date for each shop independently,
+
+181
+00:11:11.615 --> 00:11:15.995
+instead of using one date for every shop in the data.
+
+182
+00:11:15.995 --> 00:11:20.360
+Or another example, if we have search queries from multiple users,
+
+183
+00:11:20.360 --> 00:11:22.490
+is using several search engines,
+
+184
+00:11:22.490 --> 00:11:26.874
+we can split the data by a combination of user ID and search engine ID.
+
+185
+00:11:26.874 --> 00:11:32.100
+Examples of competitions with combined splits include
+
+186
+00:11:32.100 --> 00:11:36.080
+the Western Australia Rental Prices competition by Deloitte
+
+187
+00:11:36.080 --> 00:11:41.390
+and their qualification phase of data science game 2017.
+
+188
+00:11:41.390 --> 00:11:43.060
+In the first competition,
+
+189
+00:11:43.060 --> 00:11:45.760
+train/test was split by a single date,
+
+190
+00:11:45.760 --> 00:11:52.145
+but the public/private split was made by different dates for different geographic areas.
+
+191
+00:11:52.145 --> 00:11:53.720
+In the second competition,
+
+192
+00:11:53.720 --> 00:11:56.195
+participants had to predict whether
+
+193
+00:11:56.195 --> 00:11:59.520
+a user of online music service will listen to the song.
+
+194
+00:11:59.520 --> 00:12:03.310
+The train/test split was made in the following way.
+
+195
+00:12:03.310 --> 00:12:08.860
+For each user, the last song he listened to was placed in the test set,
+
+196
+00:12:08.860 --> 00:12:12.890
+while all other songs were placed in the train set.
+
+197
+00:12:12.890 --> 00:12:19.105
+Fine. These were the main splitting strategies employed in the competitions.
+
+198
+00:12:19.105 --> 00:12:23.860
+Again, the main idea I want you to take away from this lesson is that
+
+199
+00:12:23.860 --> 00:12:29.385
+your validation should always mimic train/test split made by organizers.
+
+200
+00:12:29.385 --> 00:12:31.645
+It could be something non-trivial.
+
+201
+00:12:31.645 --> 00:12:36.580
+For example, in the Home Depot Product Search Relevance competition,
+
+202
+00:12:36.580 --> 00:12:40.700
+participants were asked to estimate search relevancy.
+
+203
+00:12:40.700 --> 00:12:47.215
+In general, data consisted of search terms and search results for those terms,
+
+204
+00:12:47.215 --> 00:12:52.120
+but test set contained completely new search terms.
+
+205
+00:12:52.120 --> 00:12:59.320
+So, we couldn't use either a random split or a search term-based split for validation.
+
+206
+00:12:59.320 --> 00:13:02.370
+First split favored more complicated models,
+
+207
+00:13:02.370 --> 00:13:08.215
+which led to overfitting while second split, conversely, to underfitting.
+
+208
+00:13:08.215 --> 00:13:11.350
+So, in order to select optimal models,
+
+209
+00:13:11.350 --> 00:13:17.470
+it was crucial to mimic the ratio of new search terms from train/test split.
+
+210
+00:13:17.470 --> 00:13:19.565
+Great. This is it.
+
+211
+00:13:19.565 --> 00:13:24.468
+We just demonstrated major data splitting strategies employed in competitions.
+
+212
+00:13:24.468 --> 00:13:27.015
+Random split, time-based split,
+
+213
+00:13:27.015 --> 00:13:30.585
+ID-based split, and their combinations.
+
+214
+00:13:30.585 --> 00:13:33.655
+This will help us build reliable validation,
+
+215
+00:13:33.655 --> 00:13:36.550
+make a useful decisions about feature generation,
+
+216
+00:13:36.550 --> 00:13:41.625
+and in the end, select models which will perform best on the test data.
+
+217
+00:13:41.625 --> 00:13:43.400
+As the main point of this video,
+
+218
+00:13:43.400 --> 00:13:48.545
+remember the general rule of making a reliable validation.
+
+219
+00:13:48.545 --> 00:13:54.620
+Set up your validation to mimic the train/test split of the competition.

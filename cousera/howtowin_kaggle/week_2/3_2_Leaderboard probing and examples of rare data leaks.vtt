@@ -1,0 +1,676 @@
+WEBVTT
+
+1
+00:00:00.025 --> 00:00:05.349
+[SOUND] Now, I will tell you
+about a competition-specific
+
+2
+00:00:05.349 --> 00:00:09.704
+technique tightly
+connected with data leaks.
+
+3
+00:00:09.704 --> 00:00:12.110
+It's leaderboard probing.
+
+4
+00:00:12.110 --> 00:00:14.970
+There are actually two types
+of leaderboard probing.
+
+5
+00:00:14.970 --> 00:00:18.842
+The first one is simply extracting
+all ground truth from public part of
+
+6
+00:00:18.842 --> 00:00:20.670
+the leaderboard.
+
+7
+00:00:20.670 --> 00:00:25.030
+It's usually pretty harmless,
+only a little more of straining data.
+
+8
+00:00:25.030 --> 00:00:27.710
+It is also a relatively easy to do and
+
+9
+00:00:27.710 --> 00:00:31.920
+I have a submission change on
+the small set of rows so that you can
+
+10
+00:00:31.920 --> 00:00:36.230
+unambiguously calculate ground truth for
+those rows from leaderboard score.
+
+11
+00:00:37.310 --> 00:00:42.360
+I suggest checking out the link to
+Alek Trott's post in additional materials.
+
+12
+00:00:42.360 --> 00:00:45.320
+He thoroughly explains how
+to do it very efficiently
+
+13
+00:00:45.320 --> 00:00:47.180
+with minimum amount of submissions.
+
+14
+00:00:48.285 --> 00:00:52.585
+Our main focus will be on another
+type of leaderboard probing.
+
+15
+00:00:52.585 --> 00:00:56.015
+Remember the purpose of public,
+private split.
+
+16
+00:00:56.015 --> 00:01:01.305
+It's supposed to protect private part of
+test set from information extraction.
+
+17
+00:01:01.305 --> 00:01:05.055
+It turns out that it's still vulnerable.
+
+18
+00:01:05.055 --> 00:01:08.715
+Sometimes, it's possible to
+submit predictions in such a way
+
+19
+00:01:08.715 --> 00:01:12.640
+that will give out information
+about private data.
+
+20
+00:01:12.640 --> 00:01:14.817
+It's all about consistent categories.
+
+21
+00:01:14.817 --> 00:01:19.750
+Imagine, a chunk of data with
+the same target for every row.
+
+22
+00:01:19.750 --> 00:01:24.920
+Like in the example, rows with
+the same IDs have the same target.
+
+23
+00:01:24.920 --> 00:01:28.080
+Organizers split it into public and
+private parts.
+
+24
+00:01:29.120 --> 00:01:35.280
+But we still know that that particular
+chunk has the same label for every role.
+
+25
+00:01:35.280 --> 00:01:38.980
+After setting all the predictions
+close to 0 in our submission for
+
+26
+00:01:38.980 --> 00:01:43.870
+that particular chunk of data,
+we can expect two outcomes.
+
+27
+00:01:43.870 --> 00:01:50.180
+The first one is when score improved,
+it means that ground truth in public is 0.
+
+28
+00:01:50.180 --> 00:01:54.750
+And it also means that ground
+truth in private is 0 as well.
+
+29
+00:01:54.750 --> 00:01:57.670
+Remember, our chunk has the same labels.
+
+30
+00:01:58.670 --> 00:02:02.210
+The second outcome is when
+the score became worse.
+
+31
+00:02:02.210 --> 00:02:09.060
+Similarly, it means that ground truth
+in both public and private is 1.
+
+32
+00:02:09.060 --> 00:02:12.760
+Some competitions indeed have
+that kind of categories.
+
+33
+00:02:12.760 --> 00:02:16.270
+Categories that with high
+certainty have the same label.
+
+34
+00:02:17.290 --> 00:02:21.960
+You could have encountered those
+type of categories in Red Hat and
+
+35
+00:02:21.960 --> 00:02:23.860
+West Nile competitions.
+
+36
+00:02:23.860 --> 00:02:24.970
+It was a key for winning.
+
+37
+00:02:26.050 --> 00:02:30.330
+With a lot of submissions, one can
+explore a good part of private test set.
+
+38
+00:02:31.600 --> 00:02:34.770
+It's probably the most
+annoying type of data leak.
+
+39
+00:02:34.770 --> 00:02:39.330
+It's mostly technical and even if it's
+released close to the competition
+
+40
+00:02:39.330 --> 00:02:44.190
+deadline, you simply won't have enough
+submissions to fully exploit it.
+
+41
+00:02:45.240 --> 00:02:48.790
+Furthermore, this is on
+the tip of the iceberg.
+
+42
+00:02:48.790 --> 00:02:51.380
+When I say consistent category,
+
+43
+00:02:51.380 --> 00:02:56.330
+I do not necessarily mean that
+this category has the same target.
+
+44
+00:02:56.330 --> 00:03:00.500
+It could be consistent in different ways.
+
+45
+00:03:00.500 --> 00:03:02.280
+The definition is quite broad.
+
+46
+00:03:02.280 --> 00:03:07.190
+For example, target label could simply
+have the same distribution for public and
+
+47
+00:03:07.190 --> 00:03:09.440
+private parts of data.
+
+48
+00:03:09.440 --> 00:03:13.080
+It was the case in
+Quora Question Pairs competition.
+
+49
+00:03:13.080 --> 00:03:16.770
+In that competition there
+was a binary classification
+
+50
+00:03:16.770 --> 00:03:20.370
+task being evaluated by log loss metric.
+
+51
+00:03:20.370 --> 00:03:25.150
+What's important target were able had
+different distributions in train and
+
+52
+00:03:25.150 --> 00:03:30.120
+test, but allegedly the same and
+private and public parts of these data.
+
+53
+00:03:30.120 --> 00:03:35.370
+And because of that, we could benefit
+a lot via leaderboard probing.
+
+54
+00:03:35.370 --> 00:03:39.690
+Treating the whole test set
+as a consistent category.
+
+55
+00:03:39.690 --> 00:03:42.378
+Take a look at the formula on the slide.
+
+56
+00:03:42.378 --> 00:03:47.608
+This logarithmic loss for submission
+with constant predictions C big.
+
+57
+00:03:47.608 --> 00:03:52.064
+Where N big is the real number of rows,
+
+58
+00:03:52.064 --> 00:03:57.708
+N1 big is the number of
+rows with target one.
+
+59
+00:03:57.708 --> 00:04:02.970
+And L big is the leader board score
+given by that constant prediction.
+
+60
+00:04:02.970 --> 00:04:07.990
+From this equation,
+we can calculate N1 divided by N or
+
+61
+00:04:07.990 --> 00:04:13.250
+in other words,
+the true ratio of once in the test set.
+
+62
+00:04:13.250 --> 00:04:15.860
+That knowledge was very beneficial.
+
+63
+00:04:15.860 --> 00:04:19.130
+We could use it rebalance
+training data points
+
+64
+00:04:19.130 --> 00:04:23.750
+to have the same distribution of
+target variable as in the test set.
+
+65
+00:04:23.750 --> 00:04:28.300
+This little trick gave a huge
+boost in leaderboard score.
+
+66
+00:04:28.300 --> 00:04:32.560
+As you can see, leaderboard
+probing is a very serious problem
+
+67
+00:04:32.560 --> 00:04:36.730
+that could occur under a lot
+of different circumstances.
+
+68
+00:04:36.730 --> 00:04:40.800
+I hope that someday it will become
+complete the eradicated from competitive
+
+69
+00:04:40.800 --> 00:04:41.620
+machine learning.
+
+70
+00:04:42.830 --> 00:04:46.745
+Now, finally, I like to briefly
+walk through the most peculiar and
+
+71
+00:04:46.745 --> 00:04:49.500
+interesting competitions
+with data leakage.
+
+72
+00:04:50.530 --> 00:04:51.140
+And first,
+
+73
+00:04:51.140 --> 00:04:55.540
+let's take a look at Truly Native
+competition from different point of view.
+
+74
+00:04:55.540 --> 00:05:00.450
+In this competition, participants were
+asked to predict whether the content
+
+75
+00:05:00.450 --> 00:05:05.360
+in an HTML file is sponsored or not.
+
+76
+00:05:05.360 --> 00:05:09.690
+As was already discussed
+in previous video,
+
+77
+00:05:09.690 --> 00:05:12.760
+there was a data leak in archive dates.
+
+78
+00:05:12.760 --> 00:05:14.765
+We can assume that sponsored and
+
+79
+00:05:14.765 --> 00:05:18.890
+non-sponsored HTML files were gotten
+during different periods of time.
+
+80
+00:05:20.310 --> 00:05:25.310
+So do we really get rid of data
+leak after erasing archive dates?
+
+81
+00:05:26.740 --> 00:05:28.300
+The answer is no.
+
+82
+00:05:28.300 --> 00:05:33.870
+Texts in HTML files may be connected
+to dates in a lot of ways.
+
+83
+00:05:33.870 --> 00:05:40.330
+From explicit timestamps to much more
+subtle things, like news contents.
+
+84
+00:05:40.330 --> 00:05:42.720
+As you've probably already realized,
+
+85
+00:05:42.720 --> 00:05:49.020
+the real problem was not metadata leak,
+but rather data collection.
+
+86
+00:05:49.020 --> 00:05:51.000
+Even without metainformation,
+
+87
+00:05:51.000 --> 00:05:55.930
+machine learning algorithms will
+focus on actually useless features.
+
+88
+00:05:55.930 --> 00:05:59.730
+The features that only act as proxies for
+the date.
+
+89
+00:06:00.780 --> 00:06:06.330
+The next example is
+Expedia Hotel Recommendations,
+
+90
+00:06:06.330 --> 00:06:12.800
+and that competitions, participants
+worked with logs of customer behavior.
+
+91
+00:06:12.800 --> 00:06:18.370
+These include what customers searched for,
+how they interacted with search results,
+
+92
+00:06:18.370 --> 00:06:23.340
+and clicks or books, and whether or not
+the search result was a travel package.
+
+93
+00:06:24.630 --> 00:06:30.250
+Expedia was interested in predicting which
+hotel group a user is going to book.
+
+94
+00:06:31.260 --> 00:06:35.975
+Within the logs of customer behavior,
+there was a very tricky feature.
+
+95
+00:06:35.975 --> 00:06:39.590
+At distance from users
+seeking their hotel.
+
+96
+00:06:39.590 --> 00:06:44.010
+Turned out, that this feature
+is actually a huge data leak.
+
+97
+00:06:44.010 --> 00:06:49.140
+Using this distance, it was possible to
+reverse engineer two coordinates, and
+
+98
+00:06:49.140 --> 00:06:52.780
+simply map ground truth from
+train set to the test set.
+
+99
+00:06:53.920 --> 00:06:57.400
+I strongly suggest you to
+check out the special video
+
+100
+00:06:57.400 --> 00:06:59.970
+dedicated to this competition.
+
+101
+00:06:59.970 --> 00:07:03.650
+I hope that you will find it very
+useful because the approaches and
+
+102
+00:07:03.650 --> 00:07:08.160
+methods of exploiting data leak
+were extremely nontrivial.
+
+103
+00:07:08.160 --> 00:07:10.970
+And you will find a lot of
+interesting tricks in it.
+
+104
+00:07:12.120 --> 00:07:16.400
+The next example is from
+Flavours of Physics competition.
+
+105
+00:07:16.400 --> 00:07:19.990
+It was a pretty complicated
+problem dealing with physics at
+
+106
+00:07:19.990 --> 00:07:21.515
+Large Hadron Collider.
+
+107
+00:07:21.515 --> 00:07:26.241
+The special thing about
+that competition was that
+
+108
+00:07:26.241 --> 00:07:30.730
+signal was artificially simulated.
+
+109
+00:07:30.730 --> 00:07:34.230
+Organizers wanted a machine
+learning solution for
+
+110
+00:07:34.230 --> 00:07:38.140
+something that has never been observed.
+
+111
+00:07:38.140 --> 00:07:39.970
+That's why the signal was simulated.
+
+112
+00:07:41.250 --> 00:07:46.770
+But simulation cannot be perfect and
+it's possible to reverse engineer it.
+
+113
+00:07:46.770 --> 00:07:50.230
+Organizers even created
+special statistical tests
+
+114
+00:07:50.230 --> 00:07:54.830
+in order to punish the models
+that exploit simulation flaws.
+
+115
+00:07:54.830 --> 00:07:57.298
+However, it was in vain.
+
+116
+00:07:57.298 --> 00:08:01.870
+One could bypass the tests,
+fully exploit simulation flaws, and
+
+117
+00:08:01.870 --> 00:08:04.980
+get a perfect score on the leaderboard.
+
+118
+00:08:04.980 --> 00:08:08.240
+The last example is going
+to cover pairwise tasks.
+
+119
+00:08:08.240 --> 00:08:12.850
+Where one needs to predict
+whether the given pair of
+
+120
+00:08:12.850 --> 00:08:17.580
+items are duplicates or not,
+like in Quora question pairs competition.
+
+121
+00:08:18.780 --> 00:08:23.830
+There is one thing common to all
+the competitions with pairwise tasks.
+
+122
+00:08:23.830 --> 00:08:28.440
+Participants are not asked to
+evaluate all possible pairs.
+
+123
+00:08:28.440 --> 00:08:32.400
+There is always some
+nonrandom subsampling, and
+
+124
+00:08:32.400 --> 00:08:36.280
+this subsampling is
+the cause of data leakage.
+
+125
+00:08:36.280 --> 00:08:40.850
+Usually, organizers sample mostly
+hard-to-distinguish pairs.
+
+126
+00:08:40.850 --> 00:08:46.040
+Because of that, of course,
+imbalance in item frequencies.
+
+127
+00:08:46.040 --> 00:08:50.000
+It results in more frequent
+items having the higher
+
+128
+00:08:50.000 --> 00:08:52.470
+possibility of being duplicates.
+
+129
+00:08:52.470 --> 00:08:54.230
+But that's not all.
+
+130
+00:08:54.230 --> 00:08:57.740
+We can create a connectivity
+matrix N times N,
+
+131
+00:08:57.740 --> 00:09:01.180
+where N is the total number of items.
+
+132
+00:09:01.180 --> 00:09:07.066
+If item I and item J appeared
+in a pair then we place 1 in I,
+
+133
+00:09:07.066 --> 00:09:10.060
+J and J, I positions.
+
+134
+00:09:10.060 --> 00:09:15.480
+Now, we can treat the rows in connectivity
+matrix as vector representations for
+
+135
+00:09:15.480 --> 00:09:17.040
+every item.
+
+136
+00:09:17.040 --> 00:09:21.720
+This means that we can compute
+similarities between those vectors.
+
+137
+00:09:21.720 --> 00:09:24.360
+This tricks works for
+a very simple reason.
+
+138
+00:09:25.420 --> 00:09:29.480
+When two items have
+similar sets of neighbors
+
+139
+00:09:29.480 --> 00:09:32.980
+they have a high possibility
+of being duplicates.
+
+140
+00:09:34.160 --> 00:09:36.260
+This is it with data leaks.
+
+141
+00:09:36.260 --> 00:09:40.980
+I hope you got the concept and
+found a lot of interesting examples.
+
+142
+00:09:40.980 --> 00:09:42.315
+Thank you for your attention.
+
+143
+00:09:42.315 --> 00:09:52.315
+[SOUND]

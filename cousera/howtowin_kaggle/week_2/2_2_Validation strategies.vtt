@@ -1,0 +1,503 @@
+WEBVTT
+
+1
+00:00:00.025 --> 00:00:05.829
+[SOUND] In the previous video,
+we understood that validation
+
+2
+00:00:05.829 --> 00:00:12.675
+helps us select a model which will
+perform best on the unseen test data.
+
+3
+00:00:12.675 --> 00:00:16.845
+But, to use validation, we first need
+to split the data with given labels,
+
+4
+00:00:16.845 --> 00:00:19.410
+entrain, and validation parts.
+
+5
+00:00:19.410 --> 00:00:23.130
+In this video, we will discuss
+different validation strategies.
+
+6
+00:00:23.130 --> 00:00:25.140
+And answer the questions.
+
+7
+00:00:25.140 --> 00:00:27.304
+How many splits should we make and
+
+8
+00:00:27.304 --> 00:00:30.949
+what are the most often methods
+to perform such splits.
+
+9
+00:00:30.949 --> 00:00:35.600
+Loosely speaking, the main difference
+between these validation strategies
+
+10
+00:00:35.600 --> 00:00:38.400
+is the number of splits being done.
+
+11
+00:00:38.400 --> 00:00:41.060
+Here I will discuss three of them.
+
+12
+00:00:41.060 --> 00:00:46.070
+First is holdout, second is K-fold,
+and third is leave-one-out.
+
+13
+00:00:46.070 --> 00:00:48.080
+Let's start with holdout.
+
+14
+00:00:48.080 --> 00:00:52.910
+It's a simple data split which
+divides data into two parts,
+
+15
+00:00:52.910 --> 00:00:55.880
+training data frame, and
+validation data frame.
+
+16
+00:00:55.880 --> 00:00:59.355
+And the important note here
+is that in any method,
+
+17
+00:00:59.355 --> 00:01:04.550
+holdout included, one sample can go
+either to train or to validation.
+
+18
+00:01:04.550 --> 00:01:09.260
+So the samples between train and
+the validation do not overlap,
+
+19
+00:01:09.260 --> 00:01:12.970
+if they do,
+we just can't trust our validation.
+
+20
+00:01:12.970 --> 00:01:17.510
+This is sometimes the case,
+when we have repeated samples in the data.
+
+21
+00:01:17.510 --> 00:01:20.640
+And if we are,
+we will get better predictions for
+
+22
+00:01:20.640 --> 00:01:25.160
+these samples and
+more optimistic all estimation overall.
+
+23
+00:01:25.160 --> 00:01:29.730
+It is easy to see that these can prevent
+us from selecting best parameters for
+
+24
+00:01:29.730 --> 00:01:30.266
+our model.
+
+25
+00:01:30.266 --> 00:01:34.816
+For example,
+over fitting is generally bad.
+
+26
+00:01:34.816 --> 00:01:39.002
+But if we have duplicated samples
+that present, and train, and
+
+27
+00:01:39.002 --> 00:01:43.886
+test simultaneously and over feed,
+validation scores can deceive us into
+
+28
+00:01:43.886 --> 00:01:48.400
+a belief that maybe we are moving
+in the right direction.
+
+29
+00:01:48.400 --> 00:01:53.323
+Okay, that was the quick note about
+why samples between train and
+
+30
+00:01:53.323 --> 00:01:55.980
+validation must not overlap.
+
+31
+00:01:55.980 --> 00:01:57.460
+Back to holdout.
+
+32
+00:01:57.460 --> 00:02:01.482
+Here we fit our model on
+the training data frame, and
+
+33
+00:02:01.482 --> 00:02:04.010
+evaluate its quality on
+the validation data frame.
+
+34
+00:02:05.080 --> 00:02:09.460
+Using scores from this evaluation,
+we select the best model.
+
+35
+00:02:09.460 --> 00:02:11.930
+When we are ready to make a submission,
+
+36
+00:02:11.930 --> 00:02:17.180
+we can retrain our model on
+our data with given labels.
+
+37
+00:02:17.180 --> 00:02:19.880
+Thinking about using
+holdout in the competition.
+
+38
+00:02:19.880 --> 00:02:23.420
+It is usually a good choice,
+when we have enough data.
+
+39
+00:02:23.420 --> 00:02:25.800
+Or we are likely to get similar scores for
+
+40
+00:02:25.800 --> 00:02:28.339
+the same model,
+if we try different splits.
+
+41
+00:02:29.520 --> 00:02:32.430
+Great, since we understood
+what holdout is,
+
+42
+00:02:32.430 --> 00:02:36.616
+let's move onto the second validation
+strategy, which is called K-fold.
+
+43
+00:02:36.616 --> 00:02:41.780
+K-fold can be viewed as a repeated
+holdout, because we split our data into
+
+44
+00:02:41.780 --> 00:02:48.230
+key parts and iterate through them, using
+every part as a validation set only once.
+
+45
+00:02:48.230 --> 00:02:52.920
+After this procedure,
+we average scores over these K-folds.
+
+46
+00:02:52.920 --> 00:02:57.730
+Here it is important to understand
+the difference between K-fold and
+
+47
+00:02:57.730 --> 00:03:00.610
+usual holdout or bits of K-times.
+
+48
+00:03:00.610 --> 00:03:05.947
+While it is possible to average scores
+they receive after K different holdouts.
+
+49
+00:03:05.947 --> 00:03:09.607
+In this case,
+some samples may never get invalidation,
+
+50
+00:03:09.607 --> 00:03:12.930
+while others can be there multiple times.
+
+51
+00:03:12.930 --> 00:03:18.930
+On the other side, the core idea of K-fold
+is that we want to use every sample for
+
+52
+00:03:18.930 --> 00:03:21.250
+validation only once.
+
+53
+00:03:21.250 --> 00:03:25.470
+This method is a good choice when we
+have a minimum amount of data, and
+
+54
+00:03:25.470 --> 00:03:29.870
+we can get either a sufficiently
+big difference in quality, or
+
+55
+00:03:29.870 --> 00:03:33.180
+different optimal
+parameters between folds.
+
+56
+00:03:33.180 --> 00:03:35.365
+Great, having dealt with K-fold,
+
+57
+00:03:35.365 --> 00:03:39.740
+we can move on to the third
+validation strategy in our release.
+
+58
+00:03:39.740 --> 00:03:41.680
+It is called leave-one-out.
+
+59
+00:03:41.680 --> 00:03:45.540
+And basically it is a special
+case of Kfold when K
+
+60
+00:03:45.540 --> 00:03:48.850
+is equal to the number
+of samples in our data.
+
+61
+00:03:48.850 --> 00:03:53.450
+This means that it will iterate
+through every sample in our data.
+
+62
+00:03:53.450 --> 00:03:58.560
+Each time usion came in a slot minus
+one object is a train subset and
+
+63
+00:03:58.560 --> 00:04:01.520
+one object left is a test subset.
+
+64
+00:04:01.520 --> 00:04:05.245
+This method can be helpful if
+we have too little data and
+
+65
+00:04:05.245 --> 00:04:07.152
+just enough model to entrain.
+
+66
+00:04:07.152 --> 00:04:12.300
+So that there, validation strategies.
+
+67
+00:04:12.300 --> 00:04:16.030
+Holdout, K-fold and leave-one-out.
+
+68
+00:04:16.030 --> 00:04:19.614
+We usually use holdout or
+K-fold on shuffle data.
+
+69
+00:04:19.614 --> 00:04:25.085
+By shuffling data we are trying to
+reproduce random trained validation split.
+
+70
+00:04:25.085 --> 00:04:29.497
+But sometimes, especially if you
+do not have enough samples for
+
+71
+00:04:29.497 --> 00:04:32.950
+some class, a random split can fail.
+
+72
+00:04:32.950 --> 00:04:35.306
+Let's consider, for an example.
+
+73
+00:04:35.306 --> 00:04:41.274
+We have binary classification tests and
+a small data set with eight samples.
+
+74
+00:04:41.274 --> 00:04:43.630
+Four of class zero, and four of class one.
+
+75
+00:04:43.630 --> 00:04:46.615
+Let's split data into four folds.
+
+76
+00:04:46.615 --> 00:04:53.810
+Done, but notice, we are not always
+getting 0 and 1 in the same problem.
+
+77
+00:04:53.810 --> 00:04:58.720
+If we'll use the second fold for
+validation, we'll get
+
+78
+00:04:58.720 --> 00:05:04.130
+an average value of the target in the
+train of two third instead of one half.
+
+79
+00:05:04.130 --> 00:05:08.000
+This can drastically change
+predictions of our model.
+
+80
+00:05:08.000 --> 00:05:12.676
+What we need here to handle
+this problem is stratification.
+
+81
+00:05:12.676 --> 00:05:15.360
+It is just the way to insure
+
+82
+00:05:15.360 --> 00:05:19.710
+we'll get similar target
+distribution over different faults.
+
+83
+00:05:19.710 --> 00:05:23.700
+If we split data into four
+faults with stratification,
+
+84
+00:05:23.700 --> 00:05:28.310
+the average of each false target
+values will be equal to one half.
+
+85
+00:05:29.340 --> 00:05:34.075
+It is easier to guess that significance
+of this problem is higher, first for
+
+86
+00:05:34.075 --> 00:05:39.405
+small data sets, like in this example,
+second for unbalanced data sets.
+
+87
+00:05:39.405 --> 00:05:41.415
+And for binary classification,
+that could be,
+
+88
+00:05:41.415 --> 00:05:46.500
+if target average were very close to 0 or
+vice versa, very close to 1.
+
+89
+00:05:46.500 --> 00:05:52.070
+And third, for multiclass classification
+tasks with huge amount of classes.
+
+90
+00:05:52.070 --> 00:05:54.770
+For good classification data sets,
+
+91
+00:05:54.770 --> 00:05:58.910
+stratification split will be quite
+similar to a simple shuffle split.
+
+92
+00:05:58.910 --> 00:06:00.600
+That is, to a random split.
+
+93
+00:06:01.610 --> 00:06:06.890
+Well done, in this video we have discussed
+different validation strategies and
+
+94
+00:06:06.890 --> 00:06:09.360
+reasons to use each one of them.
+
+95
+00:06:09.360 --> 00:06:11.420
+Let's summarize this all.
+
+96
+00:06:11.420 --> 00:06:15.400
+If we have enough data, and
+we're likely to get similar scores and
+
+97
+00:06:15.400 --> 00:06:21.120
+optimal model's parameters for
+different splits, we can go with Holdout.
+
+98
+00:06:21.120 --> 00:06:25.350
+If on the contrary, scores and
+optimal parameters differ for
+
+99
+00:06:25.350 --> 00:06:28.870
+different splits,
+we can choose KFold approach.
+
+100
+00:06:28.870 --> 00:06:34.383
+And event, if we too little data,
+we can apply leave-one-out.
+
+101
+00:06:34.383 --> 00:06:40.205
+The second big takeaway from this video
+for you should be stratification.
+
+102
+00:06:40.205 --> 00:06:44.850
+It helps make validation more stable,
+and especially useful for
+
+103
+00:06:44.850 --> 00:06:48.760
+small and unbalanced datasets.
+
+104
+00:06:48.760 --> 00:06:49.770
+Great.
+
+105
+00:06:49.770 --> 00:06:54.923
+In the next videos we will continue to
+comprehend validation at it's core.
+
+106
+00:06:54.923 --> 00:07:01.646
+[SOUND]
+
+107
+00:07:01.646 --> 00:07:07.389
+[MUSIC]

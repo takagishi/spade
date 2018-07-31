@@ -1,0 +1,369 @@
+WEBVTT
+
+1
+00:00:02.790 --> 00:00:06.285
+Hi, everyone. In this video,
+
+2
+00:00:06.285 --> 00:00:08.290
+I will tell you about the specifics of
+
+3
+00:00:08.290 --> 00:00:12.731
+Numerai Competition that was held throughout year 2016.
+
+4
+00:00:12.731 --> 00:00:17.980
+Note that Numerai organizers changed the format in 2017.
+
+5
+00:00:17.980 --> 00:00:22.335
+So, the findings I'm going to read will not work on new data.
+
+6
+00:00:22.335 --> 00:00:24.860
+Let's state the problem.
+
+7
+00:00:24.860 --> 00:00:28.250
+Participants were solving a binary classification task on
+
+8
+00:00:28.250 --> 00:00:32.320
+a data set with 21 anonymized numeric features.
+
+9
+00:00:32.320 --> 00:00:38.305
+Unusual part is that both train and test data sets have been updating every week.
+
+10
+00:00:38.305 --> 00:00:41.660
+Data sets were also shuffled column-wise.
+
+11
+00:00:41.660 --> 00:00:44.215
+So it was like a new task every week.
+
+12
+00:00:44.215 --> 00:00:47.405
+Pretty challenging. As it turned out,
+
+13
+00:00:47.405 --> 00:00:50.210
+this competition had a data leak.
+
+14
+00:00:50.210 --> 00:00:55.320
+Organizers did not disclose any information about the nature of data set.
+
+15
+00:00:55.320 --> 00:00:59.120
+But allegedly, it was some time series data with target
+
+16
+00:00:59.120 --> 00:01:03.770
+variable highly dependent on transitions between time points.
+
+17
+00:01:03.770 --> 00:01:07.910
+Think of something like predicting price change in stock market here.
+
+18
+00:01:07.910 --> 00:01:13.165
+Means that, if we knew true order or had timestamp variable,
+
+19
+00:01:13.165 --> 00:01:15.890
+we could easily get nearly perfect score.
+
+20
+00:01:15.890 --> 00:01:20.140
+And therefore, we had to somehow reconstruct this order.
+
+21
+00:01:20.140 --> 00:01:21.805
+Of course, approximately.
+
+22
+00:01:21.805 --> 00:01:27.440
+But even a rough approximation was giving a huge advantage over other participants.
+
+23
+00:01:27.440 --> 00:01:30.725
+The first and most important step is to find
+
+24
+00:01:30.725 --> 00:01:33.995
+a nearest neighbor for every point in a data set,
+
+25
+00:01:33.995 --> 00:01:39.230
+and add all 21 features from that neighbor to original point.
+
+26
+00:01:39.230 --> 00:01:43.160
+Simple logistic regression of those 42 features,
+
+27
+00:01:43.160 --> 00:01:46.610
+21 from original, and 21 from neighboring points,
+
+28
+00:01:46.610 --> 00:01:50.285
+allowed to get into top 10 on the leader board.
+
+29
+00:01:50.285 --> 00:01:54.945
+Of course, we can get better scores with some Hardcore EDA.
+
+30
+00:01:54.945 --> 00:01:59.500
+Let's start exploring correlation metrics of new 21 features.
+
+31
+00:01:59.500 --> 00:02:03.943
+If group features with highest correlation coefficient next to each other,
+
+32
+00:02:03.943 --> 00:02:06.735
+we'll get a right picture.
+
+33
+00:02:06.735 --> 00:02:10.340
+This picture can help us in two different ways.
+
+34
+00:02:10.340 --> 00:02:13.810
+First, we can actually fix some column order.
+
+35
+00:02:13.810 --> 00:02:17.735
+So, weekly column shuffling won't affect our models.
+
+36
+00:02:17.735 --> 00:02:20.480
+And second, we can clearly notice
+
+37
+00:02:20.480 --> 00:02:25.115
+seven groups with three highly correlated features in each of them.
+
+38
+00:02:25.115 --> 00:02:29.600
+So, the data actually has some non-trivial structure.
+
+39
+00:02:29.600 --> 00:02:35.615
+Now, let's remember that we get new data sets every week. What is more?
+
+40
+00:02:35.615 --> 00:02:40.110
+Each week, train data sets have the same number of points.
+
+41
+00:02:40.110 --> 00:02:45.170
+We can assume that there is some connection between consecutive data sets.
+
+42
+00:02:45.170 --> 00:02:49.360
+This is a little strange because we already have a time series.
+
+43
+00:02:49.360 --> 00:02:53.200
+So, what's the connection between the data from different weeks?
+
+44
+00:02:53.200 --> 00:02:56.480
+Well, if we find nearest neighbors from
+
+45
+00:02:56.480 --> 00:03:00.065
+every point in current data set from previous data set,
+
+46
+00:03:00.065 --> 00:03:02.195
+and plot distance distributions,
+
+47
+00:03:02.195 --> 00:03:04.910
+we can notice that first neighbor is much,
+
+48
+00:03:04.910 --> 00:03:07.370
+much closer than the second.
+
+49
+00:03:07.370 --> 00:03:11.585
+So, we indeed have some connection between consecutive data sets.
+
+50
+00:03:11.585 --> 00:03:16.000
+And it looks like we can build a bijective mapping between them.
+
+51
+00:03:16.000 --> 00:03:21.470
+But let's not quickly jump into conclusions and do more exploration.
+
+52
+00:03:21.470 --> 00:03:25.650
+Okay. We found a nearest neighbor in previous data set.
+
+53
+00:03:25.650 --> 00:03:28.070
+What if we examine the distances between
+
+54
+00:03:28.070 --> 00:03:32.793
+the neighboring objects at the level of individual features?
+
+55
+00:03:32.793 --> 00:03:36.735
+We clearly have three different groups of seven features.
+
+56
+00:03:36.735 --> 00:03:40.090
+Now remember, the sorted correlation matrix?
+
+57
+00:03:40.090 --> 00:03:46.470
+It turns out that each of three highly correlated features belong to a different group.
+
+58
+00:03:46.470 --> 00:03:48.140
+A perfect match.
+
+59
+00:03:48.140 --> 00:03:52.245
+And if we multiply seven features from the first group by three,
+
+60
+00:03:52.245 --> 00:03:56.565
+and seven features from the second group by two in the original data set,
+
+61
+00:03:56.565 --> 00:04:01.500
+recalculate nearest neighbor-based features within the data sets,
+
+62
+00:04:01.500 --> 00:04:03.165
+and re-train our models,
+
+63
+00:04:03.165 --> 00:04:06.020
+we'll get a nice improvement.
+
+64
+00:04:06.020 --> 00:04:09.650
+So, after this magic multiplications, of course,
+
+65
+00:04:09.650 --> 00:04:11.445
+I'd tried other constants,
+
+66
+00:04:11.445 --> 00:04:15.450
+our true order approximation became a little better.
+
+67
+00:04:15.450 --> 00:04:20.840
+Great. Now, let's move to the true relation.
+
+68
+00:04:20.840 --> 00:04:23.835
+New data, weekly updates,
+
+69
+00:04:23.835 --> 00:04:25.955
+all of it was a lie.
+
+70
+00:04:25.955 --> 00:04:31.290
+Remember, how we were calculating neighbors between consecutive data sets?
+
+71
+00:04:31.290 --> 00:04:33.685
+Well, we can forget about consecutiveness.
+
+72
+00:04:33.685 --> 00:04:36.750
+Calculate neighbors between current data set,
+
+73
+00:04:36.750 --> 00:04:40.550
+and the data set from two weeks ago or two months ago.
+
+74
+00:04:40.550 --> 00:04:45.350
+No matter what, we will be getting pretty much the same distances.
+
+75
+00:04:45.350 --> 00:04:51.535
+Why? The simplest answer is that the data actually didn't change.
+
+76
+00:04:51.535 --> 00:04:54.505
+And every week, we were getting the same data,
+
+77
+00:04:54.505 --> 00:04:56.275
+plus a little bit of noise.
+
+78
+00:04:56.275 --> 00:05:00.750
+And thus, we could find nearest neighbor in each of previous data sets,
+
+79
+00:05:00.750 --> 00:05:02.305
+and average them all,
+
+80
+00:05:02.305 --> 00:05:05.770
+successfully reducing the variance of added noise.
+
+81
+00:05:05.770 --> 00:05:10.720
+After averaging, true order approximation became even better.
+
+82
+00:05:10.720 --> 00:05:16.115
+I have to say that a little bit of test data actually did change from time to time.
+
+83
+00:05:16.115 --> 00:05:20.765
+But nonetheless, most of the roles migrated from week to week.
+
+84
+00:05:20.765 --> 00:05:23.320
+Because of that, it was possible to probe
+
+85
+00:05:23.320 --> 00:05:26.395
+the whole public leader board which helped even further,
+
+86
+00:05:26.395 --> 00:05:28.150
+and so on, and so on.
+
+87
+00:05:28.150 --> 00:05:31.495
+Of course, there are more details regarding that competition,
+
+88
+00:05:31.495 --> 00:05:33.715
+but they aren't very interesting.
+
+89
+00:05:33.715 --> 00:05:37.745
+I wanted to focus on the process of reverse engineering.
+
+90
+00:05:37.745 --> 00:05:41.875
+Anyway, I hope you like this kind of detective story
+
+91
+00:05:41.875 --> 00:05:46.880
+and realized how important exploratory data analysis could be.
+
+92
+00:05:46.880 --> 00:05:51.710
+Thank you for your attention and always pay respect to EDA.

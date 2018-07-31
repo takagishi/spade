@@ -1,0 +1,621 @@
+WEBVTT
+
+1
+00:00:02.430 --> 00:00:06.910
+This isn't the rare case in competitions when you see
+
+2
+00:00:06.910 --> 00:00:10.800
+people jumping down on leaderboard after revealing private results.
+
+3
+00:00:10.800 --> 00:00:12.682
+So, we ask ourselves,
+
+4
+00:00:12.682 --> 00:00:14.125
+what is happening out there?
+
+5
+00:00:14.125 --> 00:00:16.695
+There are two main reasons for these jumps.
+
+6
+00:00:16.695 --> 00:00:19.960
+First, competitors could ignore the validation and
+
+7
+00:00:19.960 --> 00:00:23.268
+select the submission which scored best against the public leaderboard.
+
+8
+00:00:23.268 --> 00:00:26.710
+Second, is that sometimes competitions have
+
+9
+00:00:26.710 --> 00:00:30.250
+no consistent public/private data split or they
+
+10
+00:00:30.250 --> 00:00:34.725
+have too little data in either public or private leaderboard.
+
+11
+00:00:34.725 --> 00:00:36.730
+Well, we as participants,
+
+12
+00:00:36.730 --> 00:00:39.125
+can't influence competitions organization.
+
+13
+00:00:39.125 --> 00:00:41.800
+We can certainly make sure that we select
+
+14
+00:00:41.800 --> 00:00:45.929
+our most appropriate submission to be evaluated by private leaderboard.
+
+15
+00:00:45.929 --> 00:00:49.780
+So, the broad goal of next videos is
+
+16
+00:00:49.780 --> 00:00:53.980
+to provide you a systematic way to set up validation in a competition,
+
+17
+00:00:53.980 --> 00:00:56.840
+and tackle most common validation problems.
+
+18
+00:00:56.840 --> 00:01:01.220
+Let's quickly overview of the content of the next videos.
+
+19
+00:01:01.220 --> 00:01:03.140
+First, in this video,
+
+20
+00:01:03.140 --> 00:01:06.895
+we will understand the concept of validation and overfitting.
+
+21
+00:01:06.895 --> 00:01:08.515
+In the second video,
+
+22
+00:01:08.515 --> 00:01:13.815
+we will identify the number of splits that should be done to establish stable validation.
+
+23
+00:01:13.815 --> 00:01:16.430
+In the third video, we will go through
+
+24
+00:01:16.430 --> 00:01:21.290
+most frequent methods which are used to make train/test split in competitions.
+
+25
+00:01:21.290 --> 00:01:22.549
+In the last video,
+
+26
+00:01:22.549 --> 00:01:26.060
+we will discuss most often validation problems.
+
+27
+00:01:26.060 --> 00:01:27.875
+Now, let me start to explain
+
+28
+00:01:27.875 --> 00:01:31.325
+the concept for validation for those who may never heard of it.
+
+29
+00:01:31.325 --> 00:01:36.754
+In the nutshell, we want to check if the model gives expected results on the unseen data.
+
+30
+00:01:36.754 --> 00:01:39.410
+For example, if you've worked in
+
+31
+00:01:39.410 --> 00:01:42.880
+a healthcare company which goal is to improve life of patients,
+
+32
+00:01:42.880 --> 00:01:46.490
+we could be given the task of predicting if a patient will
+
+33
+00:01:46.490 --> 00:01:50.525
+be diagnosed a particular disease in the near future.
+
+34
+00:01:50.525 --> 00:01:55.505
+Here, we need to be sure that the model we train will be applicable in the future.
+
+35
+00:01:55.505 --> 00:01:56.915
+And not just applicable,
+
+36
+00:01:56.915 --> 00:01:59.900
+we need to be sure about what quality this model will
+
+37
+00:01:59.900 --> 00:02:03.950
+have depending on the number of mistakes the model make.
+
+38
+00:02:03.950 --> 00:02:08.495
+And on the predictive probability of a patient having this particular disease,
+
+39
+00:02:08.495 --> 00:02:10.340
+we may want to decide to run
+
+40
+00:02:10.340 --> 00:02:14.910
+special medical tests for the patient to clarify the diagnosis.
+
+41
+00:02:14.910 --> 00:02:19.570
+So, we need to correctly understand the quality of our model.
+
+42
+00:02:19.570 --> 00:02:23.000
+But, this quality can differ on train data from
+
+43
+00:02:23.000 --> 00:02:27.748
+the past and on the unseen test data from the future.
+
+44
+00:02:27.748 --> 00:02:31.460
+The model could just memorize all patients from the train data and be
+
+45
+00:02:31.460 --> 00:02:35.950
+completely useless on the test data because we don't want this to happen.
+
+46
+00:02:35.950 --> 00:02:38.870
+We need to check the quality of the model with the data we
+
+47
+00:02:38.870 --> 00:02:42.500
+have and these checks are the validation.
+
+48
+00:02:42.500 --> 00:02:47.670
+So, usually, we divide data we have into two parts,
+
+49
+00:02:47.670 --> 00:02:50.280
+train part and validation part.
+
+50
+00:02:50.280 --> 00:02:56.135
+We fit our model on the train part and check its quality on the validation part.
+
+51
+00:02:56.135 --> 00:02:58.380
+Beside that, in the last example,
+
+52
+00:02:58.380 --> 00:03:01.890
+our model will be checked against the unseen data in
+
+53
+00:03:01.890 --> 00:03:06.140
+the future and actually these data can differ from the data we have.
+
+54
+00:03:06.140 --> 00:03:08.160
+So we should be ready for this.
+
+55
+00:03:08.160 --> 00:03:12.165
+In competitions, we usually have the similar situation.
+
+56
+00:03:12.165 --> 00:03:16.735
+The organizers of a competition give us the data in two chunks.
+
+57
+00:03:16.735 --> 00:03:20.070
+First, train data with all target values.
+
+58
+00:03:20.070 --> 00:03:22.950
+And second, test data without target values.
+
+59
+00:03:22.950 --> 00:03:24.585
+As in the previous example,
+
+60
+00:03:24.585 --> 00:03:27.818
+we should split the data with labels into train and validation parts.
+
+61
+00:03:27.818 --> 00:03:33.030
+Furthermore, to ensure the competition spirit,
+
+62
+00:03:33.030 --> 00:03:38.346
+the organizers split the test data into the public test set and the private test set.
+
+63
+00:03:38.346 --> 00:03:41.143
+When we sent our submissions to the platform,
+
+64
+00:03:41.143 --> 00:03:45.150
+we see the scores for the public test set while the scores for
+
+65
+00:03:45.150 --> 00:03:50.120
+the private test set are released only after the end of the competition.
+
+66
+00:03:50.120 --> 00:03:56.489
+This also ensures that we don't need the test set or in terms of a model do not overfit.
+
+67
+00:03:56.489 --> 00:03:59.995
+Let me draw you an analogy with the disease projection,
+
+68
+00:03:59.995 --> 00:04:04.545
+if we already divided our data into train and validation parts.
+
+69
+00:04:04.545 --> 00:04:08.925
+And now, we are repeatedly checking our model against the validation set,
+
+70
+00:04:08.925 --> 00:04:11.010
+some models, just by chance,
+
+71
+00:04:11.010 --> 00:04:13.475
+will have better scores than the others.
+
+72
+00:04:13.475 --> 00:04:16.808
+If we continue to select best models, modify them,
+
+73
+00:04:16.808 --> 00:04:19.007
+and again select the best from them,
+
+74
+00:04:19.007 --> 00:04:22.170
+we will see constant improvements in the score.
+
+75
+00:04:22.170 --> 00:04:26.295
+But that doesn't mean we will see these improvements on the test data from the future.
+
+76
+00:04:26.295 --> 00:04:29.105
+By repeating this over and over,
+
+77
+00:04:29.105 --> 00:04:33.555
+we could just achieve the validation set or in terms of a competition,
+
+78
+00:04:33.555 --> 00:04:36.095
+we could just cheat the public leaderboard.
+
+79
+00:04:36.095 --> 00:04:37.800
+But again, if it overfit,
+
+80
+00:04:37.800 --> 00:04:40.930
+the private leaderboard will let us down.
+
+81
+00:04:40.930 --> 00:04:44.185
+This is what we call overfitting in a competition.
+
+82
+00:04:44.185 --> 00:04:46.890
+Get an unrealistically good scores on
+
+83
+00:04:46.890 --> 00:04:52.390
+the public leaderboard that later result in jumping down the private leaderboard.
+
+84
+00:04:52.390 --> 00:04:56.850
+So, we want our model to be able to capture patterns in
+
+85
+00:04:56.850 --> 00:05:02.670
+the data but only those patterns that generalize well between both train and test data.
+
+86
+00:05:02.670 --> 00:05:06.834
+Let me show you this process in terms of underfitting and overfitting.
+
+87
+00:05:06.834 --> 00:05:09.180
+So, to choose the best model,
+
+88
+00:05:09.180 --> 00:05:14.130
+we basically want to avoid underfitting on the one side and overfitting on the other.
+
+89
+00:05:14.130 --> 00:05:19.430
+Let's understand this concept on a very simple example of a binary classification test.
+
+90
+00:05:19.430 --> 00:05:23.070
+We will be using simple models defined by formulas under
+
+91
+00:05:23.070 --> 00:05:27.730
+the pictures and visualize the results of model's predictions.
+
+92
+00:05:27.730 --> 00:05:29.310
+Here on the left picture,
+
+93
+00:05:29.310 --> 00:05:32.555
+we can see that if the model is too simple,
+
+94
+00:05:32.555 --> 00:05:37.500
+it can't capture underlined relationship and we will get poor results.
+
+95
+00:05:37.500 --> 00:05:38.520
+This is called underfitting.
+
+96
+00:05:38.520 --> 00:05:42.345
+Then, if we want our results to improve,
+
+97
+00:05:42.345 --> 00:05:45.660
+we can increase the complexity of the model and
+
+98
+00:05:45.660 --> 00:05:50.750
+that will probably find that quality on the training data is going down.
+
+99
+00:05:50.750 --> 00:05:55.045
+But on the other hand, if we make too complicated model like on the right picture,
+
+100
+00:05:55.045 --> 00:06:00.960
+it will start describing noise in the train data that doesn't generalize the test data.
+
+101
+00:06:00.960 --> 00:06:04.925
+And this will lead to a decrease of model's quality.
+
+102
+00:06:04.925 --> 00:06:06.790
+This is called overfitting.
+
+103
+00:06:06.790 --> 00:06:12.275
+So, we want something in between underfitting and overfitting here.
+
+104
+00:06:12.275 --> 00:06:15.270
+And for the purpose of choosing the most suitable model,
+
+105
+00:06:15.270 --> 00:06:19.080
+we want to be able to evaluate our results.
+
+106
+00:06:19.080 --> 00:06:21.030
+Here, we need to make a remark,
+
+107
+00:06:21.030 --> 00:06:25.020
+that the meaning of overfitting in machine learning in general and
+
+108
+00:06:25.020 --> 00:06:29.970
+the meaning of overfitting competitions in particular are slightly different.
+
+109
+00:06:29.970 --> 00:06:33.180
+In general, we say that the model is overfitted if
+
+110
+00:06:33.180 --> 00:06:37.265
+its quality on the train set is better than on the test set.
+
+111
+00:06:37.265 --> 00:06:39.735
+But in competitions, we often say,
+
+112
+00:06:39.735 --> 00:06:42.540
+that the models are overfitted only in case when
+
+113
+00:06:42.540 --> 00:06:46.970
+quality on the test set will be worse than we have expected.
+
+114
+00:06:46.970 --> 00:06:49.040
+For example, if you train gradient boosting decision tree in
+
+115
+00:06:49.040 --> 00:06:53.280
+the competition is our area under a curve metric.
+
+116
+00:06:53.280 --> 00:06:56.040
+We sometimes can observe that the quality on
+
+117
+00:06:56.040 --> 00:06:59.250
+the training data is close to one while on the test data,
+
+118
+00:06:59.250 --> 00:07:02.345
+it could be less for example, near 0.9.
+
+119
+00:07:02.345 --> 00:07:07.020
+In general sense, the models overfitted here but while we get area
+
+120
+00:07:07.020 --> 00:07:12.810
+under curve was 0.9 on both validation and public/private test sets,
+
+121
+00:07:12.810 --> 00:07:17.800
+we will not say that it is overfitted in the context of a competition.
+
+122
+00:07:17.800 --> 00:07:21.860
+Let me illustrate this concept again in a bit different way.
+
+123
+00:07:21.860 --> 00:07:25.200
+So, lets say for the purpose of model evaluation,
+
+124
+00:07:25.200 --> 00:07:28.330
+we divided our data into two parts.
+
+125
+00:07:28.330 --> 00:07:30.510
+Train and validation parts.
+
+126
+00:07:30.510 --> 00:07:32.135
+Like we already did,
+
+127
+00:07:32.135 --> 00:07:37.427
+we will derive model's complexity from low to high and look at the models here.
+
+128
+00:07:37.427 --> 00:07:41.130
+Note, that usually, we understand
+
+129
+00:07:41.130 --> 00:07:45.955
+error or loss is something which is opposite to model's quality or score.
+
+130
+00:07:45.955 --> 00:07:49.530
+In the figure, the dependency looks pretty reasonable.
+
+131
+00:07:49.530 --> 00:07:50.955
+For two simple models,
+
+132
+00:07:50.955 --> 00:07:55.590
+we have underfitting which means higher on both train and validation.
+
+133
+00:07:55.590 --> 00:07:57.070
+For two complex models,
+
+134
+00:07:57.070 --> 00:08:03.030
+we have overfitting which means low error on train but again high error on validation.
+
+135
+00:08:03.030 --> 00:08:04.960
+In the middle, between them,
+
+136
+00:08:04.960 --> 00:08:06.960
+if the perfect model's complexity,
+
+137
+00:08:06.960 --> 00:08:09.900
+it has the lowest train on the validation data and
+
+138
+00:08:09.900 --> 00:08:14.370
+thus we expect it to have the lowest error on the unseen test data.
+
+139
+00:08:14.370 --> 00:08:18.000
+Note, that here the training error is always
+
+140
+00:08:18.000 --> 00:08:22.800
+better than the test error which implies overfitting in general sense,
+
+141
+00:08:22.800 --> 00:08:26.340
+but doesn't apply in the context of competitions.
+
+142
+00:08:26.340 --> 00:08:27.615
+Well done.
+
+143
+00:08:27.615 --> 00:08:30.015
+In this video, we define validation,
+
+144
+00:08:30.015 --> 00:08:32.857
+demonstrated its purpose, and interpreted validation
+
+145
+00:08:32.857 --> 00:08:36.330
+in terms of underfitting and overfitting.
+
+146
+00:08:36.330 --> 00:08:39.045
+So, once again, in general,
+
+147
+00:08:39.045 --> 00:08:41.535
+the validation helps us answer the question,
+
+148
+00:08:41.535 --> 00:08:45.960
+what will be the quality of our model on the unseeing data and help
+
+149
+00:08:45.960 --> 00:08:52.130
+us select the model which will be expected to get the best quality on that test data.
+
+150
+00:08:52.130 --> 00:08:56.185
+Usually, we are trying to avoid underfitting on the one side that is
+
+151
+00:08:56.185 --> 00:09:01.105
+we want our model to be expressive enough to capture the patterns in the data.
+
+152
+00:09:01.105 --> 00:09:04.260
+And we are trying to avoid overfitting on the other side,
+
+153
+00:09:04.260 --> 00:09:06.935
+and don't make too complex model,
+
+154
+00:09:06.935 --> 00:09:08.265
+because in that case,
+
+155
+00:09:08.265 --> 00:09:14.210
+we will start to capture noise or patterns that doesn't generalize to the test data.

@@ -1,0 +1,1352 @@
+WEBVTT
+
+1
+00:00:00.025 --> 00:00:05.950
+[SOUND] Hi and welcome back.
+
+2
+00:00:05.950 --> 00:00:10.632
+In the previous videos we discussed
+the concept of validation and overfitting.
+
+3
+00:00:10.632 --> 00:00:14.250
+And discussed how to chose
+validation strategy based
+
+4
+00:00:14.250 --> 00:00:16.460
+on the properties of data we have.
+
+5
+00:00:16.460 --> 00:00:22.450
+And finally we learned to identify
+data split made by organizers.
+
+6
+00:00:22.450 --> 00:00:27.363
+After all this work being done,
+we honestly expect that the relation will,
+
+7
+00:00:27.363 --> 00:00:30.230
+in a way, substitute a leaderboard for us.
+
+8
+00:00:30.230 --> 00:00:34.928
+That is the score we see on
+the validation will be the same for
+
+9
+00:00:34.928 --> 00:00:35.890
+the private leaderboard.
+
+10
+00:00:35.890 --> 00:00:38.640
+Or at least, if we improve our model and
+
+11
+00:00:38.640 --> 00:00:42.810
+validation, there will be improvements
+on the private leaderboard.
+
+12
+00:00:42.810 --> 00:00:48.290
+And this is usually true, but
+sometimes we encounter some problems here.
+
+13
+00:00:48.290 --> 00:00:53.410
+In most cases these problems can
+be divided into two big groups.
+
+14
+00:00:53.410 --> 00:00:58.430
+In the first group are the problems
+we encounter during local validation.
+
+15
+00:00:58.430 --> 00:01:02.760
+Usually they are caused by
+inconsistency of the data,
+
+16
+00:01:02.760 --> 00:01:08.150
+a widespread example is getting different
+optimal parameters for different faults.
+
+17
+00:01:08.150 --> 00:01:11.900
+In this case we need to make
+more thorough validation.
+
+18
+00:01:11.900 --> 00:01:14.510
+The problems from the second group,
+
+19
+00:01:14.510 --> 00:01:19.320
+often reveal themselves only when we
+send our submissions to the platform.
+
+20
+00:01:19.320 --> 00:01:25.250
+And observe that scores on the validation
+and on the leaderboard don't match.
+
+21
+00:01:25.250 --> 00:01:28.200
+In this case, the problem usually occurs
+
+22
+00:01:28.200 --> 00:01:33.600
+because we can't mimic the exact
+train test split on our validation.
+
+23
+00:01:33.600 --> 00:01:38.630
+These are tough problems, and we
+definitely want to be able to handle them.
+
+24
+00:01:38.630 --> 00:01:43.320
+So before we start,
+let me provide an overview of this video.
+
+25
+00:01:43.320 --> 00:01:48.180
+For both validation and submission
+stages we will discuss main problems,
+
+26
+00:01:48.180 --> 00:01:50.370
+their causes, how to handle them.
+
+27
+00:01:51.470 --> 00:01:58.190
+And then, we'll talk a bit about when
+we can expect a leaderboard shuffle.
+
+28
+00:01:58.190 --> 00:02:02.340
+Let's start with discussion
+of validation stage problems.
+
+29
+00:02:02.340 --> 00:02:05.956
+Usually, they attract our
+attention during validation.
+
+30
+00:02:05.956 --> 00:02:10.428
+Generally, the main problem is
+a significant difference in scores and
+
+31
+00:02:10.428 --> 00:02:14.316
+optimal parameters for
+different train validation splits.
+
+32
+00:02:14.316 --> 00:02:16.400
+Let's start with an example.
+
+33
+00:02:16.400 --> 00:02:19.360
+So we can easily explain this problem.
+
+34
+00:02:19.360 --> 00:02:23.970
+Consider that we need to predict
+sales in a shop in February.
+
+35
+00:02:23.970 --> 00:02:26.060
+Say we have target values for
+
+36
+00:02:26.060 --> 00:02:31.135
+the last year, and, usually,
+we will take last month in the validation.
+
+37
+00:02:31.135 --> 00:02:37.775
+This means January, but clearly January
+has much more holidays than February.
+
+38
+00:02:37.775 --> 00:02:42.995
+And people tend to buy more, which causes
+target values to be higher overall.
+
+39
+00:02:42.995 --> 00:02:46.835
+And that mean squared error
+of our predictions for
+
+40
+00:02:46.835 --> 00:02:50.600
+January will be greater than for February.
+
+41
+00:02:50.600 --> 00:02:55.500
+Does this mean that the module
+will perform worse for February?
+
+42
+00:02:55.500 --> 00:02:59.730
+Probably not,
+at least not in terms of overfitting.
+
+43
+00:02:59.730 --> 00:03:05.280
+As we can see, sometimes this kind
+of model behavior can be expected.
+
+44
+00:03:05.280 --> 00:03:11.490
+But what if there is no clear reason
+why scores differ for different folds?
+
+45
+00:03:11.490 --> 00:03:16.380
+Let identify several common reasons for
+this and see what we can do about it.
+
+46
+00:03:16.380 --> 00:03:22.450
+The first hypotheses we should consider
+and that we have too little data.
+
+47
+00:03:22.450 --> 00:03:28.230
+For example, consider a case when we have
+a lot of patterns and trends in the data.
+
+48
+00:03:28.230 --> 00:03:32.690
+But we do not have enough samples
+to generalize these patterns well.
+
+49
+00:03:33.760 --> 00:03:38.561
+In that case, a model will utilize
+only some general patterns.
+
+50
+00:03:38.561 --> 00:03:43.465
+And for each train validation split,
+these patterns will partially differ.
+
+51
+00:03:43.465 --> 00:03:48.330
+This indeed, will lead to
+a difference in scores of the model.
+
+52
+00:03:48.330 --> 00:03:53.081
+Furthermore, validation samples
+will be different each time only
+
+53
+00:03:53.081 --> 00:03:57.264
+increasing the dispersion of scores for
+different folds.
+
+54
+00:03:57.264 --> 00:04:02.390
+The second type of this,
+is data is too diverse and inconsistent.
+
+55
+00:04:02.390 --> 00:04:07.627
+For example, if you have very similar
+samples with different target variance,
+
+56
+00:04:07.627 --> 00:04:09.580
+a model can confuse them.
+
+57
+00:04:09.580 --> 00:04:12.270
+Consider two cases, first,
+
+58
+00:04:12.270 --> 00:04:17.850
+if one of such examples is in the train
+while another is in the validation.
+
+59
+00:04:17.850 --> 00:04:21.570
+We can get a pretty high error for
+the second sample.
+
+60
+00:04:21.570 --> 00:04:25.658
+And the second case,
+if both samples are in validation,
+
+61
+00:04:25.658 --> 00:04:29.250
+we will get smaller errors for them.
+
+62
+00:04:29.250 --> 00:04:33.200
+Or let's remember another
+example of diverse data
+
+63
+00:04:33.200 --> 00:04:35.468
+we have already discussed a bit earlier.
+
+64
+00:04:35.468 --> 00:04:41.080
+I'm talking about the example of
+predicting sales for January and February.
+
+65
+00:04:41.080 --> 00:04:45.330
+Here we have the nature or the reason for
+the differences in scores.
+
+66
+00:04:45.330 --> 00:04:50.860
+As a quick note, notice that in this
+example, we can reduce this diversity
+
+67
+00:04:50.860 --> 00:04:56.070
+a bit if we will validate on
+the February from the previous year.
+
+68
+00:04:56.070 --> 00:05:00.370
+So the main reasons for a difference in
+scores and optimal model parameters for
+
+69
+00:05:00.370 --> 00:05:04.270
+different folds are, first,
+having too little data, and
+
+70
+00:05:04.270 --> 00:05:07.530
+second, having too diverse and
+inconsistent data.
+
+71
+00:05:07.530 --> 00:05:10.960
+Now let's outline our actions here.
+
+72
+00:05:10.960 --> 00:05:13.290
+If we are facing this kind of problem,
+
+73
+00:05:13.290 --> 00:05:17.140
+it can be useful to make
+more thorough validation.
+
+74
+00:05:17.140 --> 00:05:22.290
+You can increase K in KFold,
+but usually 5 folds are enough.
+
+75
+00:05:22.290 --> 00:05:26.122
+Make KFold validation several times
+with different random splits.
+
+76
+00:05:26.122 --> 00:05:31.070
+And average scores to get a more
+stable estimate of model's quality.
+
+77
+00:05:31.070 --> 00:05:33.850
+The same way we can choose
+the best parameters for
+
+78
+00:05:33.850 --> 00:05:37.110
+the model if there is a chance to overfit.
+
+79
+00:05:37.110 --> 00:05:42.060
+It is useful to use one set of KFold
+splits to select parameters and
+
+80
+00:05:42.060 --> 00:05:45.970
+another set of KFold splits
+to check model's quality.
+
+81
+00:05:47.170 --> 00:05:51.770
+Examples of competitions which
+required extensive validation include
+
+82
+00:05:51.770 --> 00:05:56.600
+the Liberty Mutual Group Property
+Inspection Prediction competition and
+
+83
+00:05:56.600 --> 00:06:00.160
+the Santander Customer Satisfaction
+competition.
+
+84
+00:06:00.160 --> 00:06:05.920
+In both of them, scores of the competitors
+were very close to each other.
+
+85
+00:06:05.920 --> 00:06:10.060
+And thus participants tried to
+squeeze more from the data.
+
+86
+00:06:10.060 --> 00:06:15.240
+But do not overfit, so
+the thorough validation was crucial.
+
+87
+00:06:15.240 --> 00:06:18.021
+Now, having discussed
+validation stage problems,
+
+88
+00:06:18.021 --> 00:06:20.910
+let's move on to
+submission stage problems.
+
+89
+00:06:20.910 --> 00:06:26.735
+Sometimes you can diagnose these problems
+in the process of doing careful.
+
+90
+00:06:26.735 --> 00:06:30.170
+But still,
+often you encounter these type of problems
+
+91
+00:06:30.170 --> 00:06:32.950
+only when you submit your
+solution to the platform.
+
+92
+00:06:34.000 --> 00:06:35.470
+But then again,
+
+93
+00:06:35.470 --> 00:06:41.360
+is your friend when it comes down
+to finding the root of the problem.
+
+94
+00:06:41.360 --> 00:06:45.070
+Generally speaking,
+there are two cases of these issues.
+
+95
+00:06:45.070 --> 00:06:49.020
+In the first case, leaderboard
+score is consistently higher or
+
+96
+00:06:49.020 --> 00:06:51.580
+lower than validation score.
+
+97
+00:06:51.580 --> 00:06:57.300
+In the second, leaderboard score is not
+correlated with validation score at all.
+
+98
+00:06:57.300 --> 00:07:01.780
+So in the worst case, we can improve
+our score on the validation.
+
+99
+00:07:01.780 --> 00:07:06.130
+While, on the contrary,
+score on the leaderboard will decrease.
+
+100
+00:07:06.130 --> 00:07:11.448
+As you can imagine,
+these problems can be much more trouble.
+
+101
+00:07:11.448 --> 00:07:15.600
+Now remember that the main rule
+of making a reliable validation,
+
+102
+00:07:15.600 --> 00:07:19.710
+is to mimic a train tests
+pre made by organizers.
+
+103
+00:07:19.710 --> 00:07:23.420
+I won't lie to you,
+it can be quite hard to identify and
+
+104
+00:07:23.420 --> 00:07:25.930
+mimic the exact train tests here.
+
+105
+00:07:25.930 --> 00:07:30.620
+Because of that, I highly you to
+start submitting your solutions
+
+106
+00:07:30.620 --> 00:07:32.820
+right after you enter the competition.
+
+107
+00:07:32.820 --> 00:07:37.780
+It's good to start exploring other
+possible roots of this problem.
+
+108
+00:07:37.780 --> 00:07:41.808
+Let's first sort out causes we could
+observe during validation stage.
+
+109
+00:07:41.808 --> 00:07:46.705
+Recall, we already have different
+model scores on different
+
+110
+00:07:46.705 --> 00:07:49.480
+folds during validation.
+
+111
+00:07:49.480 --> 00:07:54.510
+Here it is useful to see a leaderboard
+as another validation fold.
+
+112
+00:07:54.510 --> 00:07:58.660
+Then, if we already have
+different scores in KFold,
+
+113
+00:07:58.660 --> 00:08:04.330
+getting a not very similar result on
+the leaderboard is not suprising.
+
+114
+00:08:04.330 --> 00:08:09.930
+More we can calculate mean and standard
+deviation of the validation scores and
+
+115
+00:08:09.930 --> 00:08:14.240
+estimate if the leaderboard
+score is expected.
+
+116
+00:08:14.240 --> 00:08:18.250
+But if this is not the case,
+then something is definitely wrong.
+
+117
+00:08:19.290 --> 00:08:22.360
+There could be two more reasons for
+this problem.
+
+118
+00:08:22.360 --> 00:08:26.500
+The first reason, we have too
+little data in public leaderboard,
+
+119
+00:08:26.500 --> 00:08:28.610
+which is pretty self explanatory.
+
+120
+00:08:28.610 --> 00:08:32.230
+Just trust your validation,
+and everything will be fine.
+
+121
+00:08:32.230 --> 00:08:37.830
+And the second train and test data
+are from different distributions.
+
+122
+00:08:37.830 --> 00:08:42.056
+Let me explain what I mean when I
+talk about different distributions.
+
+123
+00:08:42.056 --> 00:08:46.410
+Consider a regression test of
+predicting people's height
+
+124
+00:08:46.410 --> 00:08:49.440
+by their photos on Instagram.
+
+125
+00:08:49.440 --> 00:08:53.190
+The blue line represents
+the distribution of heights for man,
+
+126
+00:08:53.190 --> 00:08:58.410
+while the red line represents
+the distribution of heights for women.
+
+127
+00:08:58.410 --> 00:09:02.140
+As you can see,
+these distributions are different.
+
+128
+00:09:02.140 --> 00:09:07.050
+Now let's consider that the train
+data consists only of women,
+
+129
+00:09:07.050 --> 00:09:11.067
+while the test data consists only of men.
+
+130
+00:09:11.067 --> 00:09:16.540
+Then all model predictions will be
+around the average height for women.
+
+131
+00:09:16.540 --> 00:09:20.960
+And the distribution of these predictions
+will be very similar to that for
+
+132
+00:09:20.960 --> 00:09:22.695
+the train data.
+
+133
+00:09:22.695 --> 00:09:27.985
+No wonder that our model will have
+a terrible score on the test data.
+
+134
+00:09:27.985 --> 00:09:32.665
+Now, because our course is a practical
+one, let's take a moment and
+
+135
+00:09:32.665 --> 00:09:37.196
+think what you can do if you
+encounter these in a competition.
+
+136
+00:09:37.196 --> 00:09:41.895
+Okay, let's start with a general
+approach to such problems.
+
+137
+00:09:41.895 --> 00:09:43.285
+At the broadest level,
+
+138
+00:09:43.285 --> 00:09:48.250
+we need to find a way to tackle different
+distributions in train and test.
+
+139
+00:09:48.250 --> 00:09:52.316
+Sometimes, these kind of problems
+could be solved by adjusting your
+
+140
+00:09:52.316 --> 00:09:55.240
+solution during the training procedure.
+
+141
+00:09:55.240 --> 00:09:58.080
+But sometimes, this problem can be solved
+
+142
+00:09:58.080 --> 00:10:01.527
+only by adjusting your solution
+through the leaderboard.
+
+143
+00:10:01.527 --> 00:10:04.088
+That is through leaderboard probing.
+
+144
+00:10:04.088 --> 00:10:08.990
+The simplest way to solve this particular
+situation in a competition is to try
+
+145
+00:10:08.990 --> 00:10:13.310
+to figure out the optimal constant
+prediction for train and test data.
+
+146
+00:10:13.310 --> 00:10:16.960
+And shift your predictions
+by the difference.
+
+147
+00:10:16.960 --> 00:10:22.590
+Right here we can calculate the average
+height of women from the train data.
+
+148
+00:10:22.590 --> 00:10:25.788
+Calculating the average height
+of men is a big trickier.
+
+149
+00:10:25.788 --> 00:10:29.890
+If the competition's metric
+is means squared error,
+
+150
+00:10:29.890 --> 00:10:34.460
+we can send two constant submissions,
+write down the simple formula.
+
+151
+00:10:34.460 --> 00:10:40.290
+And find out that the average target
+value for the test is equal to 70 inches.
+
+152
+00:10:40.290 --> 00:10:44.420
+In general, this technique is
+known as leaderboard probing.
+
+153
+00:10:44.420 --> 00:10:48.593
+And we will discuss it in the topic about.
+
+154
+00:10:48.593 --> 00:10:53.240
+So now we know the difference between the
+average target values for the train and
+
+155
+00:10:53.240 --> 00:10:56.670
+the test data, which is equal to 7 inches.
+
+156
+00:10:56.670 --> 00:11:01.160
+And as the third step of adjusting
+our submission to the leaderboard we
+
+157
+00:11:01.160 --> 00:11:06.130
+could just try to add
+7 to all predictions.
+
+158
+00:11:06.130 --> 00:11:13.140
+But from this point it is not validational
+it is a leaderboard probing and list.
+
+159
+00:11:13.140 --> 00:11:18.130
+Yes we probably could discover this
+during exploratory data analysis and
+
+160
+00:11:18.130 --> 00:11:21.460
+try to make a correction
+in our validation scheme.
+
+161
+00:11:21.460 --> 00:11:25.090
+But sometimes it is not possible
+without leaderboard probing,
+
+162
+00:11:25.090 --> 00:11:27.220
+just like in this example.
+
+163
+00:11:27.220 --> 00:11:33.090
+A competition which has something similar
+is the Quora question pairs competition.
+
+164
+00:11:33.090 --> 00:11:38.190
+There, distributions of the target
+from train and test were different.
+
+165
+00:11:38.190 --> 00:11:41.860
+So one could get a good
+improvement of a score
+
+166
+00:11:41.860 --> 00:11:44.591
+adjusting his predictions
+to the leaderboard.
+
+167
+00:11:45.840 --> 00:11:49.010
+But fortunately, this case is rare enough.
+
+168
+00:11:49.010 --> 00:11:54.080
+More often, we encounter situations
+which are more like the following case.
+
+169
+00:11:54.080 --> 00:11:58.500
+Consider that now train
+consists not only of women, but
+
+170
+00:11:58.500 --> 00:12:01.640
+mostly of women, and test, vice versa.
+
+171
+00:12:01.640 --> 00:12:04.640
+Consists not only of men,
+but mostly of men.
+
+172
+00:12:05.690 --> 00:12:09.740
+The main strategy to deal with
+these kind of situations is simple.
+
+173
+00:12:09.740 --> 00:12:13.870
+Again, remember to mimic
+the train test split.
+
+174
+00:12:13.870 --> 00:12:16.780
+If the test consists mostly of Men,
+
+175
+00:12:16.780 --> 00:12:20.770
+force the validation to
+have the same distribution.
+
+176
+00:12:20.770 --> 00:12:25.190
+In that case, you ensure that
+your validation will be fair.
+
+177
+00:12:26.420 --> 00:12:31.230
+This is true for getting raw scores and
+optimal parameters correctly.
+
+178
+00:12:31.230 --> 00:12:34.430
+For example,
+we could have quite different scores and
+
+179
+00:12:34.430 --> 00:12:39.160
+optimal parameters for women's and
+men's parts of the data set.
+
+180
+00:12:40.280 --> 00:12:45.550
+Ensuring the same distribution in test and
+validation helps us get scores and
+
+181
+00:12:45.550 --> 00:12:48.890
+parameters relevant to test.
+
+182
+00:12:48.890 --> 00:12:52.460
+I want to mention two
+examples of this here.
+
+183
+00:12:52.460 --> 00:12:57.630
+First the Data Science Game Qualification
+Phase: Music recommendation challenge.
+
+184
+00:12:57.630 --> 00:13:00.230
+And second, competition with
+
+185
+00:13:00.230 --> 00:13:05.060
+CTR prediction which we discussed
+earlier in the data topic.
+
+186
+00:13:05.060 --> 00:13:07.110
+Let's start with the second one,
+
+187
+00:13:07.110 --> 00:13:12.250
+do you remember the problem,
+we have a test of predicting CTR.
+
+188
+00:13:12.250 --> 00:13:17.250
+So, the train data, which basically
+was the history of displayed ads
+
+189
+00:13:17.250 --> 00:13:21.750
+obviously didn't contain
+ads which were not shown.
+
+190
+00:13:21.750 --> 00:13:27.310
+On the contrary, the test data
+consisted of every possible ad.
+
+191
+00:13:27.310 --> 00:13:33.211
+Notice this is the exact case of different
+distributions in train and test.
+
+192
+00:13:34.420 --> 00:13:39.260
+And again, we need to set up our
+validation to mimic test here.
+
+193
+00:13:39.260 --> 00:13:44.330
+So we have this huge bias towards
+showing that in the train and
+
+194
+00:13:44.330 --> 00:13:46.500
+to set up a correct validation.
+
+195
+00:13:46.500 --> 00:13:51.384
+We had to complete the validation
+set with rows of not shown ads.
+
+196
+00:13:51.384 --> 00:13:55.018
+Now, let's go back to the first example.
+
+197
+00:13:55.018 --> 00:13:58.320
+In that competition,
+participants had to predict
+
+198
+00:13:58.320 --> 00:14:03.150
+whether a user will listen to
+a song recommended by assistant.
+
+199
+00:14:03.150 --> 00:14:07.350
+So, the test contained
+only recommended songs.
+
+200
+00:14:07.350 --> 00:14:12.200
+But train, on the contrary,
+contained both recommended songs and
+
+201
+00:14:12.200 --> 00:14:15.250
+songs users selected themselves.
+
+202
+00:14:15.250 --> 00:14:21.900
+So again, one could adjust his validation
+by 50 renowned songs selected by users.
+
+203
+00:14:21.900 --> 00:14:27.551
+And again, if we will not account for
+that fact, then improving our model
+
+204
+00:14:27.551 --> 00:14:33.127
+on actually selected songs can result
+in the validation score going up.
+
+205
+00:14:33.127 --> 00:14:38.168
+But it doesn't have to result and
+the same improvements for the leaderboard.
+
+206
+00:14:38.168 --> 00:14:42.269
+Okay let's conclude this overview
+of handling validation problems for
+
+207
+00:14:42.269 --> 00:14:44.460
+the submission stage.
+
+208
+00:14:44.460 --> 00:14:50.030
+If you have too little data in public
+leaderboard, just trust your validation.
+
+209
+00:14:50.030 --> 00:14:53.705
+If that's not the case,
+make sure that you did not overfit.
+
+210
+00:14:55.250 --> 00:14:58.880
+Then check if you made
+correct train/test split,
+
+211
+00:14:58.880 --> 00:15:01.770
+as we discussed in the previous video.
+
+212
+00:15:01.770 --> 00:15:08.170
+And finally, check if you have different
+distributions in train and test.
+
+213
+00:15:08.170 --> 00:15:11.890
+Great, let's move on to
+the next point of this video.
+
+214
+00:15:11.890 --> 00:15:15.470
+For now,
+I hope you did everything all right.
+
+215
+00:15:15.470 --> 00:15:17.750
+First, you did extensive validation.
+
+216
+00:15:17.750 --> 00:15:22.150
+Second, you choose a correct splitter
+strategy for train validation split.
+
+217
+00:15:22.150 --> 00:15:28.020
+And finally, you ensured the same
+distributions in validation and testing.
+
+218
+00:15:28.020 --> 00:15:33.190
+But sometimes you have to expect
+leaderboard shuffle anyway,
+
+219
+00:15:33.190 --> 00:15:36.330
+and not just for you, but for everyone.
+
+220
+00:15:36.330 --> 00:15:41.060
+First, for those who've never heard of it,
+a leaderboard shuffle happens
+
+221
+00:15:41.060 --> 00:15:46.980
+when participants position some public and
+private leaderboard drastically different.
+
+222
+00:15:46.980 --> 00:15:50.950
+Take a look at this screenshot from
+the two sigma financial model in challenge
+
+223
+00:15:50.950 --> 00:15:52.570
+competition.
+
+224
+00:15:52.570 --> 00:15:57.510
+The green and
+the red arrows mean how far a team moved.
+
+225
+00:15:57.510 --> 00:16:02.095
+For example, the participant who
+finished the 3rd on the private
+
+226
+00:16:02.095 --> 00:16:08.240
+leaderboard was the 392nd
+on the public leaderboard.
+
+227
+00:16:08.240 --> 00:16:12.995
+Let's discuss three main reasons for
+that shuffle, randomness,
+
+228
+00:16:12.995 --> 00:16:18.100
+too little data, and different public,
+private distributions.
+
+229
+00:16:18.100 --> 00:16:20.170
+So first, randomness,
+
+230
+00:16:20.170 --> 00:16:24.920
+this is the case when all participants
+have very similar scores.
+
+231
+00:16:24.920 --> 00:16:29.230
+This can be either a very good score or
+a very poor one.
+
+232
+00:16:29.230 --> 00:16:32.745
+But the main point here is
+that the main reason for
+
+233
+00:16:32.745 --> 00:16:35.780
+differences in scores is randomness.
+
+234
+00:16:35.780 --> 00:16:40.602
+To understand this a bit more,
+let's go through two quick examples here.
+
+235
+00:16:40.602 --> 00:16:43.470
+The first one is the Liberty Mutual Group,
+
+236
+00:16:43.470 --> 00:16:45.765
+Property Inspection Prediction
+competition.
+
+237
+00:16:45.765 --> 00:16:50.750
+In that competition,
+scores of competitors were very close.
+
+238
+00:16:50.750 --> 00:16:54.820
+And though randomness didn't play
+a major role in that competition,
+
+239
+00:16:54.820 --> 00:16:59.580
+still many people overfit
+on the public leaderboard.
+
+240
+00:16:59.580 --> 00:17:02.410
+The second example,
+which is opposite to the first
+
+241
+00:17:02.410 --> 00:17:06.540
+is the TWO SIGMA Financial Model and
+Challenge competition.
+
+242
+00:17:06.540 --> 00:17:11.530
+Because the financial data in that
+competition was highly unpredictable,
+
+243
+00:17:11.530 --> 00:17:14.470
+randomness played a major role in it.
+
+244
+00:17:14.470 --> 00:17:18.790
+So one could say that the leaderboard
+shuffle there was among
+
+245
+00:17:18.790 --> 00:17:21.920
+the biggest shuffles on KFold platform.
+
+246
+00:17:21.920 --> 00:17:26.790
+Okay, that was randomness, the second
+reason to expect leaderboard shuffle
+
+247
+00:17:26.790 --> 00:17:31.524
+is too little data overall, and
+in private test set especially.
+
+248
+00:17:31.524 --> 00:17:36.760
+An example of this is the Restaurant
+Revenue Prediction Competition.
+
+249
+00:17:36.760 --> 00:17:42.210
+In that competition, trained set
+consisted of less than 200 gross.
+
+250
+00:17:42.210 --> 00:17:46.100
+And this set consisted
+of less than 400 gross.
+
+251
+00:17:46.100 --> 00:17:49.110
+So as you can see shuffle
+here was more than expected.
+
+252
+00:17:50.850 --> 00:17:53.590
+Last reason of leaderboard
+shuffle could be
+
+253
+00:17:53.590 --> 00:17:57.660
+different distributions between public and
+private test sets.
+
+254
+00:17:57.660 --> 00:18:00.764
+This is usually the case
+with time series prediction,
+
+255
+00:18:00.764 --> 00:18:04.100
+like the Rossmann Stores Sales
+competition.
+
+256
+00:18:04.100 --> 00:18:09.140
+When we have a time based split,
+we usually have first few weeks
+
+257
+00:18:09.140 --> 00:18:14.400
+in public leaderboard, and
+next few weeks in private leaderboards.
+
+258
+00:18:14.400 --> 00:18:18.576
+As people tend to adjust their
+submission to public leaderboard and
+
+259
+00:18:18.576 --> 00:18:23.160
+overfit, we can expect worse
+results on private leaderboard.
+
+260
+00:18:23.160 --> 00:18:27.920
+Here again, trust your validation and
+everything will be fine.
+
+261
+00:18:27.920 --> 00:18:31.700
+Okay, let's go over reasons for
+leaderboard shuffling.
+
+262
+00:18:31.700 --> 00:18:37.110
+Now let's conclude both this video and
+the entire validation topic.
+
+263
+00:18:37.110 --> 00:18:39.220
+Let's start with the video.
+
+264
+00:18:39.220 --> 00:18:43.820
+First, if you have big dispersion
+of scores on validation stage
+
+265
+00:18:43.820 --> 00:18:46.790
+we should do extensive validation.
+
+266
+00:18:46.790 --> 00:18:51.668
+That means every score from
+different KFold splits, and
+
+267
+00:18:51.668 --> 00:18:57.350
+team model on one split while
+evaluating score on the other.
+
+268
+00:18:57.350 --> 00:19:02.180
+Second, if submission do not
+match local validation score,
+
+269
+00:19:02.180 --> 00:19:07.170
+we should first, check if we have too
+little data in public leaderboard.
+
+270
+00:19:07.170 --> 00:19:13.080
+Second, check if we did not overfit, check
+if you chose correct splitting strategy.
+
+271
+00:19:13.080 --> 00:19:18.090
+And finally, check if trained test
+have different distributions.
+
+272
+00:19:18.090 --> 00:19:23.519
+You can expect leaderboard shuffle
+because of three key things, randomness,
+
+273
+00:19:23.519 --> 00:19:29.750
+little amount of data, and different
+public/private test distributions.
+
+274
+00:19:29.750 --> 00:19:33.319
+So that's it,
+in this topic we defined validation and
+
+275
+00:19:33.319 --> 00:19:36.290
+its connection to overfitting.
+
+276
+00:19:36.290 --> 00:19:39.370
+Described common validation strategies.
+
+277
+00:19:39.370 --> 00:19:42.780
+Demonstrated major data
+splitting strategies.
+
+278
+00:19:42.780 --> 00:19:47.970
+And finally analyzed and learned how
+to tackle main validation problems.
+
+279
+00:19:47.970 --> 00:19:53.070
+Remember this, and it will absolutely
+help you out in competitions.
+
+280
+00:19:53.070 --> 00:19:57.570
+Make sure you understand
+the main idea of validation well.
+
+281
+00:19:57.570 --> 00:20:00.130
+That is,
+you need to mimic the trained test split.
+
+282
+00:20:00.130 --> 00:20:09.386
+[MUSIC]
