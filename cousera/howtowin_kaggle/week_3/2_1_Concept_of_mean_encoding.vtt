@@ -1,0 +1,548 @@
+WEBVTT
+
+1
+00:00:00.030 --> 00:00:03.898
+[MUSIC]
+
+2
+00:00:03.898 --> 00:00:05.740
+Hi, everyone.
+
+3
+00:00:05.740 --> 00:00:10.880
+In this section, we'll cover a very
+powerful technique, mean encoding.
+
+4
+00:00:10.880 --> 00:00:13.210
+It actually has a number of names.
+
+5
+00:00:13.210 --> 00:00:17.120
+Some call it likelihood encoding,
+some target encoding, but
+
+6
+00:00:17.120 --> 00:00:20.780
+in this course,
+we'll stick with plain mean encoding.
+
+7
+00:00:20.780 --> 00:00:23.850
+The general idea of this
+technique is to add
+
+8
+00:00:23.850 --> 00:00:28.180
+new variables based on some
+feature to get where we started,.
+
+9
+00:00:28.180 --> 00:00:32.510
+In simplest case, we encode each
+level of categorical variable with
+
+10
+00:00:32.510 --> 00:00:36.020
+corresponding target mean.
+
+11
+00:00:36.020 --> 00:00:38.710
+Let's take a look at
+the following example.
+
+12
+00:00:38.710 --> 00:00:43.029
+Here, we have some binary
+classification task in which we have
+
+13
+00:00:43.029 --> 00:00:45.650
+a categorical variable, some city.
+
+14
+00:00:45.650 --> 00:00:49.180
+And of course,
+we want to numerically encode it.
+
+15
+00:00:49.180 --> 00:00:53.810
+The most obvious way and
+what people usually use is label encoding.
+
+16
+00:00:55.120 --> 00:00:56.750
+It's what we have in second column.
+
+17
+00:00:58.050 --> 00:01:00.446
+Mean encoding is done differently,
+
+18
+00:01:00.446 --> 00:01:04.920
+via encoding every city with
+corresponding mean target.
+
+19
+00:01:04.920 --> 00:01:11.660
+For example, for Moscow, we have
+five rows with three 0s and two 1s.
+
+20
+00:01:11.660 --> 00:01:17.550
+So we encode it with 2 divided by 5 or
+0.4.
+
+21
+00:01:17.550 --> 00:01:23.560
+Similarly, we deal with the rest
+of cities, pretty straightforward.
+
+22
+00:01:23.560 --> 00:01:27.380
+What I've described here
+is a very high level idea.
+
+23
+00:01:27.380 --> 00:01:33.280
+There are a huge number of pitfalls one
+should overcome in actual competition.
+
+24
+00:01:33.280 --> 00:01:36.880
+We went deep into details for
+now, just keep it in mind.
+
+25
+00:01:38.390 --> 00:01:40.130
+At first, let me explain.
+
+26
+00:01:40.130 --> 00:01:42.130
+Why does it even work?
+
+27
+00:01:42.130 --> 00:01:48.900
+Imagine, that our dataset is much bigger
+and contains hundreds of different cities.
+
+28
+00:01:48.900 --> 00:01:52.334
+Well, let's try to compare,
+of course, very abstractly,
+
+29
+00:01:52.334 --> 00:01:54.390
+mean encoding with label encoding.
+
+30
+00:01:55.860 --> 00:02:00.320
+We plot future histograms for
+class 0 and class 1.
+
+31
+00:02:00.320 --> 00:02:03.720
+In case of label encoding,
+we'll always get total and
+
+32
+00:02:03.720 --> 00:02:07.970
+random picture because
+there's no logical order, but
+
+33
+00:02:07.970 --> 00:02:14.350
+when we use mean target to encode the
+feature, classes look way more separable.
+
+34
+00:02:14.350 --> 00:02:16.010
+The plot looks kind of sorted.
+
+35
+00:02:17.350 --> 00:02:22.520
+It turns out that this sorting quality
+of mean encoding is quite helpful.
+
+36
+00:02:22.520 --> 00:02:25.410
+Remember, what is the most popular and
+
+37
+00:02:25.410 --> 00:02:27.654
+effective way to solve
+machine learning problem?
+
+38
+00:02:27.654 --> 00:02:33.404
+Is grading using trees, [INAUDIBLE] OIGBM.
+
+39
+00:02:33.404 --> 00:02:37.854
+One of the few downsides is
+an inability to handle high cardinality
+
+40
+00:02:37.854 --> 00:02:39.609
+categorical variables.
+
+41
+00:02:40.970 --> 00:02:46.400
+Trees have limited depth,
+with mean encoding, we can compensate it,
+
+42
+00:02:47.950 --> 00:02:51.990
+we can reach better loss
+with shorter trees.
+
+43
+00:02:51.990 --> 00:02:54.690
+Cross validation loss
+might even look like this.
+
+44
+00:02:55.780 --> 00:03:01.710
+In general, the more complicated and
+non linear feature target dependency,
+
+45
+00:03:01.710 --> 00:03:07.150
+the more effective is mean encoding, okay.
+
+46
+00:03:07.150 --> 00:03:12.030
+Further in this section, you will
+learn how to construct mean encodings.
+
+47
+00:03:12.030 --> 00:03:14.320
+There are actually a lot of ways.
+
+48
+00:03:14.320 --> 00:03:19.070
+Also keep in mind that we use
+classification tests only as an example.
+
+49
+00:03:19.070 --> 00:03:22.110
+We can use mathematics
+on other tests as well.
+
+50
+00:03:22.110 --> 00:03:24.160
+The main idea remains the same.
+
+51
+00:03:25.520 --> 00:03:31.680
+Despite the simplicity of the idea, you
+need to be very careful with validation.
+
+52
+00:03:31.680 --> 00:03:34.120
+It's got to be impeccable.
+
+53
+00:03:34.120 --> 00:03:36.570
+It's probably the most important part.
+
+54
+00:03:36.570 --> 00:03:41.600
+Understanding the correct linkless
+validation is also a basis for staking.
+
+55
+00:03:42.600 --> 00:03:46.090
+The last, but not least, are extensions.
+
+56
+00:03:46.090 --> 00:03:50.860
+There are countless possibilities to
+derive new features from target variable.
+
+57
+00:03:50.860 --> 00:03:54.860
+Sometimes, they produce significant
+improvement for your models.
+
+58
+00:03:56.350 --> 00:03:59.410
+Let's start with some
+characteristics of data sets,
+
+59
+00:03:59.410 --> 00:04:02.170
+that indicate the usefulness
+of main encoding.
+
+60
+00:04:03.310 --> 00:04:07.010
+The presence of categorical
+variables with a lot of levels
+
+61
+00:04:07.010 --> 00:04:10.600
+is already a good indicator, but
+we need to go a little deeper.
+
+62
+00:04:11.820 --> 00:04:16.170
+Let's take a look at each of these
+learning logs from Springleaf competition.
+
+63
+00:04:17.300 --> 00:04:22.337
+I ran three models with different depths,
+7, 9, and 11.
+
+64
+00:04:22.337 --> 00:04:25.150
+Train logs are on the top plot.
+
+65
+00:04:25.150 --> 00:04:27.070
+Validation logs are on the bottom one.
+
+66
+00:04:28.160 --> 00:04:32.840
+As you can see, with increasing the depths
+of trees, our training care becomes
+
+67
+00:04:32.840 --> 00:04:37.300
+better and better, nearly perfect and
+that's a normal part.
+
+68
+00:04:38.420 --> 00:04:42.260
+But we don't actually over feed and
+that's weird.
+
+69
+00:04:42.260 --> 00:04:47.260
+Our validation score also increase,
+it's a sign that
+
+70
+00:04:47.260 --> 00:04:53.260
+trees need a huge number of splits to
+extract information from some variables.
+
+71
+00:04:53.260 --> 00:04:55.160
+And we can check it for mortal dump.
+
+72
+00:04:56.680 --> 00:05:01.770
+It turns out that some features have
+a tremendous amount of split points,
+
+73
+00:05:01.770 --> 00:05:06.680
+like 1200 or 1600 and that's a lot.
+
+74
+00:05:06.680 --> 00:05:11.170
+Our model tries to treat all
+those categories differently and
+
+75
+00:05:11.170 --> 00:05:14.847
+they are also very important for
+predicting the target.
+
+76
+00:05:14.847 --> 00:05:18.735
+We can help our model via mean encodings.
+
+77
+00:05:20.115 --> 00:05:22.955
+There is a number of ways
+to calculate encodings.
+
+78
+00:05:22.955 --> 00:05:26.315
+The first one is the one
+we've been discussing so far.
+
+79
+00:05:26.315 --> 00:05:28.825
+Simply taking mean of target variable.
+
+80
+00:05:30.035 --> 00:05:34.805
+Another popular option is to take
+initial logarithm of this value,
+
+81
+00:05:34.805 --> 00:05:36.335
+it's called weight of evidence.
+
+82
+00:05:37.470 --> 00:05:40.400
+Or you can calculate all
+of the numbers of ones.
+
+83
+00:05:41.530 --> 00:05:46.150
+Or the difference between number
+of ones and the number of zeros.
+
+84
+00:05:46.150 --> 00:05:48.190
+All of these are variable options.
+
+85
+00:05:49.360 --> 00:05:51.960
+Now, let's actually
+construct the features.
+
+86
+00:05:51.960 --> 00:05:54.060
+We will do it on sprinkled data set,
+
+87
+00:05:55.750 --> 00:05:59.750
+suppose we've already separated
+the data for train and
+
+88
+00:05:59.750 --> 00:06:04.553
+validation, X_tr and X val data frames.
+
+89
+00:06:04.553 --> 00:06:10.045
+These called snippet shows how
+to construct mean encoding for
+
+90
+00:06:10.045 --> 00:06:16.708
+an arbitrary column and map it into
+a new data frame, train new and val new.
+
+91
+00:06:16.708 --> 00:06:22.199
+We simply do group by on that column and
+use target as a map.
+
+92
+00:06:22.199 --> 00:06:26.627
+Resulting commands were able [INAUDIBLE].
+
+93
+00:06:26.627 --> 00:06:33.420
+It is then mapped to tree and
+validation data sets by a map operator.
+
+94
+00:06:33.420 --> 00:06:36.523
+After we've repeated this process for
+every call,
+
+95
+00:06:36.523 --> 00:06:39.280
+we can fit each of those
+model on this new data.
+
+96
+00:06:40.710 --> 00:06:43.803
+But something's definitely not right,
+
+97
+00:06:43.803 --> 00:06:49.191
+after several efforts training AOC
+is nearly 1, while on validation,
+
+98
+00:06:49.191 --> 00:06:54.250
+the score set rates around 0.55,
+which is practically noise.
+
+99
+00:06:55.820 --> 00:06:58.395
+It's a clear sign of terrible overfitting.
+
+100
+00:06:59.570 --> 00:07:02.190
+I'll explain what happened
+in a few moments.
+
+101
+00:07:02.190 --> 00:07:07.430
+Right now, I want to point out that
+at least we validated correctly.
+
+102
+00:07:07.430 --> 00:07:09.060
+We separated train and
+
+103
+00:07:09.060 --> 00:07:14.570
+validation, and used all the train
+data to estimate mean encodings.
+
+104
+00:07:14.570 --> 00:07:19.550
+If, for instance, we would have
+estimated mean encodings before
+
+105
+00:07:19.550 --> 00:07:24.060
+train validation split, then we would
+not notice such an overfitting.
+
+106
+00:07:25.510 --> 00:07:27.670
+Now, let's figure out
+the reason of overfitting.
+
+107
+00:07:29.100 --> 00:07:34.260
+When they are categorized, it's pretty
+common to get results like in an example,
+
+108
+00:07:34.260 --> 00:07:37.708
+target 0 in train and
+target 1 in validation.
+
+109
+00:07:37.708 --> 00:07:45.190
+Mean encodings turns into a perfect
+feature for such categories.
+
+110
+00:07:45.190 --> 00:07:49.460
+That's why we immediately get
+very good scores on train and
+
+111
+00:07:49.460 --> 00:07:51.310
+fail hardly on validation.
+
+112
+00:07:52.640 --> 00:07:58.050
+So far, we've grasped the concept of mean
+encodings and walked through some trivial
+
+113
+00:07:58.050 --> 00:08:04.270
+examples, that obviously can not use
+mean encodings like this in practice.
+
+114
+00:08:04.270 --> 00:08:09.530
+We need to deal with overfitting first,
+we need some kind of regularization.
+
+115
+00:08:10.720 --> 00:08:18.289
+And I will tell you about different
+
+116
+00:08:20.116 --> 00:08:26.119
+methods in the next video.
+
+117
+00:08:26.119 --> 00:08:29.699
+[MUSIC]

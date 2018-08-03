@@ -1,0 +1,5 @@
+ScriptType: v4.00+
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Arial,20,&H00ffffff,&H0000ffff,&H00000000,&H80000000,-1,0,0,0,100,100,0,0.00,1,2,2,1,95,20,20,1

@@ -1,0 +1,421 @@
+WEBVTT
+
+1
+00:00:03.120 --> 00:00:05.920
+So in the previous video,
+
+2
+00:00:05.920 --> 00:00:08.230
+we've discussed Logloss and Accuracy.
+
+3
+00:00:08.230 --> 00:00:10.880
+In this video we'll discuss Area Under Curve,
+
+4
+00:00:10.880 --> 00:00:13.000
+AUC, and (Quadratic weighted) Kappa.
+
+5
+00:00:13.000 --> 00:00:15.917
+Let's start with AUC.
+
+6
+00:00:15.917 --> 00:00:21.619
+Although the loss function of AUC has zero gradients almost everywhere,
+
+7
+00:00:21.619 --> 00:00:23.740
+exactly as accuracy loss,
+
+8
+00:00:23.740 --> 00:00:29.180
+there exists an algorithm to optimize AUC with gradient-based methods,
+
+9
+00:00:29.180 --> 00:00:32.150
+and some models implement this algorithm.
+
+10
+00:00:32.150 --> 00:00:35.445
+So we can use it by setting the right parameters.
+
+11
+00:00:35.445 --> 00:00:38.280
+I will give you an idea about this method without
+
+12
+00:00:38.280 --> 00:00:42.895
+much details as there is more than one way to implement it.
+
+13
+00:00:42.895 --> 00:00:48.745
+Recall that originally, classification task is usually solved at the level of objects.
+
+14
+00:00:48.745 --> 00:00:52.275
+We want to assign 0 to red objects,
+
+15
+00:00:52.275 --> 00:00:54.400
+and 1 to the green ones.
+
+16
+00:00:54.400 --> 00:00:57.655
+But we do it independently for each object,
+
+17
+00:00:57.655 --> 00:01:00.130
+and so our loss is pointwise.
+
+18
+00:01:00.130 --> 00:01:03.325
+We compute it for each object individually,
+
+19
+00:01:03.325 --> 00:01:09.795
+and sum or average the losses for all the objects to get a total loss.
+
+20
+00:01:09.795 --> 00:01:13.330
+Now, recall that AUC is the probability
+
+21
+00:01:13.330 --> 00:01:17.500
+of a pair of the objects to be ordered in the right way.
+
+22
+00:01:17.500 --> 00:01:19.145
+So ideally, we want
+
+23
+00:01:19.145 --> 00:01:25.315
+predictions Y^ for the green objects to be larger than for the red ones.
+
+24
+00:01:25.315 --> 00:01:28.655
+So, instead of working with single objects,
+
+25
+00:01:28.655 --> 00:01:31.288
+we should work with pairs of objects.
+
+26
+00:01:31.288 --> 00:01:34.235
+And instead of using pointwise loss,
+
+27
+00:01:34.235 --> 00:01:36.760
+we should use pairwise loss.
+
+28
+00:01:36.760 --> 00:01:40.400
+A pairwise loss takes predictions and labels
+
+29
+00:01:40.400 --> 00:01:44.175
+for a pair of objects and computes their loss.
+
+30
+00:01:44.175 --> 00:01:49.030
+Ideally, the loss would be zero when the ordering is correct,
+
+31
+00:01:49.030 --> 00:01:54.205
+and greater than zero when the ordering is not correct, incorrect.
+
+32
+00:01:54.205 --> 00:01:57.140
+But in practice, different loss functions can be used.
+
+33
+00:01:57.140 --> 00:01:59.605
+For example, we can use logloss.
+
+34
+00:01:59.605 --> 00:02:04.825
+We may think that the target for this pairwise loss is always one,
+
+35
+00:02:04.825 --> 00:02:08.310
+red minus green should be one.
+
+36
+00:02:08.310 --> 00:02:12.905
+That is why there is only one term in logloss objective instead of two.
+
+37
+00:02:12.905 --> 00:02:17.280
+The prob function in the formula is needed to
+
+38
+00:02:17.280 --> 00:02:21.660
+make sure that the difference between the predictions is still in the 0,1 range,
+
+39
+00:02:21.660 --> 00:02:25.500
+and I use it here just for the sake of simplicity.
+
+40
+00:02:25.500 --> 00:02:31.745
+Well, basically, XGBoost, LightGBM have pairwise loss we've discussed implemented.
+
+41
+00:02:31.745 --> 00:02:35.605
+It is straightforward to implement in any neural net library,
+
+42
+00:02:35.605 --> 00:02:40.655
+and for sure, you can find implementations on GitHub.
+
+43
+00:02:40.655 --> 00:02:42.230
+I should say that in practice,
+
+44
+00:02:42.230 --> 00:02:49.845
+most people still use logloss as an optimization loss without any more post processing.
+
+45
+00:02:49.845 --> 00:02:53.610
+I personally observed XGBoost learned with loglosst to give
+
+46
+00:02:53.610 --> 00:02:59.650
+comparable AUC score to the one learned with pairwise loss. All right.
+
+47
+00:02:59.650 --> 00:03:04.655
+Now, let's move to the last topic to discuss.
+
+48
+00:03:04.655 --> 00:03:08.720
+It is Quadratic weighted Kappa metric. There are two methods.
+
+49
+00:03:08.720 --> 00:03:11.180
+One is very common and very easy,
+
+50
+00:03:11.180 --> 00:03:14.320
+the second is not that common and will require you to implement
+
+51
+00:03:14.320 --> 00:03:19.330
+a custom loss function for either XGBoost or neural net.
+
+52
+00:03:19.330 --> 00:03:22.110
+But we've already implemented it for XGBoost,
+
+53
+00:03:22.110 --> 00:03:26.825
+so you will be able to find the implementation in the reading materials.
+
+54
+00:03:26.825 --> 00:03:29.185
+But let's start with the simple one.
+
+55
+00:03:29.185 --> 00:03:31.435
+Recall that we're solving
+
+56
+00:03:31.435 --> 00:03:36.610
+an ordered classification problem and our labels can be found of us integer ratings,
+
+57
+00:03:36.610 --> 00:03:38.645
+say from one to five.
+
+58
+00:03:38.645 --> 00:03:42.160
+The task is classification as we cannot output,
+
+59
+00:03:42.160 --> 00:03:44.915
+for example, 4.5 as an answer.
+
+60
+00:03:44.915 --> 00:03:49.255
+But anyway, we can treat it as a regression problem, and then somehow,
+
+61
+00:03:49.255 --> 00:03:53.715
+post-process the predictions and convert them to integer ratings.
+
+62
+00:03:53.715 --> 00:04:00.315
+And actually quadratic weights make Kappa as somehow similar to regression with MSE loss.
+
+63
+00:04:00.315 --> 00:04:05.640
+If we allow our predictions to take values between the labels,
+
+64
+00:04:05.640 --> 00:04:08.855
+that is relax the predictions.
+
+65
+00:04:08.855 --> 00:04:12.580
+But in fact, it is different to MSE.
+
+66
+00:04:12.580 --> 00:04:16.500
+So if relaxed, Kappa would be
+
+67
+00:04:16.500 --> 00:04:22.540
+one minus MSE divided by something that really depends on the predictions.
+
+68
+00:04:22.540 --> 00:04:25.935
+And it looks like everyone's logic is, well,
+
+69
+00:04:25.935 --> 00:04:28.110
+there is MSE in the denominator,
+
+70
+00:04:28.110 --> 00:04:29.200
+we can optimize it,
+
+71
+00:04:29.200 --> 00:04:32.340
+and let's don't care about denominator.
+
+72
+00:04:32.340 --> 00:04:34.980
+Well, of course it's not correct way to do it,
+
+73
+00:04:34.980 --> 00:04:37.580
+but it turns out to be useful in practice.
+
+74
+00:04:37.580 --> 00:04:42.090
+But anyway, MSE gives us flat values instead of integers.
+
+75
+00:04:42.090 --> 00:04:46.320
+So now, we need somehow to convert them into integers.
+
+76
+00:04:46.320 --> 00:04:52.215
+And the straightforward way would be to do rounding all the predictions.
+
+77
+00:04:52.215 --> 00:04:57.505
+But we can think about rounding as of applying a threshold.
+
+78
+00:04:57.505 --> 00:05:06.700
+Like if the value is greater than 3.5 and less than 4.5, then output 3.
+
+79
+00:05:06.700 --> 00:05:08.635
+But then we can ask ourselves a question,
+
+80
+00:05:08.635 --> 00:05:12.870
+why do we use exactly those thresholds? Let's tune them.
+
+81
+00:05:12.870 --> 00:05:15.230
+And again, it's just straightforward,
+
+82
+00:05:15.230 --> 00:05:18.295
+it can be easily done with grid search.
+
+83
+00:05:18.295 --> 00:05:23.060
+So to summarize, we need to fit MSE loss to
+
+84
+00:05:23.060 --> 00:05:28.810
+our data and then find appropriate thresholds.
+
+85
+00:05:28.810 --> 00:05:31.355
+Finally, there is a paper which
+
+86
+00:05:31.355 --> 00:05:34.920
+suggests a way to relax classification problem to regression,
+
+87
+00:05:34.920 --> 00:05:40.530
+but it deals with this- hard to deal with part in denominator that we had.
+
+88
+00:05:40.530 --> 00:05:42.908
+I will not get into the details here,
+
+89
+00:05:42.908 --> 00:05:46.215
+but it's clearly written and easy to understand paper,
+
+90
+00:05:46.215 --> 00:05:48.950
+so I really encourage you to read it.
+
+91
+00:05:48.950 --> 00:05:52.895
+And more, you can find loss implementation in the reading materials,
+
+92
+00:05:52.895 --> 00:05:55.690
+and just use it if you don't want to read the paper.
+
+93
+00:05:55.690 --> 00:05:59.125
+Finally, we finished this lesson.
+
+94
+00:05:59.125 --> 00:06:05.580
+We've discussed that evaluation or target metric is how all submissions are scored.
+
+95
+00:06:05.580 --> 00:06:10.128
+We've discussed the difference between target metric and optimization loss.
+
+96
+00:06:10.128 --> 00:06:13.440
+Optimization loss is what our model optimizes,
+
+97
+00:06:13.440 --> 00:06:19.290
+and it is not always the same as target metric that we want to optimize.
+
+98
+00:06:19.290 --> 00:06:25.020
+Sometimes, we only can set our model to optimize completely different to target metric.
+
+99
+00:06:25.020 --> 00:06:28.145
+But later, we usually try to post-process the predictions
+
+100
+00:06:28.145 --> 00:06:32.035
+to make them better fit target metric.
+
+101
+00:06:32.035 --> 00:06:34.080
+We've discussed intuition behind
+
+102
+00:06:34.080 --> 00:06:37.020
+different metrics for regression and classification tasks,
+
+103
+00:06:37.020 --> 00:06:41.310
+and saw how to efficiently optimize different metrics.
+
+104
+00:06:41.310 --> 00:06:43.995
+I hope you've enjoyed this lesson,
+
+105
+00:06:43.995 --> 00:06:46.240
+and see you later.

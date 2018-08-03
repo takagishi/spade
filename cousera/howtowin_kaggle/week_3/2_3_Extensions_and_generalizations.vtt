@@ -1,0 +1,666 @@
+WEBVTT
+
+1
+00:00:02.016 --> 00:00:07.827
+[SOUND] In the final video,
+we will cover various generalizations and
+
+2
+00:00:07.827 --> 00:00:10.544
+extensions of mean encodings.
+
+3
+00:00:10.544 --> 00:00:15.250
+Namely how to do meaning coding in
+regression and multiclass tasks.
+
+4
+00:00:16.600 --> 00:00:20.409
+How can we apply encoding to domains
+with many-to-many relations.
+
+5
+00:00:21.640 --> 00:00:26.070
+What features can we build based on
+target we're able in time series.
+
+6
+00:00:26.070 --> 00:00:30.770
+And finally, how to encode numerical
+features and interactions of features.
+
+7
+00:00:31.790 --> 00:00:34.275
+Let's start with regression tasks.
+
+8
+00:00:34.275 --> 00:00:38.405
+They are actually more flexible for
+feature encoding.
+
+9
+00:00:38.405 --> 00:00:42.945
+Unlike binary classification where
+a mean is frankly the only meaningful
+
+10
+00:00:42.945 --> 00:00:46.095
+statistic we can extract
+from target variable.
+
+11
+00:00:46.095 --> 00:00:51.365
+In regression tasks, we can try
+a variety of statistics, like medium,
+
+12
+00:00:51.365 --> 00:00:55.240
+percentile, standard
+deviation of target variable.
+
+13
+00:00:55.240 --> 00:00:58.770
+We can even calculate
+some distribution bins.
+
+14
+00:00:58.770 --> 00:01:03.620
+For example, if target variable
+is distributed between 1 and 100,
+
+15
+00:01:03.620 --> 00:01:07.410
+we can create 10 bin features.
+
+16
+00:01:07.410 --> 00:01:13.755
+In the first feature, we'll count how many
+data points have targeted between 1 and
+
+17
+00:01:13.755 --> 00:01:17.830
+10, in the second between 10 and
+20 and so on.
+
+18
+00:01:19.180 --> 00:01:22.500
+Of course,
+we need to realize all of these features.
+
+19
+00:01:23.640 --> 00:01:28.390
+In a nutshell,
+regression tasks are like classification.
+
+20
+00:01:28.390 --> 00:01:31.310
+Just more flexible in terms
+of feature engineering.
+
+21
+00:01:32.500 --> 00:01:37.410
+Men encoding for multi-class tasks
+is also pretty straightforward.
+
+22
+00:01:37.410 --> 00:01:39.090
+For every feature we want to encode,
+
+23
+00:01:39.090 --> 00:01:45.360
+we will have n different encodings
+where n is the number of classes.
+
+24
+00:01:45.360 --> 00:01:48.520
+It actually has non obvious advantage.
+
+25
+00:01:48.520 --> 00:01:49.320
+Three models for
+
+26
+00:01:49.320 --> 00:01:54.640
+example, usually solve multi-class
+task in one versus old fashion.
+
+27
+00:01:54.640 --> 00:01:58.260
+So every class had a different model, and
+
+28
+00:01:58.260 --> 00:02:03.190
+when we feed that model, it doesn't
+have any information about structure
+
+29
+00:02:03.190 --> 00:02:07.760
+of other classes because they
+are merge into one entity.
+
+30
+00:02:08.780 --> 00:02:11.676
+Therefore, together with mean encodings,
+
+31
+00:02:11.676 --> 00:02:16.945
+we introduce some additional information
+about the structure of other classes.
+
+32
+00:02:16.945 --> 00:02:21.581
+The domains with many-to-many
+relations are usually very complex and
+
+33
+00:02:21.581 --> 00:02:26.030
+require special approaches
+to create mean encodings.
+
+34
+00:02:26.030 --> 00:02:30.760
+I will give you only a very high
+level idea, consider an example.
+
+35
+00:02:30.760 --> 00:02:36.895
+Binary classification task for users based
+on apps installed on their smartphones.
+
+36
+00:02:37.970 --> 00:02:44.480
+Each user may have multiple apps and
+each app is used by multiple users.
+
+37
+00:02:44.480 --> 00:02:46.030
+Hence, many-to-many relation.
+
+38
+00:02:47.310 --> 00:02:49.960
+We want to mean encode apps.
+
+39
+00:02:49.960 --> 00:02:54.630
+The hard part we need to deal with is
+that the user may have a lot of apps.
+
+40
+00:02:56.482 --> 00:03:01.690
+So let's take a cross product of user and
+app entities.
+
+41
+00:03:01.690 --> 00:03:06.420
+It will result in a so
+called long representation of data.
+
+42
+00:03:06.420 --> 00:03:09.500
+We will have a role for
+each user app pair.
+
+43
+00:03:10.750 --> 00:03:14.830
+Using this table, we can naturally
+calculate mean encoding for apps.
+
+44
+00:03:16.280 --> 00:03:24.210
+So now every app is encoded with target
+mean, but how to map it back to users.
+
+45
+00:03:24.210 --> 00:03:28.028
+Every user has a number of apps, so
+
+46
+00:03:28.028 --> 00:03:31.979
+instead of app1, app2, app3,
+
+47
+00:03:31.979 --> 00:03:38.341
+we will now have a vector like 0.1,
+0.2, 0.1.
+
+48
+00:03:38.341 --> 00:03:40.601
+That was pretty simple.
+
+49
+00:03:40.601 --> 00:03:45.259
+We can collect various statistics
+from those vectors, like mean,
+
+50
+00:03:45.259 --> 00:03:49.030
+minimal, maximum,
+standard deviation, and so on.
+
+51
+00:03:50.330 --> 00:03:55.040
+So far we assume that our data
+has no inner structure, but
+
+52
+00:03:55.040 --> 00:03:58.950
+with time series we can obviously
+use future information.
+
+53
+00:03:59.950 --> 00:04:02.860
+On one hand, it's a limitation,
+
+54
+00:04:02.860 --> 00:04:07.640
+on the other hand, it actually allows
+us to make some complicated features.
+
+55
+00:04:08.970 --> 00:04:13.050
+In data sets without time component
+when encoding the category,
+
+56
+00:04:13.050 --> 00:04:18.350
+we are forced to use all the rules
+to calculate the statistic.
+
+57
+00:04:18.350 --> 00:04:22.300
+It makes no sense to choose
+some subset of rules.
+
+58
+00:04:22.300 --> 00:04:24.450
+Presence of time changes it.
+
+59
+00:04:24.450 --> 00:04:26.600
+For a given category, we can't.
+
+60
+00:04:26.600 --> 00:04:31.220
+For example, calculate the mean from
+previous day, previous two days,
+
+61
+00:04:31.220 --> 00:04:32.570
+previous week, etc.
+
+62
+00:04:34.170 --> 00:04:35.190
+Consider an example.
+
+63
+00:04:36.290 --> 00:04:42.048
+We need to predict which
+categories users spends money.
+
+64
+00:04:42.048 --> 00:04:47.540
+In these two example we have
+a period of two days, two users,
+
+65
+00:04:47.540 --> 00:04:49.676
+and three spending categories.
+
+66
+00:04:49.676 --> 00:04:54.582
+Some good features would be
+the total amount of money users
+
+67
+00:04:54.582 --> 00:04:57.130
+spent in previous day.
+
+68
+00:04:57.130 --> 00:05:02.810
+An average amount of money spent
+by all users in given category.
+
+69
+00:05:02.810 --> 00:05:08.132
+So, in day 1, user 101 spends $6,
+
+70
+00:05:08.132 --> 00:05:10.876
+user 102, $3.
+
+71
+00:05:10.876 --> 00:05:16.350
+Therefore, we feel those numbers
+as future values for day 2.
+
+72
+00:05:16.350 --> 00:05:20.900
+Similarly, with the average
+amount by category.
+
+73
+00:05:22.070 --> 00:05:27.260
+The more data we have, the more
+complicated features we can create.
+
+74
+00:05:28.330 --> 00:05:32.750
+In practice, it is often been official
+to mean encode numeric features and
+
+75
+00:05:32.750 --> 00:05:35.580
+some combination of features.
+
+76
+00:05:35.580 --> 00:05:40.550
+To encode a numeric feature, we only need
+to bin it and then treat as categorical.
+
+77
+00:05:42.000 --> 00:05:45.170
+Now, we need to answer two questions.
+
+78
+00:05:45.170 --> 00:05:48.142
+First, how to bin numeric feature, and
+
+79
+00:05:48.142 --> 00:05:53.080
+second how to select useful
+combination of features.
+
+80
+00:05:53.080 --> 00:06:01.235
+Well, we can find it out from a model
+structure by analyzing the trees.
+
+81
+00:06:01.235 --> 00:06:05.491
+So at first, we take for
+example, [INAUDIBLE] model and
+
+82
+00:06:05.491 --> 00:06:08.459
+raw features without any encodings.
+
+83
+00:06:08.459 --> 00:06:11.340
+Let's start with numeric features.
+
+84
+00:06:12.890 --> 00:06:17.780
+If numeric feature has a lot of
+[INAUDIBLE] points, it means that it has
+
+85
+00:06:17.780 --> 00:06:23.650
+some complicated dependency with target
+and its was trying to mean encode it.
+
+86
+00:06:23.650 --> 00:06:28.530
+Furthermore, these exact split points
+may be used to bin the feature.
+
+87
+00:06:29.690 --> 00:06:32.280
+So by analyzing model structure,
+
+88
+00:06:32.280 --> 00:06:37.700
+we both identify suspicious numeric
+feature and found a good way to bin it.
+
+89
+00:06:39.470 --> 00:06:43.350
+It's going to be a little harder
+with selecting interactions, but
+
+90
+00:06:43.350 --> 00:06:44.380
+nothing extraordinary.
+
+91
+00:06:45.790 --> 00:06:51.000
+First, let's define how to extract to
+way interaction from decision tree.
+
+92
+00:06:52.030 --> 00:06:57.750
+The process will be similar for three way,
+four way arbitrary way interactions.
+
+93
+00:06:59.360 --> 00:07:06.810
+So two features interact in a tree if
+they are in two neighbouring notes.
+
+94
+00:07:06.810 --> 00:07:11.880
+With that in mind, we can iterate
+through all the trees in the model and
+
+95
+00:07:11.880 --> 00:07:15.850
+calculate how many times each
+feature interaction appeared.
+
+96
+00:07:16.850 --> 00:07:21.225
+The most frequent interactions
+are probably worthy of mean encoding.
+
+97
+00:07:21.225 --> 00:07:27.105
+For example, if we found that feature one
+and feature two pair is most frequent,
+
+98
+00:07:27.105 --> 00:07:31.735
+then we can concatenate that
+those feature values in our data.
+
+99
+00:07:31.735 --> 00:07:34.015
+And mean encode resulting interaction.
+
+100
+00:07:35.905 --> 00:07:39.695
+Now let me illustrate how important
+interaction encoding may be.
+
+101
+00:07:40.840 --> 00:07:46.370
+Amazon Employee Access Challenge
+Competition has a very specific data set.
+
+102
+00:07:46.370 --> 00:07:49.565
+There are only nine categorical features.
+
+103
+00:07:49.565 --> 00:07:54.387
+If we blindly fit say like GBM
+model on the raw features,
+
+104
+00:07:54.387 --> 00:07:58.287
+then no matter how we
+return the parameters,
+
+105
+00:07:58.287 --> 00:08:02.490
+we'll score in a 0.87 AUC range.
+
+106
+00:08:02.490 --> 00:08:07.070
+Which will place roughly on 700
+position on the leaderboard.
+
+107
+00:08:08.160 --> 00:08:13.970
+Furthermore, even if we mean encode all
+the labels, we won't have any progress.
+
+108
+00:08:14.981 --> 00:08:20.755
+But if we fit cat boost model,
+which internally
+
+109
+00:08:20.755 --> 00:08:25.975
+mean encodes some feature interactions,
+we will immediately score in 0.91 range,
+
+110
+00:08:25.975 --> 00:08:31.765
+which will place us
+onto win this position.
+
+111
+00:08:31.765 --> 00:08:35.555
+The difference in both
+absolute AUC values and
+
+112
+00:08:35.555 --> 00:08:38.600
+relative leaderboard
+positions is tremendous.
+
+113
+00:08:39.910 --> 00:08:43.650
+Also note that cat boost
+is no silver bullet.
+
+114
+00:08:43.650 --> 00:08:46.720
+In order to get even higher
+on the leader board,
+
+115
+00:08:46.720 --> 00:08:51.140
+would still need to manually add
+more mean encoded interactions.
+
+116
+00:08:52.190 --> 00:08:56.770
+In general, if you participate in
+a competition with a lot of categorical
+
+117
+00:08:56.770 --> 00:09:04.160
+variables, it's always worth trying to
+work with interactions and mean encodings.
+
+118
+00:09:04.160 --> 00:09:07.520
+I also want to remind you about
+correct validation process.
+
+119
+00:09:08.550 --> 00:09:11.164
+During all local experiments,
+
+120
+00:09:11.164 --> 00:09:15.820
+you should at first split data in X_tr and
+X_val parts.
+
+121
+00:09:16.830 --> 00:09:21.717
+Estimate encodings on X_tr,
+map them to X_tr and
+
+122
+00:09:21.717 --> 00:09:26.150
+X_val, and
+then regularize them on X_tr and
+
+123
+00:09:26.150 --> 00:09:32.080
+only after that validate your
+model on X_tr / X_val split.
+
+124
+00:09:32.080 --> 00:09:36.490
+Don't even think about estimating
+encodings before splitting the data.
+
+125
+00:09:37.860 --> 00:09:43.900
+And at submission stage, you can
+estimate encodings on whole train data.
+
+126
+00:09:43.900 --> 00:09:47.040
+Map it to train and test,
+
+127
+00:09:47.040 --> 00:09:52.790
+then apply regularization on training
+data and finally fit a model.
+
+128
+00:09:52.790 --> 00:09:57.710
+And note that you should have already
+decided on regularization method and
+
+129
+00:09:57.710 --> 00:09:59.670
+its strength in local experiments.
+
+130
+00:10:01.190 --> 00:10:05.040
+At the end of this section,
+let's summarize main advantages and
+
+131
+00:10:05.040 --> 00:10:06.710
+disadvantages of mean encodings.
+
+132
+00:10:08.350 --> 00:10:08.955
+First of all,
+
+133
+00:10:08.955 --> 00:10:15.490
+mean encoding allows us to make a compact
+transformation of categorical variables.
+
+134
+00:10:15.490 --> 00:10:18.530
+It is also a powerful basis for
+feature engineering.
+
+135
+00:10:19.620 --> 00:10:23.510
+Then the main disadvantage
+is target rebel leakage.
+
+136
+00:10:23.510 --> 00:10:27.320
+We need to be very careful with
+validation and irregularization.
+
+137
+00:10:29.100 --> 00:10:32.470
+It also works only on specific data sets.
+
+138
+00:10:32.470 --> 00:10:36.270
+It definitely won't help
+in every competition.
+
+139
+00:10:36.270 --> 00:10:42.740
+But keep in mind, when this method works,
+it may produce significant improvements.
+
+140
+00:10:42.740 --> 00:10:44.038
+Thank you for your attention.
+
+141
+00:10:44.038 --> 00:10:54.038
+[MUSIC]

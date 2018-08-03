@@ -1,0 +1,510 @@
+WEBVTT
+
+1
+00:00:00.126 --> 00:00:04.170
+[MUSIC]
+
+2
+00:00:04.170 --> 00:00:08.961
+In previous video, we realized that
+mean encodings cannot be used as is and
+
+3
+00:00:08.961 --> 00:00:13.970
+requires some kind of regularization
+on training part of data.
+
+4
+00:00:13.970 --> 00:00:18.980
+Now, we'll carry out four different
+methods of regularization, namely,
+
+5
+00:00:18.980 --> 00:00:24.070
+doing a cross-validation loop
+to construct mean encodings.
+
+6
+00:00:24.070 --> 00:00:27.910
+Then, smoothing based on
+the size of category.
+
+7
+00:00:27.910 --> 00:00:30.650
+Then, adding random noise.
+
+8
+00:00:30.650 --> 00:00:36.120
+And finally, calculating expanding
+mean on some parametrization of data.
+
+9
+00:00:36.120 --> 00:00:39.100
+We will go through all of
+these methods one by one.
+
+10
+00:00:40.380 --> 00:00:43.570
+Let's start with CV loop regularization.
+
+11
+00:00:43.570 --> 00:00:46.430
+It's a very intuitive and robust method.
+
+12
+00:00:46.430 --> 00:00:51.780
+For a given data point, we don't want to
+use target variable of that data point.
+
+13
+00:00:51.780 --> 00:00:57.040
+So we separate the data into
+K-node intersecting subsets,
+
+14
+00:00:57.040 --> 00:00:59.390
+or in other words, folds.
+
+15
+00:00:59.390 --> 00:01:04.750
+To get mean encoding value for
+some subset, we don't use data points
+
+16
+00:01:04.750 --> 00:01:10.210
+from that subset and estimate
+the encoding only on the rest of subset.
+
+17
+00:01:11.650 --> 00:01:14.530
+We iteratively walk through
+all the data subsets.
+
+18
+00:01:15.750 --> 00:01:19.550
+Usually, four or five folds
+are enough to get decent results.
+
+19
+00:01:19.550 --> 00:01:21.250
+You don't need to tune this number.
+
+20
+00:01:22.320 --> 00:01:27.910
+It may seem that we have completely
+avoided leakage from target variable.
+
+21
+00:01:27.910 --> 00:01:29.670
+Unfortunately, it's not true.
+
+22
+00:01:31.040 --> 00:01:36.270
+It will become apparent if we perform
+leave one out scheme to separate the data.
+
+23
+00:01:36.270 --> 00:01:38.576
+I'll return to it a little later,
+
+24
+00:01:38.576 --> 00:01:42.642
+but first let's learn how to
+apply this method in practice.
+
+25
+00:01:42.642 --> 00:01:49.820
+Suppose that our training
+data is in a DFTR data frame.
+
+26
+00:01:51.150 --> 00:01:55.570
+We will add mean encoded features
+into another train new data frame.
+
+27
+00:01:56.990 --> 00:02:02.330
+In the outer loop,
+we iterate through stratified K-fold
+
+28
+00:02:02.330 --> 00:02:06.345
+iterator in order to separate
+training data into chunks.
+
+29
+00:02:06.345 --> 00:02:09.905
+X_tr is used to estimate the encoding.
+
+30
+00:02:09.905 --> 00:02:12.940
+X_val is used to apply
+estimating encoding.
+
+31
+00:02:14.020 --> 00:02:18.471
+After that,
+we iterate through all the columns and
+
+32
+00:02:18.471 --> 00:02:22.630
+map estimated encodings
+to X_val data frame.
+
+33
+00:02:22.630 --> 00:02:27.820
+At the end of the outer loop we fill
+train new data frame with the result.
+
+34
+00:02:27.820 --> 00:02:33.170
+Finally, some rare categories may
+be present only in a single fold.
+
+35
+00:02:33.170 --> 00:02:37.330
+So we don't have the data to
+estimate target mean for them.
+
+36
+00:02:37.330 --> 00:02:40.840
+That's why we end up with some nans.
+
+37
+00:02:40.840 --> 00:02:42.620
+We can fill them with global mean.
+
+38
+00:02:43.900 --> 00:02:46.770
+As you can see,
+the whole process is very simple.
+
+39
+00:02:47.900 --> 00:02:51.940
+Now, let's return to
+the question of whether
+
+40
+00:02:51.940 --> 00:02:56.290
+we leak information about
+target variable or not.
+
+41
+00:02:56.290 --> 00:02:57.770
+Consider the following example.
+
+42
+00:02:58.860 --> 00:03:02.350
+Here we want to encode Moscow
+via leave-one-out scheme.
+
+43
+00:03:03.440 --> 00:03:07.872
+For the first row, we get 0.5,
+because there are two 1s and
+
+44
+00:03:07.872 --> 00:03:10.310
+two 0s in the rest of rows.
+
+45
+00:03:10.310 --> 00:03:16.540
+Similarly, for
+the second row we get 0.25 and so on.
+
+46
+00:03:16.540 --> 00:03:21.060
+But look closely, all the resulting and
+the resulting features.
+
+47
+00:03:21.060 --> 00:03:25.664
+It perfect splits the data,
+rows with feature mean equal or
+
+48
+00:03:25.664 --> 00:03:31.980
+greater than 0.5 have target 0 and
+the rest of rows has target 1.
+
+49
+00:03:31.980 --> 00:03:38.040
+We didn't explicitly use target variable,
+but our encoding is biased.
+
+50
+00:03:38.040 --> 00:03:43.700
+Furthermore, this effect remains valid
+even for the KFold scheme, just milder.
+
+51
+00:03:45.030 --> 00:03:47.729
+So is this type of regularization useless?
+
+52
+00:03:48.800 --> 00:03:50.200
+Definitely not.
+
+53
+00:03:50.200 --> 00:03:53.340
+In practice,
+if you have enough data and use four or
+
+54
+00:03:53.340 --> 00:03:58.660
+five folds, the encodings will work
+fine with this regularization strategy.
+
+55
+00:03:58.660 --> 00:04:01.080
+Just be careful and
+use correct validation.
+
+56
+00:04:02.210 --> 00:04:05.390
+Another regularization
+method is smoothing.
+
+57
+00:04:05.390 --> 00:04:07.750
+It's based on the following idea.
+
+58
+00:04:07.750 --> 00:04:13.340
+If category is big,
+has a lot of data points, then we can
+
+59
+00:04:13.340 --> 00:04:19.295
+trust this to [INAUDIBLE] encoding, but
+if category is rare it's the opposite.
+
+60
+00:04:19.295 --> 00:04:22.450
+Formula on the slide uses this idea.
+
+61
+00:04:22.450 --> 00:04:27.170
+It has hyper parameter alpha that
+controls the amount of regularization.
+
+62
+00:04:27.170 --> 00:04:31.280
+When alpha is zero,
+we have no regularization, and
+
+63
+00:04:31.280 --> 00:04:35.370
+when alpha approaches infinity
+everything turns into globalmean.
+
+64
+00:04:36.520 --> 00:04:42.240
+In some sense alpha is equal to
+the category size we can trust.
+
+65
+00:04:42.240 --> 00:04:47.250
+It's also possible to use some other
+formula, basically anything that punishes
+
+66
+00:04:47.250 --> 00:04:51.360
+encoding software categories
+can be considered smoothing.
+
+67
+00:04:51.360 --> 00:04:54.520
+Smoothing obviously won't
+work on its own but
+
+68
+00:04:54.520 --> 00:04:59.250
+we can combine it with for
+example, CD loop regularization.
+
+69
+00:04:59.250 --> 00:05:05.880
+Another way to regularize encodence is to
+add some noise without regularization.
+
+70
+00:05:05.880 --> 00:05:07.930
+Meaning codings have better quality for
+
+71
+00:05:07.930 --> 00:05:11.040
+the [INAUDIBLE] data than for
+the test data.
+
+72
+00:05:11.040 --> 00:05:15.970
+And by adding noise, we simply degrade
+the quality of encoding on training data.
+
+73
+00:05:17.080 --> 00:05:21.460
+This method is pretty unstable,
+it's hard to make it work.
+
+74
+00:05:21.460 --> 00:05:25.135
+The main problem is the amount
+of noise we need to add.
+
+75
+00:05:25.135 --> 00:05:28.876
+Too much noise will turn
+the feature into garbage,
+
+76
+00:05:28.876 --> 00:05:32.800
+while too little noise
+means worse regularization.
+
+77
+00:05:33.900 --> 00:05:38.940
+This method is usually used together
+with leave one out regularization.
+
+78
+00:05:38.940 --> 00:05:41.340
+You need to diligently fine tune it.
+
+79
+00:05:42.370 --> 00:05:46.650
+So, it's probably not the best option
+if you don't have a lot of time.
+
+80
+00:05:47.830 --> 00:05:53.330
+The last regularization method I'm going
+to cover is based on expanding mean.
+
+81
+00:05:53.330 --> 00:05:54.840
+The idea is very simple.
+
+82
+00:05:55.850 --> 00:05:59.310
+We fix some sorting order of our data and
+
+83
+00:05:59.310 --> 00:06:05.160
+use only rows from zero to n minus
+one to calculate encoding for row n.
+
+84
+00:06:06.600 --> 00:06:10.070
+You can check simple implementation
+in the code snippet.
+
+85
+00:06:11.530 --> 00:06:16.230
+Cumsum stores cumulative sum
+of target variable up to
+
+86
+00:06:16.230 --> 00:06:20.185
+the given row and
+cumcnt stores cumulative count.
+
+87
+00:06:21.270 --> 00:06:25.604
+This method introduces the least amount
+of leakage from target variable and
+
+88
+00:06:25.604 --> 00:06:28.483
+it requires no hyper parameter tuning.
+
+89
+00:06:28.483 --> 00:06:31.920
+The only downside is that
+feature quality is not uniform.
+
+90
+00:06:33.320 --> 00:06:34.430
+But it's not a big deal.
+
+91
+00:06:34.430 --> 00:06:37.090
+We can average models
+
+92
+00:06:37.090 --> 00:06:40.940
+on encodings calculated from
+different data permutations.
+
+93
+00:06:42.180 --> 00:06:46.290
+It's also worth noting that
+it is expanding mean method
+
+94
+00:06:46.290 --> 00:06:50.800
+that is used in CatBoost grading,
+boosting to it's library,
+
+95
+00:06:50.800 --> 00:06:55.609
+which proves to perform magnificently
+on data sets with categorical features.
+
+96
+00:06:56.660 --> 00:07:00.910
+Okay, let's summarize what
+we've discussed in this video.
+
+97
+00:07:00.910 --> 00:07:03.880
+We covered four different
+types of regularization.
+
+98
+00:07:04.980 --> 00:07:09.900
+Each of them has its own advantages and
+disadvantages.
+
+99
+00:07:09.900 --> 00:07:13.870
+Sometimes unintuitively we
+introduce target variable leakage.
+
+100
+00:07:13.870 --> 00:07:17.090
+But in practice, we can bear with it.
+
+101
+00:07:17.090 --> 00:07:21.240
+Personally, I recommend CV loop or
+expanding mean methods for
+
+102
+00:07:21.240 --> 00:07:22.920
+practical tasks.
+
+103
+00:07:22.920 --> 00:07:24.976
+They are the most robust and easy to tune.
+
+104
+00:07:24.976 --> 00:07:28.210
+This is was regularization.
+
+105
+00:07:28.210 --> 00:07:32.270
+In the next video, I will tell
+you about various extensions and
+
+106
+00:07:32.270 --> 00:07:35.700
+practical applications of mean encodings.
+
+107
+00:07:35.700 --> 00:07:38.002
+Thank you.
+
+108
+00:07:38.002 --> 00:07:48.002
+[MUSIC]

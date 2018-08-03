@@ -1,0 +1,479 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.585
+[MUSIC]
+
+2
+00:00:03.585 --> 00:00:06.102
+In this and the next video,
+we will discuss,
+
+3
+00:00:06.102 --> 00:00:10.090
+what are the ways to optimize
+classification metrics?
+
+4
+00:00:10.090 --> 00:00:13.280
+In this video,
+we will discuss logloss and accuracy, and
+
+5
+00:00:13.280 --> 00:00:16.850
+in the next one, AUC and
+quadratic-weighted kappa.
+
+6
+00:00:16.850 --> 00:00:20.480
+Let's start with logloss, logloss for
+
+7
+00:00:20.480 --> 00:00:26.040
+classification is like MSE for
+aggression, it is implemented everywhere.
+
+8
+00:00:26.040 --> 00:00:30.070
+All we need to do is to find out what
+arguments should be passed to a library
+
+9
+00:00:30.070 --> 00:00:31.740
+to make it use logloss for training.
+
+10
+00:00:33.380 --> 00:00:38.074
+There are a huge number of libraries
+to try, like XGBoost, LightGBM,
+
+11
+00:00:38.074 --> 00:00:43.489
+Logistic Regression, and [INAUDIBLE]
+classifier from sklearn, Vowpal Wabbit.
+
+12
+00:00:43.489 --> 00:00:47.520
+All neural nets, by default,
+optimize logloss for classification.
+
+13
+00:00:48.550 --> 00:00:54.280
+Random forest classifier predictions turn
+out to be quite bad in terms of logloss.
+
+14
+00:00:54.280 --> 00:00:57.050
+But there is a way to make them better,
+
+15
+00:00:57.050 --> 00:01:02.530
+we can calibrate the predictions
+to better fit logloss.
+
+16
+00:01:02.530 --> 00:01:06.010
+We've mentioned several times that
+logloss requires model to output
+
+17
+00:01:06.010 --> 00:01:08.610
+exterior probabilities,
+but what does it mean?
+
+18
+00:01:09.850 --> 00:01:14.558
+It actually means that if we take all the
+points that have a score of, for example,
+
+19
+00:01:14.558 --> 00:01:22.171
+0.8, then there will be exactly four times
+more positive objects than negatives.
+
+20
+00:01:22.171 --> 00:01:28.910
+That is, 80% of the points will be
+from class 1, and 20% from class 0.
+
+21
+00:01:28.910 --> 00:01:32.945
+If the classifier doesn't
+directly optimize logloss,
+
+22
+00:01:32.945 --> 00:01:35.420
+its predictions should be calibrated.
+
+23
+00:01:36.670 --> 00:01:42.080
+Take a look at this plot, the blue line
+shows sorted by value predictions for
+
+24
+00:01:42.080 --> 00:01:43.800
+the validation set.
+
+25
+00:01:43.800 --> 00:01:48.239
+And the red line shows correspondent
+target values smoothed
+
+26
+00:01:48.239 --> 00:01:49.905
+with rolling window.
+
+27
+00:01:49.905 --> 00:01:53.430
+We clearly see that our predictions
+are kind of conservative.
+
+28
+00:01:53.430 --> 00:01:57.400
+They´re much greater than two
+target mean on the left side, and
+
+29
+00:01:57.400 --> 00:01:59.800
+much lower than they should
+be on the right side.
+
+30
+00:02:01.000 --> 00:02:04.350
+So this classifier is not calibrated, and
+
+31
+00:02:04.350 --> 00:02:07.350
+the green curve shows
+the predictions after calibration.
+
+32
+00:02:08.630 --> 00:02:11.340
+But if we plot sorted predictions for
+
+33
+00:02:11.340 --> 00:02:17.000
+calibrated classifier, the curve will
+be very similar to target rolling mean.
+
+34
+00:02:17.000 --> 00:02:20.840
+And in fact, the calibrator
+predictions will have lower log loss.
+
+35
+00:02:21.950 --> 00:02:26.050
+Now, there are several ways to
+calibrate predictions, for example,
+
+36
+00:02:26.050 --> 00:02:29.340
+we can use so-called Platt scaling.
+
+37
+00:02:29.340 --> 00:02:33.039
+Basically, we just need to fit a logistic
+regression to our predictions.
+
+38
+00:02:34.280 --> 00:02:38.940
+I will not go into the details how to do
+that, but it's very similar to how we
+
+39
+00:02:38.940 --> 00:02:44.967
+stack models, and we will discuss
+stacking in detail in a different video.
+
+40
+00:02:44.967 --> 00:02:49.490
+Second, we can fit isotonic
+regression to our predictions, and
+
+41
+00:02:49.490 --> 00:02:53.715
+again, it is done very similar
+to stacking, just another model.
+
+42
+00:02:53.715 --> 00:02:58.490
+While finally, we can use stacking,
+
+43
+00:02:58.490 --> 00:03:01.861
+so the idea is, we can fit any classifier.
+
+44
+00:03:01.861 --> 00:03:06.460
+It doesn't need to optimize logloss,
+it just needs to be good, for
+
+45
+00:03:06.460 --> 00:03:08.145
+example, in terms of AUC.
+
+46
+00:03:09.550 --> 00:03:11.940
+And then we can fit another model on top
+
+47
+00:03:13.020 --> 00:03:17.620
+that will take the predictions of our
+model, and calibrate them properly.
+
+48
+00:03:17.620 --> 00:03:21.990
+And that model on top will use
+logloss as its optimization loss.
+
+49
+00:03:21.990 --> 00:03:27.320
+So it will be optimizing indirectly,
+and its predictions will be calibrated.
+
+50
+00:03:28.575 --> 00:03:32.960
+Logloss was the only metric that
+is easy to optimize directly.
+
+51
+00:03:32.960 --> 00:03:38.930
+With accuracy, there is no easy
+recipe how to directly optimize it.
+
+52
+00:03:38.930 --> 00:03:43.930
+In general, the recipe is following,
+actually, if it is a binary
+
+53
+00:03:43.930 --> 00:03:48.666
+classification task, fit any metric, and
+tune with the binarization threshold.
+
+54
+00:03:48.666 --> 00:03:53.820
+For multi-class tasks, fit any metric and
+
+55
+00:03:53.820 --> 00:03:58.430
+tune parameters comparing
+the models by their accuracy score,
+
+56
+00:03:58.430 --> 00:04:03.120
+not by the metric that the models
+were really optimizing.
+
+57
+00:04:04.230 --> 00:04:06.370
+So this is kind of early stopping and
+
+58
+00:04:06.370 --> 00:04:09.840
+the cross validation,
+where you look at the accuracy score.
+
+59
+00:04:11.020 --> 00:04:15.150
+Just to get an intuition why accuracy is
+hard to optimize, let's look at this plot.
+
+60
+00:04:16.210 --> 00:04:19.900
+So on the vertical axis we
+will show the loss, and
+
+61
+00:04:19.900 --> 00:04:24.890
+the horizontal axis shows signed distance
+to the decision boundary, for example,
+
+62
+00:04:24.890 --> 00:04:27.830
+to a hyper plane or for a linear model.
+
+63
+00:04:27.830 --> 00:04:32.920
+The distance is considered to be positive
+if the class is predicted correctly.
+
+64
+00:04:32.920 --> 00:04:37.370
+And negative if the object is located at
+the wrong side of the decision boundary.
+
+65
+00:04:38.530 --> 00:04:41.730
+The blue line here shows zero-one loss,
+
+66
+00:04:41.730 --> 00:04:44.970
+this is the loss that
+corresponds to accuracy score.
+
+67
+00:04:44.970 --> 00:04:49.130
+We pay 1 if the object is misclassified,
+that is,
+
+68
+00:04:49.130 --> 00:04:53.130
+the object has negative distance,
+and we pay nothing otherwise.
+
+69
+00:04:54.150 --> 00:04:58.610
+The problem is that, this loss has
+zero almost everywhere gradient,
+
+70
+00:04:58.610 --> 00:05:00.812
+with respect to the predictions.
+
+71
+00:05:00.812 --> 00:05:06.537
+And most learning algorithms require
+a nonzero gradient to fit, otherwise
+
+72
+00:05:06.537 --> 00:05:12.719
+it's not clear how we need to change the
+predictions such that loss is decreased.
+
+73
+00:05:14.050 --> 00:05:16.520
+And so people came up with proxy losses
+
+74
+00:05:17.710 --> 00:05:22.120
+that are upper bounds for
+these zero-one loss.
+
+75
+00:05:22.120 --> 00:05:26.740
+So if you perfectly fit the proxy loss,
+the accuracy will be perfect too,
+
+76
+00:05:28.120 --> 00:05:33.120
+but differently to zero-one loss,
+they are differentiable.
+
+77
+00:05:33.120 --> 00:05:38.169
+For example, you see here logistic loss,
+the red curve used
+
+78
+00:05:38.169 --> 00:05:43.218
+in logistic regression, and
+hinge loss, loss used in SVM.
+
+79
+00:05:45.300 --> 00:05:50.645
+Now recall that to obtain hard labels for
+a test object, we usually take
+
+80
+00:05:50.645 --> 00:05:56.185
+argmax of our soft predictions,
+picking the class with a maximum score.
+
+81
+00:05:56.185 --> 00:05:59.822
+If our task is binary and
+soft predictions sum up to 1,
+
+82
+00:05:59.822 --> 00:06:03.780
+argmax is equivalent
+to threshold function.
+
+83
+00:06:03.780 --> 00:06:08.880
+Output 1 when the predictions for
+the class one is higher than 0.5,
+
+84
+00:06:08.880 --> 00:06:12.110
+and output 0 when the prediction's lower.
+
+85
+00:06:13.490 --> 00:06:18.620
+So we've already seen this example
+where threshold 0.5 is not optimal,
+
+86
+00:06:20.280 --> 00:06:22.550
+so what can we do?
+
+87
+00:06:22.550 --> 00:06:24.290
+We can tune the threshold we apply,
+
+88
+00:06:24.290 --> 00:06:29.095
+we can do it with a simple grid
+search implemented with a for loop.
+
+89
+00:06:29.095 --> 00:06:35.650
+Well, it means that we can basically
+fit any sufficiently powerful model.
+
+90
+00:06:35.650 --> 00:06:39.840
+It will not matter much what loss exactly,
+say, hinge or
+
+91
+00:06:39.840 --> 00:06:42.400
+log loss the model will optimize.
+
+92
+00:06:42.400 --> 00:06:44.910
+All we want from our
+model's predictions is
+
+93
+00:06:44.910 --> 00:06:48.270
+the existence of a good threshold
+that will separate the classes.
+
+94
+00:06:49.620 --> 00:06:53.670
+Also, if our classifier
+is ideally calibrated,
+
+95
+00:06:53.670 --> 00:06:58.414
+then it is really returning
+posterior probabilities.
+
+96
+00:06:58.414 --> 00:07:04.016
+And for such a classifier,
+threshold 0.5 would be optimal,
+
+97
+00:07:04.016 --> 00:07:10.877
+but such classifiers are rarely the case,
+and threshold tuning helps often.
+
+98
+00:07:10.877 --> 00:07:15.907
+So in this video, we discussed logloss and
+
+99
+00:07:15.907 --> 00:07:21.916
+accuracy, in the next video
+we will discuss AUC and
+
+100
+00:07:21.916 --> 00:07:25.285
+quadratic weighted kappa.
+
+101
+00:07:25.285 --> 00:07:29.166
+[MUSIC]

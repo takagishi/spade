@@ -1,0 +1,369 @@
+WEBVTT
+
+1
+00:00:03.210 --> 00:00:09.520
+In this video, we will discuss what is the loss and what is a metric,
+
+2
+00:00:09.520 --> 00:00:11.905
+and what is the difference between them.
+
+3
+00:00:11.905 --> 00:00:18.155
+And then we'll overview what are the general approaches to metric optimization.
+
+4
+00:00:18.155 --> 00:00:23.545
+Let's start with a comparison between two notions, loss and metric.
+
+5
+00:00:23.545 --> 00:00:27.460
+The metric or target metric is a function which we
+
+6
+00:00:27.460 --> 00:00:31.690
+want to use to evaluate the quality of our model.
+
+7
+00:00:31.690 --> 00:00:34.390
+For example, for a classification task,
+
+8
+00:00:34.390 --> 00:00:38.097
+we may want to maximize accuracy of our predictions,
+
+9
+00:00:38.097 --> 00:00:41.765
+how frequently the model outputs the correct label.
+
+10
+00:00:41.765 --> 00:00:47.415
+But the problem is that no one really knows how to optimize accuracy efficiently.
+
+11
+00:00:47.415 --> 00:00:51.770
+Instead, people come up with the proxy loss functions.
+
+12
+00:00:51.770 --> 00:00:57.105
+They are such evaluation functions that are easy to optimize for a given model.
+
+13
+00:00:57.105 --> 00:01:02.325
+For example, logarithmic loss is widely used as an optimization loss,
+
+14
+00:01:02.325 --> 00:01:07.530
+while the accuracy score is how the solution is eventually evaluated.
+
+15
+00:01:07.530 --> 00:01:11.220
+So, once again, the loss function is a function
+
+16
+00:01:11.220 --> 00:01:15.205
+that our model optimizes and uses to evaluate the solution,
+
+17
+00:01:15.205 --> 00:01:20.455
+and the target metric is how we want the solution to be evaluated.
+
+18
+00:01:20.455 --> 00:01:24.365
+This is kind of expectation versus reality thing.
+
+19
+00:01:24.365 --> 00:01:30.670
+Sometimes we are lucky and the model can optimize our target metric directly.
+
+20
+00:01:30.670 --> 00:01:34.360
+For example, for mean square error metric,
+
+21
+00:01:34.360 --> 00:01:39.960
+most libraries can optimize it from the outset, from the box.
+
+22
+00:01:39.960 --> 00:01:43.745
+So the loss function is the same as the target metric.
+
+23
+00:01:43.745 --> 00:01:46.690
+And sometimes we want to optimize metrics that
+
+24
+00:01:46.690 --> 00:01:50.845
+are really hard or even impossible to optimize directly.
+
+25
+00:01:50.845 --> 00:01:53.420
+In this case, we usually set the model to optimize
+
+26
+00:01:53.420 --> 00:01:56.545
+a loss that is different to a target metric,
+
+27
+00:01:56.545 --> 00:01:58.420
+but after a model is trained,
+
+28
+00:01:58.420 --> 00:02:02.290
+we use hacks and heuristics to negate the discrepancy
+
+29
+00:02:02.290 --> 00:02:07.520
+and adjust the model to better fit the target metric.
+
+30
+00:02:07.520 --> 00:02:11.810
+We will see the examples for both cases in the following videos.
+
+31
+00:02:11.810 --> 00:02:14.935
+And the last thing to mention is that loss metric,
+
+32
+00:02:14.935 --> 00:02:22.055
+cost objective and other notions are more or less used as synonyms.
+
+33
+00:02:22.055 --> 00:02:26.680
+It is completely okay to say target loss and optimization metric,
+
+34
+00:02:26.680 --> 00:02:29.895
+but we will fix the wording for the clarity now.
+
+35
+00:02:29.895 --> 00:02:33.495
+Okay, so far, we've understood
+
+36
+00:02:33.495 --> 00:02:38.745
+why it's important to optimize a metric given in a competition.
+
+37
+00:02:38.745 --> 00:02:44.395
+And we have discussed the difference between optimization loss and target metric.
+
+38
+00:02:44.395 --> 00:02:50.305
+Now, let's overview the approaches to target metrics optimization in general.
+
+39
+00:02:50.305 --> 00:02:54.600
+The approaches can be broadly divided into several categories,
+
+40
+00:02:54.600 --> 00:02:57.300
+depending on the metric we need to optimize.
+
+41
+00:02:57.300 --> 00:03:01.050
+Some metrics can be optimized directly.
+
+42
+00:03:01.050 --> 00:03:06.825
+That is, we should just find a model that optimizes this metric and run it.
+
+43
+00:03:06.825 --> 00:03:13.200
+In fact, all we need to do is to set the model's loss function to these metric.
+
+44
+00:03:13.200 --> 00:03:16.055
+The most common metrics like MSE,
+
+45
+00:03:16.055 --> 00:03:22.470
+Logloss are implemented as loss functions in almost every library.
+
+46
+00:03:22.470 --> 00:03:26.090
+For some of the metrics that cannot be optimized directly,
+
+47
+00:03:26.090 --> 00:03:29.610
+we can somehow pre-process the train set and use
+
+48
+00:03:29.610 --> 00:03:34.245
+a model with a metric or loss function which is easy to optimize.
+
+49
+00:03:34.245 --> 00:03:40.265
+For example, while MSPE metric cannot be optimized directly with XGBoost,
+
+50
+00:03:40.265 --> 00:03:46.539
+we will see later that we can resample the train set and optimize MSE loss instead,
+
+51
+00:03:46.539 --> 00:03:48.930
+which XGBoost can optimize.
+
+52
+00:03:48.930 --> 00:03:52.470
+Sometimes, we'll optimize incorrect metric,
+
+53
+00:03:52.470 --> 00:03:58.890
+but we'll post-process the predictions to fit classification,
+
+54
+00:03:58.890 --> 00:04:01.850
+to fit the communication metric better.
+
+55
+00:04:01.850 --> 00:04:03.810
+For some models and frameworks,
+
+56
+00:04:03.810 --> 00:04:06.765
+it's possible to define a custom loss function,
+
+57
+00:04:06.765 --> 00:04:10.320
+and sometimes it's possible to implement a loss function which will
+
+58
+00:04:10.320 --> 00:04:14.345
+serve as a nice proxy for the desired metric.
+
+59
+00:04:14.345 --> 00:04:19.715
+For example, it can be done for quadratic-weighted Kappa, as we will see later.
+
+60
+00:04:19.715 --> 00:04:24.750
+It's actually quite easy to define a custom loss function for XGBoost.
+
+61
+00:04:24.750 --> 00:04:27.735
+We only need to implement a single function that
+
+62
+00:04:27.735 --> 00:04:30.910
+takes predictions and the target values and
+
+63
+00:04:30.910 --> 00:04:34.090
+computes first and second-order derivatives
+
+64
+00:04:34.090 --> 00:04:37.890
+of the loss function with respect to the model's predictions.
+
+65
+00:04:37.890 --> 00:04:41.275
+For example, here you see one for the Logloss.
+
+66
+00:04:41.275 --> 00:04:47.485
+Of course, the loss function should be smooth enough and have well-behaved derivatives,
+
+67
+00:04:47.485 --> 00:04:50.455
+otherwise XGBoost will drive crazy.
+
+68
+00:04:50.455 --> 00:04:53.965
+In this course, we consider only a small set of metrics,
+
+69
+00:04:53.965 --> 00:04:56.300
+but there are plenty of them in fact.
+
+70
+00:04:56.300 --> 00:04:57.960
+And for some of them,
+
+71
+00:04:57.960 --> 00:05:00.110
+it is really hard to come up with
+
+72
+00:05:00.110 --> 00:05:05.155
+a neat optimization procedure or write a custom loss function.
+
+73
+00:05:05.155 --> 00:05:09.020
+Thankfully, there is a method that always works.
+
+74
+00:05:09.020 --> 00:05:10.955
+It is called early stopping,
+
+75
+00:05:10.955 --> 00:05:13.310
+and it is very simple.
+
+76
+00:05:13.310 --> 00:05:16.290
+You set a model to optimize any loss function it can
+
+77
+00:05:16.290 --> 00:05:21.225
+optimize and you monitor the desired metric on a validation set.
+
+78
+00:05:21.225 --> 00:05:25.820
+And you stop the training when the model starts to fit according to
+
+79
+00:05:25.820 --> 00:05:30.815
+the desired metric and not according to the metric the model is truly optimizing.
+
+80
+00:05:30.815 --> 00:05:33.155
+That is important. Of course,
+
+81
+00:05:33.155 --> 00:05:36.615
+some metrics cannot be even easily evaluated.
+
+82
+00:05:36.615 --> 00:05:40.730
+For example, if the metric is based on a human assessor's opinions,
+
+83
+00:05:40.730 --> 00:05:44.500
+you cannot evaluate it on every iteration.
+
+84
+00:05:44.500 --> 00:05:47.730
+For such metrics, we cannot use early stopping,
+
+85
+00:05:47.730 --> 00:05:51.370
+but we will never find such metrics in a competition.
+
+86
+00:05:51.370 --> 00:05:53.050
+So, in this video,
+
+87
+00:05:53.050 --> 00:05:56.080
+we have discussed the discrepancy between our target
+
+88
+00:05:56.080 --> 00:06:00.055
+metric and the loss function that our model optimizes.
+
+89
+00:06:00.055 --> 00:06:04.150
+We've reviewed several approaches to target metric optimization and,
+
+90
+00:06:04.150 --> 00:06:06.880
+in particular, discussed early stopping.
+
+91
+00:06:06.880 --> 00:06:11.480
+In the following videos, we will go through the regression and
+
+92
+00:06:11.480 --> 00:06:17.390
+classification metrics and see the hacks we can use to optimize them.

@@ -1,0 +1,1320 @@
+WEBVTT
+
+1
+00:00:00.066 --> 00:00:03.966
+[MUSIC]
+
+2
+00:00:03.966 --> 00:00:08.900
+In the previous videos, we discussed
+metrics for regression problems.
+
+3
+00:00:08.900 --> 00:00:11.310
+And here,
+we'll review classification metrics.
+
+4
+00:00:12.932 --> 00:00:17.310
+We will first talk about accuracy,
+logarithmic loss, and
+
+5
+00:00:17.310 --> 00:00:23.200
+then get to area under a receiver
+operating curve, and Cohen's Kappa.
+
+6
+00:00:23.200 --> 00:00:25.390
+And specifically Quadratic weighted Kappa.
+
+7
+00:00:26.420 --> 00:00:28.110
+Let's start by fixing the notation.
+
+8
+00:00:29.350 --> 00:00:34.600
+N will be the number of objects in our
+dataset, L, the number of classes.
+
+9
+00:00:35.720 --> 00:00:41.458
+As before, y will stand for the target,
+and y hat, for predictions.
+
+10
+00:00:41.458 --> 00:00:46.430
+If you see an expression in square
+brackets, that is an indicator function.
+
+11
+00:00:46.430 --> 00:00:51.510
+It fields one if the expression
+is true and zero if it's false.
+
+12
+00:00:51.510 --> 00:00:56.426
+Throughout the video,
+we'll use two more terms hard labels or
+
+13
+00:00:56.426 --> 00:01:00.985
+hard predictions, and
+soft labels or soft predictions.
+
+14
+00:01:00.985 --> 00:01:04.970
+Usually models output some kind of scores.
+
+15
+00:01:04.970 --> 00:01:09.470
+For example, probabilities for
+an objects to belong to each class.
+
+16
+00:01:10.730 --> 00:01:14.950
+The scores can be written
+as a vector of size L, and
+
+17
+00:01:14.950 --> 00:01:18.840
+I will refer to this vector
+as to soft predictions.
+
+18
+00:01:18.840 --> 00:01:22.630
+Now in classification we are usually
+asked to predict a label for
+
+19
+00:01:22.630 --> 00:01:24.700
+the object, do a hard prediction.
+
+20
+00:01:26.110 --> 00:01:30.656
+To do it, we usually find a maximum
+value in the soft predictions, and
+
+21
+00:01:30.656 --> 00:01:35.445
+set class that corresponds to this
+maximum score as our predicted label.
+
+22
+00:01:35.445 --> 00:01:38.613
+So hard label is
+a function of soft labels,
+
+23
+00:01:38.613 --> 00:01:42.485
+it's usually arg max for
+multi class tasks, but for
+
+24
+00:01:42.485 --> 00:01:47.860
+binary classification it can be
+thought of as a thresholding function.
+
+25
+00:01:49.170 --> 00:01:52.310
+So we output label 1
+when the soft score for
+
+26
+00:01:52.310 --> 00:01:56.740
+the class 1 is higher than the threshold,
+and we output class 0 otherwise.
+
+27
+00:01:57.820 --> 00:02:00.500
+Let's start our journey
+with the accuracy score.
+
+28
+00:02:01.510 --> 00:02:04.920
+Accuracy is the most straightforward
+measure of classifiers quality.
+
+29
+00:02:06.150 --> 00:02:08.380
+It's a value between 0 and 1.
+
+30
+00:02:08.380 --> 00:02:10.014
+The higher, the better.
+
+31
+00:02:10.014 --> 00:02:15.679
+And it is equal to the fraction
+of correctly classified objects.
+
+32
+00:02:15.679 --> 00:02:18.908
+To compute accuracy,
+we need hard predictions.
+
+33
+00:02:18.908 --> 00:02:22.975
+We need to assign each
+object a specific table.
+
+34
+00:02:22.975 --> 00:02:28.319
+Now, what is the best constant
+to predict in case of accuracy?
+
+35
+00:02:28.319 --> 00:02:31.339
+Actually, there are a small
+number of constants to try.
+
+36
+00:02:31.339 --> 00:02:35.660
+We can only assign a class label
+to all the objects at once.
+
+37
+00:02:35.660 --> 00:02:39.440
+So what class should we assign?
+
+38
+00:02:39.440 --> 00:02:40.970
+Obviously, the most frequent one.
+
+39
+00:02:42.060 --> 00:02:45.330
+Then the number of correctly guessed
+objects will be the highest.
+
+40
+00:02:46.830 --> 00:02:49.000
+But exactly because of that reason,
+
+41
+00:02:49.000 --> 00:02:53.360
+there is a caveat in interpreting
+the values of the accuracy score.
+
+42
+00:02:54.840 --> 00:02:57.330
+Take a look at this example.
+
+43
+00:02:57.330 --> 00:03:02.048
+Say we have 10 cats and
+90 dogs in our train set.
+
+44
+00:03:02.048 --> 00:03:06.081
+If we always predicted dog for
+every object,
+
+45
+00:03:06.081 --> 00:03:10.020
+then the accuracy would be already 0.9.
+
+46
+00:03:10.020 --> 00:03:15.429
+And imagine you tell someone that your
+classifier is correct 9 times out of 10.
+
+47
+00:03:16.460 --> 00:03:19.523
+The person would probably
+think you have a nice model.
+
+48
+00:03:19.523 --> 00:03:25.598
+But in fact, your model just predicts
+dog class no matter what input is.
+
+49
+00:03:25.598 --> 00:03:31.374
+So the problem is, that the base
+line accuracy can be very high for
+
+50
+00:03:31.374 --> 00:03:38.004
+a data set, even 99%, and that makes
+it hard to interpret the results.
+
+51
+00:03:38.004 --> 00:03:40.865
+Although accuracy score is very clean and
+intuitive,
+
+52
+00:03:40.865 --> 00:03:43.050
+it turns out to be quite hard to optimize.
+
+53
+00:03:44.230 --> 00:03:49.867
+Accuracy also doesn't care how confident
+the classifier is in the predictions,
+
+54
+00:03:49.867 --> 00:03:52.080
+and what soft predictions are.
+
+55
+00:03:53.090 --> 00:03:56.000
+It cares only about arg
+max of soft predictions.
+
+56
+00:03:57.330 --> 00:04:01.768
+And thus, people sometimes prefer to
+use different metrics that are first,
+
+57
+00:04:01.768 --> 00:04:03.005
+easier to optimize.
+
+58
+00:04:03.005 --> 00:04:08.180
+And second, these metrics work with
+soft predictions, not hard ones.
+
+59
+00:04:09.340 --> 00:04:11.960
+One of such metrics is logarithmic loss.
+
+60
+00:04:11.960 --> 00:04:17.775
+It tries to make the classifier to
+output two posterior probabilities for
+
+61
+00:04:17.775 --> 00:04:22.385
+their objects to be of a certain kind,
+of a certain class.
+
+62
+00:04:22.385 --> 00:04:26.265
+A log loss is usually the reason
+a little bit differently for binary and
+
+63
+00:04:26.265 --> 00:04:27.395
+multi class tasks.
+
+64
+00:04:28.500 --> 00:04:35.102
+For binary, it is assumed that y
+hat is a number from 01 range,
+
+65
+00:04:35.102 --> 00:04:41.112
+and it is a probability of
+an object to belong to class one.
+
+66
+00:04:41.112 --> 00:04:47.400
+So 1 minus y hat is the probability for
+this object to be of class 0.
+
+67
+00:04:47.400 --> 00:04:51.460
+For multiclass tasks,
+LogLoss is written in this form.
+
+68
+00:04:52.630 --> 00:05:00.183
+Here y hat ith is a vector of size L,
+and its sum is exactly 1.
+
+69
+00:05:00.183 --> 00:05:05.210
+The elements are the probabilities
+to belong to each of the classes.
+
+70
+00:05:06.400 --> 00:05:10.138
+Try to write this formula down for
+L equals 2, and
+
+71
+00:05:10.138 --> 00:05:13.887
+you will see it is exactly
+binary loss from above.
+
+72
+00:05:13.887 --> 00:05:19.404
+And finally, it should be mentioned
+that to avoid in practice,
+
+73
+00:05:19.404 --> 00:05:23.796
+predictions are clipped to
+be not from 0 to 1, but
+
+74
+00:05:23.796 --> 00:05:30.053
+from some small positive number to
+1 minus some small positive number.
+
+75
+00:05:30.053 --> 00:05:33.230
+Okay, now let us analyze it a little bit.
+
+76
+00:05:33.230 --> 00:05:39.080
+Assume a target for an object is 0,
+and here on the plot,
+
+77
+00:05:39.080 --> 00:05:43.213
+we see how the error will change if we
+change our predictions from 0 to 1.
+
+78
+00:05:43.213 --> 00:05:48.640
+For comparison, we'll plot
+absolute error with another color.
+
+79
+00:05:48.640 --> 00:05:53.269
+Logloss usually penalizes
+completely wrong answers and
+
+80
+00:05:53.269 --> 00:05:58.676
+prefers to make a lot of small
+mistakes to one but severer mistake.
+
+81
+00:05:58.676 --> 00:06:03.190
+Now, what is the best constant for
+logarithmic loss?
+
+82
+00:06:03.190 --> 00:06:07.560
+It turns out that you need to set
+predictions to the frequencies of each
+
+83
+00:06:07.560 --> 00:06:08.977
+class in the data set.
+
+84
+00:06:08.977 --> 00:06:12.789
+In our case, the frequencies for
+
+85
+00:06:12.789 --> 00:06:19.200
+the cat class is 0.1, and
+it is 0.9 for class dog.
+
+86
+00:06:19.200 --> 00:06:22.250
+Then the best constant is
+vector of those two values.
+
+87
+00:06:23.420 --> 00:06:26.070
+How do I, well how do I know that is so?
+
+88
+00:06:27.160 --> 00:06:31.790
+To prove it we should take a derivative
+with the respect to constant alpha,
+
+89
+00:06:31.790 --> 00:06:35.240
+set it to 0, and
+find alpha from this equation.
+
+90
+00:06:36.360 --> 00:06:41.480
+Okay, we've discussed accuracy and
+log loss, now let's move on.
+
+91
+00:06:42.570 --> 00:06:44.580
+Take a look at the example.
+
+92
+00:06:44.580 --> 00:06:47.880
+We show ground truth target
+value with color, and
+
+93
+00:06:47.880 --> 00:06:50.490
+the position of the point
+shows the classifier score.
+
+94
+00:06:51.490 --> 00:06:55.670
+Recall that to compute accuracy score for
+a binary task,
+
+95
+00:06:55.670 --> 00:06:59.529
+we usually take soft predictions
+from our model and apply threshold.
+
+96
+00:07:00.530 --> 00:07:05.631
+We can see the prediction to be green
+if the score is higher than 0.5 and
+
+97
+00:07:05.631 --> 00:07:07.059
+red if it's lower.
+
+98
+00:07:07.059 --> 00:07:14.486
+For this example the accuracy is 6 or
+7, as we misclassified one red object.
+
+99
+00:07:14.486 --> 00:07:18.115
+But look, if the threshold was 0.7,
+
+100
+00:07:18.115 --> 00:07:22.934
+then all the objects would
+be classified correctly.
+
+101
+00:07:22.934 --> 00:07:27.620
+So this is kind of motivation for
+our next metric, Area Under Curve.
+
+102
+00:07:29.120 --> 00:07:31.710
+We shouldn't fix the threshold for it, but
+
+103
+00:07:32.820 --> 00:07:37.127
+this metric kind of tries all possible
+ones and aggregates those scores.
+
+104
+00:07:38.190 --> 00:07:43.139
+So this metric doesn't really cares about
+absolute values of the predictions.
+
+105
+00:07:43.139 --> 00:07:46.602
+But it depends only on
+the order of the objects.
+
+106
+00:07:46.602 --> 00:07:53.767
+Actually, there are several ways AUC, or
+this area under curve, can be explained.
+
+107
+00:07:53.767 --> 00:07:57.630
+The first one explains under what
+curve we should compute area.
+
+108
+00:07:57.630 --> 00:08:01.520
+And the second explains
+AUC as the probability of
+
+109
+00:08:01.520 --> 00:08:04.530
+object pairs to be correctly
+ordered by our model.
+
+110
+00:08:04.530 --> 00:08:08.897
+We will see both
+explanations in the moment.
+
+111
+00:08:08.897 --> 00:08:11.031
+So let's start with the first one.
+
+112
+00:08:11.031 --> 00:08:15.211
+So we need to calculate
+an area under a curve.
+
+113
+00:08:15.211 --> 00:08:17.151
+What curve?
+
+114
+00:08:17.151 --> 00:08:19.471
+Let's construct it right now.
+
+115
+00:08:19.471 --> 00:08:25.201
+Once again, say we have six objects, and
+their true label is shown with a color.
+
+116
+00:08:25.201 --> 00:08:29.951
+And the position of the dot shows
+the classifier's predictions.
+
+117
+00:08:29.951 --> 00:08:36.801
+And for now we will use word positive
+as synonym to belongs to the red class.
+
+118
+00:08:36.801 --> 00:08:40.021
+So positive side is on the left.
+
+119
+00:08:40.021 --> 00:08:46.744
+What we will do now, we'll go from left to
+right, jump from one object to another.
+
+120
+00:08:46.744 --> 00:08:51.320
+And for
+each we will calculate how many red and
+
+121
+00:08:51.320 --> 00:08:57.961
+green dots are there to the left,
+to this object that we stand on.
+
+122
+00:08:57.961 --> 00:09:02.421
+The red dots we'll have a name for
+them, true positives.
+
+123
+00:09:02.421 --> 00:09:06.851
+And for the green ones we'll
+have name false positives.
+
+124
+00:09:06.851 --> 00:09:12.072
+So we will kind of compute
+how many true positives and
+
+125
+00:09:12.072 --> 00:09:18.015
+false positives we see to the left
+of the object we stand on.
+
+126
+00:09:18.015 --> 00:09:22.855
+Actually it's very simple,
+we start from bottom left corner and
+
+127
+00:09:22.855 --> 00:09:25.331
+go up every time we see red point.
+
+128
+00:09:25.331 --> 00:09:28.331
+And right when we see a green one.
+
+129
+00:09:28.331 --> 00:09:30.101
+Let's see.
+
+130
+00:09:30.101 --> 00:09:32.441
+So we stand on the leftmost point first.
+
+131
+00:09:32.441 --> 00:09:35.020
+And it is red, or positive.
+
+132
+00:09:35.020 --> 00:09:38.873
+So we increase the number of
+true positives and move up.
+
+133
+00:09:38.873 --> 00:09:41.641
+Next, we jump on the green point.
+
+134
+00:09:41.641 --> 00:09:45.906
+It is false positive, and so we go right.
+
+135
+00:09:45.906 --> 00:09:49.691
+Then two times up for two red points.
+
+136
+00:09:49.691 --> 00:09:53.561
+And finally two times right for
+the last green point.
+
+137
+00:09:53.561 --> 00:09:55.925
+We finished in the top right corner.
+
+138
+00:09:55.925 --> 00:09:59.930
+And it always works like that.
+
+139
+00:09:59.930 --> 00:10:01.680
+We start from bottom left and
+
+140
+00:10:01.680 --> 00:10:06.600
+end up in top right corner when
+we jump on the right most point.
+
+141
+00:10:06.600 --> 00:10:12.290
+By the way, the curve we've just built
+is called Receiver Operating Curve or
+
+142
+00:10:12.290 --> 00:10:12.860
+ROC Curve.
+
+143
+00:10:14.180 --> 00:10:17.290
+And now we are ready to calculate
+an area under this curve.
+
+144
+00:10:18.460 --> 00:10:25.550
+The area is seven and we need to normalize
+it by the total plural area of the square.
+
+145
+00:10:25.550 --> 00:10:30.102
+So AUC is 7/9, cool.
+
+146
+00:10:30.102 --> 00:10:34.929
+Now what AUC will be for
+the data set that can be separated
+
+147
+00:10:34.929 --> 00:10:39.150
+with a threshold,
+like in our initial example?
+
+148
+00:10:39.150 --> 00:10:43.778
+Actually AUC will be 1,
+maximum value of AUC.
+
+149
+00:10:43.778 --> 00:10:46.526
+So it works.
+
+150
+00:10:46.526 --> 00:10:49.270
+It doesn't need a threshold
+to be specified and
+
+151
+00:10:49.270 --> 00:10:51.610
+it doesn't depend on absolute values.
+
+152
+00:10:51.610 --> 00:10:56.328
+Recall that we've never used absolute
+values while constructing the curve.
+
+153
+00:10:56.328 --> 00:10:59.680
+Now in practice,
+if you build such curve for
+
+154
+00:10:59.680 --> 00:11:05.397
+a huge data set in real classifier,
+you would observe a picture like that.
+
+155
+00:11:05.397 --> 00:11:10.510
+Here curves for different classifiers
+are shown with different colors.
+
+156
+00:11:10.510 --> 00:11:15.368
+The curves usually lie above
+the dashed line which shows how
+
+157
+00:11:15.368 --> 00:11:20.240
+would the curve look like if
+we made predictions at random.
+
+158
+00:11:20.240 --> 00:11:24.500
+So it kind of shows us a baseline.
+
+159
+00:11:24.500 --> 00:11:29.818
+And note that the area under
+the dashed line is 0.5.
+
+160
+00:11:29.818 --> 00:11:35.420
+All right, we've seen that we can build
+a curve and compute area under it.
+
+161
+00:11:35.420 --> 00:11:40.832
+There is another total different
+explanation for the AUC.
+
+162
+00:11:40.832 --> 00:11:43.324
+Consider all pairs of objects,
+
+163
+00:11:43.324 --> 00:11:48.595
+such that one object is from red class and
+another one is from green.
+
+164
+00:11:48.595 --> 00:11:51.527
+AUC is a probability that score for
+
+165
+00:11:51.527 --> 00:11:56.491
+the green one will be higher
+than the score for the red one.
+
+166
+00:11:56.491 --> 00:12:01.556
+In other words, AUC is a fraction
+of correctly ordered pairs.
+
+167
+00:12:01.556 --> 00:12:06.750
+You see in our example we have
+two incorrectly ordered pairs and
+
+168
+00:12:06.750 --> 00:12:08.520
+nine pairs in total.
+
+169
+00:12:08.520 --> 00:12:15.214
+And then there are 7 correctly
+ordered pairs and thus AUC is 7/9.
+
+170
+00:12:15.214 --> 00:12:20.758
+Exactly as we got before,
+while computing area under the curve.
+
+171
+00:12:20.758 --> 00:12:24.770
+All right,
+we've discussed how to compute AUC.
+
+172
+00:12:24.770 --> 00:12:28.780
+Now let's think what is the best
+constant prediction for it.
+
+173
+00:12:28.780 --> 00:12:32.580
+In fact, AUC doesn't depend on
+the exact values of the predictions.
+
+174
+00:12:32.580 --> 00:12:36.382
+So all constants will lead
+to the same score and
+
+175
+00:12:36.382 --> 00:12:40.490
+this score will be around 0.5,
+the baseline.
+
+176
+00:12:40.490 --> 00:12:44.957
+This is actually something
+that people love about AUC.
+
+177
+00:12:44.957 --> 00:12:48.110
+It is clear what the baseline is.
+
+178
+00:12:48.110 --> 00:12:53.240
+Of course there are flaws in AUC,
+every metric has some.
+
+179
+00:12:53.240 --> 00:12:59.180
+But still AUC is metric I usually use
+when no one sets up another one for me.
+
+180
+00:12:59.180 --> 00:13:05.914
+All right, finally let's get
+to the last metric to discuss,
+
+181
+00:13:05.914 --> 00:13:10.331
+Cohen's Kappa and it's derivatives.
+
+182
+00:13:10.331 --> 00:13:15.128
+Recall that if we always predict
+the label of the most frequent class,
+
+183
+00:13:15.128 --> 00:13:20.350
+we can already get pretty high accuracy
+score, and that can be misleading.
+
+184
+00:13:20.350 --> 00:13:24.960
+Actually in our example
+all the models will fit,
+
+185
+00:13:24.960 --> 00:13:29.800
+will have a score somewhere
+between 0.9 and 1.
+
+186
+00:13:29.800 --> 00:13:36.682
+So we can introduce a new metric such that
+for an accuracy of 1 it would give us 1,
+
+187
+00:13:36.682 --> 00:13:40.950
+and for
+the baseline accuracy it would output 0.
+
+188
+00:13:40.950 --> 00:13:45.290
+And of course,
+baselines are going to be different for
+
+189
+00:13:45.290 --> 00:13:49.543
+every data,
+not necessarily 0.9 or whatever.
+
+190
+00:13:49.543 --> 00:13:53.560
+It is also very similar to
+what r squared does with MSE.
+
+191
+00:13:53.560 --> 00:13:58.480
+It informally saying is
+kind of normalizes it.
+
+192
+00:13:58.480 --> 00:14:01.690
+So we do the same here.
+
+193
+00:14:01.690 --> 00:14:05.660
+And this is actually already
+almost Cohen's Kappa.
+
+194
+00:14:05.660 --> 00:14:09.572
+In Cohen's Kappa we take
+another value as the baseline.
+
+195
+00:14:09.572 --> 00:14:14.428
+We take the higher predictions for
+the data set and shuffle them,
+
+196
+00:14:14.428 --> 00:14:16.291
+like randomly permute.
+
+197
+00:14:16.291 --> 00:14:21.050
+And then we calculate an accuracy for
+these shuffled predictions.
+
+198
+00:14:21.050 --> 00:14:24.778
+And that will be our baseline.
+
+199
+00:14:24.778 --> 00:14:29.845
+Well to be precise, we permute and
+calculate accuracies many times and
+
+200
+00:14:29.845 --> 00:14:34.750
+take, as the baseline, an average for
+those computed accuracies.
+
+201
+00:14:34.750 --> 00:14:39.210
+In practice, of course,
+we do not need to do any permutations.
+
+202
+00:14:39.210 --> 00:14:43.411
+This baseline score can
+be computed analytically.
+
+203
+00:14:43.411 --> 00:14:48.522
+We need, first, to multiply the empirical
+frequencies of our predictions and
+
+204
+00:14:48.522 --> 00:14:52.196
+grant those labels for
+each class, and then sum them up.
+
+205
+00:14:52.196 --> 00:14:56.859
+For example,
+if we assign 20 cat labels and
+
+206
+00:14:56.859 --> 00:15:02.505
+80 dog labels at random,
+then the baseline accuracy
+
+207
+00:15:02.505 --> 00:15:08.411
+will be 0.2*0.1 + 0.8*0.9 = 0.74.
+
+208
+00:15:08.411 --> 00:15:12.185
+You can find more examples in actually.
+
+209
+00:15:12.185 --> 00:15:18.584
+Here I wanted to explain a nice way of
+thinking about eliminator as a baseline.
+
+210
+00:15:18.584 --> 00:15:23.356
+We can also recall that error
+is equal to 1 minus accuracy.
+
+211
+00:15:23.356 --> 00:15:31.206
+We could rewrite the formula as 1
+minus model's error/baseline error.
+
+212
+00:15:31.206 --> 00:15:33.018
+It will still be Cohen's Kappa,
+
+213
+00:15:33.018 --> 00:15:36.520
+but now, it would be easier to
+derive weighted Cohen's Kappa.
+
+214
+00:15:36.520 --> 00:15:41.274
+To explain weighted Kappa,
+we first need to do a step aside, and
+
+215
+00:15:41.274 --> 00:15:43.396
+introduce weighted error.
+
+216
+00:15:43.396 --> 00:15:46.740
+See now we have cats,
+dogs and tigers to classify.
+
+217
+00:15:46.740 --> 00:15:52.704
+And we are more or less okay if
+we predict dog instead of cat.
+
+218
+00:15:52.704 --> 00:15:57.760
+But it's undesirable to predict cat or
+dog if it's really a tiger.
+
+219
+00:15:57.760 --> 00:16:01.736
+So we're going to form
+a weight matrix where
+
+220
+00:16:01.736 --> 00:16:06.150
+each cell contains The weight for
+the mistake we might do.
+
+221
+00:16:07.170 --> 00:16:11.610
+In our case, we set error weight to be
+ten times larger if we predict cat or
+
+222
+00:16:11.610 --> 00:16:14.430
+dog, but the ground truth label is tiger.
+
+223
+00:16:15.830 --> 00:16:18.340
+So with error weight matrix,
+
+224
+00:16:18.340 --> 00:16:22.260
+we can express our preference on
+the errors that the classifier would make.
+
+225
+00:16:23.390 --> 00:16:25.080
+Now, to calculate weight and
+
+226
+00:16:25.080 --> 00:16:29.500
+error we need another matrix, confusion
+matrix, for the classifier's prediction.
+
+227
+00:16:31.010 --> 00:16:35.270
+This matrix shows how our classifier
+distributes the predictions over
+
+228
+00:16:35.270 --> 00:16:36.720
+the objects.
+
+229
+00:16:36.720 --> 00:16:41.880
+For example, the first column indicates
+that four cats out of ten were recognized
+
+230
+00:16:41.880 --> 00:16:47.980
+correctly, two were classified as dogs and
+four as tigers.
+
+231
+00:16:47.980 --> 00:16:51.350
+So to get a weighted error score,
+
+232
+00:16:51.350 --> 00:16:56.520
+we need to multiply these two matrices
+element-wise and sum their results.
+
+233
+00:16:57.850 --> 00:17:01.940
+This formula needs a proper normalization
+
+234
+00:17:01.940 --> 00:17:06.850
+to make sure the quantity is between 0 and
+1, but it doesn't matter for
+
+235
+00:17:06.850 --> 00:17:10.450
+our purposes, as the normalization
+constant will anyway cancel.
+
+236
+00:17:12.120 --> 00:17:15.868
+And finally,
+weighted kappa is calculated as 1-
+
+237
+00:17:15.868 --> 00:17:19.730
+weighted error / weighted baseline error.
+
+238
+00:17:21.010 --> 00:17:26.070
+In many cases, the weight matrices
+are defined in a very simple way.
+
+239
+00:17:26.070 --> 00:17:29.470
+For example, for classification
+problems with ordered labels.
+
+240
+00:17:30.700 --> 00:17:35.200
+Say you need to assign each
+object a value from 1 to 3.
+
+241
+00:17:35.200 --> 00:17:39.200
+It can be, for instance,
+a rating of how severe the disease is.
+
+242
+00:17:39.200 --> 00:17:44.950
+And it is not regression, since you do not
+allow to output values to be somewhere
+
+243
+00:17:44.950 --> 00:17:49.690
+between the ratings and the ground truth
+values also look more like labels,
+
+244
+00:17:49.690 --> 00:17:51.730
+not as numeric values to predict.
+
+245
+00:17:52.940 --> 00:17:57.240
+So such problems are usually treated
+as classification problems, but
+
+246
+00:17:57.240 --> 00:18:02.150
+weight matrix is introduced to account for
+order of the labels.
+
+247
+00:18:03.270 --> 00:18:08.720
+For example, weights can be linear, if we
+predict two instead of one, we pay one.
+
+248
+00:18:09.820 --> 00:18:13.971
+If we predict three instead of of one,
+we pay two.
+
+249
+00:18:13.971 --> 00:18:19.506
+Or the weights can be quadratic,
+if we'll predict two instead of one,
+
+250
+00:18:19.506 --> 00:18:25.150
+we still pay one, but if we predict
+three instead of one, we now pay for.
+
+251
+00:18:26.190 --> 00:18:30.510
+Depending on what weight matrix is used,
+
+252
+00:18:30.510 --> 00:18:34.460
+we get either linear weighted kappa or
+quadratic weighted kappa.
+
+253
+00:18:35.590 --> 00:18:40.281
+The quadratic weighted kappa has been
+used in several competitions on Kaggle.
+
+254
+00:18:40.281 --> 00:18:44.761
+It is usually explained as
+inter-rater agreement coefficient,
+
+255
+00:18:44.761 --> 00:18:49.649
+how much the predictions of the model
+agree with ground-truth raters.
+
+256
+00:18:49.649 --> 00:18:53.024
+Which is quite intuitive for
+medicine applications,
+
+257
+00:18:53.024 --> 00:18:56.410
+how much the model agrees
+with professional doctors.
+
+258
+00:18:57.410 --> 00:19:01.590
+Finally, in this video,
+we've discussed classification matrix.
+
+259
+00:19:02.620 --> 00:19:07.580
+The accuracy, it is an essential
+metric for classification.
+
+260
+00:19:07.580 --> 00:19:12.485
+But a simple model that predicts always
+the same value can possibly have
+
+261
+00:19:12.485 --> 00:19:16.991
+a very high accuracy that makes
+it hard to interpret this metric.
+
+262
+00:19:16.991 --> 00:19:21.473
+The score also depends on the threshold
+we choose to convert soft
+
+263
+00:19:21.473 --> 00:19:23.554
+predictions to hard labels.
+
+264
+00:19:23.554 --> 00:19:25.600
+Logloss is another metric,
+
+265
+00:19:25.600 --> 00:19:31.493
+as opposed to accuracy it depends on soft
+predictions rather than on hard labels.
+
+266
+00:19:31.493 --> 00:19:36.408
+And it forces the model to predict
+probabilities of an object to belong
+
+267
+00:19:36.408 --> 00:19:37.500
+to each class.
+
+268
+00:19:37.500 --> 00:19:43.158
+AUC, area under receiver operating curve,
+doesn't depend on the absolute values
+
+269
+00:19:43.158 --> 00:19:48.430
+predicted by the classifier, but
+only considers the ordering of the object.
+
+270
+00:19:49.750 --> 00:19:54.530
+It also implicitly tries all the
+thresholds to converge soft predictions to
+
+271
+00:19:54.530 --> 00:20:00.210
+hard labels, and thus removes the
+dependence of the score on the threshold.
+
+272
+00:20:01.960 --> 00:20:08.262
+Finally, Cohen's Kappa fixes the baseline
+for accuracy score to be zero.
+
+273
+00:20:08.262 --> 00:20:11.777
+In spirit it is very
+similar to how R-squared
+
+274
+00:20:11.777 --> 00:20:15.390
+beta scales MSE value
+to be easier explained.
+
+275
+00:20:17.480 --> 00:20:24.910
+If instead of accuracy we used weighted
+accuracy, we would get weighted kappa.
+
+276
+00:20:24.910 --> 00:20:29.746
+Weighted kappa with quadratic weights
+is called quadratic weighted kappa and
+
+277
+00:20:29.746 --> 00:20:31.366
+commonly used on Kaggle.
+
+278
+00:20:31.366 --> 00:20:41.366
+[MUSIC]

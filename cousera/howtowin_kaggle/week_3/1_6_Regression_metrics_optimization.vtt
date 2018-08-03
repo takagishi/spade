@@ -1,0 +1,664 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:04.717
+[SOUND] So
+far we've discussed different metrics,
+
+2
+00:00:04.717 --> 00:00:09.003
+their definitions, and intuition for them.
+
+3
+00:00:09.003 --> 00:00:15.030
+We've studied the difference between
+optimization loss and target metric.
+
+4
+00:00:15.030 --> 00:00:19.920
+In this video, we'll see how we can
+efficiently optimize metrics used for
+
+5
+00:00:19.920 --> 00:00:20.889
+regression problems.
+
+6
+00:00:21.915 --> 00:00:25.680
+We've discussed,
+we always can use earl stopping.
+
+7
+00:00:25.680 --> 00:00:28.280
+So I won't mention it for ever metrics.
+
+8
+00:00:28.280 --> 00:00:29.200
+But keep it in mind.
+
+9
+00:00:29.200 --> 00:00:32.940
+Let's start with mean squared error.
+
+10
+00:00:32.940 --> 00:00:35.760
+It's the most commonly used metric for
+regression tasks.
+
+11
+00:00:35.760 --> 00:00:38.499
+So we should expect it
+to be easy to work with.
+
+12
+00:00:39.530 --> 00:00:45.740
+In fact, almost every modelling software
+will implement MSE as a loss function.
+
+13
+00:00:45.740 --> 00:00:51.450
+So all you need to do to optimize it is
+to turn this on in your favorite library.
+
+14
+00:00:52.540 --> 00:00:57.030
+And here are some of the library that
+support mean square error optimization.
+
+15
+00:00:57.030 --> 00:00:59.930
+Both XGBoost and
+LightGBM will do it easily.
+
+16
+00:01:01.222 --> 00:01:06.120
+A RandomForestRegresor from a scaler and
+also can split based on MSE,
+
+17
+00:01:06.120 --> 00:01:09.830
+thus optimizing individually.
+
+18
+00:01:09.830 --> 00:01:13.770
+A lot of linear models
+implemented in siclicar, and
+
+19
+00:01:13.770 --> 00:01:17.040
+most of them are designed to optimize MSE.
+
+20
+00:01:17.040 --> 00:01:23.020
+For example, ordinarily squares,
+reach regression, regression and so on.
+
+21
+00:01:24.800 --> 00:01:28.040
+There's also SGRegressor class and
+Sklearn.
+
+22
+00:01:29.180 --> 00:01:31.320
+It also implements a linear model but
+
+23
+00:01:31.320 --> 00:01:34.640
+differently to other
+linear models in Sklearn.
+
+24
+00:01:34.640 --> 00:01:39.440
+It uses [INAUDIBLE] gradient decent
+to train it, and thus very versatile.
+
+25
+00:01:39.440 --> 00:01:43.238
+Well and of course MSE was built in.
+
+26
+00:01:43.238 --> 00:01:49.007
+The library for
+online learning of linear models,
+
+27
+00:01:49.007 --> 00:01:53.054
+also accepts MSC as lost function.
+
+28
+00:01:53.054 --> 00:01:59.250
+But every neural net package like PyTorch,
+Keras, Flow, has MSE loss implemented.
+
+29
+00:01:59.250 --> 00:02:02.480
+You just need to find an example
+on GitHub or wherever, and
+
+30
+00:02:02.480 --> 00:02:06.500
+see what name MSE loss has
+in that particular library.
+
+31
+00:02:07.640 --> 00:02:11.010
+For example,
+it is sometimes called L two loss,
+
+32
+00:02:11.010 --> 00:02:13.600
+as L to distance in Matt Luke's using.
+
+33
+00:02:14.770 --> 00:02:17.790
+But basically for all the metrics
+we consider in this lesson,
+
+34
+00:02:17.790 --> 00:02:21.100
+you may find plaintal flames
+since they were used and
+
+35
+00:02:21.100 --> 00:02:23.900
+discovered independently
+in different communities.
+
+36
+00:02:25.100 --> 00:02:27.598
+Now, what about mean absolute error.
+
+37
+00:02:27.598 --> 00:02:33.083
+MAE is popular too, so it is easy to
+find a model that will optimize it.
+
+38
+00:02:33.083 --> 00:02:39.122
+Unfortunately, the extra boost
+cannot optimize MAE because
+
+39
+00:02:39.122 --> 00:02:44.588
+MAE has zero as a second
+derivative while LightGBM can.
+
+40
+00:02:44.588 --> 00:02:48.977
+So you still can use gradient boosting
+decision trees to this metric.
+
+41
+00:02:48.977 --> 00:02:55.302
+MAE criteria was implemented for
+RandomForestRegressor from Sklearn.
+
+42
+00:02:55.302 --> 00:03:00.258
+But note that running time will be
+quite high compared with MSE Corte.
+
+43
+00:03:00.258 --> 00:03:04.911
+Unfortunately, linear models
+from SKLearn including
+
+44
+00:03:04.911 --> 00:03:08.873
+SG Regressor can not
+optimize MAE negatively.
+
+45
+00:03:08.873 --> 00:03:15.510
+But, there is a loss called Huber Loss,
+it is implemented in some of the models.
+
+46
+00:03:15.510 --> 00:03:20.770
+Basically, it is very similar to MAE,
+especially when the errors are large.
+
+47
+00:03:22.050 --> 00:03:24.468
+We will discuss it in the next slide.
+
+48
+00:03:24.468 --> 00:03:27.420
+In [INAUDIBLE], MAE loss is implemented,
+
+49
+00:03:27.420 --> 00:03:32.200
+but under a different name
+that's called quantile loss.
+
+50
+00:03:32.200 --> 00:03:35.780
+In fact, MAE is just a special
+case of quantile loss.
+
+51
+00:03:36.920 --> 00:03:41.583
+Although I will not go into the details
+here, but just recall that MAE is
+
+52
+00:03:41.583 --> 00:03:46.695
+somehow connected to median values and
+median is a particular quantile.
+
+53
+00:03:47.860 --> 00:03:49.940
+What about neural networks?
+
+54
+00:03:49.940 --> 00:03:53.920
+As we've discussed MAE is not
+differentiable only when the predictions
+
+55
+00:03:53.920 --> 00:03:55.930
+are equal to target.
+
+56
+00:03:55.930 --> 00:03:58.960
+And it is of a rare case.
+
+57
+00:03:58.960 --> 00:04:04.152
+That is why we may use any model
+train to put to optimize MAE.
+
+58
+00:04:05.430 --> 00:04:10.420
+It may be that you will not find MAE
+implemented in a neural library,
+
+59
+00:04:10.420 --> 00:04:13.100
+but it is very easy to implement it.
+
+60
+00:04:13.100 --> 00:04:16.200
+In fact, all the models need
+
+61
+00:04:16.200 --> 00:04:19.030
+is a loss function gradient
+with respect to predictions.
+
+62
+00:04:19.030 --> 00:04:23.104
+And in this case,
+this is just a set function.
+
+63
+00:04:23.104 --> 00:04:27.661
+Different names you may encounter for
+MAE is, L1 that fit and
+
+64
+00:04:27.661 --> 00:04:32.216
+a one loss, and sometimes people
+refer to that special case of
+
+65
+00:04:32.216 --> 00:04:35.736
+quintile regression as
+to median regression.
+
+66
+00:04:35.736 --> 00:04:40.521
+A lot, a lot of,
+a lot of ways to make MAE smooth.
+
+67
+00:04:40.521 --> 00:04:45.218
+You can actually make up your own smooth
+function that have upload that loops like
+
+68
+00:04:45.218 --> 00:04:46.770
+MAE error.
+
+69
+00:04:46.770 --> 00:04:49.590
+The most famous one is Huber loss.
+
+70
+00:04:49.590 --> 00:04:53.430
+It's basically a mix between MSE and MAE.
+
+71
+00:04:54.640 --> 00:05:02.100
+MSE is computed when the error is small,
+so we can safely approach zero error.
+
+72
+00:05:02.100 --> 00:05:06.580
+And MAE is computed for
+large errors given robustness.
+
+73
+00:05:07.670 --> 00:05:12.110
+So, to this end, we discuss the libraries
+that can optimize mean square error and
+
+74
+00:05:12.110 --> 00:05:13.640
+mean absolute error.
+
+75
+00:05:13.640 --> 00:05:17.358
+Now, let's get to not ask
+common relative metrics.
+
+76
+00:05:17.358 --> 00:05:22.270
+MSPE and MAPE.
+
+77
+00:05:22.270 --> 00:05:26.900
+It's much harder to find the model
+which can optimize them out of the box.
+
+78
+00:05:26.900 --> 00:05:31.880
+Of course we can always can use,
+either, of course we can always
+
+79
+00:05:31.880 --> 00:05:35.120
+either implement a custom loss for
+an integer boost or a neural net.
+
+80
+00:05:35.120 --> 00:05:38.310
+It is really easy to do there.
+
+81
+00:05:38.310 --> 00:05:41.280
+Or we can optimize different metric and
+do early stopping.
+
+82
+00:05:42.490 --> 00:05:45.760
+But there are several specific
+approaches that I want to mention.
+
+83
+00:05:46.760 --> 00:05:52.169
+This approach is based on the fact that
+MSP is a weighted version of MSE and
+
+84
+00:05:52.169 --> 00:05:54.663
+MAP is a weighted version of MAE.
+
+85
+00:05:54.663 --> 00:06:00.697
+On the right side,
+we've sen expression for MSP and MAP.
+
+86
+00:06:00.697 --> 00:06:05.378
+The summon denominator just
+ensures that the weights
+
+87
+00:06:05.378 --> 00:06:09.340
+are summed up to 1, but it's not required.
+
+88
+00:06:10.950 --> 00:06:16.180
+Intuitively, the sample weights are
+indicating how important the object is for
+
+89
+00:06:16.180 --> 00:06:17.950
+us while training the model.
+
+90
+00:06:19.300 --> 00:06:22.650
+The smaller the target,
+is the more important the object.
+
+91
+00:06:24.510 --> 00:06:27.230
+So, how do we use this knowledge?
+
+92
+00:06:28.270 --> 00:06:30.810
+In fact,
+many libraries accept sample weights.
+
+93
+00:06:31.860 --> 00:06:33.460
+Say we want to optimize MSP.
+
+94
+00:06:34.790 --> 00:06:38.760
+So if we can set sample weights to
+the ones from the previous slide,
+
+95
+00:06:39.880 --> 00:06:41.580
+we can use MSE laws with it.
+
+96
+00:06:43.020 --> 00:06:48.300
+And, the model will actually
+optimize desired MSPE loss.
+
+97
+00:06:48.300 --> 00:06:53.060
+Although most important libraries like
+XGBoost, LightGBM, most neural net
+
+98
+00:06:53.060 --> 00:06:57.390
+packages support sample weighting,
+not every library implements it.
+
+99
+00:06:58.700 --> 00:07:03.500
+But there is another method which works
+whenever a library can optimize MSE
+
+100
+00:07:03.500 --> 00:07:04.040
+or MAE.
+
+101
+00:07:04.040 --> 00:07:05.449
+Nothing else is needed.
+
+102
+00:07:06.860 --> 00:07:11.205
+All we need to do is to create a new
+training set by sampling it from
+
+103
+00:07:11.205 --> 00:07:15.548
+the original set that we have and
+fit a model with, for example,
+
+104
+00:07:15.548 --> 00:07:18.864
+I'm a secretarian if you
+want to optimize MSPE.
+
+105
+00:07:20.617 --> 00:07:22.874
+It is important to set
+the probabilities for
+
+106
+00:07:22.874 --> 00:07:25.990
+each object to be sampled to
+the weights we've calculated.
+
+107
+00:07:27.160 --> 00:07:29.260
+The size of the new data set is up to you.
+
+108
+00:07:29.260 --> 00:07:35.020
+You can sample for example, twice as many
+objects as it was in original train set.
+
+109
+00:07:36.418 --> 00:07:39.920
+And note that we do not need to
+do anything with the test set.
+
+110
+00:07:39.920 --> 00:07:41.740
+It stays as is.
+
+111
+00:07:42.900 --> 00:07:46.430
+I would also advise you to
+re-sample train set several times.
+
+112
+00:07:46.430 --> 00:07:48.480
+Each time fitting a model.
+
+113
+00:07:48.480 --> 00:07:52.790
+And then average models predictions,
+if we'll get the score much better and
+
+114
+00:07:52.790 --> 00:07:53.490
+more stable.
+
+115
+00:07:54.710 --> 00:07:57.890
+The results will,
+another way we can optimize MSPE,
+
+116
+00:07:59.250 --> 00:08:03.720
+this approach was widely used during
+Rossmund Competition on Kagle.
+
+117
+00:08:03.720 --> 00:08:06.610
+It can be proved that if
+the errors are small,
+
+118
+00:08:06.610 --> 00:08:10.252
+we can optimize the predictions
+in logarithmic scale.
+
+119
+00:08:10.252 --> 00:08:13.100
+Where it is similar to what we will
+do on the next slide actually.
+
+120
+00:08:14.450 --> 00:08:15.970
+We will not go into details but
+
+121
+00:08:15.970 --> 00:08:19.740
+you can find a link to explanation
+in the reading materials.
+
+122
+00:08:20.860 --> 00:08:25.720
+And finally, let's get to the last
+regression metric we have to discuss.
+
+123
+00:08:25.720 --> 00:08:27.850
+Root, mean, square, logarithmic error.
+
+124
+00:08:29.160 --> 00:08:34.200
+It turns out quite easy to optimize,
+because of the connection with MSE loss.
+
+125
+00:08:35.290 --> 00:08:40.230
+All we need to do is first to apply and
+transform to our target variables.
+
+126
+00:08:40.230 --> 00:08:43.310
+In this case,
+logarithm of the target plus one.
+
+127
+00:08:44.480 --> 00:08:47.460
+Let's denote the transformed target
+with a z variable right now.
+
+128
+00:08:49.080 --> 00:08:54.750
+And then, we need to fit a model
+with MSE loss to transform target.
+
+129
+00:08:54.750 --> 00:08:59.360
+To get a prediction for a test subject,
+we first obtain the prediction, z hat,
+
+130
+00:08:59.360 --> 00:09:04.790
+in the logarithmic scale just by calling
+model.predict or something like that.
+
+131
+00:09:06.160 --> 00:09:12.210
+And next, we do an inverse transform from
+logarithmic scale back to the original
+
+132
+00:09:12.210 --> 00:09:17.700
+by expatiating z hat and
+subtracting one, and
+
+133
+00:09:17.700 --> 00:09:22.340
+this is how we obtain the predictions
+y hat for the test set.
+
+134
+00:09:22.340 --> 00:09:27.610
+In this video, we run through regression
+matrix and tools to optimize them.
+
+135
+00:09:27.610 --> 00:09:32.490
+MSE and MAE are very common and
+implemented in many packages.
+
+136
+00:09:32.490 --> 00:09:37.930
+RMSPE and MAPE can be optimized by
+either resampling the data set or
+
+137
+00:09:37.930 --> 00:09:40.662
+setting proper sample weights.
+
+138
+00:09:40.662 --> 00:09:47.345
+RMSLE is optimized by
+optimizing MSE in log space.
+
+139
+00:09:47.345 --> 00:09:50.884
+In the next video,
+we will see optimization techniques for
+
+140
+00:09:50.884 --> 00:09:52.454
+classification matrix.
+
+141
+00:09:52.454 --> 00:10:02.454
+[MUSIC]

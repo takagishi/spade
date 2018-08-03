@@ -1,0 +1,841 @@
+WEBVTT
+
+1
+00:00:03.200 --> 00:00:05.600
+In this video, we will review
+
+2
+00:00:05.600 --> 00:00:10.260
+the most common ranking metrics and establish an intuition about them.
+
+3
+00:00:10.260 --> 00:00:12.039
+Although in a competition,
+
+4
+00:00:12.039 --> 00:00:13.785
+the metric is fixed for us,
+
+5
+00:00:13.785 --> 00:00:20.210
+it is still useful to understand in what cases one metric could be preferred to another.
+
+6
+00:00:20.210 --> 00:00:24.400
+In this course, we concentrate on regression and classification,
+
+7
+00:00:24.400 --> 00:00:27.310
+so we will only discuss related metrics.
+
+8
+00:00:27.310 --> 00:00:30.670
+For a better understanding, for each metric,
+
+9
+00:00:30.670 --> 00:00:36.290
+we will also build the most simple baseline we could imagine, the constant model.
+
+10
+00:00:36.290 --> 00:00:41.380
+That is, if we are only allowed to predict the same value for every object,
+
+11
+00:00:41.380 --> 00:00:45.875
+what value is optimal to predict according to the chosen metric?
+
+12
+00:00:45.875 --> 00:00:48.745
+Let's start with regression task and related metrics.
+
+13
+00:00:48.745 --> 00:00:50.015
+In the following videos,
+
+14
+00:00:50.015 --> 00:00:53.125
+we'll talk about metrics for classification.
+
+15
+00:00:53.125 --> 00:00:57.475
+First, let us clarify the notation we're going to use throughout the lesson.
+
+16
+00:00:57.475 --> 00:01:02.070
+N will be the number of samples in our training data set,
+
+17
+00:01:02.070 --> 00:01:04.315
+y is that the target,
+
+18
+00:01:04.315 --> 00:01:07.575
+and y-hat is our model's predictions.
+
+19
+00:01:07.575 --> 00:01:13.305
+And y-hat and y with index i are the predictions,
+
+20
+00:01:13.305 --> 00:01:16.700
+and target value respectively for i-th object.
+
+21
+00:01:16.700 --> 00:01:20.975
+The first metric we will discuss is Mean Square Error.
+
+22
+00:01:20.975 --> 00:01:24.985
+It is for sure the most common metric for regression type of problems.
+
+23
+00:01:24.985 --> 00:01:28.150
+In data science, people use it when they don't have
+
+24
+00:01:28.150 --> 00:01:31.465
+any specific preferences for the solution to their problem,
+
+25
+00:01:31.465 --> 00:01:35.335
+or when they don't know other metric.
+
+26
+00:01:35.335 --> 00:01:40.465
+MSE basically measures average squared error of our predictions.
+
+27
+00:01:40.465 --> 00:01:44.185
+For each point, we calculate square difference between
+
+28
+00:01:44.185 --> 00:01:49.520
+the predictions of the target and then average those values over the objects.
+
+29
+00:01:49.520 --> 00:01:52.255
+Let's introduce a simple data set now.
+
+30
+00:01:52.255 --> 00:01:54.565
+Say, we have five objects,
+
+31
+00:01:54.565 --> 00:01:57.000
+and each object has some features,
+
+32
+00:01:57.000 --> 00:02:00.980
+X, and the target is shown in the column Y.
+
+33
+00:02:00.980 --> 00:02:03.475
+Let's ask ourselves a question.
+
+34
+00:02:03.475 --> 00:02:10.414
+How will the error change if we fix all the predictions but want to be perfect,
+
+35
+00:02:10.414 --> 00:02:12.915
+and we'll derive the value of the remaining one?
+
+36
+00:02:12.915 --> 00:02:15.135
+To answer this question,
+
+37
+00:02:15.135 --> 00:02:16.805
+take a look at this plot.
+
+38
+00:02:16.805 --> 00:02:18.680
+On the horizontal line,
+
+39
+00:02:18.680 --> 00:02:23.025
+we will first put points to the positions of the target values.
+
+40
+00:02:23.025 --> 00:02:27.975
+The points are colored according to the corresponding rows in our data table.
+
+41
+00:02:27.975 --> 00:02:30.495
+And on the Y-axis,
+
+42
+00:02:30.495 --> 00:02:33.535
+we will show the mean square error.
+
+43
+00:02:33.535 --> 00:02:39.155
+So, let's now assume that our predictions for the first four objects are perfect,
+
+44
+00:02:39.155 --> 00:02:40.965
+and let's draw a curve.
+
+45
+00:02:40.965 --> 00:02:46.740
+How the metric value will change if we change the prediction for the last object?
+
+46
+00:02:46.740 --> 00:02:50.980
+For MSE metric, it looks like that.
+
+47
+00:02:50.980 --> 00:02:52.800
+In fact, if we predict 25,
+
+48
+00:02:52.800 --> 00:02:54.390
+the error is zero,
+
+49
+00:02:54.390 --> 00:02:56.070
+and if we predict something else,
+
+50
+00:02:56.070 --> 00:02:58.430
+then it is greater than zero.
+
+51
+00:02:58.430 --> 00:03:02.600
+And the error curve looks like parabola.
+
+52
+00:03:02.600 --> 00:03:06.805
+Let's now draw analogous curves for other objects.
+
+53
+00:03:06.805 --> 00:03:12.130
+Well, right now it's hard to make any conclusions but we will build the same kind
+
+54
+00:03:12.130 --> 00:03:17.410
+of plot for every metric and we will note the difference between them.
+
+55
+00:03:17.410 --> 00:03:20.885
+Now, let's build the simplest baseline model.
+
+56
+00:03:20.885 --> 00:03:27.270
+We'll not use the features X at all and we will always predict a constant value Alpha.
+
+57
+00:03:27.270 --> 00:03:30.181
+But, what is the optimal constant?
+
+58
+00:03:30.181 --> 00:03:34.885
+What constant minimizes the mean square error for our data set?
+
+59
+00:03:34.885 --> 00:03:37.750
+In fact, it is easier to set the derivative
+
+60
+00:03:37.750 --> 00:03:41.335
+of our total error with respect to that constant to zero,
+
+61
+00:03:41.335 --> 00:03:43.990
+and find it from this equation.
+
+62
+00:03:43.990 --> 00:03:49.570
+What we'll find is that the best constant is the mean value of the target column.
+
+63
+00:03:49.570 --> 00:03:51.890
+If you think you don't know how to derive it,
+
+64
+00:03:51.890 --> 00:03:53.885
+take a look at the reading materials.
+
+65
+00:03:53.885 --> 00:03:57.755
+There is a fine explanation and links to related books.
+
+66
+00:03:57.755 --> 00:04:01.015
+But let us constructively check it.
+
+67
+00:04:01.015 --> 00:04:03.835
+Once again, on the horizontal axis,
+
+68
+00:04:03.835 --> 00:04:07.990
+let's denote our target values with dot and draw a function.
+
+69
+00:04:07.990 --> 00:04:13.420
+How the error changes is if we change the value of that constant Alpha?
+
+70
+00:04:13.420 --> 00:04:16.570
+We can do it with a simple grid search over a given range
+
+71
+00:04:16.570 --> 00:04:20.586
+by changing Alpha intuitively and recomputing an error.
+
+72
+00:04:20.586 --> 00:04:26.685
+Now, the green square shows a minimum value for our metric.
+
+73
+00:04:26.685 --> 00:04:31.165
+The constant we found is 10.99,
+
+74
+00:04:31.165 --> 00:04:35.970
+and it's quite close to the true mean of the target which is 11.
+
+75
+00:04:35.970 --> 00:04:38.380
+In fact, the value we got deviates from
+
+76
+00:04:38.380 --> 00:04:42.425
+the true mean value only because with the grid search,
+
+77
+00:04:42.425 --> 00:04:44.800
+we get only approximate answer.
+
+78
+00:04:44.800 --> 00:04:48.525
+Also note that the red curve on the second plot is
+
+79
+00:04:48.525 --> 00:04:52.970
+uniformly same and average of the curves from the first plot.
+
+80
+00:04:52.970 --> 00:04:55.935
+We are finished discussing MSE metric itself,
+
+81
+00:04:55.935 --> 00:05:03.475
+but there are two more related metrics used frequently, RMSE and R_squared.
+
+82
+00:05:03.475 --> 00:05:05.780
+And we will briefly study them now.
+
+83
+00:05:05.780 --> 00:05:09.315
+RMSE, Root Mean Square Error,
+
+84
+00:05:09.315 --> 00:05:12.705
+is a very similar metric to MSE.
+
+85
+00:05:12.705 --> 00:05:15.555
+In fact, it is calculated in two steps.
+
+86
+00:05:15.555 --> 00:05:20.295
+First, we calculate regular mean square error and then,
+
+87
+00:05:20.295 --> 00:05:23.270
+we take a square root of it.
+
+88
+00:05:23.270 --> 00:05:26.150
+The square root is introduced to make scale
+
+89
+00:05:26.150 --> 00:05:30.135
+of the errors to be the same as the scale of the targets.
+
+90
+00:05:30.135 --> 00:05:33.600
+For MSE, the error is squared,
+
+91
+00:05:33.600 --> 00:05:36.770
+so taking a root out of it makes total error
+
+92
+00:05:36.770 --> 00:05:41.400
+a little bit easier to comprehend because it is linear now.
+
+93
+00:05:41.400 --> 00:05:48.950
+Now, it is very important to understand in what sense RMSE is similar to MSE,
+
+94
+00:05:48.950 --> 00:05:51.120
+and what is the difference.
+
+95
+00:05:51.120 --> 00:05:55.119
+First, they are similar in terms of their minimizers.
+
+96
+00:05:55.119 --> 00:06:01.030
+Every minimizer of MSE is a minimizer of RMSE and vice versa.
+
+97
+00:06:01.030 --> 00:06:05.510
+But generally, if we have two sets of predictions, A and B,
+
+98
+00:06:05.510 --> 00:06:09.277
+and say MSE of A is greater than MSE of B,
+
+99
+00:06:09.277 --> 00:06:15.960
+then we can be sure that RMSE of A is greater RMSE of B.
+
+100
+00:06:15.960 --> 00:06:19.020
+And it also works in the opposite direction.
+
+101
+00:06:19.020 --> 00:06:25.365
+This is actually true only because square root function is non-decreasing.
+
+102
+00:06:25.365 --> 00:06:27.605
+What does it mean for us?
+
+103
+00:06:27.605 --> 00:06:30.965
+It means that, if our target the metric is RMSE,
+
+104
+00:06:30.965 --> 00:06:34.500
+we still can compare our models using MSE,
+
+105
+00:06:34.500 --> 00:06:39.203
+since MSE will order the models in the same way as RMSE.
+
+106
+00:06:39.203 --> 00:06:44.625
+And we can optimize MSE instead of RMSE.
+
+107
+00:06:44.625 --> 00:06:47.340
+In fact, MSE is a little bit easier to work with,
+
+108
+00:06:47.340 --> 00:06:53.485
+so everybody uses MSE instead of RMSE.
+
+109
+00:06:53.485 --> 00:06:59.510
+But there is a little bit of difference between the two for gradient-based models.
+
+110
+00:06:59.510 --> 00:07:05.060
+Take a look at the gradient of RMSE with respect to i-th prediction.
+
+111
+00:07:05.060 --> 00:07:12.035
+It is basically equal to gradient of MSE multiplied by some value.
+
+112
+00:07:12.035 --> 00:07:15.560
+The value doesn't depend on the index I.
+
+113
+00:07:15.560 --> 00:07:21.615
+It means that travelling along MSE gradient is equivalent to traveling along
+
+114
+00:07:21.615 --> 00:07:23.680
+RMSE gradient but with
+
+115
+00:07:23.680 --> 00:07:28.880
+a different flowing rate and the flowing rate depends on MSE score itself.
+
+116
+00:07:28.880 --> 00:07:31.355
+So, it is kind of dynamic.
+
+117
+00:07:31.355 --> 00:07:36.340
+So even though RMSE and MSE are really similar in terms of models scoring,
+
+118
+00:07:36.340 --> 00:07:41.320
+they can be not immediately interchangeable for gradient based methods.
+
+119
+00:07:41.320 --> 00:07:46.666
+We will probably need to adjust some parameters like the learning rate.
+
+120
+00:07:46.666 --> 00:07:53.305
+Now, what if I told you that MSE for my models predictions is 32?
+
+121
+00:07:53.305 --> 00:07:56.880
+Should I improve my model or is it good enough?
+
+122
+00:07:56.880 --> 00:08:01.550
+Or what if my MSE was 0.4?
+
+123
+00:08:01.550 --> 00:08:05.830
+Actually, it's hard to realize if our model is good or
+
+124
+00:08:05.830 --> 00:08:11.050
+not by looking at the absolute values of MSE or RMSE.
+
+125
+00:08:11.050 --> 00:08:15.390
+It really depends on the properties of the dataset and their target vector.
+
+126
+00:08:15.390 --> 00:08:18.490
+How much variation is there in the target vector.
+
+127
+00:08:18.490 --> 00:08:21.070
+We would probably want to measure how much
+
+128
+00:08:21.070 --> 00:08:24.415
+our model is better than the constant baseline.
+
+129
+00:08:24.415 --> 00:08:28.690
+And say, the desired metrics should give us zero if we
+
+130
+00:08:28.690 --> 00:08:33.045
+are no better than the baseline and one if the predictions are perfect.
+
+131
+00:08:33.045 --> 00:08:38.180
+For that purpose, R_squared metric is usually used. Take a look.
+
+132
+00:08:38.180 --> 00:08:41.265
+When MSE of our predictions is zero,
+
+133
+00:08:41.265 --> 00:08:42.845
+the R_squared is 1,
+
+134
+00:08:42.845 --> 00:08:47.655
+and when our MSE is equal to MSE over constant model,
+
+135
+00:08:47.655 --> 00:08:50.610
+then R_squared is zero.
+
+136
+00:08:50.610 --> 00:08:56.030
+Well, because the values in numerator and denominator are the same.
+
+137
+00:08:56.030 --> 00:09:01.575
+And all reasonable models will score between 0 and 1.
+
+138
+00:09:01.575 --> 00:09:06.300
+The most important thing for us is that to optimize R_squared,
+
+139
+00:09:06.300 --> 00:09:09.065
+we can optimize MSE.
+
+140
+00:09:09.065 --> 00:09:13.055
+It will be absolutely equivalent since R_squared is basically
+
+141
+00:09:13.055 --> 00:09:19.635
+MSE score divided by a constant and subtracted from another constant.
+
+142
+00:09:19.635 --> 00:09:24.031
+These constants doesn't matter for optimization.
+
+143
+00:09:24.031 --> 00:09:28.370
+Lets move on and discuss another metric called Mean Absolute Error,
+
+144
+00:09:28.370 --> 00:09:30.565
+or MAE in short.
+
+145
+00:09:30.565 --> 00:09:33.655
+The error is calculated as an average of
+
+146
+00:09:33.655 --> 00:09:38.510
+absolute differences between the target values and the predictions.
+
+147
+00:09:38.510 --> 00:09:41.765
+What is important about this metric is that it penalizes
+
+148
+00:09:41.765 --> 00:09:47.670
+huge errors that not as that badly as MSE does.
+
+149
+00:09:47.670 --> 00:09:52.825
+Thus, it's not that sensitive to outliers as mean square error.
+
+150
+00:09:52.825 --> 00:09:57.335
+It also has a little bit different applications than MSE.
+
+151
+00:09:57.335 --> 00:09:59.975
+MAE is widely used in finance,
+
+152
+00:09:59.975 --> 00:10:07.340
+where $10 error is usually exactly two times worse than $5 error.
+
+153
+00:10:07.340 --> 00:10:15.650
+On the other hand, MSE metric thinks that $10 error is four times worse than $5 error.
+
+154
+00:10:15.650 --> 00:10:19.152
+MAE is easier to justify.
+
+155
+00:10:19.152 --> 00:10:21.290
+And if you used RMSE,
+
+156
+00:10:21.290 --> 00:10:28.200
+it would become really hard to explain to your boss how you evaluated your model.
+
+157
+00:10:28.200 --> 00:10:31.980
+What constant is optimal for MAE?
+
+158
+00:10:31.980 --> 00:10:36.765
+It's quite easy to find that its a median of the target values.
+
+159
+00:10:36.765 --> 00:10:39.050
+In this case, it is eight.
+
+160
+00:10:39.050 --> 00:10:42.405
+See reading materials for a proof.
+
+161
+00:10:42.405 --> 00:10:45.960
+Just to verify that everything is correct,
+
+162
+00:10:45.960 --> 00:10:50.735
+we again can try to Greek search for an optimal value with a simple loop.
+
+163
+00:10:50.735 --> 00:10:53.130
+And in fact, the value we found is 7.98,
+
+164
+00:10:53.130 --> 00:10:58.905
+which indicates we were right.
+
+165
+00:10:58.905 --> 00:11:03.495
+Here, we see that MAE is more robust than MSE,
+
+166
+00:11:03.495 --> 00:11:07.765
+that is, it is not that influenced by the outliers.
+
+167
+00:11:07.765 --> 00:11:15.445
+In fact, recall that the optimal constant for MSE was about 11 while for MAE it is eight.
+
+168
+00:11:15.445 --> 00:11:21.965
+And eight looks like a much better prediction for the points on the left side.
+
+169
+00:11:21.965 --> 00:11:25.490
+If we assume that point with a target 27 is
+
+170
+00:11:25.490 --> 00:11:29.215
+an outlier and we should not care about the prediction for it.
+
+171
+00:11:29.215 --> 00:11:35.465
+Another important thing about MAE is its gradients with respect to the predictions.
+
+172
+00:11:35.465 --> 00:11:39.860
+The grid end is a step function and it takes
+
+173
+00:11:39.860 --> 00:11:45.935
+-1 when Y_hat is smaller than the target and +1 when it is larger.
+
+174
+00:11:45.935 --> 00:11:50.883
+Now, the gradient is not defined when the prediction is perfect,
+
+175
+00:11:50.883 --> 00:11:54.037
+because when Y_hat is equal to Y,
+
+176
+00:11:54.037 --> 00:11:56.000
+we can not evaluate gradient.
+
+177
+00:11:56.000 --> 00:11:59.055
+It is not defined. So formally,
+
+178
+00:11:59.055 --> 00:12:01.175
+MAE is not differentiable,
+
+179
+00:12:01.175 --> 00:12:06.940
+but in fact, how often your predictions perfectly measure the target.
+
+180
+00:12:06.940 --> 00:12:11.180
+Even if they do, we can write a simple IF condition and return
+
+181
+00:12:11.180 --> 00:12:16.393
+zero when it is the case and through gradient otherwise.
+
+182
+00:12:16.393 --> 00:12:23.623
+Also know that second derivative is zero everywhere and not defined in the point zero.
+
+183
+00:12:23.623 --> 00:12:27.045
+I want to end the discussion with the last note.
+
+184
+00:12:27.045 --> 00:12:29.715
+Well, it has nothing to do with competitions
+
+185
+00:12:29.715 --> 00:12:33.315
+but every data scientists should understand this.
+
+186
+00:12:33.315 --> 00:12:38.465
+We said that MAE is more robust than MSE.
+
+187
+00:12:38.465 --> 00:12:41.320
+That is, it is less sensitive to outliers,
+
+188
+00:12:41.320 --> 00:12:44.860
+but it doesnt mean it is always better to use MAE.
+
+189
+00:12:44.860 --> 00:12:48.155
+No, it does not.
+
+190
+00:12:48.155 --> 00:12:49.775
+It is basically a question.
+
+191
+00:12:49.775 --> 00:12:55.360
+Are there any real outliers in the dataset or there are just,
+
+192
+00:12:55.360 --> 00:13:01.135
+let's say, unexpectedly high values that we should treat just as others?
+
+193
+00:13:01.135 --> 00:13:03.865
+Outliers have usually mistakes,
+
+194
+00:13:03.865 --> 00:13:05.825
+measurement errors, and so on,
+
+195
+00:13:05.825 --> 00:13:07.525
+but at the same time,
+
+196
+00:13:07.525 --> 00:13:11.060
+similarly looking objects can be of natural kind.
+
+197
+00:13:11.060 --> 00:13:18.464
+So, if you think these unusual objects are normal in the sense that they're just rare,
+
+198
+00:13:18.464 --> 00:13:22.720
+you should not use a metric which will ignore them.
+
+199
+00:13:22.720 --> 00:13:25.125
+And it is better to use MSE.
+
+200
+00:13:25.125 --> 00:13:28.855
+Otherwise, if you think that they are really outliers,
+
+201
+00:13:28.855 --> 00:13:32.353
+like mistakes, you should use MAE.
+
+202
+00:13:32.353 --> 00:13:33.640
+So in this video,
+
+203
+00:13:33.640 --> 00:13:36.865
+we have discussed several important metrics.
+
+204
+00:13:36.865 --> 00:13:40.145
+We first discussed, mean square error and realized
+
+205
+00:13:40.145 --> 00:13:44.290
+that the best constant for it is the mean targeted value.
+
+206
+00:13:44.290 --> 00:13:46.803
+Root Mean Square Error, RMSE,
+
+207
+00:13:46.803 --> 00:13:52.165
+and R_squared are very similar to MSE from optimization perspective.
+
+208
+00:13:52.165 --> 00:14:00.630
+We then discussed Mean Absolute Error and when people prefer to use MAE over MSE.
+
+209
+00:14:00.630 --> 00:14:03.740
+In the next video, we will continue to study
+
+210
+00:14:03.740 --> 00:14:08.710
+regression metrics and then we'll get to classification ones.
