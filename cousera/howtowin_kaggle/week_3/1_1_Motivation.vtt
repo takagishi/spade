@@ -1,0 +1,568 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.972
+[MUSIC]
+
+2
+00:00:03.972 --> 00:00:09.880
+Hi, in this lesson, we will talk about
+a major part of any competition.
+
+3
+00:00:09.880 --> 00:00:12.410
+The metrics that are used
+to evaluate a solution.
+
+4
+00:00:13.490 --> 00:00:17.250
+In this video, we'll discuss why
+there are so many metrics and
+
+5
+00:00:17.250 --> 00:00:21.090
+why it is necessary to know what
+metric is used in a competition.
+
+6
+00:00:22.150 --> 00:00:23.280
+In the following videos,
+
+7
+00:00:23.280 --> 00:00:27.100
+we will study what is the difference
+between a loss and a metric?
+
+8
+00:00:27.100 --> 00:00:31.040
+And we'll overview and show optimization
+techniques for the most important and
+
+9
+00:00:31.040 --> 00:00:31.810
+common metrics.
+
+10
+00:00:32.990 --> 00:00:36.420
+In the course, we focus on regression and
+classification.
+
+11
+00:00:36.420 --> 00:00:39.510
+So we only discuss metric for these tasks.
+
+12
+00:00:40.520 --> 00:00:45.000
+For better understanding, we will also
+build a simple baseline for each metric.
+
+13
+00:00:46.140 --> 00:00:50.700
+That is what the best constant to
+predict for that particular method.
+
+14
+00:00:51.750 --> 00:00:55.620
+So metrics are an essential
+part of any competition.
+
+15
+00:00:55.620 --> 00:00:58.810
+They are used to evaluate our submissions.
+
+16
+00:00:58.810 --> 00:01:03.360
+Okay, but why do we have a different
+evolution metric on each competition?
+
+17
+00:01:04.550 --> 00:01:08.540
+That is because there are plenty of ways
+to measure equality of an algorithm and
+
+18
+00:01:08.540 --> 00:01:09.750
+each company decides for
+
+19
+00:01:09.750 --> 00:01:15.200
+themselves what is the most appropriate
+way for their particular problem.
+
+20
+00:01:15.200 --> 00:01:16.024
+For example,
+
+21
+00:01:16.024 --> 00:01:21.670
+let's say an online shop is trying to
+maximize effectiveness of their website.
+
+22
+00:01:21.670 --> 00:01:26.570
+The thing is you need to
+formalize what is effectiveness.
+
+23
+00:01:26.570 --> 00:01:29.770
+You need to define a metric
+how effectiveness is measured.
+
+24
+00:01:31.650 --> 00:01:35.390
+It can be a number of times
+a website was visited, or
+
+25
+00:01:35.390 --> 00:01:39.180
+the number of times something
+was ordered using this website.
+
+26
+00:01:39.180 --> 00:01:44.320
+So the company usually decides for
+itself what quantity
+
+27
+00:01:44.320 --> 00:01:49.560
+is most important for it and
+then tries to optimize it.
+
+28
+00:01:50.560 --> 00:01:54.440
+In the competitions, the metrics
+is fixed for us and the models and
+
+29
+00:01:54.440 --> 00:01:56.440
+competitors are ranked using it.
+
+30
+00:01:57.540 --> 00:02:02.740
+In order to get higher leader board score
+you need to get a better metric score.
+
+31
+00:02:04.150 --> 00:02:09.220
+That's basically the only thing in the
+competition that we need to care about,
+
+32
+00:02:09.220 --> 00:02:11.290
+how to get a better score.
+
+33
+00:02:11.290 --> 00:02:15.600
+And so it is very important to
+understand how metric works and
+
+34
+00:02:15.600 --> 00:02:18.090
+how to optimize it efficiently.
+
+35
+00:02:19.140 --> 00:02:22.990
+I want to stress out that
+it is really important to
+
+36
+00:02:22.990 --> 00:02:27.400
+optimize exactly the metric we're given in
+the competition and not any other metric.
+
+37
+00:02:28.518 --> 00:02:30.950
+Consider an example, blue and
+
+38
+00:02:30.950 --> 00:02:35.810
+red lines represent objects of
+a class zero and one respectively.
+
+39
+00:02:35.810 --> 00:02:40.454
+And say we decided to use
+a linear classifier,and came up
+
+40
+00:02:40.454 --> 00:02:43.951
+with two matrix to optimize, M1 and M2.
+
+41
+00:02:45.268 --> 00:02:49.740
+The question is, how much different
+the resulting classifiers would be?
+
+42
+00:02:50.910 --> 00:02:51.970
+Actually by a lot.
+
+43
+00:02:53.460 --> 00:02:55.600
+The two lines here, the solid and
+
+44
+00:02:55.600 --> 00:02:59.929
+the dashed one show the best line
+your boundaries for the two cases.
+
+45
+00:03:00.950 --> 00:03:06.220
+For the dashed, M1 score is the highest
+among all possible hyperplanes.
+
+46
+00:03:06.220 --> 00:03:08.830
+But M2 score for the hyperplane is low.
+
+47
+00:03:09.860 --> 00:03:13.160
+And we have an opposite situation for
+the solid boundary.
+
+48
+00:03:13.160 --> 00:03:16.900
+M2 score is the highest,
+whereas M1 score is low.
+
+49
+00:03:18.570 --> 00:03:23.760
+Now, if we know that in this particular
+competition, the ranking is based on M1
+
+50
+00:03:23.760 --> 00:03:29.760
+score, then we need to optimize M1 score
+and so we should submit the prediction.
+
+51
+00:03:29.760 --> 00:03:32.040
+Predictions of the model
+with dash boundary.
+
+52
+00:03:33.280 --> 00:03:37.960
+Once again,
+if your model is scored with some metric,
+
+53
+00:03:37.960 --> 00:03:41.460
+you get best results by
+optimizing exactly that metric.
+
+54
+00:03:43.080 --> 00:03:47.830
+Now, the biggest problem is that some
+metrics cannot be optimized efficiently.
+
+55
+00:03:47.830 --> 00:03:52.405
+That is there is no simple enough way
+to find, say, the optimal hyperplane.
+
+56
+00:03:53.590 --> 00:03:58.010
+That is why sometimes we need to
+train our model to optimize something
+
+57
+00:03:58.010 --> 00:04:00.120
+different than competition metric.
+
+58
+00:04:00.120 --> 00:04:04.130
+But in this case we will need to
+apply various heuristics to improve
+
+59
+00:04:04.130 --> 00:04:05.360
+competition metric score.
+
+60
+00:04:06.530 --> 00:04:10.700
+And there's another case where we
+need to be smart about the metrics.
+
+61
+00:04:10.700 --> 00:04:13.580
+It is one that train and
+the test sets are different.
+
+62
+00:04:15.050 --> 00:04:18.710
+In the lesson about leaks,
+we'll discuss leader board probing.
+
+63
+00:04:18.710 --> 00:04:20.620
+That is, we can check, for example,
+
+64
+00:04:20.620 --> 00:04:25.840
+if the mean target value on public part
+of test set is the same as on train.
+
+65
+00:04:25.840 --> 00:04:31.437
+If it's not, we would need to adapt our
+predictions to suit rest set better.
+
+66
+00:04:32.610 --> 00:04:36.230
+This is basically a specific metric
+optimization technique we apply,
+
+67
+00:04:36.230 --> 00:04:38.290
+because train and test are different.
+
+68
+00:04:39.490 --> 00:04:44.680
+Or there can be more severe cases
+where improved metric validation set
+
+69
+00:04:44.680 --> 00:04:47.990
+could possibly not result into
+improved metric on the test set.
+
+70
+00:04:49.230 --> 00:04:52.080
+In these situations,
+it's a good idea to stop and
+
+71
+00:04:52.080 --> 00:04:56.210
+think maybe there is a different
+way to approach the problem.
+
+72
+00:04:57.400 --> 00:05:01.400
+In particular, time series can
+be very challenging to forecast.
+
+73
+00:05:02.460 --> 00:05:04.945
+Even if you did a validation just right.
+
+74
+00:05:04.945 --> 00:05:09.810
+[INAUDIBLE] by time, rolling windows,
+fill the distribution in
+
+75
+00:05:09.810 --> 00:05:14.110
+the future can be much different
+from what we had in the train set.
+
+76
+00:05:15.420 --> 00:05:18.634
+Or sometimes,
+there's just not enough training data, so
+
+77
+00:05:18.634 --> 00:05:20.700
+a model cannot capture the patterns.
+
+78
+00:05:22.540 --> 00:05:25.220
+In one of the compositions I took part,
+
+79
+00:05:25.220 --> 00:05:28.890
+I had to use some tricks to boost
+my score after the modeling.
+
+80
+00:05:29.980 --> 00:05:34.920
+And the trick was as a consequence
+of a particular metric
+
+81
+00:05:34.920 --> 00:05:36.120
+used in that competition.
+
+82
+00:05:38.020 --> 00:05:41.620
+The metric was quite unusual actually,
+but it is intuitive.
+
+83
+00:05:42.760 --> 00:05:47.510
+If a trend is guessed correctly, then the
+absolute difference between the prediction
+
+84
+00:05:47.510 --> 00:05:49.389
+and the target is considered as an error.
+
+85
+00:05:50.430 --> 00:05:55.270
+If for instance, model predict end
+value in the prediction horizon to be
+
+86
+00:05:55.270 --> 00:06:00.810
+higher than the last value from the train
+side but in reality it is lower,
+
+87
+00:06:00.810 --> 00:06:05.090
+then the trend is predicted incorrectly,
+and
+
+88
+00:06:05.090 --> 00:06:09.360
+the error was set to
+absolute difference squared.
+
+89
+00:06:10.560 --> 00:06:16.180
+So if we predict a value to be
+above the dashline, but it turns
+
+90
+00:06:16.180 --> 00:06:21.310
+out to be below or vice versa, the trend
+[INAUDIBLE] to be predicted incorrectly.
+
+91
+00:06:23.006 --> 00:06:26.660
+So this metric carries a lot more about
+
+92
+00:06:26.660 --> 00:06:31.060
+correct trend to be predicted than
+about actual value you predict.
+
+93
+00:06:31.060 --> 00:06:33.670
+And that is something it
+was possible to exploit.
+
+94
+00:06:35.110 --> 00:06:37.630
+There were several times
+series was to forecast,
+
+95
+00:06:37.630 --> 00:06:41.370
+the horizon to predict was wrong, and
+the model's predictions were unreliable.
+
+96
+00:06:42.530 --> 00:06:47.130
+Moreover, it was not possible
+to optimize this metric exactly.
+
+97
+00:06:47.130 --> 00:06:51.350
+So I realized that it would be much better
+to set all the predictions to either
+
+98
+00:06:52.650 --> 00:06:59.706
+last value plus a very tiny constant,
+or last value minus very tiny constant.
+
+99
+00:06:59.706 --> 00:07:04.120
+The same value for all the points in
+the time interval, we are to predict for
+
+100
+00:07:04.120 --> 00:07:05.250
+each time series.
+
+101
+00:07:06.360 --> 00:07:09.280
+And design depends on the estimation.
+
+102
+00:07:09.280 --> 00:07:12.600
+What is more likely the values
+in the horizon to be lower
+
+103
+00:07:12.600 --> 00:07:15.540
+than the last known value,
+or to be higher?
+
+104
+00:07:17.120 --> 00:07:21.210
+This trick actually took me to
+the first place in that competition.
+
+105
+00:07:21.210 --> 00:07:26.030
+So finding a nice way to optimize
+a metric can give you an advantage
+
+106
+00:07:26.030 --> 00:07:30.010
+over other participants,
+especially if the metric is peculiar.
+
+107
+00:07:31.650 --> 00:07:34.750
+So maybe I should formulate it like that.
+
+108
+00:07:34.750 --> 00:07:39.370
+We should not forget to do kind of
+exploratory metric analysis along with
+
+109
+00:07:39.370 --> 00:07:41.420
+exploratory data analysis.
+
+110
+00:07:41.420 --> 00:07:44.920
+At least when the metric
+is an unusual one.
+
+111
+00:07:46.050 --> 00:07:50.090
+So in this video we've understood
+that each business has
+
+112
+00:07:50.090 --> 00:07:54.320
+its own way to measure ineffectiveness
+of an algorithm based on its needs,
+
+113
+00:07:54.320 --> 00:07:57.340
+and therefore, there are so
+many different metrics.
+
+114
+00:07:58.400 --> 00:08:01.260
+And we saw two motivational examples.
+
+115
+00:08:01.260 --> 00:08:02.830
+Why should we care about the metrics?
+
+116
+00:08:04.570 --> 00:08:08.790
+Well, basically because it is how
+competitors are compared to each other.
+
+117
+00:08:10.360 --> 00:08:13.420
+In the following videos we'll
+talk about concrete metrics.
+
+118
+00:08:13.420 --> 00:08:17.292
+We'll first discuss high level
+intuition for each metric and
+
+119
+00:08:17.292 --> 00:08:20.056
+then talk about optimization techniques.
+
+120
+00:08:20.056 --> 00:08:30.056
+[MUSIC]
