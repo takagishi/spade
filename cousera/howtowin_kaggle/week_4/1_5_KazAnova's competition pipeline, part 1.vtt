@@ -1,0 +1,1097 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.170
+Hello everyone. This is Marios.
+
+2
+00:00:03.170 --> 00:00:09.310
+Today I would like to show you the Pipeline or like the approach I have used to
+
+3
+00:00:09.310 --> 00:00:12.910
+tackle more than 100 machine learning competitions
+
+4
+00:00:12.910 --> 00:00:17.040
+in cargo and obviously has helped me to do quite well.
+
+5
+00:00:17.040 --> 00:00:23.730
+Before I start, let me state that I'm not claiming this is the best pipeline out there,
+
+6
+00:00:23.730 --> 00:00:25.405
+is just the one I use.
+
+7
+00:00:25.405 --> 00:00:29.135
+You might find some parts of it useful.
+
+8
+00:00:29.135 --> 00:00:32.300
+So roughly, the Pipeline is,
+
+9
+00:00:32.300 --> 00:00:33.905
+as you see it on the screen,
+
+10
+00:00:33.905 --> 00:00:38.160
+here this is a summary and we will go through it in more detail later on.
+
+11
+00:00:38.160 --> 00:00:42.480
+But briefly, I spend the first day in order to understand
+
+12
+00:00:42.480 --> 00:00:47.985
+the problem and make the necessary preparations in order to deal with this.
+
+13
+00:00:47.985 --> 00:00:53.620
+Then, maybe one, two days in order to understand a bit about the data,
+
+14
+00:00:53.620 --> 00:00:54.970
+what are my features,
+
+15
+00:00:54.970 --> 00:00:56.505
+what I have available,
+
+16
+00:00:56.505 --> 00:00:59.770
+trying to understand other dynamics about the data,
+
+17
+00:00:59.770 --> 00:01:02.260
+which will lead me to define
+
+18
+00:01:02.260 --> 00:01:07.700
+a good cross validation strategy and we will see later why this is important.
+
+19
+00:01:07.700 --> 00:01:12.745
+And then, once I have specified the cross validation strategy,
+
+20
+00:01:12.745 --> 00:01:16.455
+I will spend all the days until
+
+21
+00:01:16.455 --> 00:01:25.810
+3-4 days before the end of the competition and I will keep iterating,
+
+22
+00:01:25.810 --> 00:01:31.950
+doing different feature engineering and applying different machine bearing models.
+
+23
+00:01:31.950 --> 00:01:35.620
+Now, something that I need to to highlight is that,
+
+24
+00:01:35.620 --> 00:01:39.670
+when I start this process I do it myself,
+
+25
+00:01:39.670 --> 00:01:42.635
+shut from the outside world.
+
+26
+00:01:42.635 --> 00:01:44.525
+So, I close my ears,
+
+27
+00:01:44.525 --> 00:01:48.725
+and I just focus on how I would tackle this problem.
+
+28
+00:01:48.725 --> 00:01:52.425
+That's because I don't want to get affected by what the others are doing.
+
+29
+00:01:52.425 --> 00:01:57.060
+Because I might be able to find something that others will not.
+
+30
+00:01:57.060 --> 00:02:03.810
+I mean, I might take a completely different approach and this always leads me to gain,
+
+31
+00:02:03.810 --> 00:02:08.155
+when I then combine with the rest of the people.
+
+32
+00:02:08.155 --> 00:02:14.030
+For example, through merges or when I use other people's kernels.
+
+33
+00:02:14.030 --> 00:02:15.320
+So, I think this is important,
+
+34
+00:02:15.320 --> 00:02:21.255
+because it gives you the chance to create an intuitive approach about the data,
+
+35
+00:02:21.255 --> 00:02:25.190
+and then also leverage the fact that
+
+36
+00:02:25.190 --> 00:02:29.570
+other people have different approaches and you will get more diverse results.
+
+37
+00:02:29.570 --> 00:02:32.470
+And in the last 3 to 4 days,
+
+38
+00:02:32.470 --> 00:02:37.310
+I would start exploring different ways to combine all the models of field,
+
+39
+00:02:37.310 --> 00:02:39.155
+in order to get the best results.
+
+40
+00:02:39.155 --> 00:02:41.645
+Now, if people have seen me in competitions,
+
+41
+00:02:41.645 --> 00:02:48.580
+you should know that you might have noticed that in the last 3-2 days I do
+
+42
+00:02:48.580 --> 00:02:55.475
+a rapid jump in the little box and that's exactly because I leave assembling at the end.
+
+43
+00:02:55.475 --> 00:02:56.750
+I normally don't do it.
+
+44
+00:02:56.750 --> 00:02:59.300
+I have confidence that it will work
+
+45
+00:02:59.300 --> 00:03:03.210
+and I spend more time in feature engineering and modeling,
+
+46
+00:03:03.210 --> 00:03:05.285
+up until this point.
+
+47
+00:03:05.285 --> 00:03:09.520
+So, let's take all these steps one by one.
+
+48
+00:03:09.520 --> 00:03:13.370
+Initially I try to understand the problem.
+
+49
+00:03:13.370 --> 00:03:16.025
+First of all, what type of problem it is.
+
+50
+00:03:16.025 --> 00:03:18.060
+Is it image classification,
+
+51
+00:03:18.060 --> 00:03:21.710
+so try to find what object is presented on an image.
+
+52
+00:03:21.710 --> 00:03:24.150
+This is sound classification,
+
+53
+00:03:24.150 --> 00:03:29.140
+like which type of bird appears in a sound file.
+
+54
+00:03:29.140 --> 00:03:31.260
+Is it text classification?
+
+55
+00:03:31.260 --> 00:03:34.120
+Like who has written the specific text,
+
+56
+00:03:34.120 --> 00:03:37.185
+or what this text is about.
+
+57
+00:03:37.185 --> 00:03:39.390
+Is it an optimization problem,
+
+58
+00:03:39.390 --> 00:03:47.225
+like giving some constraints how can I get from point A to point B etc.
+
+59
+00:03:47.225 --> 00:03:50.850
+Is it a tabular dataset,
+
+60
+00:03:50.850 --> 00:03:56.060
+so that's like data which you can represent in Excel for example,
+
+61
+00:03:56.060 --> 00:03:58.190
+with rows and columns,
+
+62
+00:03:58.190 --> 00:04:01.910
+with various types of features, categorical or numerical.
+
+63
+00:04:01.910 --> 00:04:04.030
+Is it time series problem?
+
+64
+00:04:04.030 --> 00:04:05.595
+Is time important?
+
+65
+00:04:05.595 --> 00:04:08.840
+All these questions are very very
+
+66
+00:04:08.840 --> 00:04:12.600
+important and that's why I look at the dataset and I try to understand,
+
+67
+00:04:12.600 --> 00:04:17.520
+because it defines in many ways what resources I would need,
+
+68
+00:04:17.520 --> 00:04:23.285
+where do I need to look and what kind of hardware and software I will need.
+
+69
+00:04:23.285 --> 00:04:31.420
+Also, I do this sort of preparation along with controlling the volume of the data.
+
+70
+00:04:31.420 --> 00:04:33.115
+How much is it.
+
+71
+00:04:33.115 --> 00:04:36.845
+Because again, this will define how I need to,
+
+72
+00:04:36.845 --> 00:04:40.305
+what preparations I need to do in order to solve this problem.
+
+73
+00:04:40.305 --> 00:04:44.045
+Once I understand what type of problem it is,
+
+74
+00:04:44.045 --> 00:04:47.240
+then I need to reserve hardware to solve this.
+
+75
+00:04:47.240 --> 00:04:52.755
+So, in many cases I can escape without using GPUs,
+
+76
+00:04:52.755 --> 00:04:57.495
+so just a few CPUs would do the trick.
+
+77
+00:04:57.495 --> 00:05:00.900
+But in problems like image classification of sound,
+
+78
+00:05:00.900 --> 00:05:04.130
+then generally anywhere you would need to use deep learning.
+
+79
+00:05:04.130 --> 00:05:07.205
+You definitely need to invest a lot in CPU,
+
+80
+00:05:07.205 --> 00:05:09.275
+RAM and disk space.
+
+81
+00:05:09.275 --> 00:05:11.880
+So, that's why this screening is important.
+
+82
+00:05:11.880 --> 00:05:16.225
+It will make me understand what type of machine I will need in order to
+
+83
+00:05:16.225 --> 00:05:22.155
+solve this and whether I have this processing power at this point in order to solve this.
+
+84
+00:05:22.155 --> 00:05:29.665
+Once this has been specified and I know how many CPUs,
+
+85
+00:05:29.665 --> 00:05:32.775
+GPUs, RAM and disk space I'm going to need,
+
+86
+00:05:32.775 --> 00:05:36.155
+then I need to prepare the software.
+
+87
+00:05:36.155 --> 00:05:40.655
+So, different software is suited for different types of problems.
+
+88
+00:05:40.655 --> 00:05:44.840
+Keras and TensorFlow is obviously really good for when solving
+
+89
+00:05:44.840 --> 00:05:50.795
+an image classification or sound classification and text problems
+
+90
+00:05:50.795 --> 00:05:54.900
+that you can pretty much use it in any other problem as well.
+
+91
+00:05:54.900 --> 00:05:58.320
+Then you most probably if you use Python,
+
+92
+00:05:58.320 --> 00:06:01.430
+you need scikit learn and XGBoost, Lighgbm.
+
+93
+00:06:01.430 --> 00:06:05.560
+This is the pinnacle of machine learning right now.
+
+94
+00:06:05.560 --> 00:06:07.425
+And how do I set this up?
+
+95
+00:06:07.425 --> 00:06:15.965
+Normally I create either an anaconda environment or a virtual environment in general,
+
+96
+00:06:15.965 --> 00:06:18.410
+and how a different one for its competition,
+
+97
+00:06:18.410 --> 00:06:21.095
+because it's easy to set this up.
+
+98
+00:06:21.095 --> 00:06:22.865
+So, you just set this up,
+
+99
+00:06:22.865 --> 00:06:25.840
+you download the necessary packages you need,
+
+100
+00:06:25.840 --> 00:06:27.355
+and then you're good to go.
+
+101
+00:06:27.355 --> 00:06:28.450
+This is a good way,
+
+102
+00:06:28.450 --> 00:06:32.875
+a clean way to keep everything tidy and
+
+103
+00:06:32.875 --> 00:06:38.265
+to really know what you used and what you find useful in the particular competitions.
+
+104
+00:06:38.265 --> 00:06:42.120
+It's also a good validation for later on,
+
+105
+00:06:42.120 --> 00:06:44.100
+when we will have to do this again,
+
+106
+00:06:44.100 --> 00:06:47.220
+to find an environment that has worked well for this type of
+
+107
+00:06:47.220 --> 00:06:53.335
+problem and possibly reuse it.
+
+108
+00:06:53.335 --> 00:06:58.720
+Another question I ask at this point is what the metric I'm being tested on.
+
+109
+00:06:58.720 --> 00:07:00.650
+Again, is it a regression program,
+
+110
+00:07:00.650 --> 00:07:02.735
+is it a classification program,
+
+111
+00:07:02.735 --> 00:07:05.135
+it is root mean square error,
+
+112
+00:07:05.135 --> 00:07:07.255
+it is mean absolute error.
+
+113
+00:07:07.255 --> 00:07:14.210
+I ask these questions because I try to find if there's any similar competition with
+
+114
+00:07:14.210 --> 00:07:22.015
+similar type of data that I may have dealt with in the past,
+
+115
+00:07:22.015 --> 00:07:25.975
+because this will make this preparation much much better,
+
+116
+00:07:25.975 --> 00:07:27.765
+because I'll go backwards,
+
+117
+00:07:27.765 --> 00:07:31.485
+find what I had used in the past and capitalize on it.
+
+118
+00:07:31.485 --> 00:07:33.835
+So, reuse it, improve it,
+
+119
+00:07:33.835 --> 00:07:37.600
+or even if I don't have something myself,
+
+120
+00:07:37.600 --> 00:07:43.465
+I can just find other similar competitions or explanations of these type of
+
+121
+00:07:43.465 --> 00:07:46.920
+problem from the web and try to see what people
+
+122
+00:07:46.920 --> 00:07:50.720
+had used in order to integrate it to my approaches.
+
+123
+00:07:50.720 --> 00:07:54.025
+So, this is what it means to understand the problem at this point.
+
+124
+00:07:54.025 --> 00:07:59.170
+It's more about doing the screen search,
+
+125
+00:07:59.170 --> 00:08:05.560
+this screening in order to understand what type of preparation I need to do,
+
+126
+00:08:05.560 --> 00:08:07.490
+and actually do this preparation,
+
+127
+00:08:07.490 --> 00:08:10.285
+in order to be able to solve this problem competitively,
+
+128
+00:08:10.285 --> 00:08:11.560
+in terms of hardware,
+
+129
+00:08:11.560 --> 00:08:14.960
+software and other resources,
+
+130
+00:08:14.960 --> 00:08:19.595
+past resources in dealing with these types of problems.
+
+131
+00:08:19.595 --> 00:08:27.015
+Then I spent the next one or two days to do some exploratory data analysis.
+
+132
+00:08:27.015 --> 00:08:32.725
+The first thing that I do is I see all my features,
+
+133
+00:08:32.725 --> 00:08:34.710
+assuming a tabular data set,
+
+134
+00:08:34.710 --> 00:08:39.670
+in the training and the test data and to see how consistent they are.
+
+135
+00:08:39.670 --> 00:08:45.545
+I tend to plot distributions and to try to find if there are any discrepancies.
+
+136
+00:08:45.545 --> 00:08:48.920
+So is this variable in the training data set very
+
+137
+00:08:48.920 --> 00:08:53.240
+different than the same variable in the task set?
+
+138
+00:08:53.240 --> 00:08:56.230
+Because if there are discrepancies or differences,
+
+139
+00:08:56.230 --> 00:08:59.425
+this is something I have to deal with.
+
+140
+00:08:59.425 --> 00:09:03.780
+Maybe I need to remove these variables or scale them in a specific way.
+
+141
+00:09:03.780 --> 00:09:08.055
+In any case, big discrepancies can cause problems to the model,
+
+142
+00:09:08.055 --> 00:09:11.080
+so that's why I spend some time here and do
+
+143
+00:09:11.080 --> 00:09:14.235
+some plotting in order to detect these differences.
+
+144
+00:09:14.235 --> 00:09:18.340
+The other thing that I do is I tend to
+
+145
+00:09:18.340 --> 00:09:22.730
+plot features versus the target variable and possibly versus time,
+
+146
+00:09:22.730 --> 00:09:25.380
+if time is available.
+
+147
+00:09:25.380 --> 00:09:29.795
+And again, this tells me to understand the effect of time,
+
+148
+00:09:29.795 --> 00:09:33.910
+how important is time or date in this data set.
+
+149
+00:09:33.910 --> 00:09:39.040
+And at the same time it helps me to understand which are like the most predictive inputs,
+
+150
+00:09:39.040 --> 00:09:40.695
+the most predictive variables.
+
+151
+00:09:40.695 --> 00:09:44.630
+This is important because it generally gives me intuition about the problem.
+
+152
+00:09:44.630 --> 00:09:47.645
+How exactly this helps me is not always clear.
+
+153
+00:09:47.645 --> 00:09:51.810
+Sometimes it may help me define a gross validation strategy or
+
+154
+00:09:51.810 --> 00:09:56.350
+help me create some really good features but in general,
+
+155
+00:09:56.350 --> 00:10:00.045
+this kind of knowledge really helps to understand the problem.
+
+156
+00:10:00.045 --> 00:10:08.360
+I tend to create cross tabs for example with
+
+157
+00:10:08.360 --> 00:10:12.520
+the categorical variables and the target variable and also creates
+
+158
+00:10:12.520 --> 00:10:19.015
+unpredictability metrics like information value and you see chi square for example,
+
+159
+00:10:19.015 --> 00:10:25.240
+in order to see what's useful and whether I can make hypothesis about the data,
+
+160
+00:10:25.240 --> 00:10:30.555
+whether I understand the data and how they relate with the target variable.
+
+161
+00:10:30.555 --> 00:10:33.720
+The more understanding I create at this point,
+
+162
+00:10:33.720 --> 00:10:39.680
+most probably will lead to better features for better models applied on this data.
+
+163
+00:10:39.680 --> 00:10:41.435
+Also while I do this,
+
+164
+00:10:41.435 --> 00:10:44.060
+I like to bin numerical features into
+
+165
+00:10:44.060 --> 00:10:47.850
+bands in order to understand if there nonlinear R.A.T's.
+
+166
+00:10:47.850 --> 00:10:49.310
+When I say nonlinear R.A.T's,
+
+167
+00:10:49.310 --> 00:10:53.290
+whether the value of a feature is low,
+
+168
+00:10:53.290 --> 00:10:55.225
+target variable is high,
+
+169
+00:10:55.225 --> 00:11:00.500
+then as the value increases the target variable decreases as well.
+
+170
+00:11:00.500 --> 00:11:04.835
+So whether there are strange relationships trends,
+
+171
+00:11:04.835 --> 00:11:08.245
+patterns, or correlations between features and the target variable,
+
+172
+00:11:08.245 --> 00:11:12.760
+in order to see how best to handle this later on and get
+
+173
+00:11:12.760 --> 00:11:18.585
+an intuition about which type of problems or which type of models would work better.
+
+174
+00:11:18.585 --> 00:11:25.365
+Once I have understood the data,
+
+175
+00:11:25.365 --> 00:11:31.000
+to some extent, then it's time for me to define a cross validation strategy.
+
+176
+00:11:31.000 --> 00:11:33.725
+I think this is a really important step
+
+177
+00:11:33.725 --> 00:11:37.675
+and there have been competitions where people were able to
+
+178
+00:11:37.675 --> 00:11:41.160
+win just because they were able to find
+
+179
+00:11:41.160 --> 00:11:46.090
+the best way to validate or to create a good cross validation strategy.
+
+180
+00:11:46.090 --> 00:11:48.830
+And by cross validation strategy,
+
+181
+00:11:48.830 --> 00:11:56.365
+I mean to create a validation approach that best resembles what you're being tested on.
+
+182
+00:11:56.365 --> 00:12:00.800
+If you manage to create this internally then you can create
+
+183
+00:12:00.800 --> 00:12:06.690
+many different models and create many different features and anything you do,
+
+184
+00:12:06.690 --> 00:12:11.175
+you can have the confidence that is working or it's not working,
+
+185
+00:12:11.175 --> 00:12:16.995
+if you've managed to build the cross validation strategy in a consistent way
+
+186
+00:12:16.995 --> 00:12:24.205
+with what you're being tested on so consistency is the key word here.
+
+187
+00:12:24.205 --> 00:12:26.145
+The first thing I ask is,
+
+188
+00:12:26.145 --> 00:12:28.360
+"Is time important in this data?"
+
+189
+00:12:28.360 --> 00:12:33.000
+So do I have a feature which is called date or time?
+
+190
+00:12:33.000 --> 00:12:37.240
+If this is important then I need to switch to a time-based validation.
+
+191
+00:12:37.240 --> 00:12:42.105
+Always have past data predicting future data,
+
+192
+00:12:42.105 --> 00:12:44.070
+and even the intervals,
+
+193
+00:12:44.070 --> 00:12:46.815
+they need to be similar with the test data.
+
+194
+00:12:46.815 --> 00:12:50.165
+So if the test data is three months in the future,
+
+195
+00:12:50.165 --> 00:12:56.030
+I need to build my training and validation to account for this time interval.
+
+196
+00:12:56.030 --> 00:12:58.820
+So my validation data always need to be
+
+197
+00:12:58.820 --> 00:13:02.115
+three months in the future and compared to the training data.
+
+198
+00:13:02.115 --> 00:13:04.725
+You need to be consistent in order to have
+
+199
+00:13:04.725 --> 00:13:08.660
+the most consistent results with what you are been tested on.
+
+200
+00:13:08.660 --> 00:13:10.720
+The other thing that I ask is,
+
+201
+00:13:10.720 --> 00:13:15.960
+"Are there different entities between the train and the test data?"
+
+202
+00:13:15.960 --> 00:13:19.470
+Imagine if you have different customers in
+
+203
+00:13:19.470 --> 00:13:23.080
+the training data and different in the test data.
+
+204
+00:13:23.080 --> 00:13:25.820
+Ideally, you need to formulate
+
+205
+00:13:25.820 --> 00:13:30.510
+your cross validation strategy so that in the validation data,
+
+206
+00:13:30.510 --> 00:13:32.580
+you always have different customers running in
+
+207
+00:13:32.580 --> 00:13:37.155
+training data otherwise you are not really testing in a fair way.
+
+208
+00:13:37.155 --> 00:13:42.655
+Your validation method would not be consistent with the test data.
+
+209
+00:13:42.655 --> 00:13:48.340
+Obviously, if you know a customer and you try to predict it, him or her,
+
+210
+00:13:48.340 --> 00:13:51.110
+why you have that customer in your training data,
+
+211
+00:13:51.110 --> 00:13:55.375
+this is a biased prediction when compared to the test data,
+
+212
+00:13:55.375 --> 00:13:57.735
+that you don't have this information available.
+
+213
+00:13:57.735 --> 00:14:02.785
+And this is the type of questions you need to ask yourself when you are at this point,
+
+214
+00:14:02.785 --> 00:14:11.085
+"Am I making a validation which is really consistent with what am I being tested on?"
+
+215
+00:14:11.085 --> 00:14:16.435
+The other thing that is often the case is
+
+216
+00:14:16.435 --> 00:14:20.755
+that the training and the test data are completely random.
+
+217
+00:14:20.755 --> 00:14:27.165
+I'm sorry, I just shortened my data and I took a random part, put it on training,
+
+218
+00:14:27.165 --> 00:14:30.560
+the other for test so in that case,
+
+219
+00:14:30.560 --> 00:14:36.510
+is any random type of cross validation could help for example,
+
+220
+00:14:36.510 --> 00:14:39.495
+just do a random K-fold.
+
+221
+00:14:39.495 --> 00:14:45.955
+There are cases where you may have to use a combination of all the above so you
+
+222
+00:14:45.955 --> 00:14:53.600
+have strong temporal elements at the same time you have different entities,
+
+223
+00:14:53.600 --> 00:14:58.290
+so different customers to predict for past and future and at the same time,
+
+224
+00:14:58.290 --> 00:14:59.885
+there is a random element too.
+
+225
+00:14:59.885 --> 00:15:03.850
+You might need to incorporate all of them do make a good strategy.
+
+226
+00:15:03.850 --> 00:15:07.165
+What I do is I often start with
+
+227
+00:15:07.165 --> 00:15:13.360
+a random validation and just see how it fares with the test leader board,
+
+228
+00:15:13.360 --> 00:15:18.165
+and see how consistent the result is with what they have internally,
+
+229
+00:15:18.165 --> 00:15:24.655
+and see if improvements in my validation lead to improvements to the leader board.
+
+230
+00:15:24.655 --> 00:15:26.495
+If that doesn't happen,
+
+231
+00:15:26.495 --> 00:15:30.610
+I make a deeper investigation and try to understand why.
+
+232
+00:15:30.610 --> 00:15:35.460
+It may be that the time element is very strong and I need to
+
+233
+00:15:35.460 --> 00:15:41.015
+take it into account or there are different entities between the train and test data.
+
+234
+00:15:41.015 --> 00:15:47.135
+These kinds of questions in order to formulate a better validation strategy.
+
+235
+00:15:47.135 --> 00:15:51.615
+Once the validation strategy has been defined,
+
+236
+00:15:51.615 --> 00:15:57.025
+now I start creating many different features.
+
+237
+00:15:57.025 --> 00:16:00.650
+I'm sorry for bombarding you with loads of
+
+238
+00:16:00.650 --> 00:16:04.900
+information in one slide but I wanted this to be standalone.
+
+239
+00:16:04.900 --> 00:16:07.765
+It says give you the different type of
+
+240
+00:16:07.765 --> 00:16:12.550
+future engineering you can use in different types of problems,
+
+241
+00:16:12.550 --> 00:16:15.420
+and also suggestions for the competition to look
+
+242
+00:16:15.420 --> 00:16:18.475
+up which was quite representative of this time.
+
+243
+00:16:18.475 --> 00:16:22.155
+But you can ignore these for now. Look at it later.
+
+244
+00:16:22.155 --> 00:16:26.195
+The main point is different problem requires
+
+245
+00:16:26.195 --> 00:16:30.450
+different feature engineering and I put everything when I say feature engineering.
+
+246
+00:16:30.450 --> 00:16:33.155
+I put the day data cleaning and preparation as well,
+
+247
+00:16:33.155 --> 00:16:35.005
+how you handle missing values,
+
+248
+00:16:35.005 --> 00:16:39.095
+and the features you generate out of this.
+
+249
+00:16:39.095 --> 00:16:43.970
+The thing is, every problem has its own corpus of
+
+250
+00:16:43.970 --> 00:16:51.060
+different techniques you use to derive or create new features.
+
+251
+00:16:51.060 --> 00:16:56.755
+It's not easy to know everything because sometimes it's too much,
+
+252
+00:16:56.755 --> 00:17:00.030
+I don't remember it myself so what I tend to do
+
+253
+00:17:00.030 --> 00:17:03.405
+is go back to similar competitions and see what
+
+254
+00:17:03.405 --> 00:17:10.240
+people are using or what people have used in the past and I incorporate into my code.
+
+255
+00:17:10.240 --> 00:17:13.200
+If I have dealt with this or a similar problem
+
+256
+00:17:13.200 --> 00:17:16.470
+in the past then I look at my code to see what I had done in the past,
+
+257
+00:17:16.470 --> 00:17:19.850
+but still looking for ways to improve this.
+
+258
+00:17:19.850 --> 00:17:23.670
+I think that's the best way to be able to handle any problem.
+
+259
+00:17:23.670 --> 00:17:30.770
+The good thing is that a lot of the feature engineering can be automated.
+
+260
+00:17:30.770 --> 00:17:33.950
+You probably have already seen that but,
+
+261
+00:17:33.950 --> 00:17:41.320
+as long as your cross validation strategy is consistent with the test data and reliable,
+
+262
+00:17:41.320 --> 00:17:45.235
+then you can potentially try all sorts of
+
+263
+00:17:45.235 --> 00:17:49.995
+transformations and see how they work in your validation environment.
+
+264
+00:17:49.995 --> 00:17:53.895
+If they work well, you can be confident that this type of
+
+265
+00:17:53.895 --> 00:17:58.230
+feature engineering is useful and use it for further modeling.
+
+266
+00:17:58.230 --> 00:18:00.800
+If not, you discard and try something else.
+
+267
+00:18:00.800 --> 00:18:03.410
+Also the combinations of what you can do in terms of
+
+268
+00:18:03.410 --> 00:18:06.380
+feature engineering can be quite vast in different types of
+
+269
+00:18:06.380 --> 00:18:12.210
+problems so obviously time is a factor here, and scalability too.
+
+270
+00:18:12.210 --> 00:18:16.630
+You need to be able to use your resources well in order to be able to search
+
+271
+00:18:16.630 --> 00:18:21.110
+as much as you can in order to get the best outcome.
+
+272
+00:18:21.110 --> 00:18:23.810
+This is what I do. Normally if I have more time
+
+273
+00:18:23.810 --> 00:18:27.510
+to do this feature engineering in a competition,
+
+274
+00:18:27.510 --> 00:18:31.000
+I tend to do better because I explore more things.

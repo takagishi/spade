@@ -1,0 +1,487 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:04.284
+[MUSIC]
+
+2
+00:00:04.284 --> 00:00:09.149
+Hi, in this lecture, we will study
+hyperparameter optimization process and
+
+3
+00:00:09.149 --> 00:00:13.530
+talk about hyperparameters in
+specific libraries and models.
+
+4
+00:00:13.530 --> 00:00:17.430
+We will first discuss
+hyperparameter tuning in general.
+
+5
+00:00:17.430 --> 00:00:22.220
+General pipeline, ways to tuning
+hyperparameters, and what it actually
+
+6
+00:00:22.220 --> 00:00:26.800
+means to understand how a particular
+hyperparameter influences the model.
+
+7
+00:00:28.790 --> 00:00:31.100
+It is actually what we will
+discuss in this video, and
+
+8
+00:00:31.100 --> 00:00:33.900
+then we will talk about libraries and
+frameworks, and
+
+9
+00:00:33.900 --> 00:00:37.440
+see how to tune hyperparameters
+of several types of models.
+
+10
+00:00:39.090 --> 00:00:41.651
+Namely, we will first
+study tree-based models,
+
+11
+00:00:41.651 --> 00:00:45.380
+gradient boosting decision trees and
+RandomForest.
+
+12
+00:00:45.380 --> 00:00:49.060
+Then I'll review important
+hyperparameters in neural nets.
+
+13
+00:00:49.060 --> 00:00:53.700
+And finally, we will talk about
+linear models, where to find them and
+
+14
+00:00:53.700 --> 00:00:54.450
+how to tune them.
+
+15
+00:00:55.750 --> 00:00:58.580
+Another class of interesting
+models is factorization machines.
+
+16
+00:00:59.600 --> 00:01:02.190
+We will not discuss factorization
+machines in this lecture,
+
+17
+00:01:02.190 --> 00:01:04.980
+but I suggest you to read
+about them on the internet.
+
+18
+00:01:06.630 --> 00:01:11.780
+So, let's start with a general
+discussion of a model tuning process.
+
+19
+00:01:12.800 --> 00:01:16.859
+What are the most important things to
+understand when tuning hyperparameters?
+
+20
+00:01:18.180 --> 00:01:22.640
+First, there are tons of potential
+parameters to tune in every model.
+
+21
+00:01:22.640 --> 00:01:26.380
+And so we need to realize which
+parameters are affect the model most.
+
+22
+00:01:27.590 --> 00:01:30.470
+Of course,
+all the parameters are reliable,
+
+23
+00:01:30.470 --> 00:01:35.050
+but we kind of need to select
+the most important ones.
+
+24
+00:01:35.050 --> 00:01:38.980
+Anyway we never have time to tune
+all the params, that's right.
+
+25
+00:01:38.980 --> 00:01:42.665
+So we need to come up with a nice
+subset of parameters to tune.
+
+26
+00:01:42.665 --> 00:01:44.805
+Suppose we're new to xgboost and
+
+27
+00:01:44.805 --> 00:01:49.088
+we're trying to find out what
+parameters will better to tune, and
+
+28
+00:01:49.088 --> 00:01:53.920
+say we don't even understand how
+gradient boosting decision tree works.
+
+29
+00:01:55.080 --> 00:01:59.906
+We always can search what parameters
+people usually set when using xgboost.
+
+30
+00:01:59.906 --> 00:02:01.086
+It's quite easy to look up, right?
+
+31
+00:02:01.086 --> 00:02:05.290
+For example, at GitHub or Kaggle Kernels.
+
+32
+00:02:06.900 --> 00:02:10.750
+Finally, the documentation sometimes
+explicitly states which parameter
+
+33
+00:02:10.750 --> 00:02:11.670
+to tune first.
+
+34
+00:02:13.010 --> 00:02:16.760
+From the selected set of parameters
+we should then understand
+
+35
+00:02:16.760 --> 00:02:19.490
+what would happen if we
+change one of the parameters?
+
+36
+00:02:20.520 --> 00:02:25.840
+How the training process and the training
+invalidation course will change if we,
+
+37
+00:02:25.840 --> 00:02:28.390
+for example,
+increased a certain parameter?
+
+38
+00:02:30.090 --> 00:02:35.030
+And finally, actually tune
+the selected parameters, right?
+
+39
+00:02:35.030 --> 00:02:38.070
+Most people do it manually.
+
+40
+00:02:38.070 --> 00:02:41.700
+Just run, examine the logs,
+change parameters,
+
+41
+00:02:41.700 --> 00:02:45.230
+run again and
+iterate till good parameters found.
+
+42
+00:02:45.230 --> 00:02:50.063
+It is also possible to use
+hyperparameter optimization
+
+43
+00:02:50.063 --> 00:02:53.900
+tools like hyperopt, but it's usually
+faster to do it manually to be true.
+
+44
+00:02:55.090 --> 00:02:59.550
+So later in this video, actually discuss
+the most important parameters for
+
+45
+00:02:59.550 --> 00:03:05.400
+some models along with some intuition how
+to tune those parameters of those models.
+
+46
+00:03:06.960 --> 00:03:10.870
+But before we start, I actually want
+to give you a list of libraries
+
+47
+00:03:10.870 --> 00:03:14.970
+that you can use for
+automatic hyperparameter tuning.
+
+48
+00:03:16.170 --> 00:03:20.580
+There are lots of them actually, and
+I didn't try everything from this list
+
+49
+00:03:20.580 --> 00:03:25.420
+myself, but from what I actually tried,
+I did not notice much
+
+50
+00:03:25.420 --> 00:03:29.510
+difference in optimization speed on
+real tasks between the libraries.
+
+51
+00:03:29.510 --> 00:03:33.780
+But if you have time,
+you can try every library and compare.
+
+52
+00:03:35.250 --> 00:03:39.928
+From a user side these
+libraries are very easy to use.
+
+53
+00:03:39.928 --> 00:03:41.501
+We need first to define the function
+that will run our module,
+
+54
+00:03:41.501 --> 00:03:42.264
+in this case, it is XGBoost.
+
+55
+00:03:42.264 --> 00:03:48.436
+That will run our module with
+the given set of parameters and
+
+56
+00:03:48.436 --> 00:03:52.520
+return a resulting validation score.
+
+57
+00:03:54.090 --> 00:03:57.530
+And second,
+we need to specify a source space.
+
+58
+00:03:57.530 --> 00:04:03.420
+The range for the hyperparameters where
+we want to look for the solution.
+
+59
+00:04:03.420 --> 00:04:07.624
+For example, here we see that a parameter,
+it is fix 0.1.
+
+60
+00:04:07.624 --> 00:04:13.744
+And we think that optimal max depth
+is somewhere between 10 and 30.
+
+61
+00:04:15.690 --> 00:04:18.730
+And actually that is it,
+we are ready to run hyperopt.
+
+62
+00:04:18.730 --> 00:04:24.410
+It can take much time, so
+the best strategy is to run it overnight.
+
+63
+00:04:26.070 --> 00:04:31.260
+And also please note that everything
+we need to know about hyperparameter's,
+
+64
+00:04:31.260 --> 00:04:35.220
+in this case,
+is an adequate range for the search.
+
+65
+00:04:35.220 --> 00:04:40.560
+That's pretty convenient,
+if you don't know the new model and
+
+66
+00:04:40.560 --> 00:04:43.350
+you just try to run.
+
+67
+00:04:43.350 --> 00:04:45.800
+But still,
+most people tuned the models manually.
+
+68
+00:04:47.850 --> 00:04:52.020
+So, what exactly does it
+mean to understand how
+
+69
+00:04:52.020 --> 00:04:54.350
+parameter influences the model?
+
+70
+00:04:55.590 --> 00:04:56.990
+Broadly speaking,
+
+71
+00:04:56.990 --> 00:05:02.570
+different values of parameters result
+in three different fitting behavior.
+
+72
+00:05:02.570 --> 00:05:05.180
+First, a model can underfit.
+
+73
+00:05:06.270 --> 00:05:10.980
+That is, it is so constrained that
+it cannot even learn the train set.
+
+74
+00:05:12.400 --> 00:05:16.440
+Another possibility is that
+the model is so powerful that
+
+75
+00:05:16.440 --> 00:05:20.519
+it just overfits to the train set and
+is not able to generalize it all.
+
+76
+00:05:21.630 --> 00:05:22.570
+And finally,
+
+77
+00:05:22.570 --> 00:05:26.810
+the third behavior is something
+that we are actually looking for.
+
+78
+00:05:26.810 --> 00:05:29.760
+It's somewhere between underfitting and
+overfitting.
+
+79
+00:05:31.546 --> 00:05:37.280
+So basically, what we should examine
+while turning parameters is that
+
+80
+00:05:37.280 --> 00:05:43.140
+we should try to understand if the model
+is currently underfitting or overfitting.
+
+81
+00:05:43.140 --> 00:05:46.320
+And then, we should somehow
+adjust the parameters to get
+
+82
+00:05:46.320 --> 00:05:48.030
+closer to desired behavior.
+
+83
+00:05:49.580 --> 00:05:53.880
+We need to kind of split all the
+parameters that we would like to tune into
+
+84
+00:05:53.880 --> 00:05:55.700
+two groups.
+
+85
+00:05:55.700 --> 00:05:59.910
+In the first group, we'll have
+the parameters that constrain the model.
+
+86
+00:05:59.910 --> 00:06:03.970
+So if we increase
+the parameter from that group,
+
+87
+00:06:03.970 --> 00:06:09.440
+the model would change its behaviour
+from overfitting to underfitting.
+
+88
+00:06:09.440 --> 00:06:13.909
+The larger the value of the parameter,
+the heavier the constraint.
+
+89
+00:06:13.909 --> 00:06:18.981
+In the following videos, we'll color such
+parameters in red, and the parameters
+
+90
+00:06:18.981 --> 00:06:23.407
+in the second group are doing an opposite
+thing to our training process.
+
+91
+00:06:23.407 --> 00:06:27.660
+The higher the value,
+more powerful the main module.
+
+92
+00:06:28.760 --> 00:06:31.090
+And so by increasing such parameters,
+
+93
+00:06:31.090 --> 00:06:35.310
+we can change fitting behavior
+from underfitting to overfitting.
+
+94
+00:06:36.320 --> 00:06:38.810
+We will use green color for
+such parameters.
+
+95
+00:06:40.570 --> 00:06:43.600
+So, in this video we'll be discussing some
+
+96
+00:06:43.600 --> 00:06:47.150
+general aspects of
+hyperparameter organization.
+
+97
+00:06:47.150 --> 00:06:51.600
+Most importantly,
+we've defined the color coding.
+
+98
+00:06:51.600 --> 00:06:53.940
+If you did not understand
+what color stands for
+
+99
+00:06:53.940 --> 00:06:57.710
+what, please watch a part of
+the video about it again.
+
+100
+00:06:58.750 --> 00:07:01.860
+We'll use this color coding
+throughout the following videos.
+
+101
+00:07:01.860 --> 00:07:11.860
+[MUSIC]

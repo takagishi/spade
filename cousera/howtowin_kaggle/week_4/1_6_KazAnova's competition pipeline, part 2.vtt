@@ -1,0 +1,1025 @@
+WEBVTT
+
+1
+00:00:00.330 --> 00:00:06.490
+And the modeling is pretty much the same story.
+
+2
+00:00:06.490 --> 00:00:11.690
+So, it's type problem has its own type of model that works best.
+
+3
+00:00:11.690 --> 00:00:14.515
+Now, I don't want to go through that list again,
+
+4
+00:00:14.515 --> 00:00:18.680
+I put it here so that you can use it for reference.
+
+5
+00:00:18.680 --> 00:00:25.240
+But, again, the way you work this out is you look for literature,
+
+6
+00:00:25.240 --> 00:00:29.240
+you sense other previous competitions that were
+
+7
+00:00:29.240 --> 00:00:33.380
+similar and you try to find which type of problem,
+
+8
+00:00:33.380 --> 00:00:37.585
+which type of model or best for its type of problem.
+
+9
+00:00:37.585 --> 00:00:42.610
+And it's not surprise that for typical dataset,
+
+10
+00:00:42.610 --> 00:00:44.550
+when I say typical dataset I mean,
+
+11
+00:00:44.550 --> 00:00:49.140
+tabular dataset rather boosting machines in the form of [inaudible] turned to
+
+12
+00:00:49.140 --> 00:00:57.705
+rock fest for problems like aim as classification sound classification,
+
+13
+00:00:57.705 --> 00:01:04.925
+deep learning in the form of convolutional neural networks tend to work better.
+
+14
+00:01:04.925 --> 00:01:11.055
+So, this is roughly what you need to know.
+
+15
+00:01:11.055 --> 00:01:14.280
+New techniques are being developed so,
+
+16
+00:01:14.280 --> 00:01:18.640
+I think your best chance here or what I have used in order to
+
+17
+00:01:18.640 --> 00:01:23.190
+do well in the past was knowing what's tends to work well with its problem,
+
+18
+00:01:23.190 --> 00:01:28.945
+and going backwards and trying to find other code or
+
+19
+00:01:28.945 --> 00:01:32.010
+other implementations and similar problems in order
+
+20
+00:01:32.010 --> 00:01:36.900
+to integrate it with mine and try to get a better result.
+
+21
+00:01:36.900 --> 00:01:40.900
+I should mention that each of
+
+22
+00:01:40.900 --> 00:01:44.920
+the previous models needs to be changed sometimes differently.
+
+23
+00:01:44.920 --> 00:01:47.150
+So you need to spend time within
+
+24
+00:01:47.150 --> 00:01:51.540
+this cross-validation strategy in order to find the best parameters,
+
+25
+00:01:51.540 --> 00:01:56.770
+and then we move onto Ensembling.
+
+26
+00:01:56.770 --> 00:02:00.830
+Every time you apply
+
+27
+00:02:00.830 --> 00:02:03.340
+your cross-validation procedure with
+
+28
+00:02:03.340 --> 00:02:06.575
+a different feature engineering and a different joint model,
+
+29
+00:02:06.575 --> 00:02:10.015
+it's time, you saved two types of predictions,
+
+30
+00:02:10.015 --> 00:02:15.655
+you save predictions for the validation data and you save predictions for the test data.
+
+31
+00:02:15.655 --> 00:02:20.810
+So now that you have saved all these predictions and by the way this is the point
+
+32
+00:02:20.810 --> 00:02:25.780
+that if you collaborate with others that tend to send you the predictions,
+
+33
+00:02:25.780 --> 00:02:29.150
+and you'll be surprised that sometime that collaboration is just this.
+
+34
+00:02:29.150 --> 00:02:36.130
+So people just sending these prediction files for the validation and the test data.
+
+35
+00:02:36.130 --> 00:02:40.190
+So now you can find the best way to combine
+
+36
+00:02:40.190 --> 00:02:44.300
+these models in order to get the best results.
+
+37
+00:02:44.300 --> 00:02:47.720
+And since you already have predictions for the validation data,
+
+38
+00:02:47.720 --> 00:02:51.300
+you know the target variable for the validation data,
+
+39
+00:02:51.300 --> 00:02:55.120
+so you can explore different ways to combine them.
+
+40
+00:02:55.120 --> 00:02:57.735
+The methods could be simple,
+
+41
+00:02:57.735 --> 00:02:59.800
+could be an average,
+
+42
+00:02:59.800 --> 00:03:05.990
+or already average, or it can go up to a multilayer stacking in general.
+
+43
+00:03:05.990 --> 00:03:10.455
+Generally, what you need to know is that from my experience,
+
+44
+00:03:10.455 --> 00:03:15.045
+smaller data requires simple ensemble techniques like averaging.
+
+45
+00:03:15.045 --> 00:03:19.450
+And also what tends to show is to look at correlation between predictions.
+
+46
+00:03:19.450 --> 00:03:22.880
+So find it here that work well,
+
+47
+00:03:22.880 --> 00:03:25.060
+but they tend to be quite diverse.
+
+48
+00:03:25.060 --> 00:03:28.385
+So, when you use fusion correlation,
+
+49
+00:03:28.385 --> 00:03:30.480
+the correlation is not very high.
+
+50
+00:03:30.480 --> 00:03:34.735
+That means they are likely to bring new information,
+
+51
+00:03:34.735 --> 00:03:39.530
+and so when you combine you get the most out of it.
+
+52
+00:03:39.530 --> 00:03:42.735
+But if you have bigger data there are,
+
+53
+00:03:42.735 --> 00:03:45.810
+you got pretty must try all sorts of things.
+
+54
+00:03:45.810 --> 00:03:48.110
+What I like to think of is it is that,
+
+55
+00:03:48.110 --> 00:03:50.030
+when you have really big data,
+
+56
+00:03:50.030 --> 00:03:54.380
+the stacking process that impedes the modeling process.
+
+57
+00:03:54.380 --> 00:03:57.830
+By that, I mean that you have
+
+58
+00:03:57.830 --> 00:04:02.305
+a new set of features this time they are predictions of models,
+
+59
+00:04:02.305 --> 00:04:06.825
+but you can apply the same process you have used before.
+
+60
+00:04:06.825 --> 00:04:08.945
+So you can do feature engineering,
+
+61
+00:04:08.945 --> 00:04:15.820
+you can create new features or you can remove the features/ prediction that
+
+62
+00:04:15.820 --> 00:04:19.340
+you no longer need and you can use this in
+
+63
+00:04:19.340 --> 00:04:24.150
+order to improve the results for your validation data.
+
+64
+00:04:24.150 --> 00:04:27.870
+This process can be quite exhaustive,
+
+65
+00:04:27.870 --> 00:04:33.075
+but well, again, it can be automated to some extent.
+
+66
+00:04:33.075 --> 00:04:35.965
+So, the more time you have here,
+
+67
+00:04:35.965 --> 00:04:39.315
+most probably the better you will do.
+
+68
+00:04:39.315 --> 00:04:41.680
+But from my experience, 2,
+
+69
+00:04:41.680 --> 00:04:47.680
+3 days is good in order to get the best out of all the models you have built and depends
+
+70
+00:04:47.680 --> 00:04:49.785
+obviously on the volume of data or
+
+71
+00:04:49.785 --> 00:04:55.170
+volume of predictions you have generated up until this point.
+
+72
+00:04:55.170 --> 00:05:04.455
+At this point I would like to share a few thoughts about collaboration.
+
+73
+00:05:04.455 --> 00:05:08.475
+Many people have asked me this and I think this is a good point to share.
+
+74
+00:05:08.475 --> 00:05:12.670
+These ideas has greatly helped me to do well in competitions.
+
+75
+00:05:12.670 --> 00:05:16.070
+The first thing is that it makes things more fun.
+
+76
+00:05:16.070 --> 00:05:17.570
+I mean you are not alone,
+
+77
+00:05:17.570 --> 00:05:21.355
+you're with other people and that's always more energizing,
+
+78
+00:05:21.355 --> 00:05:24.300
+it's always more interesting, it's more fun,
+
+79
+00:05:24.300 --> 00:05:28.115
+you can communicate with the others through times like Skype,
+
+80
+00:05:28.115 --> 00:05:33.900
+and yeah I think it's more collaborative as the world says, it is better.
+
+81
+00:05:33.900 --> 00:05:36.100
+You learn more.
+
+82
+00:05:36.100 --> 00:05:38.810
+I mean you can be really good,
+
+83
+00:05:38.810 --> 00:05:43.565
+but, you know, you always always learn from others.
+
+84
+00:05:43.565 --> 00:05:46.660
+No way to know everything yourself.
+
+85
+00:05:46.660 --> 00:05:50.600
+So it's really good to be able to share points with other people,
+
+86
+00:05:50.600 --> 00:05:53.990
+see what they do learn from them and become
+
+87
+00:05:53.990 --> 00:05:59.085
+better and grow as a data scientist, as a model.
+
+88
+00:05:59.085 --> 00:06:06.630
+From my experience you score far better than trying to solve a problem alone,
+
+89
+00:06:06.630 --> 00:06:12.200
+and I think these happens for mainly for two ways.
+
+90
+00:06:12.200 --> 00:06:14.895
+There are more but these are main two.
+
+91
+00:06:14.895 --> 00:06:17.900
+First you can cover more ground because,
+
+92
+00:06:17.900 --> 00:06:22.320
+you can say, you can focus on ensembling,
+
+93
+00:06:22.320 --> 00:06:26.510
+I will focus on feature engineering or you will focus on
+
+94
+00:06:26.510 --> 00:06:31.075
+joining this type of model and I will focus on another type of model.
+
+95
+00:06:31.075 --> 00:06:33.275
+So, you can generally cover more ground.
+
+96
+00:06:33.275 --> 00:06:37.530
+You can divide task and you can search,
+
+97
+00:06:37.530 --> 00:06:42.835
+you can cover more ground in terms of the possible things you can try in a competition.
+
+98
+00:06:42.835 --> 00:06:48.105
+The second thing is that every person sees the problem from different angles.
+
+99
+00:06:48.105 --> 00:06:54.140
+So, that's very likely to generate more diverse predictions.
+
+100
+00:06:54.140 --> 00:06:58.210
+So something we do is although we kind of
+
+101
+00:06:58.210 --> 00:07:03.435
+define together by the different strategy when we form teams,
+
+102
+00:07:03.435 --> 00:07:06.330
+then we would like to work for maybe
+
+103
+00:07:06.330 --> 00:07:10.220
+one week separately without discussing with one another,
+
+104
+00:07:10.220 --> 00:07:13.915
+because this helps to create diversity.
+
+105
+00:07:13.915 --> 00:07:17.615
+Otherwise, if we over discuss this,
+
+106
+00:07:17.615 --> 00:07:20.895
+we might generate pretty much the same things.
+
+107
+00:07:20.895 --> 00:07:23.145
+So, in other words,
+
+108
+00:07:23.145 --> 00:07:28.740
+our solutions might be too correlated to add more value.
+
+109
+00:07:28.740 --> 00:07:33.150
+So, this is a good way in order to
+
+110
+00:07:33.150 --> 00:07:38.815
+leverage the different mindset each person has in solving these problems.
+
+111
+00:07:38.815 --> 00:07:40.370
+So, for one week,
+
+112
+00:07:40.370 --> 00:07:45.575
+each one works separately and then after some point,
+
+113
+00:07:45.575 --> 00:07:50.565
+we start combining or work more closely.
+
+114
+00:07:50.565 --> 00:07:57.915
+I would advise people to start collaborating after getting some experience,
+
+115
+00:07:57.915 --> 00:08:03.940
+and I say here two or three competitions just because Cargo has some rules.
+
+116
+00:08:03.940 --> 00:08:07.170
+Sometimes, it is easy to make mistakes.
+
+117
+00:08:07.170 --> 00:08:11.050
+I think it's better to understand the environment,
+
+118
+00:08:11.050 --> 00:08:14.840
+the competition environment well before
+
+119
+00:08:14.840 --> 00:08:18.585
+exploring these options in order to make certain that,
+
+120
+00:08:18.585 --> 00:08:21.135
+no mistakes are done,
+
+121
+00:08:21.135 --> 00:08:25.210
+no violation of the rules.
+
+122
+00:08:25.210 --> 00:08:29.680
+Sometimes new people tend to make these mistakes.
+
+123
+00:08:29.680 --> 00:08:35.405
+So, it's good to have this experience prior to trying to collaborating.
+
+124
+00:08:35.405 --> 00:08:41.310
+I advise people to start forming teams with people around their rank
+
+125
+00:08:41.310 --> 00:08:44.350
+because sometimes it is frustrating when you
+
+126
+00:08:44.350 --> 00:08:47.770
+join a high rank or a very experienced team I would say.
+
+127
+00:08:47.770 --> 00:08:50.100
+It's bad to say experience from rank,
+
+128
+00:08:50.100 --> 00:08:53.280
+because you don't know sometimes how to contribute,
+
+129
+00:08:53.280 --> 00:09:02.285
+you still don't understand all the competition dynamics and it might stall your progress,
+
+130
+00:09:02.285 --> 00:09:06.750
+if you join a team and you're not able to contribute.
+
+131
+00:09:06.750 --> 00:09:10.790
+So, I think it's better to, in most cases,
+
+132
+00:09:10.790 --> 00:09:18.600
+to try and find people around your rank or around your experience and grow together.
+
+133
+00:09:18.600 --> 00:09:27.200
+This way is the best form of collaboration I think.
+
+134
+00:09:27.200 --> 00:09:32.295
+Another tip for collaborating is to try to collaborate
+
+135
+00:09:32.295 --> 00:09:34.510
+with people that are likely to take
+
+136
+00:09:34.510 --> 00:09:37.695
+diverse approaches or different approaches than yourself.
+
+137
+00:09:37.695 --> 00:09:42.035
+You learn more this way and it is more likely that when you combine,
+
+138
+00:09:42.035 --> 00:09:43.570
+you will get a better score.
+
+139
+00:09:43.570 --> 00:09:49.175
+So, such for people who are sort of famous
+
+140
+00:09:49.175 --> 00:09:55.345
+for doing well certain things and in order to get the most out of it,
+
+141
+00:09:55.345 --> 00:10:01.755
+to learn more from each other and get better results in the leader board.
+
+142
+00:10:01.755 --> 00:10:10.120
+About selecting submissions, I have employed a strategy that many people have done.
+
+143
+00:10:10.120 --> 00:10:14.570
+So normally, I select the best submissions I see in
+
+144
+00:10:14.570 --> 00:10:20.490
+my internal result and the one that work best on the leader board.
+
+145
+00:10:20.490 --> 00:10:23.750
+At the same time, I also look for correlations.
+
+146
+00:10:23.750 --> 00:10:25.750
+So, if two submissions,
+
+147
+00:10:25.750 --> 00:10:28.305
+they tend to be the same pretty much.
+
+148
+00:10:28.305 --> 00:10:31.150
+So, the one that was the best submission locally,
+
+149
+00:10:31.150 --> 00:10:33.175
+was also the best on leader boards,
+
+150
+00:10:33.175 --> 00:10:38.060
+I try to find
+
+151
+00:10:38.060 --> 00:10:44.300
+other submissions that still work well but they are likely to be quite diverse.
+
+152
+00:10:44.300 --> 00:10:50.690
+So, they have low correlations with my best submission because this way, I might capture,
+
+153
+00:10:50.690 --> 00:10:54.760
+I might be lucky,
+
+154
+00:10:54.760 --> 00:11:03.500
+it maybe be a special type of test data set and just by having a diverse submission,
+
+155
+00:11:03.500 --> 00:11:06.315
+I might be lucky to get a good score.
+
+156
+00:11:06.315 --> 00:11:10.330
+So that's the main idea about this.
+
+157
+00:11:10.330 --> 00:11:18.110
+Some tips I would like to share now in general about competitive modeling,
+
+158
+00:11:18.110 --> 00:11:21.500
+on land modeling and in Cargo specifically.
+
+159
+00:11:21.500 --> 00:11:24.110
+In these challenges, you never lose.
+
+160
+00:11:24.110 --> 00:11:27.605
+[inaudible] lose, yes you may not win prize money.
+
+161
+00:11:27.605 --> 00:11:29.100
+Out of 5000 people,
+
+162
+00:11:29.100 --> 00:11:30.890
+sometimes it's difficult to be,
+
+163
+00:11:30.890 --> 00:11:35.510
+almost to impossible to be in the top three or four that
+
+164
+00:11:35.510 --> 00:11:39.890
+gives prizes but you always gain in terms of knowledge,
+
+165
+00:11:39.890 --> 00:11:41.515
+in terms of experience.
+
+166
+00:11:41.515 --> 00:11:45.800
+You get to collaborate with other people which are talented in the field,
+
+167
+00:11:45.800 --> 00:11:52.625
+you get to add it to your CV that you try to solve this particular problem,
+
+168
+00:11:52.625 --> 00:11:57.140
+and I can tell you there has been some criticists here,
+
+169
+00:11:57.140 --> 00:12:01.550
+people doubt that doing these competitions stops your employ-ability but
+
+170
+00:12:01.550 --> 00:12:06.285
+I can tell you that i know many examples and not want us,
+
+171
+00:12:06.285 --> 00:12:09.760
+they really thought the Ocean Cargo like Master
+
+172
+00:12:09.760 --> 00:12:13.460
+and Grand-master that just by having kind of experience,
+
+173
+00:12:13.460 --> 00:12:16.830
+they have been able to find very decent jobs and even if they had
+
+174
+00:12:16.830 --> 00:12:20.935
+completely diverse backgrounds to the science.
+
+175
+00:12:20.935 --> 00:12:22.970
+So, I can tell you it matters.
+
+176
+00:12:22.970 --> 00:12:27.280
+So, any time you spend here,
+
+177
+00:12:27.280 --> 00:12:30.915
+it's definitely a win for you.
+
+178
+00:12:30.915 --> 00:12:35.980
+I don't see how you can lose by competing in these challenges.
+
+179
+00:12:35.980 --> 00:12:38.700
+You mean if this is something you like right.
+
+180
+00:12:38.700 --> 00:12:43.610
+The whole predictive modeling that the science think.
+
+181
+00:12:43.610 --> 00:12:46.225
+Coffee tempts to shop,
+
+182
+00:12:46.225 --> 00:12:49.355
+because you tend to spend longer hours.
+
+183
+00:12:49.355 --> 00:12:52.780
+I tend to do this especially late at night.
+
+184
+00:12:52.780 --> 00:12:56.060
+So it definitely tells me something to consider or to be
+
+185
+00:12:56.060 --> 00:12:59.900
+honest any other beverage will do: depends what you like.
+
+186
+00:12:59.900 --> 00:13:03.310
+I see it a bit like a game and I
+
+187
+00:13:03.310 --> 00:13:06.695
+advise you to do the same because if you see it like a game,
+
+188
+00:13:06.695 --> 00:13:09.380
+you never need to work for it.
+
+189
+00:13:09.380 --> 00:13:11.720
+If you know what I mean.
+
+190
+00:13:11.720 --> 00:13:14.800
+So it looks a bit like NRPT.
+
+191
+00:13:14.800 --> 00:13:19.075
+In some way, you have some tools or weapons.
+
+192
+00:13:19.075 --> 00:13:22.645
+These are all the algorithms and feature engineering techniques you can use.
+
+193
+00:13:22.645 --> 00:13:26.440
+And then you have this core leader board and you try to beat
+
+194
+00:13:26.440 --> 00:13:31.140
+all the bad guys and to beat the score and rise above them.
+
+195
+00:13:31.140 --> 00:13:33.685
+So in a way does look like a game.
+
+196
+00:13:33.685 --> 00:13:36.990
+You know you try to use all the tools,
+
+197
+00:13:36.990 --> 00:13:40.675
+all the skills that you have to try to beat the score.
+
+198
+00:13:40.675 --> 00:13:44.210
+So, I think if you see it like a game it really helps you.
+
+199
+00:13:44.210 --> 00:13:50.660
+You don't get tired and you enjoy the process more.
+
+200
+00:13:50.660 --> 00:13:53.490
+I do advise you to take a break though,
+
+201
+00:13:53.490 --> 00:13:56.930
+from my experience you may spend long hours hitting
+
+202
+00:13:56.930 --> 00:14:00.155
+on it and that's not good for your body.
+
+203
+00:14:00.155 --> 00:14:06.450
+You definitely need to take some breaks and do some physical exercise.
+
+204
+00:14:06.450 --> 00:14:08.225
+Go out for a walk.
+
+205
+00:14:08.225 --> 00:14:11.685
+I think it can help most of the times by
+
+206
+00:14:11.685 --> 00:14:16.330
+resting your mind this way can actually help to do better.
+
+207
+00:14:16.330 --> 00:14:19.445
+You have more rested heart, more clear thinking.
+
+208
+00:14:19.445 --> 00:14:21.620
+So, I definitely advise you to do this,
+
+209
+00:14:21.620 --> 00:14:23.080
+generally don't overdo it.
+
+210
+00:14:23.080 --> 00:14:27.900
+I have overnighted in the past but i advise you not to do the same.
+
+211
+00:14:27.900 --> 00:14:32.060
+And now there is a thing that I would like to
+
+212
+00:14:32.060 --> 00:14:36.045
+highlight is that the Cargo community is great.
+
+213
+00:14:36.045 --> 00:14:40.790
+Is one of the most open and helpful helpful communities
+
+214
+00:14:40.790 --> 00:14:44.840
+have experience in any social context,
+
+215
+00:14:44.840 --> 00:14:52.860
+maybe apart from Charities but if you have a question and you posted on
+
+216
+00:14:52.860 --> 00:14:56.670
+the forums or other associated channels like in Slug
+
+217
+00:14:56.670 --> 00:15:01.185
+and people are always willing to help you.That's great,
+
+218
+00:15:01.185 --> 00:15:04.900
+because there are so many people out there and most probably they
+
+219
+00:15:04.900 --> 00:15:08.975
+know the answer or they can help you for a particular problem.
+
+220
+00:15:08.975 --> 00:15:10.705
+And this is invaluable.
+
+221
+00:15:10.705 --> 00:15:15.500
+So many times i have really made use of this,
+
+222
+00:15:15.500 --> 00:15:20.420
+of this option and it really helps.
+
+223
+00:15:20.420 --> 00:15:26.580
+You know this kind of mentality was there even before the serine was gamified.
+
+224
+00:15:26.580 --> 00:15:30.930
+When I say gamified, now you get points by
+
+225
+00:15:30.930 --> 00:15:36.350
+sharping in a way by sharing code or participating in discussions.
+
+226
+00:15:36.350 --> 00:15:41.400
+But in the past, people were doing without really getting something out of it.
+
+227
+00:15:41.400 --> 00:15:44.480
+It maybe the open source mentality of
+
+228
+00:15:44.480 --> 00:15:49.650
+data science that the fact that many people participating are researchers.
+
+229
+00:15:49.650 --> 00:15:52.990
+I don't know but it really is a field
+
+230
+00:15:52.990 --> 00:15:58.565
+that sharing seems to be really important in helping others.
+
+231
+00:15:58.565 --> 00:16:06.820
+So, I do advise you to consider this and don't be afraid to ask in these forums.
+
+232
+00:16:06.820 --> 00:16:09.850
+Another thing that I do at shops,
+
+233
+00:16:09.850 --> 00:16:15.195
+is that after the competition has ended irrespective of how well or not you've done,
+
+234
+00:16:15.195 --> 00:16:19.135
+is go and look for other people and what they have done.
+
+235
+00:16:19.135 --> 00:16:22.520
+Normally, there are threads where people share their approaches,
+
+236
+00:16:22.520 --> 00:16:26.085
+sometimes they share the whole approach would go to sometimes it just
+
+237
+00:16:26.085 --> 00:16:29.720
+give tips and you know
+
+238
+00:16:29.720 --> 00:16:33.050
+this is where you can upgrade your tools
+
+239
+00:16:33.050 --> 00:16:37.305
+and you can see what other people have done and make improvements.
+
+240
+00:16:37.305 --> 00:16:39.390
+And in tandem with this,
+
+241
+00:16:39.390 --> 00:16:42.780
+you should have a notebook of useful methods that
+
+242
+00:16:42.780 --> 00:16:46.535
+you keep updating it at the end of every competition.
+
+243
+00:16:46.535 --> 00:16:48.560
+So, you found an approach that was good,
+
+244
+00:16:48.560 --> 00:16:51.390
+you just add it to that notebook and next
+
+245
+00:16:51.390 --> 00:16:55.445
+time you encounter the same or similar competition you get
+
+246
+00:16:55.445 --> 00:16:58.330
+that notebook out and you apply
+
+247
+00:16:58.330 --> 00:17:03.150
+the same techniques at work in the past and this is how you get better.
+
+248
+00:17:03.150 --> 00:17:06.675
+Actually, if i now start a competition without that notebook,
+
+249
+00:17:06.675 --> 00:17:12.830
+i think it will take me three or four times more in order to get to
+
+250
+00:17:12.830 --> 00:17:16.000
+the same score because a lot of the things that I do
+
+251
+00:17:16.000 --> 00:17:19.830
+now depend on stuff that i have done in the past.
+
+252
+00:17:19.830 --> 00:17:21.440
+So, it's definitely helpful,
+
+253
+00:17:21.440 --> 00:17:26.120
+consider creating this notebook or library of all the approaches or
+
+254
+00:17:26.120 --> 00:17:32.445
+approaches that have worked in the past in order to have an easier time going on.
+
+255
+00:17:32.445 --> 00:17:36.940
+And that was what I wanted to share with you and
+
+256
+00:17:36.940 --> 00:17:42.000
+thank you very much for bearing with me and to see you next time, right.

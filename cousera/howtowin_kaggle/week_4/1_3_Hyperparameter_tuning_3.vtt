@@ -1,0 +1,812 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.780
+[MUSIC]
+
+2
+00:00:03.780 --> 00:00:08.272
+In this video we'll briefly discuss
+neural network libraries and
+
+3
+00:00:08.272 --> 00:00:13.979
+then we'll see how to tune hyperparameters
+for neural networks and linear models.
+
+4
+00:00:13.979 --> 00:00:20.966
+There are so many frameworks,
+Keras, TensorFlow, MxNet, PyTorch.
+
+5
+00:00:20.966 --> 00:00:23.009
+The choice is really personal,
+
+6
+00:00:23.009 --> 00:00:29.100
+all frameworks implement more than enough
+functionality for competition tasks.
+
+7
+00:00:29.100 --> 00:00:34.360
+Keras is for sure the most popular in
+Kaggle and has very simple interface.
+
+8
+00:00:35.650 --> 00:00:40.070
+It takes only several dozen lines
+to train a network using Keras.
+
+9
+00:00:41.570 --> 00:00:46.000
+TensorFlow is extensively used
+by companies for production.
+
+10
+00:00:46.000 --> 00:00:50.320
+And PyTorch is very popular in
+deep learning research community.
+
+11
+00:00:51.410 --> 00:00:54.230
+I personally recommend
+you to try PyTorch and
+
+12
+00:00:54.230 --> 00:00:58.690
+Keras as they are most transparent and
+easy to use frameworks.
+
+13
+00:00:59.730 --> 00:01:03.810
+Now, how do you tune
+hyperparameters in a network?
+
+14
+00:01:03.810 --> 00:01:07.250
+We'll now talk about only
+dense neural networks,
+
+15
+00:01:07.250 --> 00:01:11.280
+that is the networks that consist
+only of fully connected layers.
+
+16
+00:01:12.430 --> 00:01:15.428
+Say we start with a three
+layer neural network,
+
+17
+00:01:15.428 --> 00:01:20.920
+what do we expect to happen if we
+increase the number of neurons per layer?
+
+18
+00:01:22.170 --> 00:01:25.860
+The network now can learn more
+complex decision boundaries and
+
+19
+00:01:25.860 --> 00:01:27.602
+so it will over fit faster.
+
+20
+00:01:28.870 --> 00:01:34.100
+The same should happen when the number
+of layers are increased, but
+
+21
+00:01:34.100 --> 00:01:39.620
+due to optimization problems,
+the learning can even stop to converge.
+
+22
+00:01:40.680 --> 00:01:44.700
+But anyway, if you think your
+network is not powerful enough,
+
+23
+00:01:44.700 --> 00:01:47.760
+you can try to add another layer and
+see what happens.
+
+24
+00:01:48.940 --> 00:01:52.666
+My recommendation here is to
+start with something very simple,
+
+25
+00:01:52.666 --> 00:01:58.640
+say 1 or 2 layer and 64 units per layer.
+
+26
+00:01:58.640 --> 00:02:02.330
+Debug the code, make sure the training and
+[INAUDIBLE] losses go down.
+
+27
+00:02:03.510 --> 00:02:08.660
+And then try to find a configuration that
+is able to overfit the training set,
+
+28
+00:02:09.830 --> 00:02:11.280
+just as another sanity check.
+
+29
+00:02:13.120 --> 00:02:16.550
+After it, it is time to tune
+something in the network.
+
+30
+00:02:18.140 --> 00:02:22.780
+One of the crucial parts of neural
+network is selected optimization method.
+
+31
+00:02:23.890 --> 00:02:28.560
+Broadly speaking, we can pick either
+vanilla stochastic gradient descent with
+
+32
+00:02:28.560 --> 00:02:34.040
+momentum or
+one of modern adaptive methods like Adam,
+
+33
+00:02:34.040 --> 00:02:36.680
+Adadelta, Adagrad and so on.
+
+34
+00:02:38.150 --> 00:02:42.138
+On this slide,
+the adaptive methods are colored in green,
+
+35
+00:02:42.138 --> 00:02:43.904
+as compared to SGD in red.
+
+36
+00:02:43.904 --> 00:02:47.869
+I want to show here that adaptive
+methods do really allow you
+
+37
+00:02:47.869 --> 00:02:50.740
+to fit the training set faster.
+
+38
+00:02:50.740 --> 00:02:54.908
+But in my experience,
+they also lead to overfitting.
+
+39
+00:02:54.908 --> 00:02:58.969
+Plain old stochastic gradient
+descent converges slower, but
+
+40
+00:02:58.969 --> 00:03:02.270
+the trained network usually
+generalizes better.
+
+41
+00:03:03.730 --> 00:03:05.110
+Adaptive methods are useful,
+
+42
+00:03:05.110 --> 00:03:09.100
+but in the settings others in
+classification and regression.
+
+43
+00:03:11.090 --> 00:03:13.960
+Now here is a question for you.
+
+44
+00:03:13.960 --> 00:03:15.570
+Just keep the size.
+
+45
+00:03:15.570 --> 00:03:18.780
+What should we expect when
+increasing a batch size with
+
+46
+00:03:18.780 --> 00:03:20.480
+other hyperparameters fixed?
+
+47
+00:03:21.800 --> 00:03:26.730
+In fact, it turns out that huge batch
+size leads to more overfitting.
+
+48
+00:03:26.730 --> 00:03:31.110
+Say a batch of 500 objects
+is large in experience.
+
+49
+00:03:32.290 --> 00:03:37.664
+I recommend to pick a value around 32 or
+64.
+
+50
+00:03:37.664 --> 00:03:40.931
+Then if you see the network is
+still overfitting try to decrease
+
+51
+00:03:40.931 --> 00:03:41.800
+the batch size.
+
+52
+00:03:43.220 --> 00:03:45.220
+If it is underfitting, try to increase it.
+
+53
+00:03:46.420 --> 00:03:50.220
+Know that is a the number
+of outbox is fixed,
+
+54
+00:03:50.220 --> 00:03:55.050
+then a network with a batch
+size reduced by a factor of 2
+
+55
+00:03:55.050 --> 00:03:59.710
+gets updated twice more times
+compared to original network.
+
+56
+00:04:00.840 --> 00:04:03.120
+So take this into consideration.
+
+57
+00:04:03.120 --> 00:04:07.290
+Maybe you need to reduce the number of
+networks or at least somehow adjust it.
+
+58
+00:04:09.110 --> 00:04:14.490
+The batch size also should not be too
+small, the gradient will be too noisy.
+
+59
+00:04:15.590 --> 00:04:20.620
+Same as in gradient boosting,
+we need to set the proper learning rate.
+
+60
+00:04:20.620 --> 00:04:24.270
+When the learning rate is too high,
+network will not converge and
+
+61
+00:04:24.270 --> 00:04:28.610
+with too small a learning rate,
+the network will learn forever.
+
+62
+00:04:30.060 --> 00:04:33.140
+The learning rate should be
+not too high and not too low.
+
+63
+00:04:33.140 --> 00:04:37.160
+So the optimal learning rate
+depends on the other parameters.
+
+64
+00:04:38.160 --> 00:04:43.750
+I usually start with a huge learning rate,
+say 0.1, and try to lower it down till
+
+65
+00:04:43.750 --> 00:04:50.470
+I find one with which network converges
+and then I try to revise further.
+
+66
+00:04:50.470 --> 00:04:53.900
+Interestingly, there is a connection
+between the batch size and
+
+67
+00:04:53.900 --> 00:04:55.460
+the learning rate.
+
+68
+00:04:55.460 --> 00:05:00.450
+It is theoretically grounded for
+a specific type of models, but
+
+69
+00:05:00.450 --> 00:05:05.330
+people usually use it,
+well actually some people use it as
+
+70
+00:05:05.330 --> 00:05:08.610
+a rule of thumb with neural networks.
+
+71
+00:05:08.610 --> 00:05:10.670
+The connection is the following.
+
+72
+00:05:10.670 --> 00:05:14.420
+If you increase the batch
+size by a factor of alpha,
+
+73
+00:05:14.420 --> 00:05:18.640
+you can also increase the learning
+rate by the same factor.
+
+74
+00:05:19.890 --> 00:05:22.710
+But remember that the larger batch size,
+
+75
+00:05:24.630 --> 00:05:26.970
+the more your network is
+prone to overfitting.
+
+76
+00:05:26.970 --> 00:05:29.840
+So you need a good regularization here.
+
+77
+00:05:31.092 --> 00:05:37.350
+Sometime ago, people mostly use L2 and
+L1 regularization for weights.
+
+78
+00:05:37.350 --> 00:05:41.280
+Nowadays, most people use
+dropout regularization.
+
+79
+00:05:41.280 --> 00:05:47.257
+So whenever you see a network overfitting,
+try first to a dropout layer.
+
+80
+00:05:47.257 --> 00:05:53.310
+You can override dropout probability and a
+place where you insert the dropout layer.
+
+81
+00:05:53.310 --> 00:05:58.010
+Usually people add the dropout layer
+closer to the end of the network,
+
+82
+00:05:58.010 --> 00:06:02.400
+but it's okay to add some dropout
+to every layer, it also works.
+
+83
+00:06:03.870 --> 00:06:09.230
+Dropout helps network to find features
+that really matters, and what never worked
+
+84
+00:06:09.230 --> 00:06:14.800
+for me is to have dropout as the very
+first layer, immediately after data layer.
+
+85
+00:06:15.920 --> 00:06:19.850
+This way some information is lost
+completely at the very beginning
+
+86
+00:06:19.850 --> 00:06:23.070
+of the network and
+we observe performance degradation.
+
+87
+00:06:24.990 --> 00:06:28.360
+An interesting regularization
+technique that we used
+
+88
+00:06:28.360 --> 00:06:32.700
+in the [UNKOWN] competition is
+static dropconnect, as we call it.
+
+89
+00:06:34.242 --> 00:06:41.920
+So recall that, usually we have an input
+layer densely connected to, say 128 units.
+
+90
+00:06:41.920 --> 00:06:47.048
+We will instead use a first
+hidden layer with a very
+
+91
+00:06:47.048 --> 00:06:51.820
+huge number of units, say 4,096 units.
+
+92
+00:06:53.430 --> 00:06:58.860
+This is a huge network for a usual
+competition and it will overfeed badly.
+
+93
+00:07:00.520 --> 00:07:05.110
+But now to regularlize it,
+we'll at random drop 99% of
+
+94
+00:07:05.110 --> 00:07:10.270
+connections between the input layer and
+the first hidden layer.
+
+95
+00:07:11.700 --> 00:07:16.310
+We call it static dropconnect
+because originally in dropconnect,
+
+96
+00:07:16.310 --> 00:07:23.180
+we need to drop random connections at
+every learning iterations while we
+
+97
+00:07:23.180 --> 00:07:28.657
+fix connectivity pattern for the network
+for the whole learning process.
+
+98
+00:07:28.657 --> 00:07:33.057
+So you see the point, we increase
+the number of hidden units, but
+
+99
+00:07:33.057 --> 00:07:37.550
+the number of parameters in the first
+hidden layer remains small.
+
+100
+00:07:39.270 --> 00:07:43.700
+Notice that anyway the weight matrix
+of the second layer becomes huge,
+
+101
+00:07:43.700 --> 00:07:46.550
+but it turns out to be
+okay in the practice.
+
+102
+00:07:48.590 --> 00:07:51.600
+This is very powerful regularizations.
+
+103
+00:07:51.600 --> 00:07:55.840
+And more of the networks with
+different connectivity patterns makes
+
+104
+00:07:55.840 --> 00:07:59.625
+much nicer than networks
+without static dropconnect.
+
+105
+00:08:00.850 --> 00:08:06.040
+All right, last class of models
+to discuss are my neuro models.
+
+106
+00:08:07.590 --> 00:08:13.000
+Yet, a carefully tuned live GPM would
+probably beat support vector machines,
+
+107
+00:08:13.000 --> 00:08:16.100
+even on a large, sparse data set.
+
+108
+00:08:16.100 --> 00:08:21.480
+SVM's do not require almost any tuning,
+which is truly beneficial.
+
+109
+00:08:22.650 --> 00:08:27.788
+SVM's for classification and regression
+are implemented in SK learners or
+
+110
+00:08:27.788 --> 00:08:32.534
+wrappers to algorithms from libraries
+called libLinear and libSVM.
+
+111
+00:08:33.570 --> 00:08:38.677
+The latest version of libLinear and
+libSVM support multicore competitions,
+
+112
+00:08:38.677 --> 00:08:43.549
+but unfortunately it is not possible
+to use multicore version in Sklearn,
+
+113
+00:08:43.549 --> 00:08:47.900
+so we need to compile these libraries
+manually to use this option.
+
+114
+00:08:49.770 --> 00:08:53.340
+And I've never had anyone
+use kernel SVC lately,
+
+115
+00:08:53.340 --> 00:08:56.750
+so in this video we will
+talk only about linear SVM.
+
+116
+00:08:58.250 --> 00:09:03.758
+In Sklearn we can also find logistic and
+linear regression with various
+
+117
+00:09:03.758 --> 00:09:09.462
+regularization options and also,
+as your declassifier and regressor.
+
+118
+00:09:09.462 --> 00:09:12.050
+We've already mentioned them
+while discussing metrics.
+
+119
+00:09:13.160 --> 00:09:18.980
+For the data sets that do not fit in
+the memory, we can use Vowpal Wabbit.
+
+120
+00:09:18.980 --> 00:09:23.380
+It implements learning of linear
+models in online fashion.
+
+121
+00:09:23.380 --> 00:09:27.680
+It only reads data row by row
+directly from the hard drive and
+
+122
+00:09:27.680 --> 00:09:30.958
+never loads the whole
+data set in the memory.
+
+123
+00:09:30.958 --> 00:09:35.900
+Thus, allowing to learn
+on a very huge data sets.
+
+124
+00:09:37.280 --> 00:09:43.040
+A method of online learning for linear
+models called flow the regularized leader
+
+125
+00:09:43.040 --> 00:09:50.100
+or FTRL in short was particularly
+popular some time ago.
+
+126
+00:09:50.100 --> 00:09:52.940
+It is implemented in Vowpal Wabbit but
+
+127
+00:09:52.940 --> 00:09:56.580
+there are also lots of
+implementations in pure Python.
+
+128
+00:09:57.772 --> 00:10:02.640
+The hyperparameters we usually need
+to tune linear models are L2 and
+
+129
+00:10:02.640 --> 00:10:04.600
+L1 regularization of weights.
+
+130
+00:10:05.720 --> 00:10:09.380
+Once again, regularization is denoted
+with red color because of the higher
+
+131
+00:10:09.380 --> 00:10:13.900
+the regularization weight is the more
+model struggle to learn something.
+
+132
+00:10:14.970 --> 00:10:20.080
+But know that, the parameter see in
+SVM is inversely proportional to
+
+133
+00:10:20.080 --> 00:10:23.270
+regularization weight, so
+the dynamics is opposite.
+
+134
+00:10:25.030 --> 00:10:29.850
+In fact, we do not need to think about the
+meaning of the parameters in the case of
+
+135
+00:10:29.850 --> 00:10:31.700
+one parameter, right?
+
+136
+00:10:31.700 --> 00:10:36.290
+We just try several values and
+find one that works best.
+
+137
+00:10:37.530 --> 00:10:44.065
+For SVM, I usually start a very small
+seed, say 10 to the power of minus 6 and
+
+138
+00:10:44.065 --> 00:10:49.530
+then I try to increase it,
+multiply each time by a factor of 10.
+
+139
+00:10:50.770 --> 00:10:55.240
+I start from small values because
+the larger the parameter C is,
+
+140
+00:10:55.240 --> 00:10:56.890
+the longer the training takes.
+
+141
+00:10:58.170 --> 00:11:02.070
+What type of regularization,
+L1 or L2 do you choose?
+
+142
+00:11:03.980 --> 00:11:06.380
+Actually, my answer is try both.
+
+143
+00:11:06.380 --> 00:11:12.070
+To my mind actually they are quite similar
+and one benefit that L1 can give us
+
+144
+00:11:12.070 --> 00:11:18.020
+is weight sparsity, so the sparsity
+pattern can be used for feature selection.
+
+145
+00:11:19.360 --> 00:11:23.180
+A general advise I want to give
+here do not spend too much time on
+
+146
+00:11:23.180 --> 00:11:27.700
+tuning hyperparameters, especially
+when the competition has only begun.
+
+147
+00:11:28.840 --> 00:11:32.280
+You cannot win a competition
+by tuning parameters.
+
+148
+00:11:32.280 --> 00:11:36.780
+Appropriate features, hacks,
+leaks, and insights will
+
+149
+00:11:36.780 --> 00:11:41.409
+give you much more than carefully
+tuned model built on default features.
+
+150
+00:11:42.590 --> 00:11:44.350
+I also advice you to be patient.
+
+151
+00:11:45.690 --> 00:11:47.640
+It was my personal mistake several times.
+
+152
+00:11:47.640 --> 00:11:53.271
+I hated to spend more then ten minutes
+on training models and was amazed
+
+153
+00:11:53.271 --> 00:11:59.199
+how much the models could improve if I
+would let it train for a longer time.
+
+154
+00:11:59.199 --> 00:12:02.262
+And finally, average everything.
+
+155
+00:12:02.262 --> 00:12:06.516
+When submitting, learn five models
+starting from different random
+
+156
+00:12:06.516 --> 00:12:09.680
+initializations and
+average their predictions.
+
+157
+00:12:11.150 --> 00:12:16.579
+It helps a lot actually and
+some people average not only random seed,
+
+158
+00:12:16.579 --> 00:12:20.330
+but also other parameters
+around an optimal value.
+
+159
+00:12:20.330 --> 00:12:24.920
+For example, if optimal depth for
+extra boost is 5,
+
+160
+00:12:24.920 --> 00:12:29.819
+we can average 3 digiboosts with depth 3,
+4, and 5.
+
+161
+00:12:29.819 --> 00:12:32.881
+Wow, it would be better if we could
+
+162
+00:12:32.881 --> 00:12:37.534
+averaged 3 digiboosts with depth 4,
+5, and 6.
+
+163
+00:12:38.660 --> 00:12:40.570
+Finally, in this lecture,
+
+164
+00:12:40.570 --> 00:12:46.300
+we discussed what is a general pipeline
+for a hyperparameter optimization.
+
+165
+00:12:46.300 --> 00:12:50.890
+And we saw, in particular,
+what important hyperparameters derive for
+
+166
+00:12:50.890 --> 00:12:54.900
+several models,
+gradient boosting decision trees,
+
+167
+00:12:54.900 --> 00:12:59.630
+random forests and extra trees,
+neural networks, and linear models.
+
+168
+00:13:00.870 --> 00:13:04.985
+I hope you found something interesting
+in this lecture and see you later.
+
+169
+00:13:04.985 --> 00:13:14.985
+[MUSIC]

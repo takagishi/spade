@@ -1,0 +1,820 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.876
+[MUSIC]
+
+2
+00:00:03.876 --> 00:00:09.178
+In this video, we will talk about
+hyperparameter optimization for
+
+3
+00:00:09.178 --> 00:00:11.161
+some tree based models.
+
+4
+00:00:11.161 --> 00:00:15.707
+Nowadays, XGBoost and
+LightGBM became really gold standard.
+
+5
+00:00:15.707 --> 00:00:20.325
+They are just awesome implementation
+of a very versatile gradient boosted
+
+6
+00:00:20.325 --> 00:00:22.790
+decision trees model.
+
+7
+00:00:22.790 --> 00:00:27.580
+There is also a CatBoost library it
+appeared exactly at the time when we were
+
+8
+00:00:27.580 --> 00:00:33.350
+preparing this course, so CatBoost
+didn't have time to win people's hearts.
+
+9
+00:00:33.350 --> 00:00:38.105
+But it looks very interesting and
+promising, so check it out.
+
+10
+00:00:38.105 --> 00:00:40.988
+There is a very nice
+implementation of RandomForest and
+
+11
+00:00:40.988 --> 00:00:42.530
+ExtraTrees models sklearn.
+
+12
+00:00:42.530 --> 00:00:48.630
+These models are powerful, and
+can be used along with gradient boosting.
+
+13
+00:00:49.940 --> 00:00:54.940
+And finally, there is a model
+called regularized Greedy Forest.
+
+14
+00:00:54.940 --> 00:00:59.390
+It showed very nice results from several
+competitions, but its implementation is
+
+15
+00:00:59.390 --> 00:01:04.420
+very slow and hard to use, but
+you can try it on small data sets.
+
+16
+00:01:05.450 --> 00:01:10.030
+Okay, what important parameters do
+we have in XGBoost and LightGBM?
+
+17
+00:01:11.500 --> 00:01:17.960
+The two libraries have similar parameters
+and we'll use names from XGBoost.
+
+18
+00:01:17.960 --> 00:01:21.991
+And on the right half of the slide
+you will see somehow loosely
+
+19
+00:01:21.991 --> 00:01:25.242
+corresponding parameter
+names from LightGBM.
+
+20
+00:01:25.242 --> 00:01:30.524
+To understand the parameters,
+we better understand how XGBoost and
+
+21
+00:01:30.524 --> 00:01:33.720
+LightGBM work at least a very high level.
+
+22
+00:01:35.280 --> 00:01:40.033
+What these models do, these models
+build decision trees one after another
+
+23
+00:01:40.033 --> 00:01:42.760
+gradually optimizing a given objective.
+
+24
+00:01:44.270 --> 00:01:48.405
+And first there are many parameters
+that control the tree building process.
+
+25
+00:01:48.405 --> 00:01:52.200
+Max_depth is the maximum depth of a tree.
+
+26
+00:01:53.310 --> 00:01:57.770
+And of course, the deeper a tree can be
+grown the better it can fit a dataset.
+
+27
+00:01:58.820 --> 00:02:02.850
+So increasing this parameter will lead
+to faster fitting to the train set.
+
+28
+00:02:03.970 --> 00:02:08.408
+Depending on the task,
+the optimal depth can vary a lot,
+
+29
+00:02:08.408 --> 00:02:11.748
+sometimes it is 2, sometimes it is 27.
+
+30
+00:02:11.748 --> 00:02:17.073
+If you increase the depth and can not get
+the model to overfit, that is, the model
+
+31
+00:02:17.073 --> 00:02:22.260
+is becoming better and better on the
+validation set as you increase the depth.
+
+32
+00:02:23.330 --> 00:02:27.920
+It can be a sign that there are a lot
+of important interactions to
+
+33
+00:02:27.920 --> 00:02:29.480
+extract from the data.
+
+34
+00:02:29.480 --> 00:02:33.410
+So it's better to stop tuning and
+try to generate some features.
+
+35
+00:02:34.940 --> 00:02:38.560
+I would recommend to start with
+a max_depth of about seven.
+
+36
+00:02:40.320 --> 00:02:44.170
+Also remember that as
+you increase the depth,
+
+37
+00:02:44.170 --> 00:02:46.090
+the learning will take a longer time.
+
+38
+00:02:46.090 --> 00:02:49.091
+So do not set depth to
+a very higher values
+
+39
+00:02:49.091 --> 00:02:52.196
+unless you are 100% sure you need it.
+
+40
+00:02:52.196 --> 00:02:56.120
+In LightGBM,
+it is possible to control the number of
+
+41
+00:02:56.120 --> 00:02:59.240
+leaves in the tree rather
+than the maximum depth.
+
+42
+00:03:00.290 --> 00:03:03.590
+It is nice since a resulting
+tree can be very deep,
+
+43
+00:03:03.590 --> 00:03:08.150
+but have small number of leaves and
+not over fit.
+
+44
+00:03:08.150 --> 00:03:13.060
+Some simple parameter controls a fraction
+of objects to use when feeding a tree.
+
+45
+00:03:14.380 --> 00:03:16.210
+It's a value between 0 and 1.
+
+46
+00:03:17.760 --> 00:03:23.130
+One might think that it's better
+always use all the objects, right?
+
+47
+00:03:23.130 --> 00:03:25.860
+But in practice,
+it turns out that it's not.
+
+48
+00:03:27.550 --> 00:03:31.350
+Actually, if only a fraction of
+objects is used at every duration,
+
+49
+00:03:31.350 --> 00:03:35.400
+then the model is less
+prone to overfitting.
+
+50
+00:03:35.400 --> 00:03:41.740
+So using a fraction of objects, the model
+will fit slower on the train set, but at
+
+51
+00:03:41.740 --> 00:03:48.640
+the same time it will probably generalize
+better than this over-fitted model.
+
+52
+00:03:48.640 --> 00:03:52.060
+So, it works kind of as a regularization.
+
+53
+00:03:53.390 --> 00:03:58.771
+Similarly, if we can consider only
+a fraction of features [INAUDIBLE] split,
+
+54
+00:03:58.771 --> 00:04:04.430
+this is controlled by parameters
+colsample_bytree and colsample_bylevel.
+
+55
+00:04:04.430 --> 00:04:07.310
+Once again, if the model is over fitting,
+
+56
+00:04:07.310 --> 00:04:10.650
+you can try to lower
+down these parameters.
+
+57
+00:04:10.650 --> 00:04:15.040
+There are also various regularization
+parameters, min_child_weight,
+
+58
+00:04:15.040 --> 00:04:17.410
+lambda, alpha and others.
+
+59
+00:04:18.410 --> 00:04:20.895
+The most important one
+is min_child_weight.
+
+60
+00:04:22.400 --> 00:04:26.280
+If we increase it,
+the model will become more conservative.
+
+61
+00:04:26.280 --> 00:04:29.180
+If we set it to 0,
+which is the minimum value for
+
+62
+00:04:29.180 --> 00:04:32.220
+this parameter,
+the model will be less constrained.
+
+63
+00:04:33.560 --> 00:04:34.360
+In my experience,
+
+64
+00:04:34.360 --> 00:04:39.910
+it's one of the most important parameters
+to tune in XGBoost and LightGBM.
+
+65
+00:04:39.910 --> 00:04:45.041
+Depending on the task,
+I find optimal values to be 0, 5,
+
+66
+00:04:45.041 --> 00:04:52.653
+15, 300, so do not hesitate to try a wide
+range of values, it depends on the data.
+
+67
+00:04:54.855 --> 00:04:58.384
+To this end we were discussing
+hyperparameters that are used to
+
+68
+00:04:58.384 --> 00:04:59.190
+build a tree.
+
+69
+00:05:00.400 --> 00:05:04.878
+And next, there are two very important
+parameters that are tightly connected,
+
+70
+00:05:04.878 --> 00:05:08.600
+eta and num_rounds.
+
+71
+00:05:08.600 --> 00:05:12.922
+Eta is essentially a learning weight,
+like in gradient descent.
+
+72
+00:05:12.922 --> 00:05:18.250
+And the num_round is the how many
+learning steps we want to perform or
+
+73
+00:05:18.250 --> 00:05:21.506
+in other words how many
+tree's we want to build.
+
+74
+00:05:21.506 --> 00:05:25.570
+With each iteration
+a new tree is built and
+
+75
+00:05:25.570 --> 00:05:29.350
+added to the model with
+a learning rate eta.
+
+76
+00:05:29.350 --> 00:05:31.860
+So in general,
+the higher the learning rate,
+
+77
+00:05:31.860 --> 00:05:37.230
+the faster the model fits to the train set
+and probably it can lead to over fitting.
+
+78
+00:05:37.230 --> 00:05:41.490
+And more steps model does,
+the better the model fits.
+
+79
+00:05:42.550 --> 00:05:44.540
+But there are several caveats here.
+
+80
+00:05:45.670 --> 00:05:51.100
+It happens that with a too high learning
+rate the model will not fit at all,
+
+81
+00:05:51.100 --> 00:05:52.620
+it will just not converge.
+
+82
+00:05:53.730 --> 00:05:58.420
+So first, we need to find out if we
+are using small enough learning rate.
+
+83
+00:05:59.450 --> 00:06:02.420
+On the other hand,
+if the learning rate is too small,
+
+84
+00:06:02.420 --> 00:06:07.300
+the model will learn nothing
+after a large number of rounds.
+
+85
+00:06:08.600 --> 00:06:13.420
+But at the same time, small learning rate
+often leads to a better generalization.
+
+86
+00:06:14.600 --> 00:06:19.280
+So it means that learning
+rate should be just right, so
+
+87
+00:06:19.280 --> 00:06:22.400
+that the model generalize and
+doesn't take forever to train.
+
+88
+00:06:24.431 --> 00:06:30.966
+The nice thing is that we can freeze
+eta to be reasonably small, say, 0.1 or
+
+89
+00:06:30.966 --> 00:06:37.917
+0.01, and then find how many rounds we
+should train the model til it over fits.
+
+90
+00:06:37.917 --> 00:06:40.960
+We usually use early stopping for it.
+
+91
+00:06:40.960 --> 00:06:45.860
+We monitor the validation loss and exit
+the training when loss starts to go up.
+
+92
+00:06:47.170 --> 00:06:51.690
+Now when we found
+the right number of rounds,
+
+93
+00:06:51.690 --> 00:06:55.180
+we can do a trick that
+usually improves the score.
+
+94
+00:06:55.180 --> 00:06:59.990
+We multiply the number of
+steps by a factor of alpha and
+
+95
+00:06:59.990 --> 00:07:04.180
+at the same time,
+we divide eta by the factor of alpha.
+
+96
+00:07:05.280 --> 00:07:10.310
+For example, we double the number
+of steps and divide eta by 2.
+
+97
+00:07:10.310 --> 00:07:13.720
+In this case, the learning will
+take twice longer in time, but
+
+98
+00:07:13.720 --> 00:07:16.080
+the resulting model
+usually becomes better.
+
+99
+00:07:17.230 --> 00:07:21.190
+It may happen that the valid parameters
+will need to be adjusted too,
+
+100
+00:07:21.190 --> 00:07:23.600
+but usually it's okay to leave them as is.
+
+101
+00:07:24.610 --> 00:07:28.850
+Finally, you may want to
+use random seed argument,
+
+102
+00:07:28.850 --> 00:07:31.590
+many people recommend to
+fix seed before hand.
+
+103
+00:07:33.162 --> 00:07:36.918
+I think it doesn't make too much
+sense to fix seed in XGBoost,
+
+104
+00:07:36.918 --> 00:07:42.520
+as anyway every changed parameter will
+lead to completely different model.
+
+105
+00:07:42.520 --> 00:07:46.210
+But I would use this
+parameter to verify that
+
+106
+00:07:46.210 --> 00:07:49.807
+different random seeds do not
+change training results much.
+
+107
+00:07:49.807 --> 00:07:55.850
+Say [INAUDIBLE] competition,
+one could jump 1,000 places up or
+
+108
+00:07:55.850 --> 00:08:02.660
+down on the leaderboard just by training
+a model with different random seeds.
+
+109
+00:08:02.660 --> 00:08:06.310
+If random seed doesn't
+affect model too much, good.
+
+110
+00:08:07.510 --> 00:08:11.550
+In other case, I suggest you to think
+one more time if it's a good idea to
+
+111
+00:08:11.550 --> 00:08:16.420
+participate in that competition as
+the results can be quite random.
+
+112
+00:08:17.530 --> 00:08:21.120
+Or at least I suggest you to adjust
+validation scheme and account for
+
+113
+00:08:21.120 --> 00:08:21.750
+the randomness.
+
+114
+00:08:22.860 --> 00:08:26.370
+All right,
+we're finished with gradient boosting.
+
+115
+00:08:26.370 --> 00:08:29.940
+Now let's get to RandomForest and
+ExtraTrees.
+
+116
+00:08:31.430 --> 00:08:36.000
+In fact, ExtraTrees is just a more
+randomized version of RandomForest and
+
+117
+00:08:36.000 --> 00:08:37.400
+has the same parameters.
+
+118
+00:08:37.400 --> 00:08:42.120
+So I will say RandomForest
+meaning both of the models.
+
+119
+00:08:42.120 --> 00:08:46.230
+RandomForest and ExtraBoost build trees,
+one tree after another.
+
+120
+00:08:47.310 --> 00:08:52.580
+But, RandomForest builds each
+tree to be independent of others.
+
+121
+00:08:52.580 --> 00:08:56.850
+It means that having a lot of trees
+doesn't lead to overfeeding for
+
+122
+00:08:56.850 --> 00:08:59.738
+RandomForest as opposed
+to gradient boosting.
+
+123
+00:09:01.480 --> 00:09:03.420
+In sklearn, the number of trees for
+
+124
+00:09:03.420 --> 00:09:09.091
+random forest is controlled
+by N_estimators parameter.
+
+125
+00:09:09.091 --> 00:09:10.500
+At the start,
+
+126
+00:09:10.500 --> 00:09:15.820
+we may want to determine what number
+of trees is sufficient to have.
+
+127
+00:09:15.820 --> 00:09:21.230
+That is, if we use more than that,
+the result will not change much,
+
+128
+00:09:21.230 --> 00:09:23.890
+but the models will fit longer.
+
+129
+00:09:25.020 --> 00:09:29.314
+I usually first set N_estimators
+to very small number, say 10,
+
+130
+00:09:29.314 --> 00:09:33.020
+and see how long does it take
+to fit 10 trees on that data.
+
+131
+00:09:34.620 --> 00:09:39.720
+If it is not too long then I set
+N_estimators to a huge value,
+
+132
+00:09:39.720 --> 00:09:42.950
+say 300, but it actually depends.
+
+133
+00:09:44.000 --> 00:09:45.020
+And feed the model.
+
+134
+00:09:46.160 --> 00:09:51.038
+And then I plot how the validation
+error changed depending on a number of
+
+135
+00:09:51.038 --> 00:09:52.840
+used trees.
+
+136
+00:09:52.840 --> 00:09:54.470
+This plot usually looks like that.
+
+137
+00:09:55.480 --> 00:10:02.040
+We have number of trees on the x-axis and
+the accuracy score on y-axis.
+
+138
+00:10:02.040 --> 00:10:06.740
+We see here that about 50 trees
+already give reasonable score and
+
+139
+00:10:06.740 --> 00:10:11.830
+we don't need to use more
+while tuning parameter.
+
+140
+00:10:11.830 --> 00:10:15.486
+It's pretty reliable to use 50 trees.
+
+141
+00:10:15.486 --> 00:10:17.880
+Before submitting to leaderboard,
+
+142
+00:10:17.880 --> 00:10:21.670
+we can set N_estimators to
+a higher value just to be sure.
+
+143
+00:10:23.410 --> 00:10:26.338
+You can find code for this plot,
+actually, in the reading materials.
+
+144
+00:10:26.338 --> 00:10:28.079
+Similarly to XGBoost,
+
+145
+00:10:28.079 --> 00:10:33.500
+there is a parameter max_depth
+that controls depth of the trees.
+
+146
+00:10:33.500 --> 00:10:35.830
+But differently to XGBoost,
+
+147
+00:10:35.830 --> 00:10:40.040
+it can be set to none,
+which corresponds to unlimited depth.
+
+148
+00:10:41.370 --> 00:10:45.720
+It can be very useful actually when
+the features in the data set have repeated
+
+149
+00:10:45.720 --> 00:10:49.330
+values and important interactions.
+
+150
+00:10:49.330 --> 00:10:49.960
+In other cases,
+
+151
+00:10:49.960 --> 00:10:54.445
+the model with unconstrained
+depth will over fit immediately.
+
+152
+00:10:54.445 --> 00:10:59.870
+I recommend you to start with a depth
+of about 7 for random forest.
+
+153
+00:11:01.290 --> 00:11:05.588
+Usually an optimal depth for
+random forests is higher than for
+
+154
+00:11:05.588 --> 00:11:11.133
+gradient boosting, so do not hesitate
+to try a depth 10, 20, and higher.
+
+155
+00:11:11.133 --> 00:11:17.929
+Max_features is similar to call
+sample parameter from XGBoost.
+
+156
+00:11:17.929 --> 00:11:22.200
+The more features I use to decipher
+a split, the faster the training.
+
+157
+00:11:22.200 --> 00:11:29.159
+But on the other hand,
+you don't want to use too few features.
+
+158
+00:11:29.159 --> 00:11:33.967
+And min_samples_leaf is
+a regularization parameter similar to
+
+159
+00:11:33.967 --> 00:11:39.990
+min_child_weight from XGBoost and
+the same as min_data_leaf from LightGPM.
+
+160
+00:11:41.140 --> 00:11:45.702
+For Random Forest classifier,
+we can select a criterion to eleviate
+
+161
+00:11:45.702 --> 00:11:48.860
+a split in the tree with
+a criterion parameter.
+
+162
+00:11:50.140 --> 00:11:52.810
+It can be either Gini or Entropy.
+
+163
+00:11:54.040 --> 00:11:57.450
+To choose one, we should just try both and
+pick the best performing one.
+
+164
+00:11:58.520 --> 00:12:03.569
+In my experience Gini is better more
+often, but sometimes Entropy wins.
+
+165
+00:12:05.490 --> 00:12:09.990
+We can also fix random seed using
+random_state parameter, if we want.
+
+166
+00:12:11.180 --> 00:12:16.940
+And finally, do not forget to set n_jobs
+parameter to a number of cores you have.
+
+167
+00:12:16.940 --> 00:12:22.280
+As by default, RandomForest from sklearn
+uses only one core for some reason.
+
+168
+00:12:23.560 --> 00:12:28.300
+So in this video, we were talking
+about various hyperparameters
+
+169
+00:12:28.300 --> 00:12:31.420
+of gradient boost and
+decision trees, and random forest.
+
+170
+00:12:32.590 --> 00:12:38.033
+In the following video, we'll discuss
+
+171
+00:12:38.033 --> 00:12:43.001
+neural networks and linear models.
+
+172
+00:12:43.001 --> 00:12:49.789
+[MUSIC]

@@ -1,0 +1,341 @@
+WEBVTT
+
+1
+00:00:03.080 --> 00:00:05.268
+Hi, everyone.
+
+2
+00:00:05.268 --> 00:00:10.095
+Today, we will discuss this new method for visualizing data integrating features.
+
+3
+00:00:10.095 --> 00:00:11.540
+At the end of this video,
+
+4
+00:00:11.540 --> 00:00:14.190
+you will be able to use tSNE in your products.
+
+5
+00:00:14.190 --> 00:00:15.745
+In the previous video,
+
+6
+00:00:15.745 --> 00:00:20.930
+we learned about metaphysician technique that is predatory very close to linear models.
+
+7
+00:00:20.930 --> 00:00:22.980
+In this video, we will touch
+
+8
+00:00:22.980 --> 00:00:26.355
+the subject of non-linear methods of dimensionality reduction.
+
+9
+00:00:26.355 --> 00:00:29.180
+That says in general are called manifold learning.
+
+10
+00:00:29.180 --> 00:00:34.225
+For example, look at the data in form of letter S on the left side.
+
+11
+00:00:34.225 --> 00:00:36.380
+On the right, we can see results of running
+
+12
+00:00:36.380 --> 00:00:39.255
+different manifold learning algorithm on the data.
+
+13
+00:00:39.255 --> 00:00:43.560
+This new result is placed at the right bottom corner on the slide.
+
+14
+00:00:43.560 --> 00:00:46.803
+This new algorithm is the main topic of the lecture,
+
+15
+00:00:46.803 --> 00:00:50.170
+as it tells of how this really works won't be explained here.
+
+16
+00:00:50.170 --> 00:00:54.090
+But you will come to look at additional materials for the details.
+
+17
+00:00:54.090 --> 00:00:58.295
+Let's just say that this is a method that tries to project points from
+
+18
+00:00:58.295 --> 00:01:01.340
+high dimensional space into small dimensional space
+
+19
+00:01:01.340 --> 00:01:05.075
+so that the distances between points are approximately preserved.
+
+20
+00:01:05.075 --> 00:01:09.500
+Let's look at the example of the tSNE on the MNIST dataset.
+
+21
+00:01:09.500 --> 00:01:15.225
+Here are points from 700 dimensional space that are projected into two dimensional space.
+
+22
+00:01:15.225 --> 00:01:19.235
+You can see that such projection forms explicit clusters.
+
+23
+00:01:19.235 --> 00:01:22.240
+Coolest shows that these clusters are meaningful and
+
+24
+00:01:22.240 --> 00:01:25.785
+corresponds to the target numbers well.
+
+25
+00:01:25.785 --> 00:01:29.400
+Moreover, neighbor clusters corresponds to a visually similar numbers.
+
+26
+00:01:29.400 --> 00:01:32.730
+For example, cluster of three is located next to the cluster of
+
+27
+00:01:32.730 --> 00:01:37.490
+five which in chance is adjustment to the cluster of six and eight.
+
+28
+00:01:37.490 --> 00:01:41.535
+If data has explicit structure as in case of MNIST dataset,
+
+29
+00:01:41.535 --> 00:01:44.460
+it's likely to be reflected on tSNE plot.
+
+30
+00:01:44.460 --> 00:01:49.410
+For the reason tSNE is widely used in exploratory data analysis.
+
+31
+00:01:49.410 --> 00:01:53.875
+However, do not assume that tSNE is a magic want that always helps.
+
+32
+00:01:53.875 --> 00:01:58.640
+For example, a misfortune choice of hyperparameters may lead to poor results.
+
+33
+00:01:58.640 --> 00:02:02.095
+Consider an example, in the center is the least presented
+
+34
+00:02:02.095 --> 00:02:06.590
+a tSNE projection of exactly the same MNIST data as in previous example,
+
+35
+00:02:06.590 --> 00:02:09.340
+only perplexity parameter has been changed.
+
+36
+00:02:09.340 --> 00:02:11.110
+On the left, for comparison,
+
+37
+00:02:11.110 --> 00:02:13.225
+we have plots from previous right.
+
+38
+00:02:13.225 --> 00:02:17.190
+On the right, so it present a tSNE projection of random data.
+
+39
+00:02:17.190 --> 00:02:20.790
+We can see as a choice of hybrid parameters change projection of
+
+40
+00:02:20.790 --> 00:02:24.500
+MNIST data significantly so that we cannot see clusters.
+
+41
+00:02:24.500 --> 00:02:30.775
+Moreover, new projection become more similar to random data rather than to the original.
+
+42
+00:02:30.775 --> 00:02:34.615
+Let's find out what depends on the perplexity hyperparameter value.
+
+43
+00:02:34.615 --> 00:02:36.426
+On the left, we have perplexity=3,
+
+44
+00:02:36.426 --> 00:02:42.805
+in the center=10, and on the right= 150.
+
+45
+00:02:42.805 --> 00:02:47.910
+I want to emphasize that these projections are all made for the same data.
+
+46
+00:02:47.910 --> 00:02:52.875
+The illustration shows that these new results strongly depends on its parameters,
+
+47
+00:02:52.875 --> 00:02:57.270
+and the interpretation of the results is not a simple task.
+
+48
+00:02:57.270 --> 00:02:59.500
+In particular, one cannot infer the size of
+
+49
+00:02:59.500 --> 00:03:02.855
+original clusters using the size of projected clusters.
+
+50
+00:03:02.855 --> 00:03:06.050
+Similar proposition is valid for a distance between clusters.
+
+51
+00:03:06.050 --> 00:03:09.417
+Blog distill.pub contain a post
+
+52
+00:03:09.417 --> 00:03:13.595
+about how to understand and interpret the results of tSNE.
+
+53
+00:03:13.595 --> 00:03:16.220
+Also, it contains a great interactive demo
+
+54
+00:03:16.220 --> 00:03:19.575
+that will help you to get into issues of how tSNE works.
+
+55
+00:03:19.575 --> 00:03:21.980
+I strongly advise you to take a look at it.
+
+56
+00:03:21.980 --> 00:03:24.690
+In addition to exploratory data analysis,
+
+57
+00:03:24.690 --> 00:03:28.770
+tSNE can be considered as a method to obtain new features from data.
+
+58
+00:03:28.770 --> 00:03:33.235
+You should just concatenate the transformers coordinates to the original feature matrix.
+
+59
+00:03:33.235 --> 00:03:35.680
+Now if you've heard this about practical details,
+
+60
+00:03:35.680 --> 00:03:37.270
+as it has been shown earlier,
+
+61
+00:03:37.270 --> 00:03:38.490
+the results of tSNE algorithm,
+
+62
+00:03:38.490 --> 00:03:41.480
+it strongly depends on hyperparameters.
+
+63
+00:03:41.480 --> 00:03:45.690
+It is good practice to use several projections with different perplexities.
+
+64
+00:03:45.690 --> 00:03:49.110
+In addition, because of stochastic of this methods results in
+
+65
+00:03:49.110 --> 00:03:52.660
+different projections even with the same data and hyperparameters.
+
+66
+00:03:52.660 --> 00:03:58.490
+This means the train and test sets should be projected together rather than separately.
+
+67
+00:03:58.490 --> 00:04:02.575
+Also, tSNE will run for a long time if you have a lot of features.
+
+68
+00:04:02.575 --> 00:04:05.290
+If the number of features is greater than 500,
+
+69
+00:04:05.290 --> 00:04:09.165
+you should use one of dimensionality reduction approach and reduce number of features,
+
+70
+00:04:09.165 --> 00:04:11.585
+for example, to 100.
+
+71
+00:04:11.585 --> 00:04:15.700
+Implementation of tSNE can be found in the sklearn library.
+
+72
+00:04:15.700 --> 00:04:17.255
+But personally, I prefer to use
+
+73
+00:04:17.255 --> 00:04:20.975
+another implementation from a separate Python package called tSNE,
+
+74
+00:04:20.975 --> 00:04:24.830
+since it provide a way more efficient implementation.
+
+75
+00:04:24.830 --> 00:04:28.570
+In conclusion, I want to remind you the basic points of the lecture.
+
+76
+00:04:28.570 --> 00:04:31.630
+TSNE is an excellent tool for visualizing data.
+
+77
+00:04:31.630 --> 00:04:33.785
+If data has an explicit structure,
+
+78
+00:04:33.785 --> 00:04:37.318
+then it likely be [inaudible] on tSNE projection.
+
+79
+00:04:37.318 --> 00:04:41.615
+However, it requires to be cautious with interpretation of tSNE results.
+
+80
+00:04:41.615 --> 00:04:46.145
+Sometimes you can see structure where it does not exist or vice versa,
+
+81
+00:04:46.145 --> 00:04:48.785
+see none where structure is actually present.
+
+82
+00:04:48.785 --> 00:04:53.530
+It's a good practice to do several tSNE projections with different perplexities.
+
+83
+00:04:53.530 --> 00:04:55.035
+And in addition to EJ,
+
+84
+00:04:55.035 --> 00:04:59.125
+tSNE is working very well as a feature for feeding models.
+
+85
+00:04:59.125 --> 00:05:01.800
+Thank you for your attention.

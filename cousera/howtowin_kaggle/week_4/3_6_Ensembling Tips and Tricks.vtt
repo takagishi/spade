@@ -1,0 +1,897 @@
+WEBVTT
+
+1
+00:00:00.580 --> 00:00:09.095
+Now, I'll give you a few tips that are going to help you to make a good ensemble,
+
+2
+00:00:09.095 --> 00:00:12.505
+or at least it help you to start with.
+
+3
+00:00:12.505 --> 00:00:15.590
+And I mentioned before when I talked about stacking,
+
+4
+00:00:15.590 --> 00:00:19.070
+what's quite important is to introduce diversity,
+
+5
+00:00:19.070 --> 00:00:23.900
+and one way to do this is based on the algorithms you use.
+
+6
+00:00:23.900 --> 00:00:26.570
+So an architecture that I have found quite
+
+7
+00:00:26.570 --> 00:00:32.205
+useful is to always make two or three gradient boosted trees.
+
+8
+00:00:32.205 --> 00:00:37.520
+And what I'm about to do here is I haven't either tried different implementations,
+
+9
+00:00:37.520 --> 00:00:42.050
+or I try to make one with bigger depth,
+
+10
+00:00:42.050 --> 00:00:44.410
+one with middle depth,
+
+11
+00:00:44.410 --> 00:00:46.150
+and one with low depth,
+
+12
+00:00:46.150 --> 00:00:49.880
+and then I try to tune the parameters around it in order
+
+13
+00:00:49.880 --> 00:00:54.050
+to make them have as similar performance as possible.
+
+14
+00:00:54.050 --> 00:00:56.900
+Again, hoping that the end result will
+
+15
+00:00:56.900 --> 00:01:00.945
+be some models which are fairly diverse to each other.
+
+16
+00:01:00.945 --> 00:01:02.500
+Another thing that I like is,
+
+17
+00:01:02.500 --> 00:01:07.195
+I'm using neural nets either from Keras or PyTorch.
+
+18
+00:01:07.195 --> 00:01:08.760
+And again, what I try to do is,
+
+19
+00:01:08.760 --> 00:01:13.600
+I try to make one which is fairly deep that take three hidden layers,
+
+20
+00:01:13.600 --> 00:01:15.105
+and one which is middle,
+
+21
+00:01:15.105 --> 00:01:17.090
+like two hidden layers,
+
+22
+00:01:17.090 --> 00:01:20.130
+and one that has, let's say, only one hidden layer.
+
+23
+00:01:20.130 --> 00:01:23.540
+Again, I try to diversify,
+
+24
+00:01:23.540 --> 00:01:25.770
+I try to make them slightly different,
+
+25
+00:01:25.770 --> 00:01:28.745
+in order to try and get new information.
+
+26
+00:01:28.745 --> 00:01:32.715
+Then I use a few ExtraTrees or Random Forest,
+
+27
+00:01:32.715 --> 00:01:36.440
+most of the time they work quite well, they normally add.
+
+28
+00:01:36.440 --> 00:01:40.810
+I also add a few linear models or ridge regression.
+
+29
+00:01:40.810 --> 00:01:47.560
+I also like linear support vector machine from scikit-learn.
+
+30
+00:01:47.560 --> 00:01:52.245
+KNN models tend to want quite nice value in many problems,
+
+31
+00:01:52.245 --> 00:01:55.830
+which is surprising because if you look at them individually,
+
+32
+00:01:55.830 --> 00:02:00.360
+they rarely have have good performance by compared to an exit boost
+
+33
+00:02:00.360 --> 00:02:07.135
+that they generally tend to add quite some value in a metamodeling context.
+
+34
+00:02:07.135 --> 00:02:09.515
+I personally like factorization machines,
+
+35
+00:02:09.515 --> 00:02:12.232
+I find them quite useful,
+
+36
+00:02:12.232 --> 00:02:18.188
+especially libFM that factorizes all pairwise interactions.
+
+37
+00:02:18.188 --> 00:02:24.360
+And if your data permits, so if your data is not so big,
+
+38
+00:02:24.360 --> 00:02:32.550
+I also find useful support vector machines with some sort of non-linear kernel, like RBF.
+
+39
+00:02:32.550 --> 00:02:35.580
+They don't work quite well, especially in regression.
+
+40
+00:02:35.580 --> 00:02:38.520
+The other way you can introduce diversity
+
+41
+00:02:38.520 --> 00:02:44.666
+is with the transformations you make in your own input data,
+
+42
+00:02:44.666 --> 00:02:47.220
+whereas, you can actually run
+
+43
+00:02:47.220 --> 00:02:52.740
+exactly the same models just by having slightly different input data,
+
+44
+00:02:52.740 --> 00:02:55.830
+is enough to generate diversity.
+
+45
+00:02:55.830 --> 00:03:00.345
+So, what we look at for categorical features are train one hot encoding,
+
+46
+00:03:00.345 --> 00:03:06.120
+label encoding as in replacing the categorical values with an index.
+
+47
+00:03:06.120 --> 00:03:09.422
+I can use likelihood encoding or target encoding,
+
+48
+00:03:09.422 --> 00:03:13.860
+or I can replace categories with frequency or counts.
+
+49
+00:03:13.860 --> 00:03:19.788
+For numerical features, I try to take care of outliers or not.
+
+50
+00:03:19.788 --> 00:03:25.290
+I bin the variables from X to Z,
+
+51
+00:03:25.290 --> 00:03:28.480
+from Z to all, and so on.
+
+52
+00:03:28.480 --> 00:03:31.770
+I use derivatives which is a way to smoothen
+
+53
+00:03:31.770 --> 00:03:37.950
+your variables or I could use percentiles or scaling,
+
+54
+00:03:37.950 --> 00:03:45.030
+these are different ways I use to change my numerical features in different models.
+
+55
+00:03:45.030 --> 00:03:47.360
+And then I also explore interactions, like column one,
+
+56
+00:03:47.360 --> 00:03:51.620
+multiple column two, or column one plus column two.
+
+57
+00:03:51.620 --> 00:03:57.660
+I can go up to three or four levels so explore all possible interactions.
+
+58
+00:03:57.660 --> 00:04:04.380
+Another way to explore interactions is with groupby statements where you say,
+
+59
+00:04:04.380 --> 00:04:08.625
+given all categories of a categorical feature,
+
+60
+00:04:08.625 --> 00:04:11.565
+compute the average of another variable, for example.
+
+61
+00:04:11.565 --> 00:04:15.290
+In certain situations, this works quite well.
+
+62
+00:04:15.290 --> 00:04:17.955
+The other thing that I would do is,
+
+63
+00:04:17.955 --> 00:04:21.600
+I would try and supervise techniques like k-means,
+
+64
+00:04:21.600 --> 00:04:27.748
+or SVM, or PCA, or numerical features.
+
+65
+00:04:27.748 --> 00:04:33.315
+Again, it tends to add value quite often.
+
+66
+00:04:33.315 --> 00:04:35.045
+Now, on every other layer,
+
+67
+00:04:35.045 --> 00:04:38.730
+what you the need to keep in mind is that you need to make
+
+68
+00:04:38.730 --> 00:04:44.805
+your algorithms smaller or shallower, more constrained.
+
+69
+00:04:44.805 --> 00:04:46.210
+What does this mean?
+
+70
+00:04:46.210 --> 00:04:47.452
+In gradient boosting trees,
+
+71
+00:04:47.452 --> 00:04:49.130
+means you need to put very small depth,
+
+72
+00:04:49.130 --> 00:04:51.280
+like two or three.
+
+73
+00:04:51.280 --> 00:04:55.350
+Linear models, you need to put high regularization.
+
+74
+00:04:55.350 --> 00:04:58.755
+Extra Trees, just don't make them too big,
+
+75
+00:04:58.755 --> 00:05:01.735
+they tend to work quite well.
+
+76
+00:05:01.735 --> 00:05:04.150
+Shallow neural networks, again,
+
+77
+00:05:04.150 --> 00:05:07.610
+I normally put one layer maximum two layers here,
+
+78
+00:05:07.610 --> 00:05:09.830
+with not that many hidden neurons.
+
+79
+00:05:09.830 --> 00:05:15.845
+We can try KNN with BrayCurtis distance or
+
+80
+00:05:15.845 --> 00:05:22.360
+sometimes it's actually better to brute force the best linear weights we could use.
+
+81
+00:05:22.360 --> 00:05:30.218
+Actually, in a cross-validation try to find the best linear weights, again, symmetric.
+
+82
+00:05:30.218 --> 00:05:34.900
+We can also deploy different feature engineering in this subsequent level.
+
+83
+00:05:34.900 --> 00:05:36.420
+One thing we could do is,
+
+84
+00:05:36.420 --> 00:05:41.238
+we could create pairwise differences between the model's predictions,
+
+85
+00:05:41.238 --> 00:05:44.922
+and this can help because they tend to be quite correlated.
+
+86
+00:05:44.922 --> 00:05:47.220
+So when you create the differences,
+
+87
+00:05:47.220 --> 00:05:57.030
+you essentially force the model to focus on what each new model brings.
+
+88
+00:05:57.030 --> 00:05:59.935
+And you can also create row-wise statistics like
+
+89
+00:05:59.935 --> 00:06:03.520
+averages or standard deviations of all the models.
+
+90
+00:06:03.520 --> 00:06:06.565
+This is almost like an ensemble,
+
+91
+00:06:06.565 --> 00:06:12.691
+you create some ensemble features yourself.
+
+92
+00:06:12.691 --> 00:06:16.050
+You can also deploy standard feature selection techniques,
+
+93
+00:06:16.050 --> 00:06:20.765
+so any techniques you would use to find which features are important.
+
+94
+00:06:20.765 --> 00:06:24.390
+You could use it here to find which models are important and exclude them.
+
+95
+00:06:24.390 --> 00:06:29.960
+A rule which empirically, let's say as a rule of thumb,
+
+96
+00:06:29.960 --> 00:06:33.770
+I've found to work quite well.
+
+97
+00:06:33.770 --> 00:06:38.555
+I mean, not with 100 percent confidence but as a general idea,
+
+98
+00:06:38.555 --> 00:06:43.220
+is that for every seven point five models in one layer,
+
+99
+00:06:43.220 --> 00:06:48.635
+we add one model in the subsequent layer.
+
+100
+00:06:48.635 --> 00:06:50.885
+So if we have seven models,
+
+101
+00:06:50.885 --> 00:06:53.315
+we'll have one metamodel.
+
+102
+00:06:53.315 --> 00:06:55.040
+If we have 15 models,
+
+103
+00:06:55.040 --> 00:07:00.095
+then we will have two metamodels and so on.
+
+104
+00:07:00.095 --> 00:07:03.356
+What we need to be very mindful is that,
+
+105
+00:07:03.356 --> 00:07:06.455
+even though we use this hold-out mechanism,
+
+106
+00:07:06.455 --> 00:07:09.790
+we still might introduce leakage.
+
+107
+00:07:09.790 --> 00:07:19.463
+How we can control this is by selecting the right K,
+
+108
+00:07:19.463 --> 00:07:22.165
+when I mentioned K in the cross-validation.
+
+109
+00:07:22.165 --> 00:07:25.430
+So when we select a very high value there,
+
+110
+00:07:25.430 --> 00:07:28.985
+this means that each model would use
+
+111
+00:07:28.985 --> 00:07:31.920
+more training data when it makes
+
+112
+00:07:31.920 --> 00:07:36.205
+predictions and therefore it might not generalize very well.
+
+113
+00:07:36.205 --> 00:07:41.985
+At the same time, it will exhaust all information about the training data.
+
+114
+00:07:41.985 --> 00:07:48.950
+So again, there is this bias variance threshold where you try to find.
+
+115
+00:07:48.950 --> 00:07:52.677
+So, there is no easy way to spot a mistake here.
+
+116
+00:07:52.677 --> 00:07:55.033
+Normally, you have a test data set,
+
+117
+00:07:55.033 --> 00:08:00.710
+and if you see in your cross-validation that you have a next improvement,
+
+118
+00:08:00.710 --> 00:08:03.644
+that in your test data you don't see it,
+
+119
+00:08:03.644 --> 00:08:10.340
+then you need to go back and try to reduce the number of K-Folds.
+
+120
+00:08:10.340 --> 00:08:13.985
+And hopefully, this will generalize better,
+
+121
+00:08:13.985 --> 00:08:20.665
+at least that's a way that has worked in practice.
+
+122
+00:08:20.665 --> 00:08:23.485
+I'll list a few software which you can use for stacking,
+
+123
+00:08:23.485 --> 00:08:27.686
+one is StackNet which is the product of my research.
+
+124
+00:08:27.686 --> 00:08:30.261
+You can give it a shot if you want.
+
+125
+00:08:30.261 --> 00:08:32.435
+Another thing which you can try,
+
+126
+00:08:32.435 --> 00:08:33.594
+is Stacked ensembles from H2O.
+
+127
+00:08:33.594 --> 00:08:36.110
+There is also a new software called,
+
+128
+00:08:36.110 --> 00:08:44.475
+Xcessic and Python where you can also create quite diverse, and large ensembles.
+
+129
+00:08:44.475 --> 00:08:50.210
+A few more things to know about StackNet if you want to use it,
+
+130
+00:08:50.210 --> 00:08:55.190
+is that it now supports many of the common machine learning tools we use,
+
+131
+00:08:55.190 --> 00:08:56.390
+like xgboost, lightgbm, H2O.
+
+132
+00:08:56.390 --> 00:09:00.420
+So, you can pretty much have
+
+133
+00:09:00.420 --> 00:09:05.570
+available all the great tools in order to build a strong ensemble.
+
+134
+00:09:05.570 --> 00:09:12.090
+An interesting addition which we didn't have much chance to discuss but nevertheless,
+
+135
+00:09:12.090 --> 00:09:14.170
+it is quite interesting,
+
+136
+00:09:14.170 --> 00:09:21.515
+is that you can run classifiers in a regression problem, and vice versa.
+
+137
+00:09:21.515 --> 00:09:24.710
+This means that instead of predicting AIDS,
+
+138
+00:09:24.710 --> 00:09:26.400
+I could be predicting,
+
+139
+00:09:26.400 --> 00:09:30.350
+will this person live more than 50 years old or not.
+
+140
+00:09:30.350 --> 00:09:37.845
+And this tends to work quite well because it makes the model focus in certain areas,
+
+141
+00:09:37.845 --> 00:09:40.410
+and meta-model will be able to
+
+142
+00:09:40.410 --> 00:09:44.288
+utilize this information to make better predictions for AIDS.
+
+143
+00:09:44.288 --> 00:09:46.190
+So, this tends to works quite well.
+
+144
+00:09:46.190 --> 00:09:48.530
+I've found it useful quite many often.
+
+145
+00:09:48.530 --> 00:09:51.395
+So, this is something you should explore.
+
+146
+00:09:51.395 --> 00:09:57.490
+Generally, the software has already many top 10 solutions,
+
+147
+00:09:57.490 --> 00:09:59.200
+and not just by me.
+
+148
+00:09:59.200 --> 00:10:02.535
+So, it has been tested.
+
+149
+00:10:02.535 --> 00:10:05.980
+And in the examples section,
+
+150
+00:10:05.980 --> 00:10:10.840
+I think there is a really interesting example with
+
+151
+00:10:10.840 --> 00:10:16.340
+a very popular kind of competition which was hosted by Amazon.
+
+152
+00:10:16.340 --> 00:10:19.255
+And this example uses StackNet,
+
+153
+00:10:19.255 --> 00:10:22.561
+and you can see how you can get with top 10.
+
+154
+00:10:22.561 --> 00:10:25.930
+But in principle, this is a very nice competition.
+
+155
+00:10:25.930 --> 00:10:29.790
+It doesn't have very big data, nor very small.
+
+156
+00:10:29.790 --> 00:10:34.415
+You can try lots of transformations especially with the categorical data.
+
+157
+00:10:34.415 --> 00:10:38.600
+And it is very good place to start.
+
+158
+00:10:38.600 --> 00:10:45.475
+The other thing I wanted to say is that StackNet has also an educational flavor.
+
+159
+00:10:45.475 --> 00:10:47.715
+I made it as such,
+
+160
+00:10:47.715 --> 00:10:49.680
+I have this focus in mind.
+
+161
+00:10:49.680 --> 00:10:55.800
+So, if you go to the parameter section where it leaves all the different tools,
+
+162
+00:10:55.800 --> 00:11:02.335
+you can find sections where they tell you which parameters are the most important.
+
+163
+00:11:02.335 --> 00:11:04.285
+This is based on my experience.
+
+164
+00:11:04.285 --> 00:11:09.320
+For example, in xgboost, num_round is important, eta is important.
+
+165
+00:11:09.320 --> 00:11:14.883
+You can take, then, this information and use it even outside StackNet.
+
+166
+00:11:14.883 --> 00:11:18.361
+For example, if you want to use this, they're from Python.
+
+167
+00:11:18.361 --> 00:11:20.850
+Because the parameters are generally the same.
+
+168
+00:11:20.850 --> 00:11:23.150
+So, if you don't know where to start,
+
+169
+00:11:23.150 --> 00:11:26.265
+how to look here, see which these parameters are important.
+
+170
+00:11:26.265 --> 00:11:32.361
+And focus on them in order to try and get a good resolution.
+
+171
+00:11:32.361 --> 00:11:35.665
+Before we close this session,
+
+172
+00:11:35.665 --> 00:11:38.410
+there are a few things I'd like to tell you.
+
+173
+00:11:38.410 --> 00:11:41.785
+Go out there, apply what you've learned.
+
+174
+00:11:41.785 --> 00:11:46.225
+There is no such thing as learning only theoretically.
+
+175
+00:11:46.225 --> 00:11:49.550
+The best thing to learn is to bleed on the battlefield.
+
+176
+00:11:49.550 --> 00:11:50.860
+Choose a competition.
+
+177
+00:11:50.860 --> 00:11:55.518
+You may start with some which are named as tutorials.
+
+178
+00:11:55.518 --> 00:11:59.285
+And then, you can go on into the real competitions.
+
+179
+00:11:59.285 --> 00:12:00.455
+This is how you've learned.
+
+180
+00:12:00.455 --> 00:12:04.443
+You need to get more practical experience, obviously.
+
+181
+00:12:04.443 --> 00:12:11.940
+Don't be demoralized if you see there's still a gap with the top people,
+
+182
+00:12:11.940 --> 00:12:14.106
+because it does take some time to adjust.
+
+183
+00:12:14.106 --> 00:12:16.275
+You need to learn the dynamics.
+
+184
+00:12:16.275 --> 00:12:18.865
+You need to understand how you need to work,
+
+185
+00:12:18.865 --> 00:12:20.743
+where to optimize your work,
+
+186
+00:12:20.743 --> 00:12:23.572
+how maximize the intensity.
+
+187
+00:12:23.572 --> 00:12:25.560
+So, it takes a bit of time.
+
+188
+00:12:25.560 --> 00:12:27.285
+But you'll get there.
+
+189
+00:12:27.285 --> 00:12:29.815
+My main point is don't get disappointed,
+
+190
+00:12:29.815 --> 00:12:31.590
+you'll definitely get there.
+
+191
+00:12:31.590 --> 00:12:36.755
+Something that has always helped me is to save my code.
+
+192
+00:12:36.755 --> 00:12:40.740
+Let's say at the end of it it's a silence. That is good.
+
+193
+00:12:40.740 --> 00:12:44.640
+Because I can then take home this code in the next competition,
+
+194
+00:12:44.640 --> 00:12:46.315
+and try and improve it.
+
+195
+00:12:46.315 --> 00:12:51.775
+So, this helps to gradually build a much stronger pipeline,
+
+196
+00:12:51.775 --> 00:12:55.619
+and at the same time, it saves time.
+
+197
+00:12:55.619 --> 00:13:01.160
+Something that has helped me personally is to seek collaborations.
+
+198
+00:13:01.160 --> 00:13:03.255
+These generally, I think,
+
+199
+00:13:03.255 --> 00:13:05.025
+there are two elements into it.
+
+200
+00:13:05.025 --> 00:13:07.813
+One is, you definitely improve your result,
+
+201
+00:13:07.813 --> 00:13:11.610
+because every person seizes the problem from different angles,
+
+202
+00:13:11.610 --> 00:13:14.230
+is able to extract different information.
+
+203
+00:13:14.230 --> 00:13:18.085
+Therefore, when you join forces the score is better,
+
+204
+00:13:18.085 --> 00:13:20.085
+but it's also more fun.
+
+205
+00:13:20.085 --> 00:13:22.595
+And since you're doing it,
+
+206
+00:13:22.595 --> 00:13:24.800
+you might as well enjoy it.
+
+207
+00:13:24.800 --> 00:13:27.920
+And the other thing I need to highlight is generally,
+
+208
+00:13:27.920 --> 00:13:29.785
+you need to be connected with forums,
+
+209
+00:13:29.785 --> 00:13:31.700
+and codes, and kernels,
+
+210
+00:13:31.700 --> 00:13:33.512
+because there might be tips,
+
+211
+00:13:33.512 --> 00:13:37.520
+there might be some cutting-edge solutions that come out,
+
+212
+00:13:37.520 --> 00:13:41.675
+and they can significantly sift a leader-board.
+
+213
+00:13:41.675 --> 00:13:44.060
+So generally, you need to keep reading,
+
+214
+00:13:44.060 --> 00:13:46.829
+and have that in mind.
+
+215
+00:13:46.829 --> 00:13:51.750
+This is the last video in a series where we have
+
+216
+00:13:51.750 --> 00:13:57.165
+examined and sample methods will look that simple and sampling.
+
+217
+00:13:57.165 --> 00:13:59.432
+Then we went to bagging,
+
+218
+00:13:59.432 --> 00:14:03.397
+boosting, stacking, multi-layer stacking.
+
+219
+00:14:03.397 --> 00:14:06.640
+Hopefully, you found this useful.
+
+220
+00:14:06.640 --> 00:14:09.875
+Thank you for bearing with me all this time.
+
+221
+00:14:09.875 --> 00:14:11.365
+I also enjoyed it.
+
+222
+00:14:11.365 --> 00:14:13.920
+And go out there,
+
+223
+00:14:13.920 --> 00:14:15.670
+make us proud and who knows?
+
+224
+00:14:15.670 --> 00:14:19.000
+The next two person in the leader-board might be you.

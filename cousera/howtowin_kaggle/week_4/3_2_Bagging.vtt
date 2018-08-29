@@ -1,0 +1,521 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:04.740
+Hello everyone. This is Marios Michailidis and we will continue
+
+2
+00:00:04.740 --> 00:00:09.425
+our discussion in regards to ensemble methods.
+
+3
+00:00:09.425 --> 00:00:12.555
+Previously, we saw some simple averaging methods.
+
+4
+00:00:12.555 --> 00:00:14.935
+This time, we'll discuss about bagging,
+
+5
+00:00:14.935 --> 00:00:19.140
+which is a very popular and efficient form of ensembling.
+
+6
+00:00:19.140 --> 00:00:23.670
+What is bagging? bagging refers to averaging
+
+7
+00:00:23.670 --> 00:00:31.110
+slightly different versions of the same model as a means to improve the predictive power.
+
+8
+00:00:31.110 --> 00:00:35.935
+A common and quite successful application of bagging is the Random Forest.
+
+9
+00:00:35.935 --> 00:00:38.790
+Where you would run many different versions of
+
+10
+00:00:38.790 --> 00:00:42.900
+decision trees in order to get a better prediction.
+
+11
+00:00:42.900 --> 00:00:45.510
+Why should we consider bagging?
+
+12
+00:00:45.510 --> 00:00:48.188
+Generally, in the modeling process,
+
+13
+00:00:48.188 --> 00:00:52.030
+there are two main sources of error.
+
+14
+00:00:52.030 --> 00:00:56.885
+There are errors due to bias often referred to as underfitting,
+
+15
+00:00:56.885 --> 00:01:01.750
+and errors due to variance often referred to as overfitting.
+
+16
+00:01:01.750 --> 00:01:03.874
+In order to better understand this,
+
+17
+00:01:03.874 --> 00:01:07.500
+I'll give you two opposite examples.
+
+18
+00:01:07.500 --> 00:01:10.347
+One with high bias and low variance and
+
+19
+00:01:10.347 --> 00:01:14.490
+vice versa in order to understand the concept better.
+
+20
+00:01:14.490 --> 00:01:18.280
+Let's take an example of high bias and low variance.
+
+21
+00:01:18.280 --> 00:01:21.655
+We have a person who is let's say young,
+
+22
+00:01:21.655 --> 00:01:24.840
+less than 30 years old and we know this person is
+
+23
+00:01:24.840 --> 00:01:28.110
+quite rich and we're trying to find him,
+
+24
+00:01:28.110 --> 00:01:32.685
+this person who'll buy a racing or an expensive car.
+
+25
+00:01:32.685 --> 00:01:35.610
+Our model has high variance,
+
+26
+00:01:35.610 --> 00:01:39.665
+has high bias if it says that this person is
+
+27
+00:01:39.665 --> 00:01:45.550
+young and I think he's not going to buy an expensive car.
+
+28
+00:01:45.550 --> 00:01:49.015
+What the model has done here is that it hasn't
+
+29
+00:01:49.015 --> 00:01:52.720
+explore very deep relationship within the data.
+
+30
+00:01:52.720 --> 00:01:57.150
+It doesn't matter that this person
+
+31
+00:01:57.150 --> 00:02:01.925
+is young if it has a lots of money when it comes to buying a car.
+
+32
+00:02:01.925 --> 00:02:05.850
+It hasn't explored different relationships.
+
+33
+00:02:05.850 --> 00:02:10.125
+In other words, it has been underfitted.
+
+34
+00:02:10.125 --> 00:02:17.175
+However, this is also associated with low variance because this relationship,
+
+35
+00:02:17.175 --> 00:02:23.310
+the fact that a young person generally doesn't buy an expensive car is generally
+
+36
+00:02:23.310 --> 00:02:30.570
+true so we would expect this information to generalize well enough in a foreseen data.
+
+37
+00:02:30.570 --> 00:02:34.435
+Therefore, the variance is low in this example.
+
+38
+00:02:34.435 --> 00:02:38.300
+Now, let's try to see the other way around,
+
+39
+00:02:38.300 --> 00:02:43.470
+an example with high variance and low bias.
+
+40
+00:02:43.470 --> 00:02:46.275
+Let's assume we have a person.
+
+41
+00:02:46.275 --> 00:02:48.045
+His name is John.
+
+42
+00:02:48.045 --> 00:02:50.285
+He lives in a green house,
+
+43
+00:02:50.285 --> 00:02:56.300
+has brown eyes, and we want to see he will buy a car.
+
+44
+00:02:56.300 --> 00:03:02.090
+A model that has gone so deep in order to find these relationships
+
+45
+00:03:02.090 --> 00:03:05.155
+actually has a low bias because it has
+
+46
+00:03:05.155 --> 00:03:09.455
+really explored a lots of information about the training data.
+
+47
+00:03:09.455 --> 00:03:12.720
+However, it is making the mistake that
+
+48
+00:03:12.720 --> 00:03:17.690
+every person that has these characteristics is going to buy a car.
+
+49
+00:03:17.690 --> 00:03:22.375
+Therefore, it generalizes for something that it shouldn't.
+
+50
+00:03:22.375 --> 00:03:26.310
+In other words, it has already exhausted the information in
+
+51
+00:03:26.310 --> 00:03:30.900
+the training data and the results are not significant.
+
+52
+00:03:30.900 --> 00:03:36.250
+So, here, we actually have high variance but low bias.
+
+53
+00:03:36.250 --> 00:03:42.090
+If we were to visualize the relationship between prediction error and model complexity,
+
+54
+00:03:42.090 --> 00:03:43.805
+it would look like that.
+
+55
+00:03:43.805 --> 00:03:47.865
+When we begin the training of the model,
+
+56
+00:03:47.865 --> 00:03:50.910
+we can see that the training error make the error
+
+57
+00:03:50.910 --> 00:03:53.730
+in that training data gets reduced and the
+
+58
+00:03:53.730 --> 00:03:59.970
+same happens in the test data because the predictions are easily generalizable.
+
+59
+00:03:59.970 --> 00:04:04.575
+They are simple. However, after a point,
+
+60
+00:04:04.575 --> 00:04:10.300
+any improvements in the training error are not realized into test data.
+
+61
+00:04:10.300 --> 00:04:16.599
+This is the point where the model starts over exhausting information,
+
+62
+00:04:16.599 --> 00:04:20.475
+creates predictions that are not generalizable.
+
+63
+00:04:20.475 --> 00:04:27.285
+This is where bagging actually comes into play and offers it's utmost value.
+
+64
+00:04:27.285 --> 00:04:33.717
+By making slightly different or let say randomized models,
+
+65
+00:04:33.717 --> 00:04:39.160
+we ensure that the predictions do not read very high variance.
+
+66
+00:04:39.160 --> 00:04:41.410
+They're generally more generalizable.
+
+67
+00:04:41.410 --> 00:04:45.835
+We don't over exhaust the information in the training data.
+
+68
+00:04:45.835 --> 00:04:47.185
+At the same time,
+
+69
+00:04:47.185 --> 00:04:53.365
+we saw before that when you average slightly different models,
+
+70
+00:04:53.365 --> 00:04:59.855
+we are generally able to get better predictions and we can assume that in 10 models,
+
+71
+00:04:59.855 --> 00:05:06.155
+we are still able to find quite significant information about the training data.
+
+72
+00:05:06.155 --> 00:05:11.490
+Therefore, this is why bagging tends to work quite well and personally,
+
+73
+00:05:11.490 --> 00:05:12.915
+I always use bagging.
+
+74
+00:05:12.915 --> 00:05:17.290
+When I say, "I fit a model," I have actually not fit a model I have
+
+75
+00:05:17.290 --> 00:05:23.835
+fit a bagging version of this model so probably that different models.
+
+76
+00:05:23.835 --> 00:05:27.935
+Which parameters are associated with bagging?
+
+77
+00:05:27.935 --> 00:05:30.210
+The first is the seed.
+
+78
+00:05:30.210 --> 00:05:35.305
+We can understand that many algorithms have some randomized procedures
+
+79
+00:05:35.305 --> 00:05:41.630
+so by changing the seed you ensure that they are made slightly differently.
+
+80
+00:05:41.630 --> 00:05:48.485
+At the same time, you can run a model with less rows or you could use bootstrapping.
+
+81
+00:05:48.485 --> 00:05:53.760
+Bootstrapping is different from row sub-sampling in the sense that you create
+
+82
+00:05:53.760 --> 00:05:56.820
+an artificial dataset so you
+
+83
+00:05:56.820 --> 00:06:00.151
+might let's say data row the training data three or four times.
+
+84
+00:06:00.151 --> 00:06:05.335
+You create a random dataset from the training data.
+
+85
+00:06:05.335 --> 00:06:09.570
+A different form of randomness can be imputed with shuffling.
+
+86
+00:06:09.570 --> 00:06:10.840
+There are some algorithms,
+
+87
+00:06:10.840 --> 00:06:13.840
+which are sensitive to the order of the data.
+
+88
+00:06:13.840 --> 00:06:18.580
+By changing the order you ensure that the models become quite different.
+
+89
+00:06:18.580 --> 00:06:21.680
+Another way is to dating a random sample of columns
+
+90
+00:06:21.680 --> 00:06:27.275
+so bid models on different features or different variables of the data.
+
+91
+00:06:27.275 --> 00:06:30.300
+Then you have model-specific parameters.
+
+92
+00:06:30.300 --> 00:06:32.295
+For example, in a linear model,
+
+93
+00:06:32.295 --> 00:06:36.300
+you will try to build 10 different let's say
+
+94
+00:06:36.300 --> 00:06:42.115
+logistic regression with slightly different regularization parameters.
+
+95
+00:06:42.115 --> 00:06:46.250
+Obviously, you could also control the number of models
+
+96
+00:06:46.250 --> 00:06:50.995
+you include in your ensemble or in this case we call them bags.
+
+97
+00:06:50.995 --> 00:06:55.120
+Normally, we put a value more than 10 here but,
+
+98
+00:06:55.120 --> 00:06:57.631
+in principle, the more bags you put,
+
+99
+00:06:57.631 --> 00:06:59.310
+it doesn't hurt you.
+
+100
+00:06:59.310 --> 00:07:05.370
+It makes results better but after some point, performance start plateauing.
+
+101
+00:07:05.370 --> 00:07:10.470
+So there is a cost benefit with time but, in principle,
+
+102
+00:07:10.470 --> 00:07:14.930
+more bags is generally better and optionally,
+
+103
+00:07:14.930 --> 00:07:16.681
+you can also apply parallelism.
+
+104
+00:07:16.681 --> 00:07:21.317
+Bagging models are independent to each other,
+
+105
+00:07:21.317 --> 00:07:24.680
+which means you can build many of them at the same time and make
+
+106
+00:07:24.680 --> 00:07:29.035
+full use of your computation power.
+
+107
+00:07:29.035 --> 00:07:33.460
+Now, we can see an example about bagging but before I do that,
+
+108
+00:07:33.460 --> 00:07:35.210
+just to let you know that
+
+109
+00:07:35.210 --> 00:07:42.220
+a bagging estimators that scikit-learn has in Python are actually quite cool.
+
+110
+00:07:42.220 --> 00:07:45.330
+Therefore, I recommend them.
+
+111
+00:07:45.330 --> 00:07:51.955
+This is a typical 15 lines of code that I use quite often.
+
+112
+00:07:51.955 --> 00:07:55.915
+They seem really simple but they're actually quite efficient.
+
+113
+00:07:55.915 --> 00:08:00.968
+Assuming you have a training at the test dataset and to target variable,
+
+114
+00:08:00.968 --> 00:08:05.360
+what you do is you specify some bagging parameters.
+
+115
+00:08:05.360 --> 00:08:10.060
+What is the model I'm going to use at random forest?
+
+116
+00:08:10.060 --> 00:08:11.850
+How many bags I'm going to run?
+
+117
+00:08:11.850 --> 00:08:13.960
+10. What will be my seed?
+
+118
+00:08:13.960 --> 00:08:16.575
+One. Then you create an object,
+
+119
+00:08:16.575 --> 00:08:20.570
+an empty object that will save the predictions and
+
+120
+00:08:20.570 --> 00:08:24.950
+then you run a loop for as many bags as you have specified.
+
+121
+00:08:24.950 --> 00:08:27.480
+In this loop, you repeat the same.
+
+122
+00:08:27.480 --> 00:08:30.510
+You change the seed, you feed the model,
+
+123
+00:08:30.510 --> 00:08:35.600
+you make predictions in the test data and you save these predictions and then,
+
+124
+00:08:35.600 --> 00:08:38.970
+you just take an average of these predictions.
+
+125
+00:08:38.970 --> 00:08:41.230
+This is the end of the session.
+
+126
+00:08:41.230 --> 00:08:46.245
+In this session, we discussed bagging as a popular form of ensembling.
+
+127
+00:08:46.245 --> 00:08:50.146
+We saw bagging in association with variants and
+
+128
+00:08:50.146 --> 00:08:55.380
+bias and we also saw in the example about how to use it.
+
+129
+00:08:55.380 --> 00:08:59.935
+Thank you very much. The next session we will describe boosting,
+
+130
+00:08:59.935 --> 00:09:04.000
+which is also very popular so stay in tune and have a good day.

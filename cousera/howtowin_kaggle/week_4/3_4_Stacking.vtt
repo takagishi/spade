@@ -1,0 +1,1023 @@
+WEBVTT
+
+1
+00:00:00.840 --> 00:00:06.700
+Continuing our discussion with ensemble
+methods, next one up is stacking.
+
+2
+00:00:06.700 --> 00:00:08.200
+Stacking is a very,
+
+3
+00:00:08.200 --> 00:00:13.908
+very popular form of ensembling using
+predictive modeling competitions.
+
+4
+00:00:13.908 --> 00:00:19.061
+And I believe in most competitions,
+there is a form of
+
+5
+00:00:19.061 --> 00:00:26.060
+stacking in the end in order to boost
+your performance as best as you can.
+
+6
+00:00:26.060 --> 00:00:30.851
+Going through the definition of stacking,
+it essentially
+
+7
+00:00:30.851 --> 00:00:35.850
+means making several predictions
+with hold-out data sets.
+
+8
+00:00:35.850 --> 00:00:40.872
+And then collecting or
+stacking these predictions
+
+9
+00:00:40.872 --> 00:00:46.471
+to form a new data set,
+where you can fit a new model on it,
+
+10
+00:00:46.471 --> 00:00:51.520
+on this newly-formed data
+set from predictions.
+
+11
+00:00:51.520 --> 00:00:56.570
+I would like to take you through
+a very simple, I would say naive,
+
+12
+00:00:56.570 --> 00:01:02.620
+example to show you how,
+conceptually, this can work.
+
+13
+00:01:02.620 --> 00:01:09.350
+I mean, we have so far seen that you
+can use previous models' predictions
+
+14
+00:01:09.350 --> 00:01:15.650
+to affect a new model, but
+always in relation with the input data.
+
+15
+00:01:15.650 --> 00:01:20.930
+This is a new concept because we're
+only going to use the predictions
+
+16
+00:01:20.930 --> 00:01:25.330
+of some models in order
+to make a better model.
+
+17
+00:01:25.330 --> 00:01:29.860
+So let's see how these could
+work in a real life scenario.
+
+18
+00:01:29.860 --> 00:01:35.620
+Let's assume we have three kids,
+let's name them LR,
+
+19
+00:01:35.620 --> 00:01:41.340
+SVM, KNN, and
+they argue about a physics question.
+
+20
+00:01:41.340 --> 00:01:46.494
+So each one believes the answer to
+a physics question is different.
+
+21
+00:01:46.494 --> 00:01:51.105
+First one says 13, second 18, third 11,
+
+22
+00:01:51.105 --> 00:01:55.837
+they don't know how to
+solve this disagreement.
+
+23
+00:01:55.837 --> 00:01:59.684
+They do the honorable thing,
+they say let's take an average,
+
+24
+00:01:59.684 --> 00:02:01.360
+which in this case is 14.
+
+25
+00:02:01.360 --> 00:02:05.760
+So you can almost see the kids,
+
+26
+00:02:05.760 --> 00:02:09.570
+there's different models here,
+they take input data.
+
+27
+00:02:09.570 --> 00:02:13.470
+In this case,
+it's the question about physics.
+
+28
+00:02:13.470 --> 00:02:18.319
+They process it based on
+historical information and and
+
+29
+00:02:18.319 --> 00:02:22.138
+they are able to output an estimate,
+a prediction.
+
+30
+00:02:22.138 --> 00:02:23.769
+Have they done it optimally, though?
+
+31
+00:02:26.142 --> 00:02:31.171
+Another way to say this is
+to say there was a teacher,
+
+32
+00:02:31.171 --> 00:02:37.930
+Miss DL, who had seen this discussion,
+and she decided to step up.
+
+33
+00:02:37.930 --> 00:02:44.139
+While she didn't hear the question,
+she does know the students quite well,
+
+34
+00:02:44.139 --> 00:02:48.261
+she knows the strength and
+weaknesses of each one.
+
+35
+00:02:48.261 --> 00:02:53.000
+She knows how well they have done
+historically in physics questions.
+
+36
+00:02:53.000 --> 00:02:58.015
+And from the range of values they have
+provided, she is able to give an estimate.
+
+37
+00:02:58.015 --> 00:03:04.450
+Let's say that in this concept, she knows
+that SVM is really good in physics,
+
+38
+00:03:04.450 --> 00:03:10.200
+and her father works in the department
+of Physics of Excellence.
+
+39
+00:03:10.200 --> 00:03:15.285
+And therefore she should have
+a bigger contribution to this
+
+40
+00:03:15.285 --> 00:03:20.687
+ensemble than every other kid,
+therefore the answer is 17.
+
+41
+00:03:20.687 --> 00:03:26.340
+And this is how a meta model works,
+it doesn't need to know the input data.
+
+42
+00:03:26.340 --> 00:03:30.975
+It just knows how the models
+have done historically,
+
+43
+00:03:30.975 --> 00:03:34.945
+in order to find the best
+way to combine them.
+
+44
+00:03:34.945 --> 00:03:37.839
+And this can work quite well in practice.
+
+45
+00:03:39.957 --> 00:03:43.840
+So, let's go more into
+the methodology of stacking.
+
+46
+00:03:45.020 --> 00:03:48.359
+Wolpert introduced stacking in 1992,
+
+47
+00:03:48.359 --> 00:03:52.880
+as a meta modeling technique
+to combine different models.
+
+48
+00:03:52.880 --> 00:03:56.650
+It consists of several steps.
+
+49
+00:03:56.650 --> 00:04:01.207
+The first step is,
+let's assume we have a train data set,
+
+50
+00:04:01.207 --> 00:04:06.510
+let's divide it into two parts; so
+a training and the validation.
+
+51
+00:04:06.510 --> 00:04:13.700
+Then you take the training part,
+and you train several models.
+
+52
+00:04:15.200 --> 00:04:18.941
+And then you make predictions for
+the second part,
+
+53
+00:04:18.941 --> 00:04:21.642
+let's say the validation data set.
+
+54
+00:04:21.642 --> 00:04:26.720
+Then you collect all these predictions,
+or you stack these predictions.
+
+55
+00:04:26.720 --> 00:04:32.034
+You form a new data set and
+you use this as inputs to a new model.
+
+56
+00:04:32.034 --> 00:04:37.199
+Normally we call this a meta model,
+and the models we run into,
+
+57
+00:04:37.199 --> 00:04:40.620
+we call them base model or base learners.
+
+58
+00:04:43.153 --> 00:04:47.320
+If you're still confused about stacking,
+consider the following animation.
+
+59
+00:04:47.320 --> 00:04:52.870
+So let's assume we have three data sets A,
+B, and C.
+
+60
+00:04:55.320 --> 00:04:59.690
+In this case, A will serve
+the role of the training data set,
+
+61
+00:04:59.690 --> 00:05:02.432
+B will be the validation data set, and
+
+62
+00:05:02.432 --> 00:05:07.590
+C will be the test data sets where we
+want to make the final predictions.
+
+63
+00:05:07.590 --> 00:05:11.820
+They all have similar architectural,
+four features,
+
+64
+00:05:11.820 --> 00:05:15.065
+and one target variable we try to predict.
+
+65
+00:05:15.065 --> 00:05:19.727
+So in this case,
+we can choose an algorithm
+
+66
+00:05:19.727 --> 00:05:24.130
+to train a model based on data set 1, and
+
+67
+00:05:24.130 --> 00:05:30.160
+then we make predictions for
+B and C at the same time.
+
+68
+00:05:30.160 --> 00:05:35.019
+Now we take these predictions, and
+we put them into a new data set.
+
+69
+00:05:35.019 --> 00:05:42.620
+So we create a data set to store the
+predictions for the validation data in B1.
+
+70
+00:05:42.620 --> 00:05:49.463
+And a data set called C1 to save
+predictions for the test data, called C1.
+
+71
+00:05:49.463 --> 00:05:52.115
+Then we're going to repeat the process,
+
+72
+00:05:52.115 --> 00:05:55.156
+now we're going to choose
+another algorithm.
+
+73
+00:05:55.156 --> 00:05:58.150
+Again, we will fit it on A data set.
+
+74
+00:05:58.150 --> 00:06:03.382
+We will make predictions on B and
+C at the same time,
+
+75
+00:06:03.382 --> 00:06:10.580
+and we will save these predictions
+into the newly-formed data sets.
+
+76
+00:06:10.580 --> 00:06:14.270
+And we essentially append them,
+we stack them next to each other,
+
+77
+00:06:14.270 --> 00:06:16.860
+this is where stacking takes its name.
+
+78
+00:06:16.860 --> 00:06:20.213
+And we can continue this even more,
+do it with a third algorithm.
+
+79
+00:06:20.213 --> 00:06:25.360
+Again the same, fit on A,
+predict on B and C, same predictions.
+
+80
+00:06:26.460 --> 00:06:30.678
+What we do then is we take the target
+variable for the B data set, or
+
+81
+00:06:30.678 --> 00:06:34.000
+the validation datadset,
+which we already knew.
+
+82
+00:06:34.000 --> 00:06:41.431
+And we are going to fit a new model on B1
+with the target of the validation data,
+
+83
+00:06:41.431 --> 00:06:45.607
+and then we will make predictions from C1.
+
+84
+00:06:45.607 --> 00:06:49.392
+And this is how we combine
+different models with stacking,
+
+85
+00:06:49.392 --> 00:06:54.170
+to hopefully make better predictions for
+the test or the unobserved data.
+
+86
+00:06:57.505 --> 00:07:03.007
+Let us go through an example,
+a simple example in Python,
+
+87
+00:07:03.007 --> 00:07:09.199
+in order to understand better,
+as in in code, how it would work.
+
+88
+00:07:09.199 --> 00:07:10.760
+It is quite simple, so
+
+89
+00:07:10.760 --> 00:07:16.200
+even people not very experienced with
+Python hopefully can understand this.
+
+90
+00:07:17.410 --> 00:07:23.101
+The main logic is that we will use
+two base learners on some input data,
+
+91
+00:07:23.101 --> 00:07:26.483
+a random forest and a linear regression.
+
+92
+00:07:26.483 --> 00:07:31.367
+And then, we will try to combine
+the results, starting with a meta learner,
+
+93
+00:07:31.367 --> 00:07:33.860
+again, it will be linear regression.
+
+94
+00:07:35.110 --> 00:07:38.906
+Let's assume we again have
+a train data set, and
+
+95
+00:07:38.906 --> 00:07:43.364
+a target variable for
+this data set, and a test data set.
+
+96
+00:07:46.658 --> 00:07:51.850
+Maybe the code seems a bit intimidating,
+but we will go step by step.
+
+97
+00:07:51.850 --> 00:07:58.690
+What we do initially is we take the train
+data set and we split it in two parts.
+
+98
+00:07:58.690 --> 00:08:03.914
+So we create a training and
+a valid data set out of this,
+
+99
+00:08:03.914 --> 00:08:07.670
+and we also split the target variable.
+
+100
+00:08:07.670 --> 00:08:12.954
+So we create ytraining and
+yvalid, and we split this by 50%.
+
+101
+00:08:12.954 --> 00:08:16.400
+We could have chosen something else,
+let's say 50%.
+
+102
+00:08:16.400 --> 00:08:22.184
+Then we specify our base learners,
+so model1 is the random
+
+103
+00:08:22.184 --> 00:08:27.864
+forest in this case, and
+model2 is a linear regression.
+
+104
+00:08:27.864 --> 00:08:32.510
+What we do then is we fit
+the both models using
+
+105
+00:08:32.510 --> 00:08:37.165
+the training data and the training target.
+
+106
+00:08:37.165 --> 00:08:42.078
+And we make predictions for
+the validation data for both models,
+
+107
+00:08:42.078 --> 00:08:47.460
+and at the same time we'll make
+predictions for the test data.
+
+108
+00:08:47.460 --> 00:08:52.206
+Again, for both models,
+we save these as preds1, preds2, and for
+
+109
+00:08:52.206 --> 00:08:55.756
+the test data,
+test_preds1 and test_preds2.
+
+110
+00:08:55.756 --> 00:08:58.997
+Then we are going to
+collect the predictions,
+
+111
+00:08:58.997 --> 00:09:03.661
+we are going to stack the predictions and
+create two new data sets.
+
+112
+00:09:03.661 --> 00:09:07.943
+One for validation,
+where we call it stacked_predictions,
+
+113
+00:09:07.943 --> 00:09:10.700
+which consists of preds1 and preds2.
+
+114
+00:09:10.700 --> 00:09:14.610
+And then for the data set for
+for the test predictions,
+
+115
+00:09:14.610 --> 00:09:21.160
+called stacked_test_predictions, where
+we stack test_preds1 and test_preds2.
+
+116
+00:09:22.190 --> 00:09:24.540
+Then we specify a meta learner,
+
+117
+00:09:24.540 --> 00:09:27.960
+let's call it meta_model,
+which is a linear regression.
+
+118
+00:09:27.960 --> 00:09:33.138
+And we fit this model on the predictions
+made on the validation data and
+
+119
+00:09:33.138 --> 00:09:39.223
+the target for the validation data, which
+was our holdout data set all this time.
+
+120
+00:09:39.223 --> 00:09:42.499
+And then we can generate predictions for
+
+121
+00:09:42.499 --> 00:09:48.580
+the test data by applying this model
+on the stacked_test_predictions.
+
+122
+00:09:48.580 --> 00:09:50.140
+This is how it works.
+
+123
+00:09:51.820 --> 00:09:56.070
+Now, I think this is a good
+time to revisit an old example
+
+124
+00:09:56.070 --> 00:10:00.590
+we used in the first session,
+about simple averaging.
+
+125
+00:10:00.590 --> 00:10:05.010
+If you remember,
+we had a prediction that was doing
+
+126
+00:10:05.010 --> 00:10:09.518
+quite well to predict age when
+the age was less than 50, and
+
+127
+00:10:09.518 --> 00:10:14.780
+another prediction that was doing
+quite well when age was more than 50.
+
+128
+00:10:14.780 --> 00:10:18.964
+And we did something tricky,
+we said if it is less than 50,
+
+129
+00:10:18.964 --> 00:10:24.315
+we'll use the first one, if age is more
+than 50, we will use the other one.
+
+130
+00:10:24.315 --> 00:10:29.020
+The reason this is tricky is
+because normally we use the target
+
+131
+00:10:29.020 --> 00:10:31.833
+information to make this decision.
+
+132
+00:10:31.833 --> 00:10:36.820
+Where in an ideal world, this is what
+you try to predict, you don't know it.
+
+133
+00:10:36.820 --> 00:10:42.340
+We have done it in order to show what
+is the theoretical best we could get,
+
+134
+00:10:42.340 --> 00:10:43.740
+or yeah, the best.
+
+135
+00:10:43.740 --> 00:10:46.290
+So taking the same predictions and
+
+136
+00:10:46.290 --> 00:10:51.390
+applying stacking, this is what the end
+result would actually look like.
+
+137
+00:10:52.450 --> 00:10:55.460
+As you can see,
+it has done pretty similarly.
+
+138
+00:10:55.460 --> 00:11:02.990
+The only area that there is some
+error is around the threshold of 50.
+
+139
+00:11:02.990 --> 00:11:08.693
+And that makes sense, because the model
+doesn't see the target variable,
+
+140
+00:11:08.693 --> 00:11:12.361
+is not able to identify
+this cut of 50 exactly.
+
+141
+00:11:12.361 --> 00:11:16.029
+So it tries to do it only
+based on the input models, and
+
+142
+00:11:16.029 --> 00:11:18.810
+there is some overlap around this area.
+
+143
+00:11:18.810 --> 00:11:24.527
+But you can see that stacking
+is able to identify this,
+
+144
+00:11:24.527 --> 00:11:29.510
+and use it in order to
+make better predictions.
+
+145
+00:11:31.800 --> 00:11:36.670
+There are certain things you need to
+be mindful of when using stacking.
+
+146
+00:11:36.670 --> 00:11:41.152
+One is when you have time-sensitive data,
+as in let's say,
+
+147
+00:11:41.152 --> 00:11:46.640
+time series, you need to formulate your
+stacking so that you respect time.
+
+148
+00:11:47.770 --> 00:11:53.290
+What I mean is, when you create
+your train and validation data,
+
+149
+00:11:53.290 --> 00:11:58.300
+you need to make certain that your train
+is in the past and your validation
+
+150
+00:11:58.300 --> 00:12:03.080
+is in the future, and ideally your
+test data is also in the future.
+
+151
+00:12:03.080 --> 00:12:07.956
+So you need to respect this
+time element in order to make
+
+152
+00:12:07.956 --> 00:12:11.464
+certain your model generalizes well.
+
+153
+00:12:11.464 --> 00:12:14.131
+The other thing you need to look at is,
+obviously,
+
+154
+00:12:14.131 --> 00:12:16.310
+single model performance is important.
+
+155
+00:12:16.310 --> 00:12:21.267
+But the other thing that is
+also very important is model
+
+156
+00:12:21.267 --> 00:12:26.470
+diversity, how different
+a model is to each other.
+
+157
+00:12:26.470 --> 00:12:31.488
+What is the new information each
+model brings into the table?
+
+158
+00:12:31.488 --> 00:12:36.940
+Now, because stacking, and depending
+on the algorithms you will use for
+
+159
+00:12:36.940 --> 00:12:41.100
+stacking, can go quite deep
+into exploring relationships.
+
+160
+00:12:42.540 --> 00:12:46.850
+It will find when a model is good, and
+
+161
+00:12:46.850 --> 00:12:50.800
+when a model is actually bad or
+fairly weak.
+
+162
+00:12:50.800 --> 00:12:55.275
+So you don't need to worry too much
+to make all the models really strong,
+
+163
+00:12:55.275 --> 00:13:02.630
+stacking can actually extract
+the juice from each prediction.
+
+164
+00:13:02.630 --> 00:13:07.498
+Therefore, what you really need to focus
+is, am I making a model that brings
+
+165
+00:13:07.498 --> 00:13:11.009
+some information,
+even though it is generally weak?
+
+166
+00:13:11.009 --> 00:13:15.931
+And this is true, there have been many
+situations where I've made, I've had
+
+167
+00:13:15.931 --> 00:13:21.112
+some quite weak models in my ensemble,
+I mean, compared to the top performance.
+
+168
+00:13:21.112 --> 00:13:25.942
+And nevertheless, they were actually
+adding lots of value in stacking.
+
+169
+00:13:25.942 --> 00:13:32.140
+They were bringing in new information
+that the meta model could leverage.
+
+170
+00:13:32.140 --> 00:13:35.523
+Normally, you introduce
+diversity from two forms,
+
+171
+00:13:35.523 --> 00:13:38.240
+one is by choosing a different algorithm.
+
+172
+00:13:38.240 --> 00:13:39.511
+Which makes sense,
+
+173
+00:13:39.511 --> 00:13:44.460
+certain algorithms capitalize on
+different relationships within the data.
+
+174
+00:13:44.460 --> 00:13:49.263
+For example, a linear model will
+focus on a linear relationship,
+
+175
+00:13:49.263 --> 00:13:52.450
+a non-linear model can capture
+better a non-linear relationships.
+
+176
+00:13:52.450 --> 00:13:56.060
+So predictions may come a bit different.
+
+177
+00:13:56.060 --> 00:13:59.734
+The other thing is you can
+even run the same model, but
+
+178
+00:13:59.734 --> 00:14:03.900
+you try to run it on different
+transformation of input data,
+
+179
+00:14:03.900 --> 00:14:08.470
+either less features or
+completely different transformation.
+
+180
+00:14:08.470 --> 00:14:09.594
+For example,
+
+181
+00:14:09.594 --> 00:14:15.410
+in one data set you may treat categorical
+features as one whole encoding.
+
+182
+00:14:15.410 --> 00:14:20.376
+In another,
+you may just use label in coding, and
+
+183
+00:14:20.376 --> 00:14:26.890
+the result will probably produce
+a model that is very different.
+
+184
+00:14:29.717 --> 00:14:34.890
+Generally, there is no limit to
+how many models you can stack.
+
+185
+00:14:34.890 --> 00:14:37.851
+But you can expect that
+there is a plateauing
+
+186
+00:14:37.851 --> 00:14:40.501
+after certain models have been added.
+
+187
+00:14:40.501 --> 00:14:45.358
+So initially, you will see some
+significant uplift in whatever metric you
+
+188
+00:14:45.358 --> 00:14:48.220
+are testing on every
+time you run the model.
+
+189
+00:14:48.220 --> 00:14:55.232
+But after some point, the incremental
+uplift will be fairly small.
+
+190
+00:14:55.232 --> 00:15:00.489
+Generally, there's no
+way to know this before,
+
+191
+00:15:00.489 --> 00:15:07.760
+exactly what is the number of models
+where we will start plateauing.
+
+192
+00:15:07.760 --> 00:15:13.590
+But generally, this is a affected by how
+many features you have in your data,
+
+193
+00:15:13.590 --> 00:15:18.346
+how much diversity you managed
+to introduce into your models,
+
+194
+00:15:18.346 --> 00:15:21.596
+quite often how many
+rows of data you have.
+
+195
+00:15:21.596 --> 00:15:25.773
+So it is tough to know this beforehand,
+but
+
+196
+00:15:25.773 --> 00:15:30.360
+generally this is
+something to be mindful of.
+
+197
+00:15:30.360 --> 00:15:34.221
+But there is a point where adding more
+models actually does not add that
+
+198
+00:15:34.221 --> 00:15:34.950
+much value.
+
+199
+00:15:38.788 --> 00:15:43.289
+And because the meta model, the meta model
+
+200
+00:15:43.289 --> 00:15:48.065
+will only use predictions of other models.
+
+201
+00:15:48.065 --> 00:15:53.019
+We can assume that the other
+models have done, let's say,
+
+202
+00:15:53.019 --> 00:15:56.993
+a deep work or
+a deep job to scrutinize the data.
+
+203
+00:15:56.993 --> 00:16:00.960
+And therefore the meta model
+doesn't need to be so deep.
+
+204
+00:16:00.960 --> 00:16:04.810
+Normally, you have predictions with
+are correlated with the target.
+
+205
+00:16:04.810 --> 00:16:09.790
+And the only thing it needs to do is
+just to find a way to combine them, and
+
+206
+00:16:09.790 --> 00:16:12.950
+that is normally not so complicated.
+
+207
+00:16:12.950 --> 00:16:19.290
+Therefore, it is quite often that
+the meta model is generally simpler.
+
+208
+00:16:19.290 --> 00:16:24.350
+So if I was to express this
+in a random forest context,
+
+209
+00:16:24.350 --> 00:16:32.020
+it will have lower depth than what was the
+best one you found in your base models.
+
+210
+00:16:33.710 --> 00:16:38.010
+This was the end of the session,
+here we discussed stacking.
+
+211
+00:16:38.010 --> 00:16:42.813
+In the next one, we will discuss a very
+interesting concept about stacking and
+
+212
+00:16:42.813 --> 00:16:46.110
+extending it on multiple levels,
+called stack net.
+
+213
+00:16:46.110 --> 00:16:47.370
+So stay in tune.

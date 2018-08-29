@@ -1,0 +1,329 @@
+WEBVTT
+
+1
+00:00:02.670 --> 00:00:05.630
+Hi everyone.
+
+2
+00:00:05.630 --> 00:00:10.770
+This video is dedicated to the following advanced feature engineering techniques.
+
+3
+00:00:10.770 --> 00:00:14.400
+Calculating various statistics of one feature grouped by
+
+4
+00:00:14.400 --> 00:00:19.425
+another and features derived from neighborhood analysis of a given point.
+
+5
+00:00:19.425 --> 00:00:21.660
+To make it a little bit clearer,
+
+6
+00:00:21.660 --> 00:00:24.000
+let's consider a simple example.
+
+7
+00:00:24.000 --> 00:00:27.590
+Here we have a chunk of data for some CTR task.
+
+8
+00:00:27.590 --> 00:00:31.735
+Let's forget about target variable and focus on human features.
+
+9
+00:00:31.735 --> 00:00:35.865
+Namely, User_ID, unique identifier of a user,
+
+10
+00:00:35.865 --> 00:00:40.120
+Page_ID, an identifier of a page user visited,
+
+11
+00:00:40.120 --> 00:00:43.890
+Ad_price, item prices in the ad,
+
+12
+00:00:43.890 --> 00:00:49.645
+and Ad_position, relative position of an ad on the web page.
+
+13
+00:00:49.645 --> 00:00:53.310
+The most straightforward way to solve this problem is to label
+
+14
+00:00:53.310 --> 00:00:57.450
+and call the Ad_position and feed some classifier.
+
+15
+00:00:57.450 --> 00:01:00.480
+It would be a very good classifier that could take into
+
+16
+00:01:00.480 --> 00:01:04.395
+account all the hidden relations between variables.
+
+17
+00:01:04.395 --> 00:01:06.720
+But no matter how good it is,
+
+18
+00:01:06.720 --> 00:01:10.670
+it still treats all the data points independently.
+
+19
+00:01:10.670 --> 00:01:13.855
+And this is where we can apply feature engineering.
+
+20
+00:01:13.855 --> 00:01:16.460
+We can imply that an ad with
+
+21
+00:01:16.460 --> 00:01:20.580
+the lowest price on the page will catch most of the attention.
+
+22
+00:01:20.580 --> 00:01:24.450
+The rest of the ads on the page won't be very attractive.
+
+23
+00:01:24.450 --> 00:01:29.165
+It's pretty easy to calculate the features relevant to such an implication.
+
+24
+00:01:29.165 --> 00:01:34.930
+We can add lowest and highest prices for every user and page per ad.
+
+25
+00:01:34.930 --> 00:01:40.115
+Position of an ad with the lowest price could also be of use in such case.
+
+26
+00:01:40.115 --> 00:01:44.753
+Here's one of the ways to implement statistical features with paid ads.
+
+27
+00:01:44.753 --> 00:01:48.615
+If our data is stored in the data frame df,
+
+28
+00:01:48.615 --> 00:01:55.550
+we call groupby method like this to get maximum and minimum price values.
+
+29
+00:01:55.550 --> 00:01:59.160
+Then store this object in gb variable,
+
+30
+00:01:59.160 --> 00:02:04.627
+and then join it back to the data frame df. This is it.
+
+31
+00:02:04.627 --> 00:02:09.325
+I want to emphasize that you should not stop at this point.
+
+32
+00:02:09.325 --> 00:02:12.210
+It's possible to add other useful features not
+
+33
+00:02:12.210 --> 00:02:16.200
+necessarily calculated within user and page per.
+
+34
+00:02:16.200 --> 00:02:19.410
+It could be how many pages user has visited,
+
+35
+00:02:19.410 --> 00:02:23.455
+how many pages user has visited during the given session,
+
+36
+00:02:23.455 --> 00:02:26.280
+and ID of the most visited page,
+
+37
+00:02:26.280 --> 00:02:28.965
+how many users have visited that page,
+
+38
+00:02:28.965 --> 00:02:31.670
+and many, many more features.
+
+39
+00:02:31.670 --> 00:02:35.215
+The main idea is to introduce new information.
+
+40
+00:02:35.215 --> 00:02:40.210
+By that means, we can drastically increase the quality of the models.
+
+41
+00:02:40.210 --> 00:02:44.090
+But what if there is no features to use groupby on?
+
+42
+00:02:44.090 --> 00:02:45.960
+Well, in such case,
+
+43
+00:02:45.960 --> 00:02:50.535
+we can replace grouping operations with finding the nearest neighbors.
+
+44
+00:02:50.535 --> 00:02:56.370
+On the one hand, it's much harder to implement and collect useful information.
+
+45
+00:02:56.370 --> 00:02:59.455
+On the other hand, the method is more flexible.
+
+46
+00:02:59.455 --> 00:03:05.370
+We can fine tune things like the size of relevant neighborhood or metric.
+
+47
+00:03:05.370 --> 00:03:07.740
+The most common and natural example of
+
+48
+00:03:07.740 --> 00:03:12.050
+neighborhood analysis arises from purposive pricing.
+
+49
+00:03:12.050 --> 00:03:14.970
+Imagine that you need to predict rental prices.
+
+50
+00:03:14.970 --> 00:03:19.150
+You would probably have some characteristics like floor space,
+
+51
+00:03:19.150 --> 00:03:22.050
+number of rooms, presence of a bus stop.
+
+52
+00:03:22.050 --> 00:03:26.665
+But you need something more than that to create a really good model.
+
+53
+00:03:26.665 --> 00:03:30.090
+It could be the number of other houses in
+
+54
+00:03:30.090 --> 00:03:35.370
+different neighborhoods like in 500 meters, 1,000 meters,
+
+55
+00:03:35.370 --> 00:03:41.080
+or 1,500 meters, or average price per square meter in such neighborhoods,
+
+56
+00:03:41.080 --> 00:03:43.140
+or the number of schools,
+
+57
+00:03:43.140 --> 00:03:47.190
+supermarkets, and parking lots in such neighborhoods.
+
+58
+00:03:47.190 --> 00:03:50.835
+The distances to the closest objects of interest
+
+59
+00:03:50.835 --> 00:03:54.950
+like subway stations or gyms could also be of use.
+
+60
+00:03:54.950 --> 00:03:56.835
+I think you've got the idea.
+
+61
+00:03:56.835 --> 00:04:00.705
+In the example, we've used a very simple case,
+
+62
+00:04:00.705 --> 00:04:04.980
+where neighborhoods were calculated in geographical space.
+
+63
+00:04:04.980 --> 00:04:08.040
+But don't be afraid to apply this method to
+
+64
+00:04:08.040 --> 00:04:11.710
+some abstract or even anonymized feature space.
+
+65
+00:04:11.710 --> 00:04:14.055
+It still could be very useful.
+
+66
+00:04:14.055 --> 00:04:18.350
+My team and I used this method in Spring Leaf competition.
+
+67
+00:04:18.350 --> 00:04:22.910
+Furthermore, we did it in supervised fashion.
+
+68
+00:04:22.910 --> 00:04:24.405
+Here is how we have done it.
+
+69
+00:04:24.405 --> 00:04:28.260
+First of all, we applied mean encoding to all variables.
+
+70
+00:04:28.260 --> 00:04:32.940
+By doing so, we created homogeneous feature space so we
+
+71
+00:04:32.940 --> 00:04:38.325
+did not worry about scaling and importance of each particular feature.
+
+72
+00:04:38.325 --> 00:04:44.595
+After that, we calculated 2,000 nearest neighbors with Bray-Curtis metric.
+
+73
+00:04:44.595 --> 00:04:48.810
+Then we evaluated various features from
+
+74
+00:04:48.810 --> 00:04:53.740
+those neighbors like mean target of nearest 5, 10, 15, 500,
+
+75
+00:04:53.740 --> 00:04:59.540
+2,000 neighbors, mean distance to 10 closest neighbors,
+
+76
+00:04:59.540 --> 00:05:03.713
+mean distance to 10 closest neighbors with target 1,
+
+77
+00:05:03.713 --> 00:05:08.240
+and mean distance to 10 closest neighbors with target 0,
+
+78
+00:05:08.240 --> 00:05:10.845
+and, it worked great.
+
+79
+00:05:10.845 --> 00:05:16.125
+In conclusion, I hope you embrace the main ideas of
+
+80
+00:05:16.125 --> 00:05:20.085
+both groupby and nearest neighbor methods
+
+81
+00:05:20.085 --> 00:05:24.935
+and you would be able to apply them in practice.
+
+82
+00:05:24.935 --> 00:05:28.510
+Thank you for your attention.

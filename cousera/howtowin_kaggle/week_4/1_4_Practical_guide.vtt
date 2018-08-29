@@ -1,0 +1,1194 @@
+WEBVTT
+
+1
+00:00:00.031 --> 00:00:05.036
+[SOUND] Hi, to this moment,
+we have already discussed all
+
+2
+00:00:05.036 --> 00:00:11.817
+basics new things which build up to
+a big solution like featured generation,
+
+3
+00:00:11.817 --> 00:00:15.800
+validation, minimalist codings and so on.
+
+4
+00:00:15.800 --> 00:00:19.374
+We went through several
+competitions together and
+
+5
+00:00:19.374 --> 00:00:24.204
+tried our best to unite everything
+we learn into one huge framework.
+
+6
+00:00:24.204 --> 00:00:28.769
+But as with any other set of tools,
+there are a lot of heuristics which
+
+7
+00:00:28.769 --> 00:00:32.471
+people often find only with a trial and
+error approach,
+
+8
+00:00:32.471 --> 00:00:37.534
+spending significant time on learning
+how to use these tools efficiently.
+
+9
+00:00:37.534 --> 00:00:39.216
+So to help you out here,
+
+10
+00:00:39.216 --> 00:00:45.100
+in this video we'll share things we
+learned the hard way, by experience.
+
+11
+00:00:45.100 --> 00:00:48.560
+These things may vary from
+one person to another.
+
+12
+00:00:48.560 --> 00:00:53.140
+So we decided that everyone on class will
+present his own guidelines personally,
+
+13
+00:00:53.140 --> 00:00:57.770
+to stress the possible
+diversity in a broad issues and
+
+14
+00:00:57.770 --> 00:01:00.650
+to make an accent on different moments.
+
+15
+00:01:00.650 --> 00:01:04.150
+Some notes might seem obvious to you,
+some may not.
+
+16
+00:01:04.150 --> 00:01:08.940
+But be sure for even some of them or
+at least no one involve them.
+
+17
+00:01:08.940 --> 00:01:10.940
+Can save you a lot of time.
+
+18
+00:01:10.940 --> 00:01:13.242
+So, let's start.
+
+19
+00:01:13.242 --> 00:01:16.992
+When we want to enter a competition,
+define your goals and
+
+20
+00:01:16.992 --> 00:01:21.470
+try to estimate what you can
+get out of your participation.
+
+21
+00:01:21.470 --> 00:01:25.000
+You may want to learn more
+about an interesting problem.
+
+22
+00:01:25.000 --> 00:01:27.790
+You may want to get acquainted
+with new software tools and
+
+23
+00:01:27.790 --> 00:01:32.320
+packages, or
+you may want to try to hunt for a medal.
+
+24
+00:01:32.320 --> 00:01:37.450
+Each of these goals will influence what
+competition you choose to participate in.
+
+25
+00:01:37.450 --> 00:01:40.380
+If you want to learn more
+about an interesting problem,
+
+26
+00:01:40.380 --> 00:01:44.350
+you may want the competition to have
+a wide discussion on the forums.
+
+27
+00:01:44.350 --> 00:01:49.950
+For example, if you are interested in
+data science, in application to medicine,
+
+28
+00:01:49.950 --> 00:01:55.210
+you can try to predict lung cancer
+in the Data Science Bowl 2017.
+
+29
+00:01:55.210 --> 00:01:59.900
+Or to predict seizures in long
+term human EEG recordings.
+
+30
+00:01:59.900 --> 00:02:03.070
+In the Melbourne University
+Seizure Prediction Competition.
+
+31
+00:02:04.240 --> 00:02:07.200
+If you want to get acquainted
+with new software tools,
+
+32
+00:02:07.200 --> 00:02:10.000
+you may want the competition
+to have required tutorials.
+
+33
+00:02:10.000 --> 00:02:13.530
+For example, if you want to
+learn a neural networks library.
+
+34
+00:02:13.530 --> 00:02:17.818
+You may choose any of competitions with
+images like the nature conservancy
+
+35
+00:02:17.818 --> 00:02:19.880
+features, monitoring competition.
+
+36
+00:02:19.880 --> 00:02:24.560
+Or the planet, understanding
+the Amazon from space competition.
+
+37
+00:02:24.560 --> 00:02:27.100
+And if you want to try to hunt for
+
+38
+00:02:27.100 --> 00:02:32.260
+a medal, you may want to check how
+many submissions do participants have.
+
+39
+00:02:32.260 --> 00:02:36.260
+And if the points that people have
+over one hundred submissions,
+
+40
+00:02:36.260 --> 00:02:41.030
+it can be a clear sign of legible
+problem or difficulties in validation
+
+41
+00:02:41.030 --> 00:02:45.380
+includes an inconsistency of
+validation and leaderboard scores.
+
+42
+00:02:45.380 --> 00:02:49.840
+On the other hand, if there are people
+with few submissions in the top,
+
+43
+00:02:49.840 --> 00:02:54.810
+that usually means there should be
+a non-trivial approach to this competition
+
+44
+00:02:54.810 --> 00:02:58.100
+or it's discovered only by few people.
+
+45
+00:02:58.100 --> 00:03:03.030
+Beside that, you may want to pay
+attention to the size of the top teams.
+
+46
+00:03:03.030 --> 00:03:07.210
+If leaderboard mostly consists of
+teams with only one participant,
+
+47
+00:03:07.210 --> 00:03:10.660
+you'll probably have enough
+chances if you gather a good team.
+
+48
+00:03:11.750 --> 00:03:16.300
+Now, let's move to the next step
+after you chose a competition.
+
+49
+00:03:16.300 --> 00:03:19.060
+As soon as you get familiar with the data,
+
+50
+00:03:19.060 --> 00:03:23.560
+start to write down your ideas about
+what you may want to try later.
+
+51
+00:03:23.560 --> 00:03:25.320
+What things could work here?
+
+52
+00:03:25.320 --> 00:03:27.840
+What approaches you may want to take.
+
+53
+00:03:27.840 --> 00:03:32.860
+After you're done, read forums and
+highlight interesting posts and topics.
+
+54
+00:03:32.860 --> 00:03:37.130
+Remember, you can get a lot of information
+and meet new people on forums.
+
+55
+00:03:37.130 --> 00:03:42.640
+So I strongly encourage you to
+participate in these discussions.
+
+56
+00:03:42.640 --> 00:03:45.000
+After the initial pipeline is ready and
+
+57
+00:03:45.000 --> 00:03:49.710
+you roll down few ideas, you may want
+to start improving your solution.
+
+58
+00:03:49.710 --> 00:03:53.910
+Personally, I like to organize
+these ideas into some structure.
+
+59
+00:03:53.910 --> 00:03:58.330
+So you may want to sort
+ideas into priority order.
+
+60
+00:03:58.330 --> 00:04:01.470
+Most important and
+promising needs to be implemented first.
+
+61
+00:04:02.520 --> 00:04:05.870
+Or you may want to organize
+these ideas into topics.
+
+62
+00:04:05.870 --> 00:04:10.540
+Ideas about feature generation,
+validation, metric optimization.
+
+63
+00:04:10.540 --> 00:04:11.660
+And so on.
+
+64
+00:04:11.660 --> 00:04:15.330
+Now pick up an idea and implement it.
+
+65
+00:04:15.330 --> 00:04:17.571
+Try to derive some insights on the way.
+
+66
+00:04:17.571 --> 00:04:22.790
+Especially, try to understand why
+something does or doesn't work.
+
+67
+00:04:22.790 --> 00:04:23.583
+For example,
+
+68
+00:04:23.583 --> 00:04:27.826
+you have an idea about trying a deep
+gradient boosting decision tree model.
+
+69
+00:04:27.826 --> 00:04:30.420
+To your joy, it works.
+
+70
+00:04:30.420 --> 00:04:32.500
+Now, ask yourself why?
+
+71
+00:04:32.500 --> 00:04:36.060
+Is there some hidden data
+structure we didn't notice before?
+
+72
+00:04:36.060 --> 00:04:41.260
+Maybe you have categorical features
+with a lot of unique values.
+
+73
+00:04:41.260 --> 00:04:42.570
+If this is the case,
+
+74
+00:04:42.570 --> 00:04:47.560
+you as well can make a conclusion that
+mean encodings may work great here.
+
+75
+00:04:47.560 --> 00:04:51.390
+So in some sense,
+the ability to analyze the work and
+
+76
+00:04:51.390 --> 00:04:54.810
+derive conclusions while
+you're trying out your ideas
+
+77
+00:04:54.810 --> 00:04:58.720
+will get you on the right track to
+reveal hidden data patterns and leaks.
+
+78
+00:04:59.830 --> 00:05:02.670
+After we checked out most important ideas,
+
+79
+00:05:02.670 --> 00:05:05.510
+you may want to switch
+to parameter training.
+
+80
+00:05:05.510 --> 00:05:08.820
+I personally like the view,
+everything is a parameter.
+
+81
+00:05:08.820 --> 00:05:13.280
+From the number of features, through
+gradient boosting decision through depth.
+
+82
+00:05:13.280 --> 00:05:16.620
+From the number of layers in
+convolutional neural network,
+
+83
+00:05:16.620 --> 00:05:20.130
+to the coefficient you finally
+submit is multiplied by.
+
+84
+00:05:20.130 --> 00:05:22.240
+To understand what I should tune and
+
+85
+00:05:22.240 --> 00:05:27.020
+change first, I like to sort all
+parameters by these principles.
+
+86
+00:05:27.020 --> 00:05:28.475
+First, importance.
+
+87
+00:05:28.475 --> 00:05:32.850
+Arrange parameters from
+important to not useful at all.
+
+88
+00:05:32.850 --> 00:05:34.560
+Tune in this order.
+
+89
+00:05:34.560 --> 00:05:39.238
+These may depend on data structure,
+on target, on metric, and so on.
+
+90
+00:05:39.238 --> 00:05:41.842
+Second, feasibility.
+
+91
+00:05:41.842 --> 00:05:47.758
+Rate parameters from, it is easy to tune,
+to, tuning this can take forever.
+
+92
+00:05:47.758 --> 00:05:49.916
+Third, understanding.
+
+93
+00:05:49.916 --> 00:05:55.370
+Rate parameters from, I know what
+it's doing, to, I have no idea.
+
+94
+00:05:55.370 --> 00:05:59.420
+Here it is important to understand
+what each parameter will change
+
+95
+00:05:59.420 --> 00:06:00.510
+in the whole pipeline.
+
+96
+00:06:00.510 --> 00:06:04.430
+For example, if you increase
+the number of features significantly,
+
+97
+00:06:04.430 --> 00:06:08.430
+you may want to change ratio of columns
+which is used to find the best split
+
+98
+00:06:08.430 --> 00:06:10.860
+in gradient boosting decision tree.
+
+99
+00:06:10.860 --> 00:06:14.551
+Or, if you change number of layers
+in convolution neural network,
+
+100
+00:06:14.551 --> 00:06:17.284
+you will need more reports to train it,
+and so on.
+
+101
+00:06:17.284 --> 00:06:22.945
+So let's see, these were some
+of my practical guidelines,
+
+102
+00:06:22.945 --> 00:06:27.169
+I hope they will prove useful for
+you as well.
+
+103
+00:06:27.169 --> 00:06:30.890
+Every problem starts with data loading and
+preprocessing.
+
+104
+00:06:30.890 --> 00:06:35.540
+I usually don't pay much attention to
+some sub optimal usage of computational
+
+105
+00:06:35.540 --> 00:06:40.740
+resources but this particular
+case is of crucial importance.
+
+106
+00:06:40.740 --> 00:06:45.030
+Doing things right at the very beginning
+will make your life much simpler and
+
+107
+00:06:45.030 --> 00:06:49.670
+will allow you to save a lot of time and
+computational resources.
+
+108
+00:06:49.670 --> 00:06:53.530
+I usually start with basic data
+preprocessing like labeling,
+
+109
+00:06:53.530 --> 00:06:57.780
+coding, category recovery,
+both enjoying additional data.
+
+110
+00:06:57.780 --> 00:07:05.380
+Then, I dump resulting data into HDF5 or
+MPI format.
+
+111
+00:07:05.380 --> 00:07:10.820
+HDF5 for Panda's dataframes,
+and MPI for non bit arrays.
+
+112
+00:07:10.820 --> 00:07:15.321
+Running experiment often require
+a lot of kernel restarts,
+
+113
+00:07:15.321 --> 00:07:18.250
+which leads to reloading all the data.
+
+114
+00:07:18.250 --> 00:07:23.146
+And loading class CSC files
+may take minutes while
+
+115
+00:07:23.146 --> 00:07:28.610
+loading data from HDF5 or MPI formats
+is performed in a matter of seconds.
+
+116
+00:07:29.870 --> 00:07:35.275
+Another important matter is that by
+default, Panda is known to store
+
+117
+00:07:35.275 --> 00:07:41.251
+data in 64-bit arrays, which is
+unnecessary in most of the situations.
+
+118
+00:07:41.251 --> 00:07:48.330
+Downcasting everything to 32 bits will
+result in two-fold memory saving.
+
+119
+00:07:48.330 --> 00:07:54.280
+Also keep in mind that Panda's support
+out of the box data relink by chunks,
+
+120
+00:07:54.280 --> 00:07:58.530
+via chunks ice parameter
+in recess fee function.
+
+121
+00:07:58.530 --> 00:08:03.680
+So most of the data sets may be
+processed without a lot of memory.
+
+122
+00:08:03.680 --> 00:08:09.313
+When it comes to performance evaluation, I
+am not a big fan of extensive validation.
+
+123
+00:08:09.313 --> 00:08:15.665
+Even for medium-sized datasets
+like 50,000 or 100,000 rows.
+
+124
+00:08:15.665 --> 00:08:20.235
+You can validate your models
+with a simple train test split
+
+125
+00:08:20.235 --> 00:08:23.412
+instead of full cross validation loop.
+
+126
+00:08:23.412 --> 00:08:27.490
+Switch to full CV only
+when it is really needed.
+
+127
+00:08:27.490 --> 00:08:30.940
+For example,
+when you've already hit some limits and
+
+128
+00:08:30.940 --> 00:08:34.970
+can move forward only with
+some marginal improvements.
+
+129
+00:08:34.970 --> 00:08:38.020
+Same logic applies to
+initial model choice.
+
+130
+00:08:38.020 --> 00:08:42.580
+I usually start with LightGBM,
+find some reasonably good parameters,
+
+131
+00:08:42.580 --> 00:08:45.119
+and evaluate performance of my features.
+
+132
+00:08:46.290 --> 00:08:50.500
+I want to emphasize that
+I use early stopping, so
+
+133
+00:08:50.500 --> 00:08:53.820
+I don't need to tune number
+of boosting iterations.
+
+134
+00:08:55.150 --> 00:08:59.980
+And god forbid start ESVMs,
+random forks, or
+
+135
+00:08:59.980 --> 00:09:05.520
+neural networks, you will waste too
+much time just waiting for them to feed.
+
+136
+00:09:05.520 --> 00:09:08.780
+I switch to tuning the models,
+and sampling, and
+
+137
+00:09:08.780 --> 00:09:12.700
+staking, only when I am satisfied
+with feature engineering.
+
+138
+00:09:13.760 --> 00:09:19.400
+In some ways, I describe my approach as,
+fast and dirty, always better.
+
+139
+00:09:19.400 --> 00:09:23.010
+Try focusing on what is really important,
+the data.
+
+140
+00:09:23.010 --> 00:09:25.661
+Do ED, try different features.
+
+141
+00:09:25.661 --> 00:09:28.577
+Google domain-specific knowledge.
+
+142
+00:09:28.577 --> 00:09:31.020
+Your code is secondary.
+
+143
+00:09:31.020 --> 00:09:33.210
+Creating unnecessary classes and
+
+144
+00:09:33.210 --> 00:09:37.260
+personal frame box may only make
+things harder to change and
+
+145
+00:09:37.260 --> 00:09:43.170
+will result in wasting your time, so
+keep things simple and reasonable.
+
+146
+00:09:43.170 --> 00:09:45.745
+Don't track every little change.
+
+147
+00:09:45.745 --> 00:09:49.680
+By the end of competition, I usually
+have only a couple of notebooks for
+
+148
+00:09:49.680 --> 00:09:55.490
+model training and to want notebooks
+specifically for EDA purposes.
+
+149
+00:09:55.490 --> 00:10:01.660
+Finally, if you feel really uncomfortable
+with given computational resources,
+
+150
+00:10:01.660 --> 00:10:05.290
+don't struggle for weeks,
+just rent a larger server.
+
+151
+00:10:06.710 --> 00:10:09.790
+Every competition I start with
+a very simple basic solution
+
+152
+00:10:09.790 --> 00:10:11.590
+that can be even primitive.
+
+153
+00:10:11.590 --> 00:10:15.950
+The main purpose of such solution
+is not to build a good model but
+
+154
+00:10:15.950 --> 00:10:18.960
+to debug full pipeline from very beginning
+
+155
+00:10:18.960 --> 00:10:23.550
+of the data to the very end when we write
+the submit file into decided format.
+
+156
+00:10:23.550 --> 00:10:26.820
+I advise you to start with
+construction of the initial pipeline.
+
+157
+00:10:26.820 --> 00:10:30.322
+Often you can find it in baseline
+solutions provided by organizers or
+
+158
+00:10:30.322 --> 00:10:31.270
+in kernels.
+
+159
+00:10:31.270 --> 00:10:33.630
+I encourage you to read carefully and
+write your own.
+
+160
+00:10:34.890 --> 00:10:39.270
+Also I advise you to follow from simple
+to complex approach in other things.
+
+161
+00:10:39.270 --> 00:10:41.800
+For example, I prefer to start
+with Random Forest rather than
+
+162
+00:10:41.800 --> 00:10:43.360
+Gradient Boosted Decision Trees.
+
+163
+00:10:43.360 --> 00:10:45.438
+At least Random Forest
+works quite fast and
+
+164
+00:10:45.438 --> 00:10:47.869
+requires almost no tuning
+of hybrid parameters.
+
+165
+00:10:49.060 --> 00:10:52.660
+Participation in data science competition
+implies the analysis of data and
+
+166
+00:10:52.660 --> 00:10:55.530
+generation of features and
+manipulations with models.
+
+167
+00:10:55.530 --> 00:10:59.570
+This process is very similar in spirit
+to the development of software and
+
+168
+00:10:59.570 --> 00:11:02.390
+there are many good practices
+that I advise you to follow.
+
+169
+00:11:02.390 --> 00:11:03.750
+I will name just a few of them.
+
+170
+00:11:04.910 --> 00:11:07.650
+First of all, use good variable names.
+
+171
+00:11:07.650 --> 00:11:10.470
+No matter how ingenious you are,
+if your code is written badly,
+
+172
+00:11:10.470 --> 00:11:14.210
+you will surely get confused in it and
+you'll have a problem sooner or later.
+
+173
+00:11:15.450 --> 00:11:17.750
+Second, keep your research reproducible.
+
+174
+00:11:17.750 --> 00:11:18.973
+FIx all random seeds.
+
+175
+00:11:18.973 --> 00:11:21.780
+Write down exactly how
+a feature was generated, and
+
+176
+00:11:21.780 --> 00:11:24.800
+store the code under version
+control system like git.
+
+177
+00:11:24.800 --> 00:11:27.800
+Very often there are situation when you
+need to go back to the model that you
+
+178
+00:11:27.800 --> 00:11:30.962
+built two weeks ago and
+edit to the ensemble width.
+
+179
+00:11:30.962 --> 00:11:34.920
+The last and probably the most
+important thing, reuse your code.
+
+180
+00:11:34.920 --> 00:11:38.568
+It's really important to use the same
+code at training and testing stages.
+
+181
+00:11:38.568 --> 00:11:42.040
+For example, features should be prepared
+and transforming by the same code
+
+182
+00:11:42.040 --> 00:11:46.565
+in order to guarantee that they're
+produced in a consistent manner.
+
+183
+00:11:46.565 --> 00:11:49.290
+Here in such places are very
+difficult to catch, so
+
+184
+00:11:49.290 --> 00:11:51.540
+it's better to be very careful with it.
+
+185
+00:11:51.540 --> 00:11:55.985
+I recommend to move reusable code into
+separate functions or even separate model.
+
+186
+00:11:57.090 --> 00:11:59.610
+In addition, I advise you to read
+scientific articles on the topic
+
+187
+00:11:59.610 --> 00:12:01.450
+of the competition.
+
+188
+00:12:01.450 --> 00:12:03.880
+They can provide you with
+information about machine and
+
+189
+00:12:03.880 --> 00:12:08.560
+correlated things like for example how
+to better optimize a measure, or AUC.
+
+190
+00:12:08.560 --> 00:12:10.300
+Or, provide the main
+knowledge of the problem.
+
+191
+00:12:11.710 --> 00:12:14.460
+This is often very useful for
+future generations.
+
+192
+00:12:14.460 --> 00:12:18.290
+For example, during Microsoft Mobile
+competition, I read article about mobile
+
+193
+00:12:18.290 --> 00:12:21.410
+detection and used ideas from
+them to generate new features.
+
+194
+00:12:22.710 --> 00:12:26.535
+>> I usually start the competition by
+monitoring the forums and kernels.
+
+195
+00:12:27.560 --> 00:12:32.720
+It happens that a competition starts,
+someone finds a bug in the data.
+
+196
+00:12:32.720 --> 00:12:37.010
+And the competition data is
+then completely changed, so
+
+197
+00:12:37.010 --> 00:12:39.820
+I never join a competition
+at its very beginning.
+
+198
+00:12:41.390 --> 00:12:45.690
+I usually start a competition with
+a quick EDA and a simple baseline.
+
+199
+00:12:45.690 --> 00:12:49.080
+I tried to check the data for
+various leakages.
+
+200
+00:12:49.080 --> 00:12:54.280
+For me, the leaks are one of the most
+interesting parts in the competition.
+
+201
+00:12:54.280 --> 00:12:57.710
+I then usually do several submissions
+to check if validation score
+
+202
+00:12:57.710 --> 00:12:59.710
+correlates with publicly the board score.
+
+203
+00:13:01.480 --> 00:13:05.630
+Usually, I try to come up with a list
+of things to try in a competition, and
+
+204
+00:13:05.630 --> 00:13:07.660
+I more or less try to follow it.
+
+205
+00:13:08.880 --> 00:13:13.270
+But sometimes I just try to generate
+as many features as possible,
+
+206
+00:13:13.270 --> 00:13:17.364
+put them in extra boost and
+study what helps and what does not.
+
+207
+00:13:17.364 --> 00:13:22.440
+When tuning parameters,
+I first try to make model overfit
+
+208
+00:13:22.440 --> 00:13:26.880
+to the training set and only then I
+change parameters to constrain the model.
+
+209
+00:13:28.050 --> 00:13:32.908
+I had situations when I could not
+reproduce one of my submissions.
+
+210
+00:13:32.908 --> 00:13:36.630
+I accidentally changed something in
+the code and I could not remember what
+
+211
+00:13:36.630 --> 00:13:42.200
+exactly, so nowadays I'm very
+careful about my code and script.
+
+212
+00:13:44.040 --> 00:13:45.114
+Another problem?
+
+213
+00:13:45.114 --> 00:13:51.220
+Long execution history in notebooks leads
+to lots of defined global variables.
+
+214
+00:13:51.220 --> 00:13:54.340
+And global variables surely lead to bugs.
+
+215
+00:13:54.340 --> 00:13:57.220
+So remember to sometimes
+restart your notebooks.
+
+216
+00:13:58.280 --> 00:14:03.170
+It's okay to have ugly code, unless you
+do not use this to produce a submission.
+
+217
+00:14:04.390 --> 00:14:05.240
+It would be easier for
+
+218
+00:14:05.240 --> 00:14:09.350
+you to get into this code later if
+it has a descriptive variable names.
+
+219
+00:14:09.350 --> 00:14:13.720
+I always use git and
+try to make the code for
+
+220
+00:14:13.720 --> 00:14:16.850
+submissions as transparent as possible.
+
+221
+00:14:16.850 --> 00:14:18.840
+I usually create a separate notebook for
+
+222
+00:14:18.840 --> 00:14:23.320
+every submission so I can always run
+the previous solution and compare.
+
+223
+00:14:24.420 --> 00:14:27.720
+And I treat the submission
+notebooks as script.
+
+224
+00:14:27.720 --> 00:14:31.550
+I restart the kernel and
+always run them from top to bottom.
+
+225
+00:14:32.808 --> 00:14:37.672
+I found a convenient way to validate
+the models that allows to use validation
+
+226
+00:14:37.672 --> 00:14:41.937
+code with minimal changes to retrain
+a model on the whole dataset.
+
+227
+00:14:41.937 --> 00:14:46.420
+In the competition, we are provided
+with training and test CSV files.
+
+228
+00:14:46.420 --> 00:14:47.610
+You see we load them in the first cell.
+
+229
+00:14:47.610 --> 00:14:52.820
+In the second cell, we split
+training set and actual training and
+
+230
+00:14:52.820 --> 00:14:57.367
+validation sets, and
+save those to disk as CSV files with
+
+231
+00:14:57.367 --> 00:15:01.460
+the same structure as given train CSV and
+test CSV.
+
+232
+00:15:03.060 --> 00:15:08.240
+Now, at the top of the notebook,
+with my model, I define variables.
+
+233
+00:15:08.240 --> 00:15:11.320
+Path is to train and test sets.
+
+234
+00:15:11.320 --> 00:15:12.834
+I set them to create a training and
+
+235
+00:15:12.834 --> 00:15:15.970
+validation sets when working with
+the model and validating it.
+
+236
+00:15:16.990 --> 00:15:22.050
+And then it only takes me to switch
+those paths to original train CSV and
+
+237
+00:15:22.050 --> 00:15:24.290
+test CSV to produce a submission.
+
+238
+00:15:25.450 --> 00:15:27.700
+I also use macros.
+
+239
+00:15:27.700 --> 00:15:32.230
+At one point I was really tired of
+typing import numpy as np, every time.
+
+240
+00:15:33.840 --> 00:15:38.260
+So I found that it's possible to define
+a macro which will load everything for me.
+
+241
+00:15:40.110 --> 00:15:42.610
+In my case, it takes only five symbols to
+
+242
+00:15:44.020 --> 00:15:49.810
+type the macro name and this macro
+immediately loads me everything.
+
+243
+00:15:49.810 --> 00:15:50.490
+Very convenient.
+
+244
+00:15:52.540 --> 00:15:56.860
+And finally, I have developed my library
+with frequently used functions, and
+
+245
+00:15:56.860 --> 00:15:58.870
+training code for models.
+
+246
+00:15:58.870 --> 00:16:04.544
+I personally find it useful, as the code,
+it now becomes much shorter,
+
+247
+00:16:04.544 --> 00:16:09.395
+and I do not need to remember how
+to import a particular model.
+
+248
+00:16:09.395 --> 00:16:14.117
+In my case I just specify
+a model with its name, and
+
+249
+00:16:14.117 --> 00:16:21.795
+as an output I get all the information
+about training that I would possibly need.
+
+250
+00:16:21.795 --> 00:16:24.514
+[SOUND]
+
+251
+00:16:24.514 --> 00:16:31.699
+[MUSIC]

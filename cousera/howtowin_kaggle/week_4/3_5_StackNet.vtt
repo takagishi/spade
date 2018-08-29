@@ -1,0 +1,885 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.844
+We can continue our discussion with StackNet.
+
+2
+00:00:03.844 --> 00:00:09.106
+StackNet is a scalable meta modeling methodology that utilizes
+
+3
+00:00:09.106 --> 00:00:15.760
+stacking to combine multiple models in a neural network architecture of multiple levels.
+
+4
+00:00:15.760 --> 00:00:19.503
+It is scalable because within the same level,
+
+5
+00:00:19.503 --> 00:00:22.986
+we can run all the models in parallel.
+
+6
+00:00:22.986 --> 00:00:26.540
+It utilizes stacking because it makes use of
+
+7
+00:00:26.540 --> 00:00:30.775
+this technique we mentioned before where we split the data,
+
+8
+00:00:30.775 --> 00:00:33.995
+we make predictions so some hold out data,
+
+9
+00:00:33.995 --> 00:00:39.430
+and then we use another model to train on those predictions.
+
+10
+00:00:39.430 --> 00:00:41.525
+And as we will see later on,
+
+11
+00:00:41.525 --> 00:00:46.620
+this resembles a lot in neural network.
+
+12
+00:00:46.620 --> 00:00:54.000
+Now let us continue that naive example we gave before with the students and the teacher,
+
+13
+00:00:54.000 --> 00:00:57.634
+in order to understand what conceptually, in a real world,
+
+14
+00:00:57.634 --> 00:01:02.270
+would need to add another layer.
+
+15
+00:01:02.270 --> 00:01:03.630
+So in that example,
+
+16
+00:01:03.630 --> 00:01:06.870
+we have a teacher that she was trying to combine the answers of
+
+17
+00:01:06.870 --> 00:01:13.560
+different students and she was outputting an estimate of 17 under certain assumptions.
+
+18
+00:01:13.560 --> 00:01:18.885
+We can make this example more interesting by introducing one more meta learner.
+
+19
+00:01:18.885 --> 00:01:21.345
+Let's call him Mr. RF,
+
+20
+00:01:21.345 --> 00:01:23.395
+who's also a physics teacher.
+
+21
+00:01:23.395 --> 00:01:29.305
+Mr. RF believes that LR should have a bigger contribution to the ensemble
+
+22
+00:01:29.305 --> 00:01:31.810
+because he has been doing private lessons with
+
+23
+00:01:31.810 --> 00:01:35.920
+him and he knows he couldn't be that far off.
+
+24
+00:01:35.920 --> 00:01:40.360
+So he's able to see the data from slightly different ways to
+
+25
+00:01:40.360 --> 00:01:46.330
+capitalize on different parts of these predictions and make a different estimate.
+
+26
+00:01:46.330 --> 00:01:51.905
+Whereas, the teachers could work it out and take an average,
+
+27
+00:01:51.905 --> 00:02:00.970
+we could create or we can introduce a higher authority or another layer of modeling here.
+
+28
+00:02:00.970 --> 00:02:03.375
+Let's call it the headmaster,
+
+29
+00:02:03.375 --> 00:02:07.540
+GBM, in order to shop, make better predictions.
+
+30
+00:02:07.540 --> 00:02:12.935
+And GBM doesn't need to know the answers that the students have given.
+
+31
+00:02:12.935 --> 00:02:16.413
+The only thing he needs to know is the input from the teachers.
+
+32
+00:02:16.413 --> 00:02:17.500
+And in this case,
+
+33
+00:02:17.500 --> 00:02:26.994
+he's more keen to trust his physics teacher by outputting a 16.2 prediction.
+
+34
+00:02:26.994 --> 00:02:29.100
+Why would this be of any use to people?
+
+35
+00:02:29.100 --> 00:02:32.235
+I mean, isn't that already complicated?
+
+36
+00:02:32.235 --> 00:02:36.810
+Why would we want to ever try something so complicated?
+
+37
+00:02:36.810 --> 00:02:43.155
+I'm giving you an example of a competition my team used,
+
+38
+00:02:43.155 --> 00:02:45.851
+four layer of stacking,
+
+39
+00:02:45.851 --> 00:02:47.690
+in order to win.
+
+40
+00:02:47.690 --> 00:02:52.950
+And we used two different sources of input data.
+
+41
+00:02:52.950 --> 00:02:55.920
+We generated multiple models.
+
+42
+00:02:55.920 --> 00:02:59.880
+Normally, exit boost and logistic regressions,
+
+43
+00:02:59.880 --> 00:03:07.235
+and then we fed those into a four-layer architecture in order to get the top score.
+
+44
+00:03:07.235 --> 00:03:13.385
+And although we could have escaped without using that fourth layer,
+
+45
+00:03:13.385 --> 00:03:17.970
+we still need it up to level three in order to win.
+
+46
+00:03:17.970 --> 00:03:24.340
+So you can understand the usefulness of deploying deep stacking.
+
+47
+00:03:24.340 --> 00:03:31.365
+Another example is the Homesite competition organized by Homesite insurance where again,
+
+48
+00:03:31.365 --> 00:03:35.580
+we created many different views of the data.
+
+49
+00:03:35.580 --> 00:03:38.010
+So we had different transformations.
+
+50
+00:03:38.010 --> 00:03:40.465
+We generated many models.
+
+51
+00:03:40.465 --> 00:03:46.600
+We fed those models into a three-level architecture.
+
+52
+00:03:46.600 --> 00:03:48.770
+I think we didn't need the third layer again.
+
+53
+00:03:48.770 --> 00:03:54.770
+Probably, we could have escaped with only two levels but again,
+
+54
+00:03:54.770 --> 00:03:58.395
+deep stacking was necessary in order to win.
+
+55
+00:03:58.395 --> 00:04:00.270
+So there is your answer,
+
+56
+00:04:00.270 --> 00:04:07.005
+deep stacking on multiple levels really helps you to win competitions.
+
+57
+00:04:07.005 --> 00:04:10.975
+In the spirit of fairness and openness,
+
+58
+00:04:10.975 --> 00:04:13.525
+there has been some criticism about
+
+59
+00:04:13.525 --> 00:04:18.060
+large ensembles that maybe they don't have commercial value,
+
+60
+00:04:18.060 --> 00:04:21.055
+they are confidentially expensive.
+
+61
+00:04:21.055 --> 00:04:24.180
+I have to add three things on that.
+
+62
+00:04:24.180 --> 00:04:28.020
+The first is, what is considered expensive today may
+
+63
+00:04:28.020 --> 00:04:32.280
+not be expensive tomorrow and we have seen that, for example,
+
+64
+00:04:32.280 --> 00:04:33.840
+with the deep learning,
+
+65
+00:04:33.840 --> 00:04:35.670
+where with the advent of GPUs,
+
+66
+00:04:35.670 --> 00:04:42.295
+they have become 100 times faster and now they have become again very, very popular.
+
+67
+00:04:42.295 --> 00:04:43.845
+The other thing is,
+
+68
+00:04:43.845 --> 00:04:48.420
+you don't need to always build very,
+
+69
+00:04:48.420 --> 00:04:50.530
+very deep ensembles but still,
+
+70
+00:04:50.530 --> 00:04:53.180
+small ensembles would still really help.
+
+71
+00:04:53.180 --> 00:04:57.285
+So knowing how to do them can add value to businesses,
+
+72
+00:04:57.285 --> 00:05:02.245
+again based on different assumptions about how fast they want the decisions,
+
+73
+00:05:02.245 --> 00:05:04.825
+how much is the uplift you can see from stacking,
+
+74
+00:05:04.825 --> 00:05:09.195
+which may vary, sometimes it's more, sometime is less.
+
+75
+00:05:09.195 --> 00:05:13.070
+And generally, how much computing power they have.
+
+76
+00:05:13.070 --> 00:05:20.065
+We can make a case that even stacking on multiple layers can be very useful.
+
+77
+00:05:20.065 --> 00:05:22.410
+And the last point is that these are
+
+78
+00:05:22.410 --> 00:05:27.040
+predictive modeling competitions so it is a bit like the Olympics.
+
+79
+00:05:27.040 --> 00:05:31.410
+It is nice to be able to see the theoretical best you
+
+80
+00:05:31.410 --> 00:05:36.000
+can get because this is how innovation takes over.
+
+81
+00:05:36.000 --> 00:05:37.740
+This is how we move forward.
+
+82
+00:05:37.740 --> 00:05:43.265
+We can express StackNet as a neural network.
+
+83
+00:05:43.265 --> 00:05:46.955
+So normally, in a neural network,
+
+84
+00:05:46.955 --> 00:05:51.110
+we have these architecture of hidden units where they are
+
+85
+00:05:51.110 --> 00:05:57.500
+connected with input with the form of linear regression.
+
+86
+00:05:57.500 --> 00:06:01.830
+So actually, it looks pretty much like a linear regression.
+
+87
+00:06:01.830 --> 00:06:04.700
+So whether you have a set of coefficients and you have
+
+88
+00:06:04.700 --> 00:06:08.275
+a constant value where you call it bias in neaural networks,
+
+89
+00:06:08.275 --> 00:06:11.420
+and this is how your output predictions which one of
+
+90
+00:06:11.420 --> 00:06:14.652
+the hidden units which are then taken,
+
+91
+00:06:14.652 --> 00:06:18.560
+collected, to create the output.
+
+92
+00:06:18.560 --> 00:06:23.350
+The concept of StackNet is actually not that much different.
+
+93
+00:06:23.350 --> 00:06:25.495
+The only thing we want to do is,
+
+94
+00:06:25.495 --> 00:06:30.172
+we don't want to be limited to that linear regression or to that perception.
+
+95
+00:06:30.172 --> 00:06:34.230
+We want to be able to use any machine learning algorithm.
+
+96
+00:06:34.230 --> 00:06:38.520
+Putting that aside, the architecture should be exactly the same,
+
+97
+00:06:38.520 --> 00:06:41.750
+could be fairly similar.
+
+98
+00:06:41.750 --> 00:06:44.375
+So how to train this?
+
+99
+00:06:44.375 --> 00:06:48.254
+In a typical neural network, we use bipropagation.
+
+100
+00:06:48.254 --> 00:06:50.135
+Here in this context,
+
+101
+00:06:50.135 --> 00:06:51.980
+this is not feasible.
+
+102
+00:06:51.980 --> 00:06:56.200
+I mean in the context of trying to make this network work
+
+103
+00:06:56.200 --> 00:07:01.170
+with any input model because not all are differentiable.
+
+104
+00:07:01.170 --> 00:07:04.420
+So this is why we can use stacking.
+
+105
+00:07:04.420 --> 00:07:09.845
+Stacking here is a way to link the output,
+
+106
+00:07:09.845 --> 00:07:13.985
+the prediction, the output of the node, with target variable.
+
+107
+00:07:13.985 --> 00:07:21.605
+This is how the link also is made from the input features with a node.
+
+108
+00:07:21.605 --> 00:07:29.850
+However, if you remember the way that stacking works is you have some train data.
+
+109
+00:07:29.850 --> 00:07:32.970
+And then, you need to divide it into two halves.
+
+110
+00:07:32.970 --> 00:07:35.790
+So, you use the first part called, training,
+
+111
+00:07:35.790 --> 00:07:39.800
+in order to make predictions to the other part called, valid.
+
+112
+00:07:39.800 --> 00:07:47.385
+If we, assuming that adding more layers gives us some uplift,
+
+113
+00:07:47.385 --> 00:07:49.938
+if we wanted to do this again,
+
+114
+00:07:49.938 --> 00:07:54.080
+we would have re-split the valid data into two parts.
+
+115
+00:07:54.080 --> 00:07:56.056
+Let's call it, mini train, and mini valid.
+
+116
+00:07:56.056 --> 00:07:58.000
+And you can see the problem here.
+
+117
+00:07:58.000 --> 00:08:00.672
+I mean, assuming if we have really big data,
+
+118
+00:08:00.672 --> 00:08:03.710
+then this may not really be an issue.
+
+119
+00:08:03.710 --> 00:08:07.670
+But in certain situations where we don't have that much data.
+
+120
+00:08:07.670 --> 00:08:15.375
+Ideally, we would like to do this without having to constantly re-split our data.
+
+121
+00:08:15.375 --> 00:08:19.470
+And therefore minimizing the training data set.
+
+122
+00:08:19.470 --> 00:08:24.395
+So, this is why we use a K-Fold paradigm.
+
+123
+00:08:24.395 --> 00:08:30.135
+Let's assume we have a training data set with four features x0, x1,
+
+124
+00:08:30.135 --> 00:08:36.520
+x2, x3, and the y variable, or target.
+
+125
+00:08:36.520 --> 00:08:39.827
+If we are use k-fold where k = 4,
+
+126
+00:08:39.827 --> 00:08:43.000
+this is a hyper-parameter which is what to put here.
+
+127
+00:08:43.000 --> 00:08:49.250
+We would make four different parts out of these datasets.
+
+128
+00:08:49.250 --> 00:08:52.285
+Here I have put different colors,
+
+129
+00:08:52.285 --> 00:08:54.300
+colors to each one of these parts.
+
+130
+00:08:54.300 --> 00:08:58.780
+What we would do then in order to commence the training,
+
+131
+00:08:58.780 --> 00:09:05.190
+is we will create an empty vector that has the same size as rows,
+
+132
+00:09:05.190 --> 00:09:07.065
+as in the training data,
+
+133
+00:09:07.065 --> 00:09:08.845
+but for now is empty.
+
+134
+00:09:08.845 --> 00:09:13.115
+And then, for each one of the folds,
+
+135
+00:09:13.115 --> 00:09:19.435
+we would start, we will take a subset of the training data.
+
+136
+00:09:19.435 --> 00:09:25.555
+In this case, we will start with red, yellow, and green.
+
+137
+00:09:25.555 --> 00:09:27.230
+We will train a model,
+
+138
+00:09:27.230 --> 00:09:30.115
+and then we will take the blue part,
+
+139
+00:09:30.115 --> 00:09:32.300
+and will make predictions.
+
+140
+00:09:32.300 --> 00:09:35.165
+And we will take these predictions,
+
+141
+00:09:35.165 --> 00:09:36.590
+and we will put them in
+
+142
+00:09:36.590 --> 00:09:41.989
+the corresponding location in the prediction array which was empty.
+
+143
+00:09:41.989 --> 00:09:50.265
+Now, we are going to repeat the same process always using this rotation.
+
+144
+00:09:50.265 --> 00:09:54.375
+So, we are now going to use the blue,
+
+145
+00:09:54.375 --> 00:09:56.600
+the yellow, and the green part,
+
+146
+00:09:56.600 --> 00:09:59.510
+and we will keep to create a model,
+
+147
+00:09:59.510 --> 00:10:04.317
+and we will keep the red part for prediction.
+
+148
+00:10:04.317 --> 00:10:07.460
+Again, we will take these predictions and put it
+
+149
+00:10:07.460 --> 00:10:12.240
+into the corresponding part in the prediction array.
+
+150
+00:10:12.240 --> 00:10:19.244
+And we will repeat again with the yellow, and the green.
+
+151
+00:10:19.244 --> 00:10:21.930
+Something that I need to mention is
+
+152
+00:10:21.930 --> 00:10:27.285
+that the K-Fold doesn't need to be sequential as a date.
+
+153
+00:10:27.285 --> 00:10:29.240
+So, it would have been shuffled.
+
+154
+00:10:29.240 --> 00:10:33.480
+I did it as this way in order to illustrate it better.
+
+155
+00:10:33.480 --> 00:10:36.255
+But once we have finished and we have
+
+156
+00:10:36.255 --> 00:10:41.355
+generated a whole prediction for the whole training data,
+
+157
+00:10:41.355 --> 00:10:45.165
+then we can use the whole training data,
+
+158
+00:10:45.165 --> 00:10:50.210
+in order to fit one last model and make now predictions for the test data.
+
+159
+00:10:50.210 --> 00:10:56.010
+Another way we could have done this is for each
+
+160
+00:10:56.010 --> 00:11:02.470
+one of the four models we were making predictions for the validation data.
+
+161
+00:11:02.470 --> 00:11:03.720
+At the same time,
+
+162
+00:11:03.720 --> 00:11:08.443
+we could have been making predictions for the whole test data.
+
+163
+00:11:08.443 --> 00:11:10.230
+And after four models,
+
+164
+00:11:10.230 --> 00:11:12.463
+we will just take an average at the end.
+
+165
+00:11:12.463 --> 00:11:15.275
+We'll just divide the test predictions by four.
+
+166
+00:11:15.275 --> 00:11:17.430
+But a different way to do it, I have found
+
+167
+00:11:17.430 --> 00:11:20.123
+this way I just explained better with neural networks,
+
+168
+00:11:20.123 --> 00:11:25.560
+and the method where you use the whole training data to
+
+169
+00:11:25.560 --> 00:11:31.570
+generate predictions for test better with tree-based methods.
+
+170
+00:11:31.570 --> 00:11:34.570
+So, once we finish the predictions with the test,
+
+171
+00:11:34.570 --> 00:11:38.385
+you can start again with another model this time.
+
+172
+00:11:38.385 --> 00:11:40.810
+So you will generate an empty prediction,
+
+173
+00:11:40.810 --> 00:11:43.710
+you will stack it next to your previous one.
+
+174
+00:11:43.710 --> 00:11:45.700
+And you will repeat the same process.
+
+175
+00:11:45.700 --> 00:11:48.265
+You will essentially repeat this until you're
+
+176
+00:11:48.265 --> 00:11:51.785
+finished with all models for the same layer.
+
+177
+00:11:51.785 --> 00:11:55.860
+And then, this will become your new training data set and you
+
+178
+00:11:55.860 --> 00:12:00.390
+will generally begin all over again if you have a new layer.
+
+179
+00:12:00.390 --> 00:12:03.420
+This is generally the concept.
+
+180
+00:12:03.420 --> 00:12:06.300
+Though we could say this,
+
+181
+00:12:06.300 --> 00:12:10.270
+in order to extend on many layers,
+
+182
+00:12:10.270 --> 00:12:12.450
+we use this K-Fold paradigm.
+
+183
+00:12:12.450 --> 00:12:18.880
+However, normally, neural networks we have this notion of epochs.
+
+184
+00:12:18.880 --> 00:12:25.222
+We have iterations which help us to re-calibrate the weights between the nodes.
+
+185
+00:12:25.222 --> 00:12:28.270
+Here we don't have this option,
+
+186
+00:12:28.270 --> 00:12:30.100
+the way stacking is.
+
+187
+00:12:30.100 --> 00:12:33.010
+However, we can introduce
+
+188
+00:12:33.010 --> 00:12:38.945
+this ability of revisiting the initial data through connections.
+
+189
+00:12:38.945 --> 00:12:44.400
+So, a typical way to connect the nodes is the one we have
+
+190
+00:12:44.400 --> 00:12:49.375
+already explored where you have it input nodes,
+
+191
+00:12:49.375 --> 00:12:54.945
+each node is directly related with the nodes of the previous layer.
+
+192
+00:12:54.945 --> 00:12:59.017
+Another way to do this is to say,
+
+193
+00:12:59.017 --> 00:13:02.205
+a node is not only affected,
+
+194
+00:13:02.205 --> 00:13:06.595
+connected with the nodes of the directly previous layer,
+
+195
+00:13:06.595 --> 00:13:11.455
+but from all previous nodes from any previous layer.
+
+196
+00:13:11.455 --> 00:13:14.745
+So, in order to illustrate this better,
+
+197
+00:13:14.745 --> 00:13:16.980
+if you remember the example with
+
+198
+00:13:16.980 --> 00:13:21.750
+the headmaster where he was using predictions from the teachers,
+
+199
+00:13:21.750 --> 00:13:27.594
+he could have been using also predictions from the students at the same time.
+
+200
+00:13:27.594 --> 00:13:29.965
+This actually can work quite well.
+
+201
+00:13:29.965 --> 00:13:33.645
+And you can also refit the initial data.
+
+202
+00:13:33.645 --> 00:13:35.140
+Not just the predictions,
+
+203
+00:13:35.140 --> 00:13:38.040
+you can actually put your initial x data set,
+
+204
+00:13:38.040 --> 00:13:40.440
+and append it to your predictions.
+
+205
+00:13:40.440 --> 00:13:46.265
+This can work really well if you haven't made many models.
+
+206
+00:13:46.265 --> 00:13:53.335
+So that way, you get the chance to revisit that initial training data,
+
+207
+00:13:53.335 --> 00:13:55.870
+and try to capture more informations.
+
+208
+00:13:55.870 --> 00:14:00.660
+And because we already have metal-models present,
+
+209
+00:14:00.660 --> 00:14:05.610
+the model tries to focus on where we can explore any new information.
+
+210
+00:14:05.610 --> 00:14:08.690
+So in this kind of situation it works quite well.
+
+211
+00:14:08.690 --> 00:14:13.980
+Also, this is very similar to target encoding or many encoding you've seen
+
+212
+00:14:13.980 --> 00:14:19.975
+before where you use some part of the data,
+
+213
+00:14:19.975 --> 00:14:22.676
+let's say, a code on a categorical column,
+
+214
+00:14:22.676 --> 00:14:29.640
+given some cross-validation, you generate some estimates for the target variable.
+
+215
+00:14:29.640 --> 00:14:33.720
+And then, you insert this into your training data.
+
+216
+00:14:33.720 --> 00:14:36.470
+Okay, you don't stack it,
+
+217
+00:14:36.470 --> 00:14:38.635
+as in you don't create a new column,
+
+218
+00:14:38.635 --> 00:14:42.380
+but essentially you replace one column with hold out
+
+219
+00:14:42.380 --> 00:14:47.220
+predictions of your target variable which is essentially very similar.
+
+220
+00:14:47.220 --> 00:14:50.100
+You have created the logic for the target variable,
+
+221
+00:14:50.100 --> 00:14:55.000
+and you are essentially inserting it into your training data idea.

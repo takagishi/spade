@@ -1,0 +1,488 @@
+WEBVTT
+
+1
+00:00:00.092 --> 00:00:04.002
+[MUSIC]
+
+2
+00:00:04.002 --> 00:00:07.545
+Hi everyone, in this video I will
+talk about the application of matrix
+
+3
+00:00:07.545 --> 00:00:10.760
+factorization technique
+in feature extraction.
+
+4
+00:00:10.760 --> 00:00:13.559
+You will see a few application
+of the approach for
+
+5
+00:00:13.559 --> 00:00:16.500
+feature extraction and
+we will be able to apply it.
+
+6
+00:00:16.500 --> 00:00:19.853
+I will show you several examples
+along with practical details.
+
+7
+00:00:19.853 --> 00:00:22.900
+Here's a classic example
+of recommendations.
+
+8
+00:00:22.900 --> 00:00:27.370
+Suppose we have some information about
+user, like age, region, interest and
+
+9
+00:00:27.370 --> 00:00:29.990
+items like gender, year length.
+
+10
+00:00:29.990 --> 00:00:33.390
+Also we know ratings that
+users gave to some items.
+
+11
+00:00:33.390 --> 00:00:37.940
+These ratings can be organized in a user
+item matrix with row corresponding to
+
+12
+00:00:37.940 --> 00:00:42.140
+users, and columns corresponding to items,
+as shown in the picture.
+
+13
+00:00:42.140 --> 00:00:45.917
+In a cell with coordinates i, j,
+the user or agent can be chooser i,
+
+14
+00:00:45.917 --> 00:00:47.590
+give the item j.
+
+15
+00:00:47.590 --> 00:00:51.210
+Assume that our user
+have some features Ui.
+
+16
+00:00:51.210 --> 00:00:54.460
+And jth item have is
+corresponding feature Mj.
+
+17
+00:00:54.460 --> 00:00:57.870
+And scalar product of these
+features produce a rating Rij.
+
+18
+00:00:57.870 --> 00:01:02.580
+Now we can apply matrix factorization
+to learning those features for
+
+19
+00:01:02.580 --> 00:01:04.260
+item and users.
+
+20
+00:01:04.260 --> 00:01:07.520
+Sometimes these features
+can have an interpretation.
+
+21
+00:01:07.520 --> 00:01:12.076
+Like the first feature in item can
+be measured of or something similar.
+
+22
+00:01:12.076 --> 00:01:16.470
+But generally you should consider them
+as some extra features, which we can use
+
+23
+00:01:16.470 --> 00:01:21.350
+to encode user in the same way as we did
+before with labeling coder or coder.
+
+24
+00:01:21.350 --> 00:01:25.300
+Specifically our assumption about
+scale of product is the following.
+
+25
+00:01:25.300 --> 00:01:27.480
+If we present all attributes of user and
+
+26
+00:01:27.480 --> 00:01:33.520
+items as matrixes, the matrix product will
+be very close to the matrix's ratings.
+
+27
+00:01:33.520 --> 00:01:36.100
+In other words,
+which way to find matrix's U and
+
+28
+00:01:36.100 --> 00:01:39.820
+M, such as their product
+gives the matrix R.
+
+29
+00:01:39.820 --> 00:01:44.210
+This way, this approach is called matrix
+factorization or matrix composition.
+
+30
+00:01:44.210 --> 00:01:47.920
+In previous examples, we used both row and
+column related features.
+
+31
+00:01:47.920 --> 00:01:50.920
+But sometimes we don't let
+the features correspond to rows.
+
+32
+00:01:50.920 --> 00:01:52.640
+Let's consider another example.
+
+33
+00:01:52.640 --> 00:01:56.908
+Suppose that we are texts, do you
+remember how we usually classify text?
+
+34
+00:01:56.908 --> 00:02:02.780
+We extract features and each document
+was described by a large sparse reactor.
+
+35
+00:02:02.780 --> 00:02:06.200
+If we do matrix factorization over
+these parse features, we will get
+
+36
+00:02:06.200 --> 00:02:11.070
+the representation for index displayed
+in yellow, and terms displayed in green.
+
+37
+00:02:11.070 --> 00:02:12.940
+Although we can somehow
+use representation for
+
+38
+00:02:12.940 --> 00:02:16.560
+jumps, we are interested only
+in representations for dogs.
+
+39
+00:02:16.560 --> 00:02:19.770
+Now every document is described
+by a small, dense reactor.
+
+40
+00:02:19.770 --> 00:02:24.320
+These are our features, and we can use
+them in a way similar to previous example.
+
+41
+00:02:24.320 --> 00:02:27.820
+This case is often called
+dimension energy reduction.
+
+42
+00:02:27.820 --> 00:02:31.200
+It's quite an efficient way to reduce
+the size of feature metric, and
+
+43
+00:02:31.200 --> 00:02:35.340
+extract real valued features
+from categorical ones.
+
+44
+00:02:35.340 --> 00:02:38.990
+In competitions we often have
+different options for purchasing.
+
+45
+00:02:38.990 --> 00:02:47.540
+For example, using text data,
+you can run back of big rams and so on.
+
+46
+00:02:47.540 --> 00:02:49.180
+Using matrix optimization technique,
+
+47
+00:02:49.180 --> 00:02:52.550
+you are able to extract features
+from all of these matrices.
+
+48
+00:02:52.550 --> 00:02:56.270
+Since the resulting matrices will be
+small, we can easily join them and
+
+49
+00:02:56.270 --> 00:02:59.370
+use togetherness of the features
+in tree-based models.
+
+50
+00:02:59.370 --> 00:03:03.110
+Now I want to make a few comments
+about matrix factorization.
+
+51
+00:03:03.110 --> 00:03:06.440
+Not just that we are not
+constrained to reduce whole matrix,
+
+52
+00:03:06.440 --> 00:03:11.020
+you can apply factorization to a subset
+of a column and leave the other as is.
+
+53
+00:03:11.020 --> 00:03:13.530
+Besides reduction you can
+use pressure boards for
+
+54
+00:03:13.530 --> 00:03:16.160
+getting another presentation
+of the same data.
+
+55
+00:03:17.250 --> 00:03:18.580
+This is especially useful for
+
+56
+00:03:18.580 --> 00:03:24.360
+example since it provides velocity
+of its models and leads to a better.
+
+57
+00:03:24.360 --> 00:03:27.440
+Of course matrix factorization
+is a loss of transformation,
+
+58
+00:03:27.440 --> 00:03:30.650
+in other words we will lose some
+information after the search reduction.
+
+59
+00:03:31.670 --> 00:03:35.300
+Efficiency of this approach heavily
+depends on a particular task and
+
+60
+00:03:35.300 --> 00:03:37.650
+choose a number of latent factors.
+
+61
+00:03:37.650 --> 00:03:41.730
+The number should be considered as
+a hyper parameter and needs to be tuned.
+
+62
+00:03:41.730 --> 00:03:45.834
+It's a good practice to choose
+a number of factors between 5 and 100.
+
+63
+00:03:45.834 --> 00:03:49.550
+Now, let's switch from general idea
+to particular implementations.
+
+64
+00:03:49.550 --> 00:03:53.608
+Several matrix factorization
+methods are implemented in circuit
+
+65
+00:03:53.608 --> 00:03:56.580
+as the most famous SVD and PCA.
+
+66
+00:03:56.580 --> 00:03:58.780
+In addition,
+their use included TruncatedSVD,
+
+67
+00:03:58.780 --> 00:04:01.010
+which can work with sparse matrices.
+
+68
+00:04:01.010 --> 00:04:04.530
+It's very convenient for example,
+in case of text datasets.
+
+69
+00:04:04.530 --> 00:04:10.180
+Also there exists a so called non-negative
+matrix factorization, or NMF.
+
+70
+00:04:10.180 --> 00:04:14.333
+It impose an additional restrictions that
+all hidden factors are non-negative,
+
+71
+00:04:14.333 --> 00:04:17.520
+that is either zero or a positive number.
+
+72
+00:04:17.520 --> 00:04:19.990
+It can be applied only to
+non-negative matrixes.
+
+73
+00:04:19.990 --> 00:04:25.370
+For example matrix where all represented
+occurence of each word in the document.
+
+74
+00:04:25.370 --> 00:04:27.480
+NMF has an interesting property,
+
+75
+00:04:27.480 --> 00:04:32.490
+it transforms data in a way that makes
+data more suitable for decision trees.
+
+76
+00:04:32.490 --> 00:04:35.500
+Take a look at the picture from
+Microsoft Mobile Classification Challenge.
+
+77
+00:04:35.500 --> 00:04:41.460
+It can be seen that NMF transform data
+forms lines parallel to the axis.
+
+78
+00:04:41.460 --> 00:04:44.080
+A few more notes on matrix factorizations.
+
+79
+00:04:44.080 --> 00:04:47.140
+Essentially they are very
+similar to linear models, so
+
+80
+00:04:47.140 --> 00:04:51.250
+we can use the same transformation
+tricks as we use for linear models.
+
+81
+00:04:51.250 --> 00:04:53.480
+So in addition to standard NMF,
+
+82
+00:04:53.480 --> 00:04:57.810
+I advise you to apply
+the factorization to transform data.
+
+83
+00:04:57.810 --> 00:05:00.700
+Here's another plot from the competition.
+
+84
+00:05:00.700 --> 00:05:04.760
+It's clear that these two transformations
+produce different features, and
+
+85
+00:05:04.760 --> 00:05:06.610
+we don't have to choose the best one.
+
+86
+00:05:06.610 --> 00:05:09.680
+Instead, it's beneficial
+to use both of them.
+
+87
+00:05:09.680 --> 00:05:14.130
+I want to note that matrix factorization
+is a trainable transformation, and
+
+88
+00:05:14.130 --> 00:05:16.322
+has its own parameters.
+
+89
+00:05:16.322 --> 00:05:18.990
+So we should be careful, and
+use the same transformation for
+
+90
+00:05:18.990 --> 00:05:20.360
+all parts of your data set.
+
+91
+00:05:21.360 --> 00:05:24.630
+Reading and transforming each
+part individually is wrong,
+
+92
+00:05:24.630 --> 00:05:28.020
+because in that case you will get
+two different transformations.
+
+93
+00:05:28.020 --> 00:05:30.490
+This can lead to an error
+which will be hard to find.
+
+94
+00:05:31.630 --> 00:05:34.480
+The correct method is shown below,
+first we need to
+
+95
+00:05:34.480 --> 00:05:40.030
+the data information on all data and
+only then apply to each individual piece.
+
+96
+00:05:40.030 --> 00:05:44.550
+To sum up, matrix composition is a very
+general approach to dimensional reduction
+
+97
+00:05:44.550 --> 00:05:46.390
+and feature extraction.
+
+98
+00:05:46.390 --> 00:05:49.410
+It can be used to transform
+categorical feature into real ones.
+
+99
+00:05:50.730 --> 00:05:55.440
+And tricks for linear models are also
+suitable for matrix factorizations.
+
+100
+00:05:55.440 --> 00:05:56.413
+Thank you for your attention.
+
+101
+00:05:56.413 --> 00:06:03.598
+[MUSIC]
+
+102
+00:06:03.598 --> 00:06:09.314
+[SOUND]

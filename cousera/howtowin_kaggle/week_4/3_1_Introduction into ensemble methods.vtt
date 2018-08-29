@@ -1,0 +1,382 @@
+WEBVTT
+
+1
+00:00:01.030 --> 00:00:05.942
+Hello everyone, this is Marios
+Michailidis, and this will be the first
+
+2
+00:00:05.942 --> 00:00:10.452
+video in a series that we will be
+discussing on ensemble methods for
+
+3
+00:00:10.452 --> 00:00:11.835
+machine learning.
+
+4
+00:00:11.835 --> 00:00:18.165
+To tell you a bit about me, I work as
+Research Data Scientist for H2Oai.
+
+5
+00:00:18.165 --> 00:00:21.976
+In fact,
+my PhD is about assemble methods, and
+
+6
+00:00:21.976 --> 00:00:25.501
+they used to be ranked
+number one in cargo and
+
+7
+00:00:25.501 --> 00:00:30.600
+ensemble methods have greatly
+helped me to achieve this spot.
+
+8
+00:00:30.600 --> 00:00:32.800
+So you might find the course interesting.
+
+9
+00:00:34.480 --> 00:00:37.077
+So what is ensemble modelling?
+
+10
+00:00:37.077 --> 00:00:41.947
+I think with this term, we refer to
+combining many different machine learning
+
+11
+00:00:41.947 --> 00:00:45.620
+models in order to get
+a more powerful prediction.
+
+12
+00:00:45.620 --> 00:00:48.997
+And later on we will see
+examples that this happens,
+
+13
+00:00:48.997 --> 00:00:53.386
+that we combine different models and
+we do get better predictions.
+
+14
+00:00:53.386 --> 00:00:56.175
+There are various ensemble methods.
+
+15
+00:00:56.175 --> 00:01:01.240
+Here we'll discuss a few, those that
+we encounter quite often, in predictive
+
+16
+00:01:01.240 --> 00:01:06.471
+modelling competitions, and they tend
+to be, in general, quite competitive.
+
+17
+00:01:06.471 --> 00:01:10.924
+We will start with simple averaging
+methods, then we'll go to weighted
+
+18
+00:01:10.924 --> 00:01:15.311
+averaging methods, and we will also
+examine conditional averaging.
+
+19
+00:01:15.311 --> 00:01:19.950
+And then we will move to some more
+typical ones like bagging, or
+
+20
+00:01:19.950 --> 00:01:24.942
+the very, very popular, boosting,
+then stacking and StackNet,
+
+21
+00:01:24.942 --> 00:01:27.590
+which is the result of my research.
+
+22
+00:01:30.350 --> 00:01:34.160
+But as I said,
+these will be a series of videos, and
+
+23
+00:01:34.160 --> 00:01:38.163
+we will initially start
+with the averaging methods.
+
+24
+00:01:41.060 --> 00:01:45.366
+So, in order to help you understand
+a bit more about the averaging methods,
+
+25
+00:01:45.366 --> 00:01:46.791
+let's take an example.
+
+26
+00:01:46.791 --> 00:01:51.622
+Let's say we have a variable called age,
+as in age years,
+
+27
+00:01:51.622 --> 00:01:54.150
+and we try to predict this.
+
+28
+00:01:54.150 --> 00:01:57.241
+We have a model that yields prediction for
+age.
+
+29
+00:01:57.241 --> 00:02:01.386
+Let's assume that
+the relationship between the two,
+
+30
+00:02:01.386 --> 00:02:08.010
+the actual age in our prediction,
+looks like in the graph, as in the graph.
+
+31
+00:02:08.010 --> 00:02:15.660
+So you can see that the model boasts
+quite a higher square of a value of 0.91,
+
+32
+00:02:15.660 --> 00:02:19.980
+but it doesn't do so
+well in the whole range of values.
+
+33
+00:02:19.980 --> 00:02:25.680
+So when age is less than 50,
+the model actually does quite well.
+
+34
+00:02:25.680 --> 00:02:28.856
+But when age is more than 50,
+
+35
+00:02:28.856 --> 00:02:33.505
+you can see that the average
+error is higher.
+
+36
+00:02:33.505 --> 00:02:35.960
+Now let's take another example.
+
+37
+00:02:35.960 --> 00:02:40.962
+Let's assume we have a second model
+that also tries to predict age,
+
+38
+00:02:40.962 --> 00:02:43.167
+but this one looks like that.
+
+39
+00:02:43.167 --> 00:02:48.988
+As you can see, this model does quite
+well when age is higher than 50,
+
+40
+00:02:48.988 --> 00:02:56.020
+but not so well when age is less than 50,
+nevertheless, it scores again 0.91.
+
+41
+00:02:56.020 --> 00:03:01.200
+So we have two models that have
+a similar predictive power,
+
+42
+00:03:01.200 --> 00:03:04.007
+but they look quite different.
+
+43
+00:03:04.007 --> 00:03:08.682
+It's quite obvious that they do
+better in different parts of
+
+44
+00:03:08.682 --> 00:03:10.707
+the distribution of age.
+
+45
+00:03:10.707 --> 00:03:14.394
+So what will happen if we
+were to try to combine
+
+46
+00:03:14.394 --> 00:03:19.148
+this two with a simple averaging method,
+in other words,
+
+47
+00:03:19.148 --> 00:03:25.540
+just say (model 1 + model two) / 2,
+so a simple averaging method.
+
+48
+00:03:25.540 --> 00:03:28.920
+The end result will look
+as in the new graph.
+
+49
+00:03:28.920 --> 00:03:34.592
+So, our square has moved to 0.95,
+which is a considerable
+
+50
+00:03:34.592 --> 00:03:40.692
+improvement versus the 0.91 we had before,
+and as you can see,
+
+51
+00:03:40.692 --> 00:03:46.059
+on average, the points tend to
+be closer with the reality.
+
+52
+00:03:46.059 --> 00:03:49.723
+So the average error is smaller.
+
+53
+00:03:49.723 --> 00:03:56.052
+However, as you can see, the model doesn't
+do better as an individual models for
+
+54
+00:03:56.052 --> 00:03:59.998
+the areas where the models
+were doing really well,
+
+55
+00:03:59.998 --> 00:04:03.410
+nevertheless, it does better on average.
+
+56
+00:04:03.410 --> 00:04:06.584
+This is something we need to understand,
+
+57
+00:04:06.584 --> 00:04:12.195
+that there is potentially a better
+way to combine these models.
+
+58
+00:04:12.195 --> 00:04:15.354
+We could try to take a weighting average.
+
+59
+00:04:15.354 --> 00:04:19.976
+So say, I'm going to take 70% of
+the first model prediction and
+
+60
+00:04:19.976 --> 00:04:22.893
+30% of the second model prediction.
+
+61
+00:04:22.893 --> 00:04:28.853
+In other words,
+(model 1x0.7 + model 2x0.3),
+
+62
+00:04:28.853 --> 00:04:33.393
+and the end result would
+look as in the graph.
+
+63
+00:04:33.393 --> 00:04:38.849
+So you can see their square is no better
+and that makes sense, because the models
+
+64
+00:04:38.849 --> 00:04:44.560
+have quite similar predictive power and
+it doesn't make sense to rely more in one.
+
+65
+00:04:46.280 --> 00:04:51.215
+And also it is quite clear that
+it looks more with model 1,
+
+66
+00:04:51.215 --> 00:04:56.452
+because it has better predictions
+when age is less than 50,
+
+67
+00:04:56.452 --> 00:05:00.699
+and worse predictions
+when age is more than 50.
+
+68
+00:05:00.699 --> 00:05:08.250
+As a theoretical exercise, what is the
+theoretical best we could get out of this?
+
+69
+00:05:08.250 --> 00:05:13.250
+We know we have a model that scores
+really well when age is less than 50,
+
+70
+00:05:13.250 --> 00:05:17.820
+and another model that scores really
+well when age is more than 50.
+
+71
+00:05:17.820 --> 00:05:21.776
+So ideally, we would like to
+get to something like that.
+
+72
+00:05:21.776 --> 00:05:26.420
+This is how we leverage the two
+models in the best possible way
+
+73
+00:05:26.420 --> 00:05:29.891
+here by using a simple
+conditioning method.
+
+74
+00:05:29.891 --> 00:05:35.187
+So if less than 50 is one I'll just
+use the other, and we will see later
+
+75
+00:05:35.187 --> 00:05:40.310
+on that there are ensemble methods
+that are very good at finding these
+
+76
+00:05:40.310 --> 00:05:46.510
+relationships of two or more predictions
+in respect to the target variable.
+
+77
+00:05:46.510 --> 00:05:49.210
+But, this will be a topic for
+another discussion.
+
+78
+00:05:49.210 --> 00:05:53.340
+Here we discuss simple averaging methods,
+
+79
+00:05:53.340 --> 00:05:58.250
+hopefully you found it useful, and
+stay here for the next session to come.
+
+80
+00:05:58.250 --> 00:05:59.170
+Thank you very much.
