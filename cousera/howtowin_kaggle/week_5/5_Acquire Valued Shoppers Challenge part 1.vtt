@@ -1,0 +1,1229 @@
+WEBVTT
+
+1
+00:00:00.160 --> 00:00:05.470
+Hello everyone. Today, I will explain to you how,
+
+2
+00:00:05.470 --> 00:00:07.830
+me and my team mate Gert,
+
+3
+00:00:07.830 --> 00:00:15.565
+we won a very special Kaggle competition called the Acquired Valued Shoppers Challenge.
+
+4
+00:00:15.565 --> 00:00:20.320
+First let me give you some background about the competition.
+
+5
+00:00:20.320 --> 00:00:22.820
+It was a recommender's challenge.
+
+6
+00:00:22.820 --> 00:00:25.485
+And when I say a recommender's challenge,
+
+7
+00:00:25.485 --> 00:00:31.020
+I mean you have a list of products and a list of customers,
+
+8
+00:00:31.020 --> 00:00:32.820
+and you try to bring them together.
+
+9
+00:00:32.820 --> 00:00:35.260
+So we target them so we recommend
+
+10
+00:00:35.260 --> 00:00:40.390
+which customer in order to increase sales loyalty or something else.
+
+11
+00:00:40.390 --> 00:00:45.040
+There were around 1,000 teams and for back then,
+
+12
+00:00:45.040 --> 00:00:47.425
+at least they were quite a lot.
+
+13
+00:00:47.425 --> 00:00:49.675
+Now Kaggle has become much more popular.
+
+14
+00:00:49.675 --> 00:00:52.110
+But back then, given the size of the data,
+
+15
+00:00:52.110 --> 00:00:53.350
+which was quite big,
+
+16
+00:00:53.350 --> 00:00:57.080
+I think this competition attracted a lot of attention.
+
+17
+00:00:57.080 --> 00:01:01.725
+And as I said, we attained first place with my teammate Gert,
+
+18
+00:01:01.725 --> 00:01:03.810
+for what it was, I think,
+
+19
+00:01:03.810 --> 00:01:08.910
+a very clear win because we took a lead early in the competition,
+
+20
+00:01:08.910 --> 00:01:10.615
+and we maintained it.
+
+21
+00:01:10.615 --> 00:01:17.480
+And that solution was not actually very machine learning Kebbi,
+
+22
+00:01:17.480 --> 00:01:22.020
+but it was focused on really trying to understand
+
+23
+00:01:22.020 --> 00:01:26.755
+the problem well and find ways to validate properly.
+
+24
+00:01:26.755 --> 00:01:30.315
+And in general, it was very,
+
+25
+00:01:30.315 --> 00:01:35.510
+very focused on getting sensible results.
+
+26
+00:01:35.510 --> 00:01:41.105
+And that's why I think it's really valuable to explain what we did.
+
+27
+00:01:41.105 --> 00:01:45.230
+So what was the actual problem we tried to solve?
+
+28
+00:01:45.230 --> 00:01:50.985
+Imagine you have 310,000 shoppers, almost equally split.
+
+29
+00:01:50.985 --> 00:01:53.090
+I'm on a train and test.
+
+30
+00:01:53.090 --> 00:02:02.330
+You have all their transactions from a point where they were given an offer,
+
+31
+00:02:02.330 --> 00:02:05.425
+and these were about 350 million transactions.
+
+32
+00:02:05.425 --> 00:02:12.310
+So, one year of all the transactions of all the customers involved in this challenge,
+
+33
+00:02:12.310 --> 00:02:15.245
+and you have 37 different offers.
+
+34
+00:02:15.245 --> 00:02:17.140
+When I say offer here,
+
+35
+00:02:17.140 --> 00:02:18.780
+it is actually a coupon.
+
+36
+00:02:18.780 --> 00:02:22.035
+So, a shopper is sent normally.
+
+37
+00:02:22.035 --> 00:02:25.045
+It's a piece of paper that says,
+
+38
+00:02:25.045 --> 00:02:26.620
+"If you buy this item,
+
+39
+00:02:26.620 --> 00:02:27.865
+you can get a discount."
+
+40
+00:02:27.865 --> 00:02:29.920
+So it recommends to certain item.
+
+41
+00:02:29.920 --> 00:02:32.975
+Now, we don't know exactly what discount is.
+
+42
+00:02:32.975 --> 00:02:34.860
+Maybe discounts, maybe it says,
+
+43
+00:02:34.860 --> 00:02:36.595
+"You can buy another item for free."
+
+44
+00:02:36.595 --> 00:02:38.460
+So, maybe a different promotion,
+
+45
+00:02:38.460 --> 00:02:45.330
+but in principle is some sort of incentive for you to buy this item.
+
+46
+00:02:45.330 --> 00:02:51.130
+I have mentioned items so far or products,
+
+47
+00:02:51.130 --> 00:02:56.495
+but the notion of product was not actually present in this challenge,
+
+48
+00:02:56.495 --> 00:02:58.610
+but we could infer it.
+
+49
+00:02:58.610 --> 00:03:03.775
+We could say that a unique combination of a brand, category,
+
+50
+00:03:03.775 --> 00:03:08.485
+and company that were present could form a product,
+
+51
+00:03:08.485 --> 00:03:12.325
+at least for this competition.
+
+52
+00:03:12.325 --> 00:03:18.230
+Let me give you a bit more details about the actual problem we are trying to solve.
+
+53
+00:03:18.230 --> 00:03:20.245
+Imagine you have a timeline,
+
+54
+00:03:20.245 --> 00:03:25.360
+starts from one year in the past until one year after.
+
+55
+00:03:25.360 --> 00:03:30.245
+So, in the past, a customer makes a visit to the shop,
+
+56
+00:03:30.245 --> 00:03:33.205
+buys certain items, leaves,
+
+57
+00:03:33.205 --> 00:03:34.650
+comes back another day,
+
+58
+00:03:34.650 --> 00:03:37.085
+makes another visit, buys more items.
+
+59
+00:03:37.085 --> 00:03:38.625
+Then at some point,
+
+60
+00:03:38.625 --> 00:03:41.910
+he or she is targeted with an offer,
+
+61
+00:03:41.910 --> 00:03:44.360
+a coupon as I said.
+
+62
+00:03:44.360 --> 00:03:49.510
+All transactional history for this customer stops there.
+
+63
+00:03:49.510 --> 00:03:51.210
+You don't know anything else.
+
+64
+00:03:51.210 --> 00:03:54.550
+Up to this point,
+
+65
+00:03:54.550 --> 00:03:58.295
+you know everything for one year back up to this.
+
+66
+00:03:58.295 --> 00:04:01.535
+The only thing you know is,
+
+67
+00:04:01.535 --> 00:04:05.440
+you know that the customer has indeed redeemed that coupon.
+
+68
+00:04:05.440 --> 00:04:08.065
+So he did buy the offer product.
+
+69
+00:04:08.065 --> 00:04:10.900
+And for that training data only,
+
+70
+00:04:10.900 --> 00:04:16.985
+you also have a special flag that tells you whether he or she bought that item again.
+
+71
+00:04:16.985 --> 00:04:19.640
+And you can see why this is valuable.
+
+72
+00:04:19.640 --> 00:04:23.875
+Because normally, when you target someone with a coupon,
+
+73
+00:04:23.875 --> 00:04:25.335
+you give a discount,
+
+74
+00:04:25.335 --> 00:04:28.090
+and you don't make that much profit actually,
+
+75
+00:04:28.090 --> 00:04:34.155
+but you aim in establishing a long-term relationship with the customer.
+
+76
+00:04:34.155 --> 00:04:38.550
+And that's why they were really interested in getting a model
+
+77
+00:04:38.550 --> 00:04:42.485
+here that could predict which recommendation,
+
+78
+00:04:42.485 --> 00:04:44.360
+which offer will have that effect,
+
+79
+00:04:44.360 --> 00:04:49.235
+will make a customer develop a habit in buying this item.
+
+80
+00:04:49.235 --> 00:04:53.030
+And what we were being tested on was AUC.
+
+81
+00:04:53.030 --> 00:04:59.635
+By this point, I expect you roughly know what AUC is as a metric, but in principle,
+
+82
+00:04:59.635 --> 00:05:04.800
+you're interested in how well your score discriminates
+
+83
+00:05:04.800 --> 00:05:11.835
+between those that bought or can buy the item again and those that will not.
+
+84
+00:05:11.835 --> 00:05:14.365
+So, when you have the highest score,
+
+85
+00:05:14.365 --> 00:05:16.725
+you expect higher chance to buy the item,
+
+86
+00:05:16.725 --> 00:05:18.110
+and a lower score,
+
+87
+00:05:18.110 --> 00:05:20.410
+lower attempts to buy the item again.
+
+88
+00:05:20.410 --> 00:05:26.950
+So, higher AUC means that this discrimination is stronger with your score.
+
+89
+00:05:26.950 --> 00:05:31.375
+This was a challenging challenge.
+
+90
+00:05:31.375 --> 00:05:34.750
+And it was challenging because,
+
+91
+00:05:34.750 --> 00:05:37.630
+first of all, the datasets were quite big.
+
+92
+00:05:37.630 --> 00:05:41.385
+As I said, 350 million transactions.
+
+93
+00:05:41.385 --> 00:05:44.315
+Me and Gert, we didn't have crazy resources back then.
+
+94
+00:05:44.315 --> 00:05:48.700
+I have to admit that I have personally improved my hardware since then,
+
+95
+00:05:48.700 --> 00:05:50.220
+but actually back then,
+
+96
+00:05:50.220 --> 00:05:56.520
+I was working only with a laptop that had 32-bit Windows and only four gigabytes of RAM.
+
+97
+00:05:56.520 --> 00:06:02.150
+So, really small and mainly challenging that we had to deal with these client files.
+
+98
+00:06:02.150 --> 00:06:04.330
+And then, we didn't have features.
+
+99
+00:06:04.330 --> 00:06:10.800
+So, what we knew is this customer was given this offer,
+
+100
+00:06:10.800 --> 00:06:16.470
+which is consistent by these three elements I mentioned before, category, brand,
+
+101
+00:06:16.470 --> 00:06:24.655
+and company, and the time that this recommendation was made nothing else.
+
+102
+00:06:24.655 --> 00:06:31.680
+Then, you had to go to the transactional history and try to generate features.
+
+103
+00:06:31.680 --> 00:06:35.340
+And you know, anybody could create really anything they wanted.
+
+104
+00:06:35.340 --> 00:06:41.235
+There was not a clear answer about which features would work best.
+
+105
+00:06:41.235 --> 00:06:46.570
+So this is not your typical challenge where you're normally given the thesis.
+
+106
+00:06:46.570 --> 00:06:54.300
+But it is quite difficult for the type of the recommender's challenge.
+
+107
+00:06:54.300 --> 00:07:01.075
+And what really makes this competition difficult, interesting,
+
+108
+00:07:01.075 --> 00:07:03.230
+and what I think at the end of the day gave us
+
+109
+00:07:03.230 --> 00:07:09.175
+the win was the fact that the testing environment was very irregular.
+
+110
+00:07:09.175 --> 00:07:12.625
+And we can define irregular, in this context,
+
+111
+00:07:12.625 --> 00:07:19.685
+as an environment where the train data and the test data had different customers.
+
+112
+00:07:19.685 --> 00:07:21.650
+So, no overlaps. Different customers,
+
+113
+00:07:21.650 --> 00:07:23.560
+and one different in the other.
+
+114
+00:07:23.560 --> 00:07:28.870
+Also, the training this data had in general different offers.
+
+115
+00:07:28.870 --> 00:07:33.110
+It was showing you a graph that shows that the distribution of
+
+116
+00:07:33.110 --> 00:07:39.225
+its offer and whether it appears in the train or in the test data or both.
+
+117
+00:07:39.225 --> 00:07:41.860
+And you can see that most offers,
+
+118
+00:07:41.860 --> 00:07:48.620
+either appear only in test or they appear only in train with minimal overlap.
+
+119
+00:07:48.620 --> 00:07:52.410
+So, that makes it a bit difficult because you
+
+120
+00:07:52.410 --> 00:07:56.045
+basically have to make a model with soft products.
+
+121
+00:07:56.045 --> 00:07:58.970
+They were offering the train,
+
+122
+00:07:58.970 --> 00:08:01.485
+but in the test data, you have completely other offers.
+
+123
+00:08:01.485 --> 00:08:07.915
+So you don't know how they would behave as these products have never been offered before.
+
+124
+00:08:07.915 --> 00:08:10.705
+And the last element is,
+
+125
+00:08:10.705 --> 00:08:17.110
+the test data is obviously in the future. That is expected.
+
+126
+00:08:17.110 --> 00:08:19.645
+But given the other elements,
+
+127
+00:08:19.645 --> 00:08:21.480
+this makes it more difficult,
+
+128
+00:08:21.480 --> 00:08:24.135
+especially in some cases were well in the future.
+
+129
+00:08:24.135 --> 00:08:26.900
+And some of it is not as important elements,
+
+130
+00:08:26.900 --> 00:08:32.650
+but still crucial was that this challenge was focusing on acquisition.
+
+131
+00:08:32.650 --> 00:08:39.400
+So, there is not that much history between the customer and the offered product.
+
+132
+00:08:39.400 --> 00:08:45.420
+And I say this is irregular because grocery sales are in
+
+133
+00:08:45.420 --> 00:08:53.415
+principle based on what the customer already like and has bought many times in the past.
+
+134
+00:08:53.415 --> 00:08:56.610
+So we referred to these type of acquisition problem,
+
+135
+00:08:56.610 --> 00:08:58.110
+where we don't have much history,
+
+136
+00:08:58.110 --> 00:08:59.835
+as the cold start problem,
+
+137
+00:08:59.835 --> 00:09:04.460
+and it is much more challenging because you don't have that direct link.
+
+138
+00:09:04.460 --> 00:09:08.310
+That's, the customer really like this product I made an offer
+
+139
+00:09:08.310 --> 00:09:13.270
+because we don't have a past history that can verify this or we don't have much history.
+
+140
+00:09:13.270 --> 00:09:21.255
+And the last element is that if you actually see the propensity of an offer to be bought,
+
+141
+00:09:21.255 --> 00:09:25.220
+again in the training data,
+
+142
+00:09:25.220 --> 00:09:27.965
+the results were quite different.
+
+143
+00:09:27.965 --> 00:09:32.075
+And here, I give you the offer by shortened propensity,
+
+144
+00:09:32.075 --> 00:09:37.205
+and you can see some offers had much success to be bought again.
+
+145
+00:09:37.205 --> 00:09:40.960
+It's like offer two that somehow this had much less.
+
+146
+00:09:40.960 --> 00:09:42.400
+For example, 20 percent,
+
+147
+00:09:42.400 --> 00:09:43.670
+and this is just a sample.
+
+148
+00:09:43.670 --> 00:09:46.280
+There were some other offers that had around five percent.
+
+149
+00:09:46.280 --> 00:09:51.605
+So, if you put now everything into the context,
+
+150
+00:09:51.605 --> 00:09:53.400
+you have different customer,
+
+151
+00:09:53.400 --> 00:09:57.415
+different offers, different buyer, different time periods.
+
+152
+00:09:57.415 --> 00:09:59.220
+In principle, you don't have
+
+153
+00:09:59.220 --> 00:10:02.460
+that much information about the customer and the offer product,
+
+154
+00:10:02.460 --> 00:10:08.210
+and you know that the offers of the training data are actually quite different.
+
+155
+00:10:08.210 --> 00:10:11.210
+It's really difficult to get a standard pattern here.
+
+156
+00:10:11.210 --> 00:10:14.805
+And you know that the offers in the test data are going to be different.
+
+157
+00:10:14.805 --> 00:10:22.625
+So, all this made it a difficult problem to solve or in irregular environment.
+
+158
+00:10:22.625 --> 00:10:25.560
+How did we handle big data?
+
+159
+00:10:25.560 --> 00:10:27.410
+We did it with indexing.
+
+160
+00:10:27.410 --> 00:10:29.965
+And the way I did the indexing was,
+
+161
+00:10:29.965 --> 00:10:34.345
+I saw that the data were already shorted by customer and time.
+
+162
+00:10:34.345 --> 00:10:39.540
+So, I passed through these big data file of transactions,
+
+163
+00:10:39.540 --> 00:10:42.545
+and every time I encountered a new customer,
+
+164
+00:10:42.545 --> 00:10:44.225
+I created a new file.
+
+165
+00:10:44.225 --> 00:10:46.790
+So I created a different file for each customer that
+
+166
+00:10:46.790 --> 00:10:49.805
+contained all his or her transactions,
+
+167
+00:10:49.805 --> 00:10:53.035
+and that made it really easy to generate features,
+
+168
+00:10:53.035 --> 00:10:56.125
+because if I have to generate features for a specific customer,
+
+169
+00:10:56.125 --> 00:11:00.900
+I would just access this file and create all the features I wanted at the will.
+
+170
+00:11:00.900 --> 00:11:02.865
+This is also very scalable.
+
+171
+00:11:02.865 --> 00:11:06.020
+So I could create threads to do this in parallel.
+
+172
+00:11:06.020 --> 00:11:08.235
+So, access many customers in parallel.
+
+173
+00:11:08.235 --> 00:11:11.660
+And I did this not only for every customer,
+
+174
+00:11:11.660 --> 00:11:15.105
+but also for every category, brand, and company.
+
+175
+00:11:15.105 --> 00:11:18.365
+So, every time I wanted to access information,
+
+176
+00:11:18.365 --> 00:11:21.690
+I would just access the right category, the right brand,
+
+177
+00:11:21.690 --> 00:11:23.025
+or the right customer,
+
+178
+00:11:23.025 --> 00:11:25.245
+and I will get the information I wanted,
+
+179
+00:11:25.245 --> 00:11:32.355
+and that made it very quick to handle all these big chunks of data.
+
+180
+00:11:32.355 --> 00:11:39.120
+But what I think was the most crucial thing is how we handle this irregularity.
+
+181
+00:11:39.120 --> 00:11:40.240
+I think at the end of the day,
+
+182
+00:11:40.240 --> 00:11:45.920
+this is what determines our victory because once we got this right
+
+183
+00:11:45.920 --> 00:11:49.420
+and we were able to try all sorts of
+
+184
+00:11:49.420 --> 00:11:54.410
+things and we had the confidence that it will work in the test data.
+
+185
+00:11:54.410 --> 00:11:57.870
+The first thing we tried to do and this is something
+
+186
+00:11:57.870 --> 00:12:03.265
+that I want you to really understand,
+
+187
+00:12:03.265 --> 00:12:09.740
+is how we can replicate internally what we are being tested on.
+
+188
+00:12:09.740 --> 00:12:11.885
+That's really important.
+
+189
+00:12:11.885 --> 00:12:16.515
+I'll give you the room to try all these things.
+
+190
+00:12:16.515 --> 00:12:20.925
+Try all different permutations and combinations of data techniques,
+
+191
+00:12:20.925 --> 00:12:23.455
+anything you have you can put in mind,
+
+192
+00:12:23.455 --> 00:12:27.955
+and really understand what works and what's not.
+
+193
+00:12:27.955 --> 00:12:30.350
+So, we tried to do that.
+
+194
+00:12:30.350 --> 00:12:32.510
+The first of attempt didn't go very well.
+
+195
+00:12:32.510 --> 00:12:35.750
+So we try to randomly split
+
+196
+00:12:35.750 --> 00:12:40.640
+the data between train and validation and we're trying to make certain
+
+197
+00:12:40.640 --> 00:12:45.090
+that each offer is represented equally in each one of this train and
+
+198
+00:12:45.090 --> 00:12:50.555
+validation data set proportionately equally.
+
+199
+00:12:50.555 --> 00:12:52.440
+But was that correct?
+
+200
+00:12:52.440 --> 00:12:54.335
+I mean, if you think about it.
+
+201
+00:12:54.335 --> 00:12:56.730
+What we were doing there,
+
+202
+00:12:56.730 --> 00:13:00.330
+we were saying I'm building a model with some offers and
+
+203
+00:13:00.330 --> 00:13:04.550
+I'm validating in the same offers. That's good.
+
+204
+00:13:04.550 --> 00:13:05.800
+Maybe we can do well here.
+
+205
+00:13:05.800 --> 00:13:08.515
+But is this what we're really being tested on?
+
+206
+00:13:08.515 --> 00:13:10.100
+No. Because in the test data,
+
+207
+00:13:10.100 --> 00:13:12.030
+we'll have completely different offers.
+
+208
+00:13:12.030 --> 00:13:13.705
+So, this didn't work very well.
+
+209
+00:13:13.705 --> 00:13:19.570
+This was giving very nice internal results but not very good results in the test data.
+
+210
+00:13:19.570 --> 00:13:21.420
+So, we tried something else.
+
+211
+00:13:21.420 --> 00:13:25.820
+Can we leave one offer out?
+
+212
+00:13:25.820 --> 00:13:29.725
+And I'm showing you roughly what this look like.
+
+213
+00:13:29.725 --> 00:13:32.345
+So, for every offer,
+
+214
+00:13:32.345 --> 00:13:36.370
+can we put an offer in
+
+215
+00:13:36.370 --> 00:13:43.365
+the validation data and use all the cases of every other offer to train a model?
+
+216
+00:13:43.365 --> 00:13:46.650
+So, if we were to predict offer 16,
+
+217
+00:13:46.650 --> 00:13:53.370
+we will use all customers that received offer 1 to 15 and 17 to
+
+218
+00:13:53.370 --> 00:13:57.120
+24 to build the model and then we'll make
+
+219
+00:13:57.120 --> 00:14:02.545
+predictions for all those customers that received offer 16.
+
+220
+00:14:02.545 --> 00:14:07.560
+And you can see that this actually is quite close to what you're being tested
+
+221
+00:14:07.560 --> 00:14:12.000
+on because you know you're building a model with some offers but,
+
+222
+00:14:12.000 --> 00:14:16.125
+you're being tested on some other offer that is not there.
+
+223
+00:14:16.125 --> 00:14:20.340
+And you can take the average of all these 24 users and I
+
+224
+00:14:20.340 --> 00:14:25.205
+put 24 because this is how many offers you really have in the training data.
+
+225
+00:14:25.205 --> 00:14:32.940
+You can take that average and that average may be much more close to the reality,
+
+226
+00:14:32.940 --> 00:14:35.190
+close to what you were being tested on.
+
+227
+00:14:35.190 --> 00:14:37.860
+And this was true. This gave better results,
+
+228
+00:14:37.860 --> 00:14:41.665
+but we were still not there.
+
+229
+00:14:41.665 --> 00:14:44.080
+And I'll show you why we were not there.
+
+230
+00:14:44.080 --> 00:14:46.215
+Consider the following problem.
+
+231
+00:14:46.215 --> 00:14:49.620
+Here, I'll give you a small sample of
+
+232
+00:14:49.620 --> 00:14:54.250
+predictions for offer two and what was the actual target?
+
+233
+00:14:54.250 --> 00:14:58.610
+What we see here is a perfect AUC score.
+
+234
+00:14:58.610 --> 00:15:02.785
+Why? Because all our positive cases
+
+235
+00:15:02.785 --> 00:15:07.060
+that are labeled with one and they have the green color,
+
+236
+00:15:07.060 --> 00:15:11.200
+have higher score than the red ones,
+
+237
+00:15:11.200 --> 00:15:13.310
+where the target is zero.
+
+238
+00:15:13.310 --> 00:15:16.295
+So, the discrimination here is perfect.
+
+239
+00:15:16.295 --> 00:15:18.560
+We have a point, a cutoff point.
+
+240
+00:15:18.560 --> 00:15:24.760
+We can set 0.5 here where all cases that have score higher than this.
+
+241
+00:15:24.760 --> 00:15:28.240
+We can safely say they are one and that is
+
+242
+00:15:28.240 --> 00:15:32.670
+true and everything that has a score lower than this are zero.
+
+243
+00:15:32.670 --> 00:15:36.510
+So, you see here one discrimination is perfect.
+
+244
+00:15:36.510 --> 00:15:41.145
+Let's now take a sample from offer four.
+
+245
+00:15:41.145 --> 00:15:43.265
+If you remember offer four,
+
+246
+00:15:43.265 --> 00:15:46.765
+had in general lower propensity.
+
+247
+00:15:46.765 --> 00:15:52.055
+Offer two had around 0.5 and offer four had around 0.2.
+
+248
+00:15:52.055 --> 00:15:58.525
+So, it's mean we're center much lower and what you can see here is that, again,
+
+249
+00:15:58.525 --> 00:16:04.800
+AUC is perfect for this sample because again,
+
+250
+00:16:04.800 --> 00:16:12.135
+all the higher scores that are labeled with green have a target of one.
+
+251
+00:16:12.135 --> 00:16:13.770
+And then the lower scores,
+
+252
+00:16:13.770 --> 00:16:19.840
+everything that has a score less than 0.18 has a target of 0.
+
+253
+00:16:19.840 --> 00:16:21.490
+The discrimination is perfect.
+
+254
+00:16:21.490 --> 00:16:23.445
+We can find this cutoff point.
+
+255
+00:16:23.445 --> 00:16:26.230
+We can say 0.8, where everything that has
+
+256
+00:16:26.230 --> 00:16:29.270
+a score higher than this can safely be set to one.
+
+257
+00:16:29.270 --> 00:16:31.025
+And that is always true.
+
+258
+00:16:31.025 --> 00:16:34.715
+And vice versa, everything that's less than 18,
+
+259
+00:16:34.715 --> 00:16:36.475
+then it's a 0.
+
+260
+00:16:36.475 --> 00:16:37.990
+And that is always true.
+
+261
+00:16:37.990 --> 00:16:40.775
+So, we have two scores.
+
+262
+00:16:40.775 --> 00:16:45.185
+They discriminate really well between the good and the bad cases.
+
+263
+00:16:45.185 --> 00:16:50.035
+However, we are not tested on the AUC of one offer.
+
+264
+00:16:50.035 --> 00:16:53.000
+We are tested on the AUC of all offers together.
+
+265
+00:16:53.000 --> 00:16:55.190
+So the test data have many offers.
+
+266
+00:16:55.190 --> 00:17:00.215
+So, you are interested in the score that generalizes well against any offer.
+
+267
+00:17:00.215 --> 00:17:04.390
+So, what happens if we try to merge this table?
+
+268
+00:17:04.390 --> 00:17:08.365
+AUC is no longer perfect and why this happens?
+
+269
+00:17:08.365 --> 00:17:12.200
+Because some of the negative cases of
+
+270
+00:17:12.200 --> 00:17:17.065
+the first offer had higher score than the positive cases,
+
+271
+00:17:17.065 --> 00:17:23.145
+those that have a target equal to one from the second offer.
+
+272
+00:17:23.145 --> 00:17:27.980
+So you can see, although the discrimination internally is really good,
+
+273
+00:17:27.980 --> 00:17:29.750
+they don't blend that well.
+
+274
+00:17:29.750 --> 00:17:32.480
+You lose something from that ability of
+
+275
+00:17:32.480 --> 00:17:36.305
+your score to discriminate between ones and zeros.
+
+276
+00:17:36.305 --> 00:17:38.530
+And the moment we saw this,
+
+277
+00:17:38.530 --> 00:17:44.815
+we knew that just leaving one offer out was not going to be enough.
+
+278
+00:17:44.815 --> 00:17:48.605
+We had to make certain that when we merge all those scores together,
+
+279
+00:17:48.605 --> 00:17:50.560
+the score is still good.
+
+280
+00:17:50.560 --> 00:17:56.970
+The ability of our model to discriminate is still powerful or it doesn't lose.
+
+281
+00:17:56.970 --> 00:18:02.920
+And that's why we use a combination of
+
+282
+00:18:02.920 --> 00:18:10.395
+the previous average AUC of all the offers and the AUC after doing this concatenation.
+
+283
+00:18:10.395 --> 00:18:14.180
+So, the average of the two AUCs which really the metric we try to
+
+284
+00:18:14.180 --> 00:18:17.010
+optimize because we thought that
+
+285
+00:18:17.010 --> 00:18:20.435
+this is actually very close to what we were being tested on.
+
+286
+00:18:20.435 --> 00:18:22.890
+And here I can show you the result of
+
+287
+00:18:22.890 --> 00:18:26.880
+all our attempts and this is with a small subset of features because by that point,
+
+288
+00:18:26.880 --> 00:18:29.210
+we were not interested to create the best features,
+
+289
+00:18:29.210 --> 00:18:33.060
+we were interested to test which approach works best.
+
+290
+00:18:33.060 --> 00:18:37.345
+So, you can see if you do it standard stratified K-fold,
+
+291
+00:18:37.345 --> 00:18:42.720
+you can get much nicer results in internal cross-validation but in the test data,
+
+292
+00:18:42.720 --> 00:18:45.835
+the relationship is almost opposite.
+
+293
+00:18:45.835 --> 00:18:50.060
+So, highest score in cross-validation leads to worse results in the test data.
+
+294
+00:18:50.060 --> 00:18:54.885
+And you can see why because you're not
+
+295
+00:18:54.885 --> 00:19:01.115
+internally modeling or internally validating or on what you are actually being tested on.
+
+296
+00:19:01.115 --> 00:19:04.600
+Doing the one-offer out keep
+
+297
+00:19:04.600 --> 00:19:08.080
+obviously lower internal cross-validation results
+
+298
+00:19:08.080 --> 00:19:10.500
+and better performance in the test data,
+
+299
+00:19:10.500 --> 00:19:16.750
+but even better was doing this leave-one-offer plus one concatenation in the end.
+
+300
+00:19:16.750 --> 00:19:22.565
+And this AUC was lower but actually had better test results.
+
+301
+00:19:22.565 --> 00:19:26.440
+I believe we could get even better results if we made
+
+302
+00:19:26.440 --> 00:19:30.330
+certain that we are also validating in new customers.
+
+303
+00:19:30.330 --> 00:19:33.365
+But we didn't actually do this because
+
+304
+00:19:33.365 --> 00:19:36.930
+we saw that this approach had already good results.
+
+305
+00:19:36.930 --> 00:19:39.080
+But as a means to improve,
+
+306
+00:19:39.080 --> 00:19:42.640
+we could have also made certains that we validate
+
+307
+00:19:42.640 --> 00:19:47.000
+on different customers because this is what the test was like.

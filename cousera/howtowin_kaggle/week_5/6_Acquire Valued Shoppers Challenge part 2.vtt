@@ -1,0 +1,1061 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:02.350
+Once we got this,
+
+2
+00:00:02.350 --> 00:00:04.945
+I think things went smooth from here,
+
+3
+00:00:04.945 --> 00:00:11.560
+because we already have established these means of generating features and models,
+
+4
+00:00:11.560 --> 00:00:14.615
+and know how to understand if they are good or not.
+
+5
+00:00:14.615 --> 00:00:21.270
+And we deployed different strategies which are common to recommenders.
+
+6
+00:00:21.270 --> 00:00:24.430
+First is we use a content-based approach.
+
+7
+00:00:24.430 --> 00:00:29.555
+Now a content-based approach is ones that assumes you make
+
+8
+00:00:29.555 --> 00:00:36.655
+recommendations based on the characteristics of let's say, the product.
+
+9
+00:00:36.655 --> 00:00:41.970
+So, you make a recommendation because the customer likes these products,
+
+10
+00:00:41.970 --> 00:00:45.360
+because this product has certain features.
+
+11
+00:00:45.360 --> 00:00:47.580
+For example, it's sweet,
+
+12
+00:00:47.580 --> 00:00:48.650
+or it's not sweet,
+
+13
+00:00:48.650 --> 00:00:51.580
+or it contains, I don't know,
+
+14
+00:00:51.580 --> 00:00:53.885
+chocolate or it doesn't contain chocolate.
+
+15
+00:00:53.885 --> 00:00:57.380
+And so, this approach focuses on
+
+16
+00:00:57.380 --> 00:01:02.510
+the characteristics of the product in order to make a good recommendation.
+
+17
+00:01:02.510 --> 00:01:08.370
+And we deployed another strategy which is based on collaborative filtering.
+
+18
+00:01:08.370 --> 00:01:12.790
+And collaborative filtering means that in this context,
+
+19
+00:01:12.790 --> 00:01:21.365
+that we made recommendations based on how a customer looks like another,
+
+20
+00:01:21.365 --> 00:01:23.705
+that was likely to buy a product.
+
+21
+00:01:23.705 --> 00:01:27.450
+So, we look with similarities about
+
+22
+00:01:27.450 --> 00:01:32.970
+customers in order to define whether they would like a certain item or not,
+
+23
+00:01:32.970 --> 00:01:36.565
+not based on the characteristics of the item itself.
+
+24
+00:01:36.565 --> 00:01:40.715
+And the hybrid approach is what we ended up with,
+
+25
+00:01:40.715 --> 00:01:43.365
+which is basically a combination of these two.
+
+26
+00:01:43.365 --> 00:01:46.750
+So, more about the first approach, the content-based.
+
+27
+00:01:46.750 --> 00:01:49.840
+What was the assumption behind this approach?
+
+28
+00:01:49.840 --> 00:01:54.895
+Is that a customer who has bought from the same company brand and category,
+
+29
+00:01:54.895 --> 00:01:58.650
+will have a higher chance to buy the offer product,
+
+30
+00:01:58.650 --> 00:02:00.840
+and buy it again.
+
+31
+00:02:00.840 --> 00:02:03.780
+So, the stronger the relationship already
+
+32
+00:02:03.780 --> 00:02:07.465
+is based on his transactional history with this product,
+
+33
+00:02:07.465 --> 00:02:10.100
+with this combination of company brand and category,
+
+34
+00:02:10.100 --> 00:02:14.615
+the higher the chance he will buy a product that has the same element,
+
+35
+00:02:14.615 --> 00:02:17.245
+an offer that has the same element.
+
+36
+00:02:17.245 --> 00:02:20.135
+And let's take the example where a customer,
+
+37
+00:02:20.135 --> 00:02:24.170
+has never bought from the same combination of company brand and category.
+
+38
+00:02:24.170 --> 00:02:28.255
+Maybe he or she has bought from the same company and brand,
+
+39
+00:02:28.255 --> 00:02:30.290
+or from the same brand only.
+
+40
+00:02:30.290 --> 00:02:37.790
+So, we have ways to determine whether he or she likes the same brand or the same company.
+
+41
+00:02:37.790 --> 00:02:40.165
+And let's say, we don't have that at all,
+
+42
+00:02:40.165 --> 00:02:43.645
+we'll still know how popular this brand is,
+
+43
+00:02:43.645 --> 00:02:45.660
+or how popular this company is,
+
+44
+00:02:45.660 --> 00:02:49.545
+or how popular a combination between company and brand is.
+
+45
+00:02:49.545 --> 00:02:53.310
+So, this is what drive this approach.
+
+46
+00:02:53.310 --> 00:02:58.970
+So, how much the customer likes the item,
+
+47
+00:02:58.970 --> 00:03:03.280
+based on what we can already see from his or her transactional history.
+
+48
+00:03:03.280 --> 00:03:06.440
+So, we tried to exploit this product hierarchy,
+
+49
+00:03:06.440 --> 00:03:07.990
+versus customer and time.
+
+50
+00:03:07.990 --> 00:03:10.465
+And why I bring time into the picture,
+
+51
+00:03:10.465 --> 00:03:14.300
+is because I think this is a typical diagram
+
+52
+00:03:14.300 --> 00:03:18.960
+of what the sales of a certain products looks through time.
+
+53
+00:03:18.960 --> 00:03:21.150
+And you can see it's, very seasonal.
+
+54
+00:03:21.150 --> 00:03:24.125
+So, it is important where you gauge
+
+55
+00:03:24.125 --> 00:03:29.815
+the relationship of a customer with an item to mark it through time.
+
+56
+00:03:29.815 --> 00:03:34.635
+Because as of late he or she may not be buying it as frequently as in the past,
+
+57
+00:03:34.635 --> 00:03:37.250
+or it may not be its peak period.
+
+58
+00:03:37.250 --> 00:03:40.250
+Might be ice cream and now it's winter,
+
+59
+00:03:40.250 --> 00:03:43.725
+so sales are not going to be very high in this period.
+
+60
+00:03:43.725 --> 00:03:46.185
+So, when you create features,
+
+61
+00:03:46.185 --> 00:03:50.845
+you need to take into account this notion of lag.
+
+62
+00:03:50.845 --> 00:03:55.410
+So, to mark this relationship through time,
+
+63
+00:03:55.410 --> 00:03:57.185
+this is what lag means.
+
+64
+00:03:57.185 --> 00:04:05.165
+More specifically, you define some time intervals and you create features based on these.
+
+65
+00:04:05.165 --> 00:04:08.100
+So, how many times the customer has bought
+
+66
+00:04:08.100 --> 00:04:11.800
+from the same company brand and category in the last 30 days,
+
+67
+00:04:11.800 --> 00:04:14.500
+then in the last 60 days, 90,
+
+68
+00:04:14.500 --> 00:04:17.475
+120, half a year, one year.
+
+69
+00:04:17.475 --> 00:04:19.615
+And you try to see how that changes,
+
+70
+00:04:19.615 --> 00:04:23.195
+and you create all these features.
+
+71
+00:04:23.195 --> 00:04:28.330
+And based on the cross-validation,
+
+72
+00:04:28.330 --> 00:04:29.920
+we have already established,
+
+73
+00:04:29.920 --> 00:04:33.770
+it was easy to find which of these features were useful or not.
+
+74
+00:04:33.770 --> 00:04:37.685
+So, I created hundreds of features here,
+
+75
+00:04:37.685 --> 00:04:40.880
+and I was adding them one by one.
+
+76
+00:04:40.880 --> 00:04:45.360
+I was doing this cross-validation methodology of leaving one offer out,
+
+77
+00:04:45.360 --> 00:04:48.030
+and then concatenating all the results.
+
+78
+00:04:48.030 --> 00:04:49.610
+Measuring and you see,
+
+79
+00:04:49.610 --> 00:04:53.465
+if the impact of one feature was positive to the AUC,
+
+80
+00:04:53.465 --> 00:04:55.645
+I was leaving that feature in,
+
+81
+00:04:55.645 --> 00:04:57.370
+or if it wasn't,
+
+82
+00:04:57.370 --> 00:05:00.450
+I was dropping it and then I was adding the next feature.
+
+83
+00:05:00.450 --> 00:05:03.660
+So, this is how I determine which features were good.
+
+84
+00:05:03.660 --> 00:05:09.880
+And this is a small sample of the list of the features that were generated.
+
+85
+00:05:09.880 --> 00:05:14.390
+And you can see that they are all quite similar.
+
+86
+00:05:14.390 --> 00:05:15.830
+They all look like that.
+
+87
+00:05:15.830 --> 00:05:17.420
+So, category brand 30,
+
+88
+00:05:17.420 --> 00:05:19.005
+which is the top one means,
+
+89
+00:05:19.005 --> 00:05:24.965
+how many times a customer bought from the same category and brand in the last 30 days.
+
+90
+00:05:24.965 --> 00:05:29.900
+So, we build an exhaustive list of these type of
+
+91
+00:05:29.900 --> 00:05:35.315
+features and we use this cross validation approach,
+
+92
+00:05:35.315 --> 00:05:38.845
+to determine which of these were good.
+
+93
+00:05:38.845 --> 00:05:42.120
+We did some cleaning obviously.
+
+94
+00:05:42.120 --> 00:05:46.565
+If there were some transactions which were very big, we capped them.
+
+95
+00:05:46.565 --> 00:05:50.000
+Also I replaced missing values with minus one,
+
+96
+00:05:50.000 --> 00:05:55.475
+and why I did this was many of the missing values here,
+
+97
+00:05:55.475 --> 00:05:58.415
+were produced from generated features.
+
+98
+00:05:58.415 --> 00:06:04.300
+So, I was going back to the transactional history and for example,
+
+99
+00:06:04.300 --> 00:06:08.305
+I will see at the how many days that customer buys an item,
+
+100
+00:06:08.305 --> 00:06:10.615
+or a category or a brand.
+
+101
+00:06:10.615 --> 00:06:14.600
+And then, I would try to create a standard deviation of this.
+
+102
+00:06:14.600 --> 00:06:16.300
+If there are no records,
+
+103
+00:06:16.300 --> 00:06:19.850
+you cannot basically estimate standard deviation.
+
+104
+00:06:19.850 --> 00:06:22.770
+So, this will give you in this case, minus one.
+
+105
+00:06:22.770 --> 00:06:24.335
+Minus one was a good choice,
+
+106
+00:06:24.335 --> 00:06:29.040
+because normally, these had a negative relationship with the target.
+
+107
+00:06:29.040 --> 00:06:34.730
+So, when you could not estimate these metrics like standard deviation,
+
+108
+00:06:34.730 --> 00:06:37.220
+this means that there were not many purchases and
+
+109
+00:06:37.220 --> 00:06:39.855
+this was associated with lower chance the buy the item,
+
+110
+00:06:39.855 --> 00:06:45.720
+and the negative value here was reflecting this relationship.
+
+111
+00:06:45.720 --> 00:06:53.815
+And what was interesting is that although this is a binary classification problem,
+
+112
+00:06:53.815 --> 00:06:56.830
+we actually use a Ridge regression and to model this.
+
+113
+00:06:56.830 --> 00:06:59.190
+So, apart from the actual label,
+
+114
+00:06:59.190 --> 00:07:01.440
+whether someone has repeated or not,
+
+115
+00:07:01.440 --> 00:07:07.690
+we also had the actual counts how many times they repeated in the future.
+
+116
+00:07:07.690 --> 00:07:10.920
+Naturally, these will giving you stronger information
+
+117
+00:07:10.920 --> 00:07:15.675
+about how successful the recommendation was, right?
+
+118
+00:07:15.675 --> 00:07:18.335
+Because someone who has bought it many times,
+
+119
+00:07:18.335 --> 00:07:20.810
+this means it was a more successful recommendation.
+
+120
+00:07:20.810 --> 00:07:23.025
+So, knowing this information,
+
+121
+00:07:23.025 --> 00:07:26.495
+could help you make better predictions.
+
+122
+00:07:26.495 --> 00:07:29.145
+Have a score that discriminates better,
+
+123
+00:07:29.145 --> 00:07:32.085
+even though it is not model on zero and one,
+
+124
+00:07:32.085 --> 00:07:34.990
+but on the actual count.
+
+125
+00:07:34.990 --> 00:07:41.210
+And this is teethed around 0.61, in the test data.
+
+126
+00:07:41.210 --> 00:07:43.910
+Now, you see that this score is low,
+
+127
+00:07:43.910 --> 00:07:46.795
+but this was near top 10 by itself.
+
+128
+00:07:46.795 --> 00:07:51.490
+This was naturally low because of this irregularity immensely.
+
+129
+00:07:51.490 --> 00:07:55.730
+So, all these great differences between train and test data.
+
+130
+00:07:55.730 --> 00:07:59.840
+The second approach used collaborative filtering.
+
+131
+00:07:59.840 --> 00:08:03.725
+I think what the second approach tried to answer was,
+
+132
+00:08:03.725 --> 00:08:08.350
+and Jarrett was mainly focused on this, was,
+
+133
+00:08:08.350 --> 00:08:14.250
+would the customer have bought the product if they had not received an offer?
+
+134
+00:08:14.250 --> 00:08:18.910
+So, would they have bought the product anyway irrespective of the offer,
+
+135
+00:08:18.910 --> 00:08:21.640
+irrespective of sending the coupon?
+
+136
+00:08:21.640 --> 00:08:24.215
+I think that was a very interesting concept.
+
+137
+00:08:24.215 --> 00:08:29.465
+This was made, this approach was
+
+138
+00:08:29.465 --> 00:08:37.010
+employed by making a different model for every offer in the train and the test data.
+
+139
+00:08:37.010 --> 00:08:41.280
+And the target variable was quite intuitive
+
+140
+00:08:41.280 --> 00:08:48.195
+because we went 90 days before the actual coupon was sent,
+
+141
+00:08:48.195 --> 00:08:55.985
+and we estimated how many times a customer has bought from the same offered product,
+
+142
+00:08:55.985 --> 00:08:59.775
+so, from the same combination of category brand and company.
+
+143
+00:08:59.775 --> 00:09:01.730
+So we created our own target.
+
+144
+00:09:01.730 --> 00:09:03.975
+So, irrespective of sending the coupon,
+
+145
+00:09:03.975 --> 00:09:06.505
+let's ignore this information for now.
+
+146
+00:09:06.505 --> 00:09:09.820
+We know that 90 days before,
+
+147
+00:09:09.820 --> 00:09:14.855
+the coupon sent, we know which customers bought the offered product.
+
+148
+00:09:14.855 --> 00:09:17.275
+Let's see what characteristics they have.
+
+149
+00:09:17.275 --> 00:09:21.035
+If we manage to make a link here
+
+150
+00:09:21.035 --> 00:09:25.620
+from which customer like the product irrespective the coupon,
+
+151
+00:09:25.620 --> 00:09:31.460
+and then apply this score to the customers that actually were sent coupon,
+
+152
+00:09:31.460 --> 00:09:35.540
+maybe that score works really well because it tells
+
+153
+00:09:35.540 --> 00:09:41.805
+you which customers really liked it irrespective of the coupon.
+
+154
+00:09:41.805 --> 00:09:45.350
+So that was the main logic of these approaches,
+
+155
+00:09:45.350 --> 00:09:46.730
+and it worked really well.
+
+156
+00:09:46.730 --> 00:09:50.230
+It blended really nicely with the other approach.
+
+157
+00:09:50.230 --> 00:09:56.725
+So the combination of the two will give a very strong lead in this competition.
+
+158
+00:09:56.725 --> 00:09:59.820
+All the features here, naturally,
+
+159
+00:09:59.820 --> 00:10:02.225
+because they were based on collaborative filtering,
+
+160
+00:10:02.225 --> 00:10:04.460
+were all focused on the customer.
+
+161
+00:10:04.460 --> 00:10:06.835
+So, focused on user's activity.
+
+162
+00:10:06.835 --> 00:10:10.320
+So they will try to describe the customer by means of
+
+163
+00:10:10.320 --> 00:10:16.040
+which categories or brands or companies he or she prefers to buy.
+
+164
+00:10:16.040 --> 00:10:25.330
+And for these categories that we didn't have that much history,
+
+165
+00:10:25.330 --> 00:10:30.335
+can we get a summary of information about how much they like them?
+
+166
+00:10:30.335 --> 00:10:32.275
+Because they were quite many,
+
+167
+00:10:32.275 --> 00:10:37.180
+and what was quite successful is using restricted Boltzmann Machines,
+
+168
+00:10:37.180 --> 00:10:38.855
+which is a form of deep learning,
+
+169
+00:10:38.855 --> 00:10:43.840
+in order to summarize this information for those least popular categories,
+
+170
+00:10:43.840 --> 00:10:46.725
+because they naturally work on binary features,
+
+171
+00:10:46.725 --> 00:10:52.780
+which were whether the customer has bought or not from a certain category around.
+
+172
+00:10:52.780 --> 00:11:00.990
+And the initial idea was because we saw this type of model being used in recommendations,
+
+173
+00:11:00.990 --> 00:11:02.900
+Chintan had used it.
+
+174
+00:11:02.900 --> 00:11:06.990
+But, although we couldn't make it work as a supervised problem,
+
+175
+00:11:06.990 --> 00:11:12.680
+we made it work really well as this form of unsupervised problem to summarize
+
+176
+00:11:12.680 --> 00:11:22.925
+the activity of how customers prefer certain categories or brands or companies.
+
+177
+00:11:22.925 --> 00:11:29.075
+And then, created other features like average amount spend,
+
+178
+00:11:29.075 --> 00:11:32.950
+total visits, from how many different brands,
+
+179
+00:11:32.950 --> 00:11:37.380
+categories, and companies they buy to, are they extreme,
+
+180
+00:11:37.380 --> 00:11:42.110
+are they adventures, do they try many different brands and categories or just a few.
+
+181
+00:11:42.110 --> 00:11:43.670
+So this kind of information,
+
+182
+00:11:43.670 --> 00:11:47.945
+we're trying to drive short of the customer cardinality.
+
+183
+00:11:47.945 --> 00:11:51.765
+And then, whether they prefer a discount or not,
+
+184
+00:11:51.765 --> 00:11:53.260
+if they visit weekends,
+
+185
+00:11:53.260 --> 00:11:55.040
+how much they spend on weekends?
+
+186
+00:11:55.040 --> 00:11:59.850
+We try to describe the customers in different ways,
+
+187
+00:11:59.850 --> 00:12:01.865
+like from different angles.
+
+188
+00:12:01.865 --> 00:12:04.715
+And once all these features have been built,
+
+189
+00:12:04.715 --> 00:12:08.370
+again, the notion of like was there two,
+
+190
+00:12:08.370 --> 00:12:15.590
+the best modeling technique was it run in boosting machine from cycle frame of the log of
+
+191
+00:12:15.590 --> 00:12:23.685
+counts of how many times the same category,
+
+192
+00:12:23.685 --> 00:12:29.715
+brand, and company was bought 90 days before the coupon was sent.
+
+193
+00:12:29.715 --> 00:12:34.830
+The natural logarithm, I think was helping as a form of regularization.
+
+194
+00:12:34.830 --> 00:12:36.945
+So it was counting very extreme values.
+
+195
+00:12:36.945 --> 00:12:39.095
+It worked really well with this type of problem.
+
+196
+00:12:39.095 --> 00:12:41.810
+It was always getting a boost.
+
+197
+00:12:41.810 --> 00:12:45.890
+This achieved slightly better than the content-based approach,
+
+198
+00:12:45.890 --> 00:12:51.235
+again near the level of top 10 score 0616,
+
+199
+00:12:51.235 --> 00:12:55.905
+and I think this approach was very, very, very intuitive.
+
+200
+00:12:55.905 --> 00:12:58.835
+So how do we merge this?
+
+201
+00:12:58.835 --> 00:13:04.290
+The main problem we found when we tried to merge these two scores were,
+
+202
+00:13:04.290 --> 00:13:05.925
+they were trained on different targets.
+
+203
+00:13:05.925 --> 00:13:10.930
+So the content-based approach was trained on the actual accounts of
+
+204
+00:13:10.930 --> 00:13:16.160
+how many times a customer had repeated buying an item,
+
+205
+00:13:16.160 --> 00:13:19.590
+while the second one on the log of counts of
+
+206
+00:13:19.590 --> 00:13:26.860
+how many times the over product was bought 90 days before the coupon was sent.
+
+207
+00:13:26.860 --> 00:13:32.170
+So you can imagine the distribution of this course is very different, naturally,
+
+208
+00:13:32.170 --> 00:13:35.110
+because the natural logarithms pushes the value
+
+209
+00:13:35.110 --> 00:13:39.750
+low that these scores were much lower than the first ones.
+
+210
+00:13:39.750 --> 00:13:42.820
+However, when we look at the distributions,
+
+211
+00:13:42.820 --> 00:13:44.050
+let's ignore the scores.
+
+212
+00:13:44.050 --> 00:13:46.000
+We know the strategy two,
+
+213
+00:13:46.000 --> 00:13:47.670
+which is on the right here,
+
+214
+00:13:47.670 --> 00:13:53.700
+for certain offers will have lower scores than the ones on the left side,
+
+215
+00:13:53.700 --> 00:13:55.465
+which is the content-based approach.
+
+216
+00:13:55.465 --> 00:14:00.920
+But the distribution, if you ignore these elements and you look only at the rank,
+
+217
+00:14:00.920 --> 00:14:03.530
+the loop actually pretty similar.
+
+218
+00:14:03.530 --> 00:14:05.380
+So let's ignore the score.
+
+219
+00:14:05.380 --> 00:14:08.470
+Let's make the score relative.
+
+220
+00:14:08.470 --> 00:14:12.440
+If you look only at the rankings, they actually look similar.
+
+221
+00:14:12.440 --> 00:14:14.400
+And this gave us the idea,
+
+222
+00:14:14.400 --> 00:14:16.835
+and you see, actually cares about the rank.
+
+223
+00:14:16.835 --> 00:14:19.370
+So, how good that rank is.
+
+224
+00:14:19.370 --> 00:14:23.235
+So what we did was transform our scores into ranks.
+
+225
+00:14:23.235 --> 00:14:25.610
+So, not what the actual score is,
+
+226
+00:14:25.610 --> 00:14:30.295
+but how big the score is compared to all other scores that we have,
+
+227
+00:14:30.295 --> 00:14:32.525
+is it the 50,
+
+228
+00:14:32.525 --> 00:14:35.080
+rank 50, or is the top score,
+
+229
+00:14:35.080 --> 00:14:36.935
+the second best, third best?
+
+230
+00:14:36.935 --> 00:14:40.425
+Just convert rank to this diocese.
+
+231
+00:14:40.425 --> 00:14:44.945
+And then we do a merge, merge on average.
+
+232
+00:14:44.945 --> 00:14:47.840
+And you can see the final results.
+
+233
+00:14:47.840 --> 00:14:52.650
+So, blending these two approaches after converting to ranks
+
+234
+00:14:52.650 --> 00:14:58.220
+and giving equal weight gave us the top score in the leader board.
+
+235
+00:14:58.220 --> 00:15:01.345
+And I think with clients,
+
+236
+00:15:01.345 --> 00:15:04.790
+some different form from the other teams.
+
+237
+00:15:04.790 --> 00:15:08.335
+And we got this quite early,
+
+238
+00:15:08.335 --> 00:15:10.750
+and we maintain that lead comfortably.
+
+239
+00:15:10.750 --> 00:15:13.730
+And as I'm reaching the end,
+
+240
+00:15:13.730 --> 00:15:20.720
+what I wanted to address is that machine learning is good and is great, but sometimes,
+
+241
+00:15:20.720 --> 00:15:23.015
+you need to really look through the data,
+
+242
+00:15:23.015 --> 00:15:28.265
+and this is an example where this element was really prevalent.
+
+243
+00:15:28.265 --> 00:15:31.390
+This was the notion of understanding the data,
+
+244
+00:15:31.390 --> 00:15:35.270
+of understanding the difference between the train and test.
+
+245
+00:15:35.270 --> 00:15:41.070
+It was really important in forming across validation strategy that could best
+
+246
+00:15:41.070 --> 00:15:47.725
+replicate the test results and then give us the confidence that whatever we try,
+
+247
+00:15:47.725 --> 00:15:53.430
+it will work well and it would generalize well a non-observe data.
+
+248
+00:15:53.430 --> 00:15:58.050
+And then, when you are being challenged with the problem,
+
+249
+00:15:58.050 --> 00:16:02.330
+you try to solve it with what traditionally has worked best.
+
+250
+00:16:02.330 --> 00:16:07.065
+And since it was a recommendation problem here relying on literature,
+
+251
+00:16:07.065 --> 00:16:10.200
+relying on what has worked well in the past, for example,
+
+252
+00:16:10.200 --> 00:16:13.375
+this content-based approach or collaborative filtering,
+
+253
+00:16:13.375 --> 00:16:18.420
+was important in order to get good results.
+
+254
+00:16:18.420 --> 00:16:23.695
+Ultimately, yes, relying on advanced machine learning techniques also gave us a net.
+
+255
+00:16:23.695 --> 00:16:25.895
+We made good use of deep learning,
+
+256
+00:16:25.895 --> 00:16:28.050
+use of gradient boosting methods,
+
+257
+00:16:28.050 --> 00:16:35.175
+but even simpler methods work well here but focus on other aspects like the features.
+
+258
+00:16:35.175 --> 00:16:38.620
+So that was it. I hope you find it useful.
+
+259
+00:16:38.620 --> 00:16:42.720
+These were the elements I really wanted you to take away from this,
+
+260
+00:16:42.720 --> 00:16:47.390
+how we challenge this setup,
+
+261
+00:16:47.390 --> 00:16:50.615
+how we try to seize the problem,
+
+262
+00:16:50.615 --> 00:16:56.145
+how we try to understand it and make it our own,
+
+263
+00:16:56.145 --> 00:16:59.765
+understand it fully in order to be able to solve it.
+
+264
+00:16:59.765 --> 00:17:02.490
+We put ourselves into this problem.
+
+265
+00:17:02.490 --> 00:17:07.010
+Hopefully, you find it useful and stay tuned, more things will.

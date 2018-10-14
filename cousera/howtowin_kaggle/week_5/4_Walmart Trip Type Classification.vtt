@@ -1,0 +1,473 @@
+WEBVTT
+
+1
+00:00:03.010 --> 00:00:05.620
+Hi. In this video,
+
+2
+00:00:05.620 --> 00:00:06.845
+I'm going to talk about
+
+3
+00:00:06.845 --> 00:00:12.380
+Walmart trip type classification challenge which was held in Kaggle couple of years ago.
+
+4
+00:00:12.380 --> 00:00:14.795
+I won the first place in that competition.
+
+5
+00:00:14.795 --> 00:00:17.990
+And now, I will tell you about most interesting parts of
+
+6
+00:00:17.990 --> 00:00:21.704
+the problem and about my solution.
+
+7
+00:00:21.704 --> 00:00:25.814
+That said, this presentation consists of four parts.
+
+8
+00:00:25.814 --> 00:00:28.100
+First, we will state the problem.
+
+9
+00:00:28.100 --> 00:00:31.699
+Second,we will understand what data format and data reprocessing.
+
+10
+00:00:31.699 --> 00:00:35.570
+And third, we will talk about models,
+
+11
+00:00:35.570 --> 00:00:39.665
+their relative quality and their relation to the general staking scheme.
+
+12
+00:00:39.665 --> 00:00:44.285
+And finally, we will overview some possibilities to generate new features here.
+
+13
+00:00:44.285 --> 00:00:46.605
+So, let's start.
+
+14
+00:00:46.605 --> 00:00:52.400
+In our data, we had purchases people made in Walmart visiting their shop in two weeks,
+
+15
+00:00:52.400 --> 00:00:58.620
+and we had to classify them into 38 visiting trip types or classes.
+
+16
+00:00:58.620 --> 00:01:01.985
+Let's take a quick look at features in the data.
+
+17
+00:01:01.985 --> 00:01:04.947
+Trip type column represents the target,
+
+18
+00:01:04.947 --> 00:01:08.110
+visit number represents ID which unites
+
+19
+00:01:08.110 --> 00:01:12.075
+purchases made by one customer in one shopping trip.
+
+20
+00:01:12.075 --> 00:01:15.785
+For example, a customer which made visit number seven,
+
+21
+00:01:15.785 --> 00:01:18.470
+purchased two items which are located in the
+
+22
+00:01:18.470 --> 00:01:21.890
+second and in the third lines of this data frame.
+
+23
+00:01:21.890 --> 00:01:26.319
+Notice that all rows with the same visit number have the same trip type.
+
+24
+00:01:26.319 --> 00:01:32.383
+An important moment, is that we have to predict a trip type for visit number,
+
+25
+00:01:32.383 --> 00:01:35.325
+and not for each row in the train data.
+
+26
+00:01:35.325 --> 00:01:36.920
+And as you can see,
+
+27
+00:01:36.920 --> 00:01:42.850
+in the train we have around 647,000
+
+28
+00:01:42.850 --> 00:01:49.305
+rows and only 95,000 visits.
+
+29
+00:01:49.305 --> 00:01:51.085
+Back to the features, next feature is weekday which
+
+30
+00:01:51.085 --> 00:01:54.030
+obviously represents the weekday of the visit.
+
+31
+00:01:54.030 --> 00:01:55.980
+Next is UPC.
+
+32
+00:01:55.980 --> 00:01:59.635
+UPC is an exact ID of a purchased item.
+
+33
+00:01:59.635 --> 00:02:01.742
+Then, scan count.
+
+34
+00:02:01.742 --> 00:02:05.408
+Scan count is the exact number of items purchased.
+
+35
+00:02:05.408 --> 00:02:10.420
+Note that minus one here represents not the purchase but the return.
+
+36
+00:02:10.420 --> 00:02:13.285
+Next features, department description,
+
+37
+00:02:13.285 --> 00:02:18.330
+with 68 unique values is a broad category for an item.
+
+38
+00:02:18.330 --> 00:02:20.307
+And finally, fineline number,
+
+39
+00:02:20.307 --> 00:02:22.670
+with around 5000 unique values,
+
+40
+00:02:22.670 --> 00:02:25.950
+is a more refined category for an item.
+
+41
+00:02:25.950 --> 00:02:29.095
+So, after we understood what this feature represents,
+
+42
+00:02:29.095 --> 00:02:33.655
+let's recall that we have to make one prediction for each visit number.
+
+43
+00:02:33.655 --> 00:02:37.255
+Let's take a look at the data for the visit number eight.
+
+44
+00:02:37.255 --> 00:02:39.565
+We can see here that
+
+45
+00:02:39.565 --> 00:02:44.315
+this particular visit has a lot of purchases in category paint and accessories,
+
+46
+00:02:44.315 --> 00:02:47.920
+which means that trip type number 26 may
+
+47
+00:02:47.920 --> 00:02:52.360
+represent a visit with most purchases in that category.
+
+48
+00:02:52.360 --> 00:02:55.465
+Now, how to approach model train in here.
+
+49
+00:02:55.465 --> 00:02:59.525
+Let's take another look at the data and assess our possibilities.
+
+50
+00:02:59.525 --> 00:03:05.027
+Should we predict trip type for each item on the list or should we choose another way?
+
+51
+00:03:05.027 --> 00:03:07.637
+Of course both of them are possible,
+
+52
+00:03:07.637 --> 00:03:09.095
+but in the first one,
+
+53
+00:03:09.095 --> 00:03:13.428
+we'll predict trip type for each row with each data set,
+
+54
+00:03:13.428 --> 00:03:18.170
+we'll miss important interactions between items which belong to the same visit.
+
+55
+00:03:18.170 --> 00:03:22.223
+For example, trip type may have a number of 26,
+
+56
+00:03:22.223 --> 00:03:27.309
+if more than half of its items are from paint and accessories.
+
+57
+00:03:27.309 --> 00:03:31.170
+But, if we will not account for interaction between these items,
+
+58
+00:03:31.170 --> 00:03:33.580
+it can be quite hard to predict.
+
+59
+00:03:33.580 --> 00:03:38.155
+So, the second option of uniting all purchase in the visit and making
+
+60
+00:03:38.155 --> 00:03:43.250
+a data set where each row represents a complete visit, seems more reasonable.
+
+61
+00:03:43.250 --> 00:03:45.658
+And, as can be expected,
+
+62
+00:03:45.658 --> 00:03:51.375
+this approach leads to more significant benefits in the competition.
+
+63
+00:03:51.375 --> 00:03:56.330
+I'm going to show you the easiest way to change the data format to the desired one.
+
+64
+00:03:56.330 --> 00:04:00.815
+Let's choose the department description feature for the purpose of an example.
+
+65
+00:04:00.815 --> 00:04:04.900
+First, let's group the data frame by visit number and
+
+66
+00:04:04.900 --> 00:04:09.915
+calculate how many times each department description is present in a visit.
+
+67
+00:04:09.915 --> 00:04:14.010
+Then, let's unstack last group by
+
+68
+00:04:14.010 --> 00:04:19.285
+column so we will get a unique column for each department description value.
+
+69
+00:04:19.285 --> 00:04:22.210
+Now, this is the format we wanted.
+
+70
+00:04:22.210 --> 00:04:27.645
+Each row represents a visit and each column is a feature described in that visit.
+
+71
+00:04:27.645 --> 00:04:32.710
+We can use this group by approach for other features besides department description.
+
+72
+00:04:32.710 --> 00:04:39.755
+Also note that items in the visit are actually very similar to words in a text.
+
+73
+00:04:39.755 --> 00:04:44.680
+After our confirmation, each feature here represents counts,
+
+74
+00:04:44.680 --> 00:04:47.865
+so we could apply ideas which usually works with text,
+
+75
+00:04:47.865 --> 00:04:51.215
+for example, tf-idf transformation.
+
+76
+00:04:51.215 --> 00:04:55.565
+As you can guess, a lot of possibilities emerge here.
+
+77
+00:04:55.565 --> 00:05:00.999
+Great. After this is done and we process data in the desired format,
+
+78
+00:05:00.999 --> 00:05:03.100
+let's move to choosing a model.
+
+79
+00:05:03.100 --> 00:05:05.750
+Based on what we already have discussed,
+
+80
+00:05:05.750 --> 00:05:08.620
+can you guess if we should expect the significant difference in
+
+81
+00:05:08.620 --> 00:05:12.485
+scores between linear models and tree-based models here?
+
+82
+00:05:12.485 --> 00:05:15.715
+Think about this a bit.
+
+83
+00:05:15.715 --> 00:05:19.795
+For example, is there a reason why linear models will
+
+84
+00:05:19.795 --> 00:05:24.745
+under perform in comparison to tree based-models? Yes, there is.
+
+85
+00:05:24.745 --> 00:05:27.785
+Again, I'm talking about interactions here.
+
+86
+00:05:27.785 --> 00:05:31.120
+Indeed, tree-based models in neural network have
+
+87
+00:05:31.120 --> 00:05:36.315
+significant superiority in quality in this competition for this very reason.
+
+88
+00:05:36.315 --> 00:05:42.855
+But still, one can use linear models and TNN to produce useful method features here.
+
+89
+00:05:42.855 --> 00:05:46.430
+Despite the fact that they didn't imply interactions,
+
+90
+00:05:46.430 --> 00:05:50.230
+they were a valuable asset in my general staking scheme.
+
+91
+00:05:50.230 --> 00:05:54.295
+I will not go into further details of staking here because we
+
+92
+00:05:54.295 --> 00:05:58.590
+already covered most ideas in other videos about competitions.
+
+93
+00:05:58.590 --> 00:06:03.165
+Instead, we'll talk a bit about feature generation.
+
+94
+00:06:03.165 --> 00:06:07.798
+Except for interactions between items purchased in one visit,
+
+95
+00:06:07.798 --> 00:06:10.975
+one could try to exploit interactions between features.
+
+96
+00:06:10.975 --> 00:06:15.290
+The interesting and unexpected result here was that
+
+97
+00:06:15.290 --> 00:06:19.993
+one fineline number can belong to multiple department descriptions,
+
+98
+00:06:19.993 --> 00:06:23.345
+which means that fineline number is not
+
+99
+00:06:23.345 --> 00:06:28.195
+a more detailed department description as you can think.
+
+100
+00:06:28.195 --> 00:06:33.200
+Using this interaction, one can further improve his model.
+
+101
+00:06:33.200 --> 00:06:35.536
+Another interesting feature generation idea
+
+102
+00:06:35.536 --> 00:06:38.875
+was connected to the time structure of the data.
+
+103
+00:06:38.875 --> 00:06:41.895
+Take a look at this plot,
+
+104
+00:06:41.895 --> 00:06:46.395
+it represents the change in the weekday feature relative to the row number.
+
+105
+00:06:46.395 --> 00:06:50.230
+It looks like the data is ordered by time here.
+
+106
+00:06:50.230 --> 00:06:54.210
+And the data appears to consist of 31 days,
+
+107
+00:06:54.210 --> 00:06:57.350
+but train test split wasn't time based.
+
+108
+00:06:57.350 --> 00:07:02.533
+So, you could derive features like day number in the data set,
+
+109
+00:07:02.533 --> 00:07:04.940
+number of a visit in a day,
+
+110
+00:07:04.940 --> 00:07:08.645
+and the total amount of visits in a day.
+
+111
+00:07:08.645 --> 00:07:10.970
+So, this is it.
+
+112
+00:07:10.970 --> 00:07:15.350
+We just discussed the most interesting parts of this competition.
+
+113
+00:07:15.350 --> 00:07:18.425
+Changing the data format to a more suitable,
+
+114
+00:07:18.425 --> 00:07:21.214
+generating features while doing sold,
+
+115
+00:07:21.214 --> 00:07:24.300
+working with models while doing stacking.
+
+116
+00:07:24.300 --> 00:07:28.365
+And finally, doing some for additional feature engineering.
+
+117
+00:07:28.365 --> 00:07:32.395
+The challenge itself proved useful and interesting.
+
+118
+00:07:32.395 --> 00:07:38.770
+And I would recommend you to check it out and try approaches we have talked about.

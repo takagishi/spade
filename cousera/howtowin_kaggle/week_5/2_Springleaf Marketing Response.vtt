@@ -1,0 +1,425 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.802
+[MUSIC]
+
+2
+00:00:03.802 --> 00:00:08.527
+Hi, throughout the course, we use
+the Springleaf competition as a useful
+
+3
+00:00:08.527 --> 00:00:13.840
+example of EDA, mean encodings and
+features based on nearest neighbors.
+
+4
+00:00:13.840 --> 00:00:20.090
+Back then, we took the third place in
+this competition together with and.
+
+5
+00:00:20.090 --> 00:00:24.710
+And now in this video, I will describe
+the last part of our solution,
+
+6
+00:00:24.710 --> 00:00:28.470
+which is the usage of stacking and
+ensembles.
+
+7
+00:00:28.470 --> 00:00:33.349
+On this picture, you can see the final
+stacking scheme we produced on the level
+
+8
+00:00:33.349 --> 00:00:38.070
+0 features, on the first level,
+predictions by basic models.
+
+9
+00:00:38.070 --> 00:00:40.110
+On the level one plus combination.
+
+10
+00:00:40.110 --> 00:00:44.270
+So these predictions and
+some accurately chosen features
+
+11
+00:00:44.270 --> 00:00:47.880
+on the second level models
+on this new set of features.
+
+12
+00:00:47.880 --> 00:00:52.290
+And finally, on the third level,
+their linear combination.
+
+13
+00:00:52.290 --> 00:00:52.910
+In this video,
+
+14
+00:00:52.910 --> 00:00:58.301
+we will go through each level as it builds
+up to this non-trivial ensembled scheme.
+
+15
+00:00:59.430 --> 00:01:03.590
+But first, let's quickly remind
+ourselves about the problem.
+
+16
+00:01:03.590 --> 00:01:07.428
+This was a binary classification
+task with area under curve metric.
+
+17
+00:01:07.428 --> 00:01:15.270
+We had 145,000 samples in training data
+and about 2,000 anonymized features.
+
+18
+00:01:15.270 --> 00:01:19.740
+These were useful insights
+derived by us while doing EDA.
+
+19
+00:01:19.740 --> 00:01:26.080
+And you can check out EDA done by earlier
+in our course to refresh your memory.
+
+20
+00:01:26.080 --> 00:01:29.150
+So now let's start with features.
+
+21
+00:01:29.150 --> 00:01:33.040
+Here we have four packs of features.
+
+22
+00:01:33.040 --> 00:01:37.760
+First two are the basic dataset and
+the processed dataset.
+
+23
+00:01:37.760 --> 00:01:41.560
+To keep it simple,
+we just used insights derived from
+
+24
+00:01:41.560 --> 00:01:45.690
+EDA to clean data [INAUDIBLE] and
+to generate new features.
+
+25
+00:01:45.690 --> 00:01:49.280
+For example,
+we remove duplicated features and
+
+26
+00:01:49.280 --> 00:01:53.729
+edit some feature interaction based
+on scatter plots and correlations.
+
+27
+00:01:54.790 --> 00:01:59.815
+Then, we mean-encoded all categorical
+features using growth relation loop and
+
+28
+00:01:59.815 --> 00:02:02.050
+sign data and smoothing.
+
+29
+00:02:02.050 --> 00:02:06.704
+We further used the mean-encoded dataset
+to calculate features based on nearest
+
+30
+00:02:06.704 --> 00:02:07.620
+neighbors.
+
+31
+00:02:07.620 --> 00:02:12.390
+Like, what is the least in
+closest object of the class zero?
+
+32
+00:02:12.390 --> 00:02:18.280
+And how many objects out of ten
+nearest neighbors belong to class one?
+
+33
+00:02:18.280 --> 00:02:21.119
+You can review how this could be done in
+
+34
+00:02:21.119 --> 00:02:24.677
+related topics introduced
+by Dmitri Altihof.
+
+35
+00:02:24.677 --> 00:02:31.469
+So finally, these four packs of
+feature were level 0 of our solution.
+
+36
+00:02:31.469 --> 00:02:35.952
+And the second level was represented
+by several different gradient within
+
+37
+00:02:35.952 --> 00:02:39.570
+decision tree models,
+and one neural network.
+
+38
+00:02:39.570 --> 00:02:44.120
+The main idea here is that meta
+features should be diverse.
+
+39
+00:02:44.120 --> 00:02:48.340
+Each meta feature should bring
+new information about the target.
+
+40
+00:02:48.340 --> 00:02:55.714
+So we use both distinct parameters and
+different sets of features for our models.
+
+41
+00:02:55.714 --> 00:03:00.449
+For the neural network, we additionally
+pre-processed features with
+
+42
+00:03:00.449 --> 00:03:04.600
+common scalars, ranks and
+power transformation.
+
+43
+00:03:04.600 --> 00:03:10.960
+The problem there was in huge outliers
+which skew network training results.
+
+44
+00:03:10.960 --> 00:03:15.120
+So ranks and power transformation
+helped to handle this problem.
+
+45
+00:03:16.566 --> 00:03:19.990
+After producing meta features who is
+gradual in boosting decision to it and
+
+46
+00:03:19.990 --> 00:03:21.230
+neural networks,
+
+47
+00:03:21.230 --> 00:03:26.280
+we calculated pay rise differences
+on them to help next level models.
+
+48
+00:03:26.280 --> 00:03:30.570
+Note that this is also an interesting
+trick to force the model
+
+49
+00:03:30.570 --> 00:03:35.290
+to utilize the differences in
+the first level models predictions.
+
+50
+00:03:35.290 --> 00:03:40.370
+Here we edit two datasets of
+features based on nearest neighbors.
+
+51
+00:03:40.370 --> 00:03:45.380
+One was taken directly from level 0 and
+they contain the same features.
+
+52
+00:03:45.380 --> 00:03:51.040
+But it was calculated on the mean-encoded
+dataset to the power of one-half.
+
+53
+00:03:51.040 --> 00:03:55.704
+The point here was that these features
+were not completely utilized by
+
+54
+00:03:55.704 --> 00:03:57.370
+the first level models.
+
+55
+00:03:57.370 --> 00:04:02.690
+And indeed, they brought new pieces
+of information to this level.
+
+56
+00:04:03.740 --> 00:04:08.850
+Now we already have autofold
+predictions from the first level and
+
+57
+00:04:08.850 --> 00:04:11.110
+we will train with the models on them.
+
+58
+00:04:11.110 --> 00:04:16.230
+Because we could have target leakage
+here because of other folk, and
+
+59
+00:04:16.230 --> 00:04:18.610
+also because features not very good and
+
+60
+00:04:18.610 --> 00:04:23.600
+there are almost no patterns left
+in the data for models to discover.
+
+61
+00:04:23.600 --> 00:04:29.160
+We chose simple classifiers, keeping in
+mind that predictions should be diverse.
+
+62
+00:04:29.160 --> 00:04:31.670
+We used four different models.
+
+63
+00:04:31.670 --> 00:04:34.780
+Gradient boosted decision tree,
+neural networks,
+
+64
+00:04:34.780 --> 00:04:38.710
+random forest and logistic regression.
+
+65
+00:04:38.710 --> 00:04:42.289
+So this is all with
+the second level models.
+
+66
+00:04:43.340 --> 00:04:48.410
+And finally, we took a linear in your
+combination of the second level models.
+
+67
+00:04:48.410 --> 00:04:54.770
+Because a linear model is not inclined
+to that we estimated coefficients
+
+68
+00:04:54.770 --> 00:04:59.890
+directly using these four predictions and
+our target for throwing in data.
+
+69
+00:04:59.890 --> 00:05:01.450
+So, this is it.
+
+70
+00:05:01.450 --> 00:05:06.244
+We just went through each level of this
+stacking scheme and then the student.
+
+71
+00:05:06.244 --> 00:05:08.390
+Why we need this kind of complexity?
+
+72
+00:05:08.390 --> 00:05:13.795
+Well, usually it's because different
+models utilize different patterns
+
+73
+00:05:13.795 --> 00:05:19.610
+in the data and we want to unite all
+of this patterns in one mighty model.
+
+74
+00:05:19.610 --> 00:05:22.930
+And stacking can do exactly that for us.
+
+75
+00:05:22.930 --> 00:05:24.970
+This may seem too complicated.
+
+76
+00:05:24.970 --> 00:05:29.480
+Of course, it takes time to move up to
+this kind of scheme in a competition.
+
+77
+00:05:29.480 --> 00:05:32.630
+But be sure that after
+completion our course,
+
+78
+00:05:32.630 --> 00:05:37.310
+you already have enough
+knowledge about how to do this.
+
+79
+00:05:37.310 --> 00:05:41.580
+These schemes never appear in the final
+shape at the beginning of the competition.
+
+80
+00:05:41.580 --> 00:05:44.800
+Most work here usually is
+done on the first level.
+
+81
+00:05:44.800 --> 00:05:51.770
+So you try to create diverse meta features
+and unite them in one simple model.
+
+82
+00:05:51.770 --> 00:05:56.880
+Usually, you start to create the high
+grade second level of stacking,
+
+83
+00:05:56.880 --> 00:05:59.362
+when you have only a few days left.
+
+84
+00:05:59.362 --> 00:06:04.480
+And after that, you mostly work on
+the improvement of this scheme.
+
+85
+00:06:04.480 --> 00:06:08.262
+That said, you already have
+the required knowledge and
+
+86
+00:06:08.262 --> 00:06:11.570
+now you just need to get
+some practice out there.
+
+87
+00:06:11.570 --> 00:06:16.594
+Be diligent, and without a doubt,
+you will succeed.
+
+88
+00:06:16.594 --> 00:06:18.964
+[SOUND]
+
+89
+00:06:18.964 --> 00:06:28.964
+[MUSIC]
